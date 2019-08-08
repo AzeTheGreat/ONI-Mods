@@ -5,13 +5,14 @@ using System.Text;
 using Harmony;
 using System.Reflection;
 using System.Reflection.Emit;
+using UnityEngine;
 
 namespace SuppressNotifications
 {
     [HarmonyPatch(typeof(StatusItemGroup), nameof(StatusItemGroup.AddStatusItem))]
     internal class Trans_AddStatusItem
     {
-        // Transpiler to replace default ShouldShowIcon with a custom version.
+        // Transpiler to replace default ShouldShowIcon with a custom version
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             MethodInfo targetMethod = AccessTools.Method(typeof(StatusItem), nameof(StatusItem.ShouldShowIcon));
@@ -20,8 +21,12 @@ namespace SuppressNotifications
             {
                 if (i.opcode == OpCodes.Callvirt && i.operand == targetMethod)
                 {
-                    yield return new CodeInstruction(OpCodes.Pop);
+                    // Load gameObject onto stack
+                    yield return new CodeInstruction(OpCodes.Ldarg_0);
+                    yield return new CodeInstruction(OpCodes.Call,
+                        AccessTools.Method(typeof(GameObject), "get_gameObject"));
 
+                    // Call custom ShouldShowIcon
                     yield return new CodeInstruction(OpCodes.Call,
                         AccessTools.Method(typeof(Trans_AddStatusItem), nameof(Trans_AddStatusItem.ShouldShowIcon)));
                     continue;
@@ -30,9 +35,9 @@ namespace SuppressNotifications
             }
         }
 
-        private static bool ShouldShowIcon()
+        private static bool ShouldShowIcon(StatusItem item, GameObject go)
         {
-            return false;
+            return item.ShouldShowIcon();
         }
     }
 }
