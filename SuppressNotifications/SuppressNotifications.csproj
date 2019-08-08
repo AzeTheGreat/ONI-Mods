@@ -54,6 +54,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StatusItemsSuppressed.cs" />
     <Compile Include="Trans_AddStatusItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

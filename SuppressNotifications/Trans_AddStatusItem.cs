@@ -24,7 +24,7 @@ namespace SuppressNotifications
                     // Load gameObject onto stack
                     yield return new CodeInstruction(OpCodes.Ldarg_0);
                     yield return new CodeInstruction(OpCodes.Call,
-                        AccessTools.Method(typeof(GameObject), "get_gameObject"));
+                        AccessTools.Method(typeof(StatusItemGroup), "get_gameObject"));
 
                     // Call custom ShouldShowIcon
                     yield return new CodeInstruction(OpCodes.Call,
@@ -37,7 +37,8 @@ namespace SuppressNotifications
 
         private static bool ShouldShowIcon(StatusItem item, GameObject go)
         {
-            return item.ShouldShowIcon();
+            bool isShown = go.GetComponent<StatusItemsSuppressed>()?.IsShown(item) ?? false;
+            return item.ShouldShowIcon() && isShown;
         }
     }
 }
