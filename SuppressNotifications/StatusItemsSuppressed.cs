@@ -7,7 +7,6 @@ namespace SuppressNotifications
 {
     class StatusItemsSuppressed : KMonoBehaviour
     {
-
         public bool IsShown(StatusItem item)
         {
             return false;

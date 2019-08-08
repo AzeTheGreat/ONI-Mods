@@ -37,7 +37,7 @@ namespace SuppressNotifications
 
         private static bool ShouldShowIcon(StatusItem item, GameObject go)
         {
-            bool isShown = go.GetComponent<StatusItemsSuppressed>()?.IsShown(item) ?? false;
+            bool isShown = go.GetComponent<StatusItemsSuppressed>()?.IsShown(item) ?? true;
             return item.ShouldShowIcon() && isShown;
         }
     }
