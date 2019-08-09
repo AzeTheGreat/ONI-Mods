@@ -7,6 +7,8 @@ using UnityEngine;
 
 namespace SuppressNotifications
 {
+    // Patch to add the BuildingNotificationButton to all buildings that can be disabled
+    // May need to be moved to suppress notifications on other buildings (ladders?)
     [HarmonyPatch(typeof(BuildingConfigManager), "OnPrefabInit")]
     class Patch_BuildingConfigManager
     {

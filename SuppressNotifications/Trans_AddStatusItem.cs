@@ -28,17 +28,11 @@ namespace SuppressNotifications
 
                     // Call custom ShouldShowIcon
                     yield return new CodeInstruction(OpCodes.Call,
-                        AccessTools.Method(typeof(Trans_AddStatusItem), nameof(Trans_AddStatusItem.ShouldShowIcon)));
+                        AccessTools.Method(typeof(Util), nameof(Util.ShouldShowIcon)));
                     continue;
                 }
                 yield return i;
             }
-        }
-
-        private static bool ShouldShowIcon(StatusItem item, GameObject go)
-        {
-            bool isShown = go.GetComponent<StatusItemsSuppressed>()?.IsShown(item) ?? true;
-            return item.ShouldShowIcon() && isShown;
-        }
+        }  
     }
 }

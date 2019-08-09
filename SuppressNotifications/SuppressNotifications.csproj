@@ -57,6 +57,7 @@
     <Compile Include="BuildingNotificationButton.cs" />
     <Compile Include="Patch_BuildingConfigManager.cs" />
     <Compile Include="StatusItemsSuppressed.cs" />
+    <Compile Include="Util.cs" />
     <Compile Include="Trans_AddStatusItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
