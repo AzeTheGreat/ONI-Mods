@@ -7,40 +7,42 @@ namespace SuppressNotifications
 {
     class StatusItemsSuppressed : KMonoBehaviour
     {
-        List<StatusItem> suppressedStatusItems;
+        private List<StatusItem> suppressedStatusItems;
+        private StatusItemGroup statusItemGroup;
 
         protected override void OnPrefabInit()
         {
             suppressedStatusItems = new List<StatusItem>();
+            statusItemGroup = gameObject.GetComponent<KSelectable>().GetStatusItemGroup();
         }
 
         public void SuppressStatusItems()
         {
-            List<StatusItem> suppressableStatusItems = GetSuppressableStatusItems();
+            List<StatusItemGroup.Entry> suppressableStatusItems = GetSuppressableStatusItems();
 
-            foreach (var item in suppressableStatusItems)
+            foreach (var entry in suppressableStatusItems)
             {
-                suppressedStatusItems.Add(item);
+                suppressedStatusItems.Add(entry.item);
+                statusItemGroup.RemoveStatusItem(entry.id, true);
+                statusItemGroup.AddStatusItem(entry.item);
             }
         }
 
-        public List<StatusItem> GetSuppressableStatusItems()
+        public List<StatusItemGroup.Entry> GetSuppressableStatusItems()
         {
-            List<StatusItem> suppressableStatusItems = new List<StatusItem>();
+            List<StatusItemGroup.Entry> suppressableStatusItems = new List<StatusItemGroup.Entry>();
 
-            var statEnumerator = gameObject.GetComponent<KSelectable>()?.GetStatusItemGroup()?.GetEnumerator();
-            if (statEnumerator == null)
-                return suppressableStatusItems;
+            var statEnumerator = statusItemGroup.GetEnumerator();
 
             using (statEnumerator)
             {
                 while (statEnumerator.MoveNext())
                 {
-                    StatusItem statusItem = statEnumerator.Current.item;
+                    StatusItemGroup.Entry statusItemEntry = statEnumerator.Current;
 
-                    if (ShouldShowIcon(statusItem))
+                    if (ShouldShowIcon(statusItemEntry.item))
                     {
-                        suppressableStatusItems.Add(statusItem);
+                        suppressableStatusItems.Add(statusItemEntry);
                     }
                 }
             }

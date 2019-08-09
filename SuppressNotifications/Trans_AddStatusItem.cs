@@ -15,7 +15,6 @@ namespace SuppressNotifications
         // Transpiler to replace default ShouldShowIcon with a custom version
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            Debug.Log(3);
             MethodInfo targetMethod = AccessTools.Method(typeof(StatusItem), nameof(StatusItem.ShouldShowIcon));
 
             foreach (CodeInstruction i in instructions)
@@ -34,7 +33,6 @@ namespace SuppressNotifications
                 }
                 yield return i;
             }
-            Debug.Log(4);
         }
 
         private static bool ReplacementMethod(StatusItem statusItem, GameObject gameObject)

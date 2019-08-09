@@ -21,7 +21,7 @@ namespace SuppressNotifications
         private void OnRefreshUserMenu()
         {
             KIconButtonMenu.ButtonInfo button;
-            List<StatusItem> suppressableStatusItems = component.GetSuppressableStatusItems();
+            List<StatusItemGroup.Entry> suppressableStatusItems = component.GetSuppressableStatusItems();
 
             if (suppressableStatusItems.Any())
             {
@@ -55,13 +55,13 @@ namespace SuppressNotifications
 
         } 
 
-        private string GetStatusItemListText(List<StatusItem> statusItems)
+        private string GetStatusItemListText(List<StatusItemGroup.Entry> statusItems)
         {
             string text = "";
 
             foreach (var statusItem in statusItems)
             {
-                text = text + statusItem.Name + "\n";
+                text = text + statusItem.item.Name + "\n";
             }
 
             return text;
