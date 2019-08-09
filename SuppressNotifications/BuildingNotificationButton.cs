@@ -15,13 +15,13 @@ namespace SuppressNotifications
         protected override void OnPrefabInit()
         {
             component = gameObject.GetComponent<StatusItemsSuppressed>();
-            base.Subscribe<BuildingNotificationButton>(493375141, BuildingNotificationButton.OnRefreshUserMenuDelegate);
+            Subscribe(493375141, OnRefreshUserMenuDelegate);
         }
 
         private void OnRefreshUserMenu()
         {
             KIconButtonMenu.ButtonInfo button;
-            List<StatusItemGroup.Entry> suppressableStatusItems = component.GetSuppressableStatusItems();
+            List<StatusItem> suppressableStatusItems = component.GetSuppressableStatusItems();
 
             if (suppressableStatusItems.Any())
             {
@@ -37,7 +37,7 @@ namespace SuppressNotifications
                 string iconName = "action_building_disabled";
                 string text = "Clear Suppressed";
                 System.Action on_click = new System.Action(OnClearClick);
-                string tooltipText = "Stop the following status items from being suppressed:";
+                string tooltipText = "Stop the following status items from being suppressed:\n" + GetStatusItemListText(component.SuppressedStatusItems);
 
                 button = new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText);
             }
@@ -48,20 +48,22 @@ namespace SuppressNotifications
         private void OnSuppressClick()
         {
             component.SuppressStatusItems();
+            Game.Instance.userMenu.Refresh(base.gameObject);
         }
 
         private void OnClearClick()
         {
-
+            component.UnsuppressStatusItems();
+            Game.Instance.userMenu.Refresh(base.gameObject);
         } 
 
-        private string GetStatusItemListText(List<StatusItemGroup.Entry> statusItems)
+        private string GetStatusItemListText(List<StatusItem> statusItems)
         {
             string text = "";
 
             foreach (var statusItem in statusItems)
             {
-                text = text + statusItem.item.Name + "\n";
+                text = text + statusItem.Name + "\n";
             }
 
             return text;

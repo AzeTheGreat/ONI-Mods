@@ -7,30 +7,57 @@ namespace SuppressNotifications
 {
     class StatusItemsSuppressed : KMonoBehaviour
     {
-        private List<StatusItem> suppressedStatusItems;
+        public List<StatusItem> SuppressedStatusItems { get; private set; }
         private StatusItemGroup statusItemGroup;
 
         protected override void OnPrefabInit()
         {
-            suppressedStatusItems = new List<StatusItem>();
+            SuppressedStatusItems = new List<StatusItem>();
             statusItemGroup = gameObject.GetComponent<KSelectable>().GetStatusItemGroup();
         }
 
         public void SuppressStatusItems()
         {
-            List<StatusItemGroup.Entry> suppressableStatusItems = GetSuppressableStatusItems();
+            List<StatusItem> suppressableStatusItems = GetSuppressableStatusItems();
 
-            foreach (var entry in suppressableStatusItems)
+            SuppressedStatusItems.AddRange(suppressableStatusItems);
+            RefreshStatusItems(suppressableStatusItems);
+        }
+
+        public void UnsuppressStatusItems()
+        {
+            var suppressedStatusItemsDuplicate = new List<StatusItem>(SuppressedStatusItems);
+            SuppressedStatusItems.Clear();
+            RefreshStatusItems(suppressedStatusItemsDuplicate);
+        }
+
+        private void RefreshStatusItems(List<StatusItem> itemsToRefresh)
+        {
+            var statEnumerator = statusItemGroup.GetEnumerator();
+            var entriesToRefresh = new List<StatusItemGroup.Entry>();
+
+            using (statEnumerator)
             {
-                suppressedStatusItems.Add(entry.item);
+                while (statEnumerator.MoveNext())
+                {
+                    var entry = statEnumerator.Current;
+                    if (itemsToRefresh.Contains(entry.item))
+                    {
+                        entriesToRefresh.Add(entry);
+                    }
+                }
+            }
+
+            foreach (var entry in entriesToRefresh)
+            {
                 statusItemGroup.RemoveStatusItem(entry.id, true);
-                statusItemGroup.AddStatusItem(entry.item);
+                statusItemGroup.AddStatusItem(entry.item, entry.data, entry.category);
             }
         }
 
-        public List<StatusItemGroup.Entry> GetSuppressableStatusItems()
+        public List<StatusItem> GetSuppressableStatusItems()
         {
-            List<StatusItemGroup.Entry> suppressableStatusItems = new List<StatusItemGroup.Entry>();
+            List<StatusItem> suppressableStatusItems = new List<StatusItem>();
 
             var statEnumerator = statusItemGroup.GetEnumerator();
 
@@ -38,11 +65,11 @@ namespace SuppressNotifications
             {
                 while (statEnumerator.MoveNext())
                 {
-                    StatusItemGroup.Entry statusItemEntry = statEnumerator.Current;
+                    StatusItem statusItem = statEnumerator.Current.item;
 
-                    if (ShouldShowIcon(statusItemEntry.item))
+                    if (ShouldShowIcon(statusItem))
                     {
-                        suppressableStatusItems.Add(statusItemEntry);
+                        suppressableStatusItems.Add(statusItem);
                     }
                 }
             }
@@ -52,7 +79,7 @@ namespace SuppressNotifications
 
         public bool ShouldShowIcon(StatusItem statusItem)
         {
-            return statusItem.ShouldShowIcon() && !suppressedStatusItems.Contains(statusItem);
+            return statusItem.ShouldShowIcon() && !SuppressedStatusItems.Contains(statusItem);
         }
     }
 }
