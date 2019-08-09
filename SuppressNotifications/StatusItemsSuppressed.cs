@@ -81,5 +81,10 @@ namespace SuppressNotifications
         {
             return statusItem.ShouldShowIcon() && !SuppressedStatusItems.Contains(statusItem);
         }
+
+        public bool ShouldNotify(StatusItem statusItem)
+        {
+            return statusItem.shouldNotify && !SuppressedStatusItems.Contains(statusItem);
+        }
     }
 }

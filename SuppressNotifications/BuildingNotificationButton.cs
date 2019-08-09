@@ -59,7 +59,7 @@ namespace SuppressNotifications
 
         private string GetStatusItemListText(List<StatusItem> statusItems)
         {
-            string text = "";
+            string text = "--------------------\n\n";
 
             foreach (var statusItem in statusItems)
             {

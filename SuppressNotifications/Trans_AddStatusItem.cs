@@ -15,11 +15,12 @@ namespace SuppressNotifications
         // Transpiler to replace default ShouldShowIcon with a custom version
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            MethodInfo targetMethod = AccessTools.Method(typeof(StatusItem), nameof(StatusItem.ShouldShowIcon));
+            MethodInfo targetMethodIcon = AccessTools.Method(typeof(StatusItem), nameof(StatusItem.ShouldShowIcon));
+            FieldInfo targetFieldNotify = AccessTools.Field(typeof(StatusItem), nameof(StatusItem.shouldNotify));
 
             foreach (CodeInstruction i in instructions)
             {
-                if (i.opcode == OpCodes.Callvirt && i.operand == targetMethod)
+                if (i.opcode == OpCodes.Callvirt && i.operand == targetMethodIcon)
                 {
                     // Load gameObject onto stack
                     yield return new CodeInstruction(OpCodes.Ldarg_0);
@@ -28,18 +29,37 @@ namespace SuppressNotifications
 
                     // Call custom ShouldShowIcon
                     yield return new CodeInstruction(OpCodes.Call,
-                        AccessTools.Method(typeof(Trans_AddStatusItem), nameof(Trans_AddStatusItem.ReplacementMethod)));
+                        AccessTools.Method(typeof(Trans_AddStatusItem), nameof(Trans_AddStatusItem.ShouldShowIconSub)));
                     continue;
                 }
+
+                if (i.opcode == OpCodes.Ldfld && i.operand == targetFieldNotify)
+                {
+                    // Load gameObject onto stack
+                    yield return new CodeInstruction(OpCodes.Ldarg_0);
+                    yield return new CodeInstruction(OpCodes.Call,
+                        AccessTools.Method(typeof(StatusItemGroup), "get_gameObject"));
+
+                    // Call custom ShouldNotify
+                    yield return new CodeInstruction(OpCodes.Call,
+                        AccessTools.Method(typeof(Trans_AddStatusItem), nameof(Trans_AddStatusItem.ShouldNotifySub)));
+                    continue;
+                }
+
                 yield return i;
             }
         }
 
-        private static bool ReplacementMethod(StatusItem statusItem, GameObject gameObject)
+        private static bool ShouldShowIconSub(StatusItem statusItem, GameObject gameObject)
         {
             // Seems like the game attempts to add Status items before BuildingConfigManager is run?
             // Thus the null check.  Might result in some status items not showing as the game initializes, unsure if it could be an issue.
             return gameObject.GetComponent<StatusItemsSuppressed>()?.ShouldShowIcon(statusItem) ?? false;
+        }
+
+        private static bool ShouldNotifySub(StatusItem statusItem, GameObject gameObject)
+        {
+            return gameObject.GetComponent<StatusItemsSuppressed>()?.ShouldNotify(statusItem) ?? false;
         }
     }
 }
