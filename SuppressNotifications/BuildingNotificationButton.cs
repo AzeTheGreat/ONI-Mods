@@ -25,14 +25,18 @@ namespace SuppressNotifications
                 string iconName = "action_building_disabled";
                 string text = "Suppress Current";
                 System.Action on_click = new System.Action(OnSuppressClick);
-                button = new KIconButtonMenu.ButtonInfo(iconName, text, on_click);
+                string tooltipText = "Suppress the following status items and notifications:\n" + GetStatusItemListText(suppressableStatusItems);
+
+                button = new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText);
             }
             else
             {
                 string iconName = "action_building_disabled";
                 string text = "Clear Suppressed";
                 System.Action on_click = new System.Action(OnClearClick);
-                button = new KIconButtonMenu.ButtonInfo(iconName, text, on_click);
+                string tooltipText = "Stop the following status items from being suppressed:";
+
+                button = new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText);
             }
 
             Game.Instance.userMenu.AddButton(base.gameObject, button);
@@ -70,6 +74,18 @@ namespace SuppressNotifications
             }
 
             return suppressableStatusItems;
+        }
+
+        private string GetStatusItemListText(List<StatusItem> statusItems)
+        {
+            string text = "";
+
+            foreach (var statusItem in statusItems)
+            {
+                text = text + statusItem.Name + "\n";
+            }
+
+            return text;
         }
 
         private static readonly EventSystem.IntraObjectHandler<BuildingNotificationButton> OnRefreshUserMenuDelegate = new EventSystem.IntraObjectHandler<BuildingNotificationButton>(Handler);
