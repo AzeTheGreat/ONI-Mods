@@ -10,15 +10,18 @@ namespace SuppressNotifications
 {
     public class BuildingNotificationButton: KMonoBehaviour
     {
+        private StatusItemsSuppressed component;
+
         protected override void OnPrefabInit()
         {
+            component = gameObject.GetComponent<StatusItemsSuppressed>();
             base.Subscribe<BuildingNotificationButton>(493375141, BuildingNotificationButton.OnRefreshUserMenuDelegate);
         }
 
         private void OnRefreshUserMenu()
         {
             KIconButtonMenu.ButtonInfo button;
-            List<StatusItem> suppressableStatusItems = GetSuppressableStatusItems(base.gameObject);
+            List<StatusItem> suppressableStatusItems = component.GetSuppressableStatusItems();
 
             if (suppressableStatusItems.Any())
             {
@@ -44,37 +47,13 @@ namespace SuppressNotifications
 
         private void OnSuppressClick()
         {
-            
+            component.SuppressStatusItems();
         }
 
         private void OnClearClick()
         {
 
-        }
-
-        private List<StatusItem> GetSuppressableStatusItems(GameObject go)
-        {
-            List<StatusItem> suppressableStatusItems = new List<StatusItem>();
-
-            var statEnumerator = go.GetComponent<KSelectable>()?.GetStatusItemGroup()?.GetEnumerator();
-            if (statEnumerator == null)
-                return suppressableStatusItems;
-
-            using (statEnumerator)
-            {
-                while (statEnumerator.MoveNext())
-                {
-                    StatusItem statusItem = statEnumerator.Current.item;
-
-                    if (Util.ShouldShowIcon(statusItem, go))
-                    {
-                        suppressableStatusItems.Add(statusItem);
-                    }
-                }
-            }
-
-            return suppressableStatusItems;
-        }
+        } 
 
         private string GetStatusItemListText(List<StatusItem> statusItems)
         {

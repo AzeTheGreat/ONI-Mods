@@ -15,6 +15,7 @@ namespace SuppressNotifications
         // Transpiler to replace default ShouldShowIcon with a custom version
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
+            Debug.Log(3);
             MethodInfo targetMethod = AccessTools.Method(typeof(StatusItem), nameof(StatusItem.ShouldShowIcon));
 
             foreach (CodeInstruction i in instructions)
@@ -28,11 +29,19 @@ namespace SuppressNotifications
 
                     // Call custom ShouldShowIcon
                     yield return new CodeInstruction(OpCodes.Call,
-                        AccessTools.Method(typeof(Util), nameof(Util.ShouldShowIcon)));
+                        AccessTools.Method(typeof(Trans_AddStatusItem), nameof(Trans_AddStatusItem.ReplacementMethod)));
                     continue;
                 }
                 yield return i;
             }
-        }  
+            Debug.Log(4);
+        }
+
+        private static bool ReplacementMethod(StatusItem statusItem, GameObject gameObject)
+        {
+            // Seems like the game attempts to add Status items before BuildingConfigManager is run?
+            // Thus the null check.  Might result in some status items not showing as the game initializes, unsure if it could be an issue.
+            return gameObject.GetComponent<StatusItemsSuppressed>()?.ShouldShowIcon(statusItem) ?? false;
+        }
     }
 }
