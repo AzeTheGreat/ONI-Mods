@@ -7,43 +7,30 @@ namespace SuppressNotifications
 {
     class NotificationsSuppressedComp : KMonoBehaviour
     {
-        public List<Notification> notifications;
-
-        private List<Notification> suppressedNotifications;
+        public List<Notification> suppressableNotifications;
+        public List<Notification> SuppressedNotifications { get; private set; }
 
         protected override void OnPrefabInit()
         {
-            notifications = new List<Notification>();
-            suppressedNotifications = new List<Notification>();
+            suppressableNotifications = new List<Notification>();
+            SuppressedNotifications = new List<Notification>();
         }
 
         public bool ShouldNotify(Notification notification)
         {
-            return !suppressedNotifications.Contains(notification);
-        }
-
-        public List<Notification> GetSuppressableNotifications()
-        {
-            var suppressableNotifications = new List<Notification>();
-
-            if (notifications == null)
-                return suppressableNotifications;
-
-            foreach (var notification in notifications)
-            {
-                suppressableNotifications.Add(notification);
-            }
-            return suppressableNotifications;
+            return !SuppressedNotifications.Any(i => i.titleText == notification.titleText);
         }
 
         public void SuppressNotifications()
         {
-
+            SuppressedNotifications.AddRange(suppressableNotifications);
+            suppressableNotifications.Clear();
         }
 
         public void UnsupressNotifications()
         {
-
+            suppressableNotifications.AddRange(SuppressedNotifications);
+            SuppressedNotifications.Clear();
         }
     }
 }

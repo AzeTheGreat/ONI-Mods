@@ -24,7 +24,7 @@ namespace SuppressNotifications
         private void OnRefreshUserMenu()
         {
             List<StatusItem> suppressableStatusItems = statusItemsSuppressedComp.GetSuppressableStatusItems();
-            List<Notification> suppressableNotifications = notificationsSuppressedComp.GetSuppressableNotifications();
+            List<Notification> suppressableNotifications = notificationsSuppressedComp.suppressableNotifications;
 
             if (suppressableStatusItems.Any() || suppressableNotifications.Any())
             {
@@ -42,8 +42,9 @@ namespace SuppressNotifications
                 string iconName = "action_building_disabled";
                 string text = "Clear Suppressed";
                 System.Action on_click = new System.Action(OnClearClick);
-                string tooltipText = "Stop the following status items and notifications from being suppressed:\n" 
-                    + GetStatusItemListText(statusItemsSuppressedComp.SuppressedStatusItems);
+                string tooltipText = "Stop the following status items and notifications from being suppressed:\n"
+                    + GetStatusItemListText(statusItemsSuppressedComp.SuppressedStatusItems)
+                    + GetNotificationListText(notificationsSuppressedComp.SuppressedNotifications);
 
                 Game.Instance.userMenu.AddButton(base.gameObject, new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText));
             }
@@ -51,15 +52,15 @@ namespace SuppressNotifications
 
         private void OnSuppressClick()
         {
-            statusItemsSuppressedComp.SuppressStatusItems();
             notificationsSuppressedComp.SuppressNotifications();
+            statusItemsSuppressedComp.SuppressStatusItems();
             Game.Instance.userMenu.Refresh(base.gameObject);
         }
 
         private void OnClearClick()
         {
-            statusItemsSuppressedComp.UnsuppressStatusItems();
             notificationsSuppressedComp.UnsupressNotifications();
+            statusItemsSuppressedComp.UnsuppressStatusItems();
             Game.Instance.userMenu.Refresh(base.gameObject);
         } 
 
