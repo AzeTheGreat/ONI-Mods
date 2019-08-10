@@ -10,50 +10,56 @@ namespace SuppressNotifications
 {
     public class BuildingNotificationButton: KMonoBehaviour
     {
-        private StatusItemsSuppressed component;
+        private StatusItemsSuppressedComp statusItemsSuppressedComp;
+        private NotificationsSuppressedComp notificationsSuppressedComp;
 
         protected override void OnPrefabInit()
         {
-            component = gameObject.GetComponent<StatusItemsSuppressed>();
+            statusItemsSuppressedComp = gameObject.GetComponent<StatusItemsSuppressedComp>();
+            notificationsSuppressedComp = gameObject.GetComponent<NotificationsSuppressedComp>();
+
             Subscribe(493375141, OnRefreshUserMenuDelegate);
         }
 
         private void OnRefreshUserMenu()
         {
-            KIconButtonMenu.ButtonInfo button;
-            List<StatusItem> suppressableStatusItems = component.GetSuppressableStatusItems();
+            List<StatusItem> suppressableStatusItems = statusItemsSuppressedComp.GetSuppressableStatusItems();
+            List<Notification> suppressableNotifications = notificationsSuppressedComp.GetSuppressableNotifications();
 
-            if (suppressableStatusItems.Any())
+            if (suppressableStatusItems.Any() || suppressableNotifications.Any())
             {
                 string iconName = "action_building_disabled";
                 string text = "Suppress Current";
                 System.Action on_click = new System.Action(OnSuppressClick);
-                string tooltipText = "Suppress the following status items and notifications:\n" + GetStatusItemListText(suppressableStatusItems);
+                string tooltipText = "Suppress the following status items and notifications:\n" 
+                    + GetStatusItemListText(suppressableStatusItems)
+                    + GetNotificationListText(suppressableNotifications);
 
-                button = new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText);
+                Game.Instance.userMenu.AddButton(base.gameObject, new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText));
             }
-            else
+            if (statusItemsSuppressedComp.SuppressedStatusItems.Any())
             {
                 string iconName = "action_building_disabled";
                 string text = "Clear Suppressed";
                 System.Action on_click = new System.Action(OnClearClick);
-                string tooltipText = "Stop the following status items from being suppressed:\n" + GetStatusItemListText(component.SuppressedStatusItems);
+                string tooltipText = "Stop the following status items and notifications from being suppressed:\n" 
+                    + GetStatusItemListText(statusItemsSuppressedComp.SuppressedStatusItems);
 
-                button = new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText);
+                Game.Instance.userMenu.AddButton(base.gameObject, new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText));
             }
-
-            Game.Instance.userMenu.AddButton(base.gameObject, button);
         }
 
         private void OnSuppressClick()
         {
-            component.SuppressStatusItems();
+            statusItemsSuppressedComp.SuppressStatusItems();
+            notificationsSuppressedComp.SuppressNotifications();
             Game.Instance.userMenu.Refresh(base.gameObject);
         }
 
         private void OnClearClick()
         {
-            component.UnsuppressStatusItems();
+            statusItemsSuppressedComp.UnsuppressStatusItems();
+            notificationsSuppressedComp.UnsupressNotifications();
             Game.Instance.userMenu.Refresh(base.gameObject);
         } 
 
@@ -63,7 +69,19 @@ namespace SuppressNotifications
 
             foreach (var statusItem in statusItems)
             {
-                text = text + statusItem.Name + "\n";
+                text = text + "SI: " + statusItem.Name + "\n";
+            }
+
+            return text;
+        }
+
+        private string GetNotificationListText(List<Notification> notifications)
+        {
+            string text = "--------------------\n";
+
+            foreach (var notification in notifications)
+            {
+                text = text + "N: " + notification.titleText + "\n";
             }
 
             return text;

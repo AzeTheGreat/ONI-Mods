@@ -5,9 +5,10 @@ using System.Text;
 
 namespace SuppressNotifications
 {
-    class StatusItemsSuppressed : KMonoBehaviour
+    class StatusItemsSuppressedComp : KMonoBehaviour
     {
         public List<StatusItem> SuppressedStatusItems { get; private set; }
+
         private StatusItemGroup statusItemGroup;
 
         protected override void OnPrefabInit()
@@ -80,11 +81,6 @@ namespace SuppressNotifications
         public bool ShouldShowIcon(StatusItem statusItem)
         {
             return statusItem.ShouldShowIcon() && !SuppressedStatusItems.Contains(statusItem);
-        }
-
-        public bool ShouldNotify(StatusItem statusItem)
-        {
-            return statusItem.shouldNotify && !SuppressedStatusItems.Contains(statusItem);
         }
     }
 }
