@@ -2,23 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using KSerialization;
+using UnityEngine;
 
 namespace SuppressNotifications
 {
-    class NotificationsSuppressedComp : KMonoBehaviour
+    class NotificationsSuppressedComp : KMonoBehaviour, ISaveLoadable
     {
+
+        [Serialize]
+        public List<string> suppressedNotifications;
+
         public List<Notification> notifications;
-        public List<Notification> SuppressedNotifications { get; private set; }
 
         protected override void OnPrefabInit()
         {
             notifications = new List<Notification>();
-            SuppressedNotifications = new List<Notification>();
+            suppressedNotifications = new List<string>();
         }
 
         public bool ShouldNotify(Notification notification)
         {
-            return !SuppressedNotifications.Any(i => i.titleText == notification.titleText);
+            return !suppressedNotifications.Any(i => i == notification.titleText);
         }
 
         public List<Notification> GetSuppressableNotifications()
@@ -34,16 +39,34 @@ namespace SuppressNotifications
             return suppressableNotifications;
         }
 
+        public List<Notification> GetSuppressedNotifications()
+        {
+            var suppressedNotifications = new List<Notification>();
+
+            foreach (var notification in notifications)
+            {
+                if (!ShouldNotify(notification))
+                    suppressedNotifications.Add(notification);
+            }
+
+            return suppressedNotifications;
+        }
+
         public void SuppressNotifications()
         {
             List<Notification> suppressableNotifications = GetSuppressableNotifications();
-            SuppressedNotifications.AddRange(suppressableNotifications);
+
+            foreach (var note in suppressableNotifications)
+            {
+                suppressedNotifications.Add(note.titleText);
+            }
+
             RefreshNotifications(notifications);
         }
 
         public void UnsupressNotifications()
         {
-            SuppressedNotifications.Clear();
+            suppressedNotifications.Clear();
             RefreshNotifications(notifications);
         }
 

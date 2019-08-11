@@ -37,14 +37,14 @@ namespace SuppressNotifications
 
                 Game.Instance.userMenu.AddButton(base.gameObject, new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText));
             }
-            if (statusItemsSuppressedComp.suppressedStatusItems.Any() || notificationsSuppressedComp.SuppressedNotifications.Any())
+            if (statusItemsSuppressedComp.suppressedStatusItems.Any() || notificationsSuppressedComp.suppressedNotifications.Any())
             {
                 string iconName = "action_building_disabled";
                 string text = "Clear Suppressed";
                 System.Action on_click = new System.Action(OnClearClick);
                 string tooltipText = "Stop the following status items and notifications from being suppressed:\n"
                     + GetStatusItemListText(statusItemsSuppressedComp.GetSuppressedStatusItems())
-                    + GetNotificationListText(notificationsSuppressedComp.SuppressedNotifications);
+                    + GetNotificationListText(notificationsSuppressedComp.GetSuppressedNotifications());
 
                 Game.Instance.userMenu.AddButton(base.gameObject, new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText));
             }

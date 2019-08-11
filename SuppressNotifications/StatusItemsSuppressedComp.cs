@@ -11,7 +11,7 @@ namespace SuppressNotifications
     class StatusItemsSuppressedComp : KMonoBehaviour, ISaveLoadable
     {
         // Would be a property with private set, but that breaks serialization loading
-        [SerializeField]
+        [Serialize]
         public List<string> suppressedStatusItems;
 
         private StatusItemGroup statusItemGroup;
