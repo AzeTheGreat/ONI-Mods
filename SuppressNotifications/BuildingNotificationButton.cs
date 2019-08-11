@@ -43,7 +43,7 @@ namespace SuppressNotifications
                 string text = "Clear Suppressed";
                 System.Action on_click = new System.Action(OnClearClick);
                 string tooltipText = "Stop the following status items and notifications from being suppressed:\n"
-                    + GetStatusItemListText(statusItemsSuppressedComp.SuppressedStatusItems)
+                    + GetStatusItemListText(statusItemsSuppressedComp.GetSuppressedStatusItems())
                     + GetNotificationListText(notificationsSuppressedComp.SuppressedNotifications);
 
                 Game.Instance.userMenu.AddButton(base.gameObject, new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText));
@@ -59,6 +59,7 @@ namespace SuppressNotifications
 
         private void OnClearClick()
         {
+            Debug.Log("CLEAR CLICK");
             notificationsSuppressedComp.UnsupressNotifications();
             statusItemsSuppressedComp.UnsuppressStatusItems();
             Game.Instance.userMenu.Refresh(base.gameObject);
@@ -66,11 +67,11 @@ namespace SuppressNotifications
 
         private string GetStatusItemListText(List<StatusItem> statusItems)
         {
-            string text = "--------------------\n\n";
+            string text = "--------------------\n";
 
             foreach (var statusItem in statusItems)
             {
-                text = text + "SI: " + statusItem.Name + "\n";
+                text = text + "Status: " + statusItem.Name + "\n";
             }
 
             return text;
@@ -82,7 +83,7 @@ namespace SuppressNotifications
 
             foreach (var notification in notifications)
             {
-                text = text + "N: " + notification.titleText + "\n";
+                text = text + "Notification: " + notification.titleText + "\n";
             }
 
             return text;
