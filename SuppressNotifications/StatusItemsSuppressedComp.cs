@@ -1,9 +1,5 @@
-﻿using System;
+﻿using KSerialization;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using KSerialization;
-using UnityEngine;
 
 namespace SuppressNotifications
 {
@@ -54,9 +50,9 @@ namespace SuppressNotifications
                     if (remove)
                         Game.Instance.RemoveStatusItem(statusItemGroup.gameObject.transform, entry.item);
 
-                    if (add)
+                    if (add && ShouldShowIcon(entry.item))
                         Game.Instance.AddStatusItem(statusItemGroup.gameObject.transform, entry.item);
-                    
+
                     // Might be required to fix the offset visual bug, but is a pain to access
                     // And who knows
                     //Game.Instance.SetStatusItemOffset(statusItemGroup.gameObject.transform, statusItemGroup.)

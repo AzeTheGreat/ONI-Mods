@@ -57,7 +57,6 @@
     <Compile Include="BuildingNotificationButton.cs" />
     <Compile Include="NotificationsSuppressedComp.cs" />
     <Compile Include="Patch_BuildingConfigManager.cs" />
-    <Compile Include="Patch_Game_SetStatusItemOffset.cs" />
     <Compile Include="Patch_NotificationScreen_AddNotification.cs" />
     <Compile Include="StatusItemsSuppressedComp.cs" />
     <Compile Include="Trans_AddStatusItem.cs" />

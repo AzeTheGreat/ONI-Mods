@@ -1,15 +1,11 @@
-﻿using System;
+﻿using KSerialization;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using KSerialization;
-using UnityEngine;
 
 namespace SuppressNotifications
 {
     class NotificationsSuppressedComp : KMonoBehaviour, ISaveLoadable
     {
-
         [Serialize]
         public List<string> suppressedNotifications;
 

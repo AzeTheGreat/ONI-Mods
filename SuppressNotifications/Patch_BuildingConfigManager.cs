@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Harmony;
+﻿using Harmony;
 using UnityEngine;
 
 namespace SuppressNotifications
@@ -14,7 +10,7 @@ namespace SuppressNotifications
     {
         static void Postfix(ref GameObject ___baseTemplate)
         {
-            ___baseTemplate.AddOrGet<StatusItemsSuppressedComp>();
+            ___baseTemplate.AddComponent<StatusItemsSuppressedComp>();
             ___baseTemplate.AddComponent<NotificationsSuppressedComp>();
             ___baseTemplate.AddComponent<BuildingNotificationButton>();
         }
