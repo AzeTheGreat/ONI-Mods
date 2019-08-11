@@ -12,12 +12,8 @@ namespace SuppressNotifications
         static bool Prefix(Notification notification)
         {
             var component = notification.Notifier.gameObject.GetComponent<NotificationsSuppressedComp>();
-            bool shouldNotify = component?.ShouldNotify(notification) ?? true;
-
-            if (shouldNotify)
-                component?.suppressableNotifications.Add(notification);
-
-            return shouldNotify;
+            component?.notifications.Add(notification);
+            return component?.ShouldNotify(notification) ?? true;
         }
     }
 
@@ -26,7 +22,7 @@ namespace SuppressNotifications
     {
         static void Prefix(Notification notification)
         {                
-            notification.Notifier?.gameObject.GetComponent<NotificationsSuppressedComp>()?.suppressableNotifications.Remove(notification);
+            notification.Notifier?.gameObject.GetComponent<NotificationsSuppressedComp>()?.notifications.Remove(notification);
         }
     }
 }

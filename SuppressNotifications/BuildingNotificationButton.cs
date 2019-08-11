@@ -24,7 +24,7 @@ namespace SuppressNotifications
         private void OnRefreshUserMenu()
         {
             List<StatusItem> suppressableStatusItems = statusItemsSuppressedComp.GetSuppressableStatusItems();
-            List<Notification> suppressableNotifications = notificationsSuppressedComp.suppressableNotifications;
+            List<Notification> suppressableNotifications = notificationsSuppressedComp.GetSuppressableNotifications();
 
             if (suppressableStatusItems.Any() || suppressableNotifications.Any())
             {
@@ -37,7 +37,7 @@ namespace SuppressNotifications
 
                 Game.Instance.userMenu.AddButton(base.gameObject, new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText));
             }
-            if (statusItemsSuppressedComp.SuppressedStatusItems.Any())
+            if (statusItemsSuppressedComp.SuppressedStatusItems.Any() || notificationsSuppressedComp.SuppressedNotifications.Any())
             {
                 string iconName = "action_building_disabled";
                 string text = "Clear Suppressed";
@@ -78,7 +78,7 @@ namespace SuppressNotifications
 
         private string GetNotificationListText(List<Notification> notifications)
         {
-            string text = "--------------------\n";
+            string text = "";
 
             foreach (var notification in notifications)
             {

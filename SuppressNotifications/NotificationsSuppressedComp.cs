@@ -7,12 +7,12 @@ namespace SuppressNotifications
 {
     class NotificationsSuppressedComp : KMonoBehaviour
     {
-        public List<Notification> suppressableNotifications;
+        public List<Notification> notifications;
         public List<Notification> SuppressedNotifications { get; private set; }
 
         protected override void OnPrefabInit()
         {
-            suppressableNotifications = new List<Notification>();
+            notifications = new List<Notification>();
             SuppressedNotifications = new List<Notification>();
         }
 
@@ -21,16 +21,40 @@ namespace SuppressNotifications
             return !SuppressedNotifications.Any(i => i.titleText == notification.titleText);
         }
 
+        public List<Notification> GetSuppressableNotifications()
+        {
+            var suppressableNotifications = new List<Notification>();
+
+            foreach (var notification in notifications)
+            {
+                if (ShouldNotify(notification))
+                    suppressableNotifications.Add(notification);
+            }
+
+            return suppressableNotifications;
+        }
+
         public void SuppressNotifications()
         {
+            List<Notification> suppressableNotifications = GetSuppressableNotifications();
             SuppressedNotifications.AddRange(suppressableNotifications);
-            suppressableNotifications.Clear();
+            RefreshNotifications(notifications);
         }
 
         public void UnsupressNotifications()
         {
-            suppressableNotifications.AddRange(SuppressedNotifications);
             SuppressedNotifications.Clear();
+            RefreshNotifications(notifications);
+        }
+
+        private void RefreshNotifications(List<Notification> notificationsToRefresh)
+        {
+            foreach (var notification in notificationsToRefresh.ToList())
+            {
+                Notifier notifier = notification.Notifier;
+                notification.Clear();
+                notifier.Add(notification);
+            }
         }
     }
 }
