@@ -8,7 +8,6 @@ namespace SuppressNotifications
     class StatusItemsSuppressedComp : KMonoBehaviour
     {
         public List<string> SuppressedStatusItems { get; private set; }
-
         private StatusItemGroup statusItemGroup;
 
         protected override void OnPrefabInit()
@@ -26,17 +25,17 @@ namespace SuppressNotifications
                 SuppressedStatusItems.Add(item.Name);
             }
 
-            RefreshStatusItems(suppressableStatusItems);
+            RefreshStatusItems(suppressableStatusItems, false, true);
         }
 
         public void UnsuppressStatusItems()
         {
-            var suppressedStatusItems = GetSuppressedStatusItems();
+            List<StatusItem> suppressedStatusItems = GetSuppressedStatusItems();
             SuppressedStatusItems.Clear();
-            RefreshStatusItems(suppressedStatusItems);
+            RefreshStatusItems(suppressedStatusItems, true, false);
         }
 
-        private void RefreshStatusItems(List<StatusItem> itemsToRefresh)
+        private void RefreshStatusItems(List<StatusItem> itemsToRefresh, bool add, bool remove)
         {
             var statEnumerator = statusItemGroup.GetEnumerator();
             var entriesToRefresh = new List<StatusItemGroup.Entry>();
@@ -46,19 +45,24 @@ namespace SuppressNotifications
                 while (statEnumerator.MoveNext())
                 {
                     var entry = statEnumerator.Current;
-                    if (itemsToRefresh.Contains(entry.item))
-                    {
-                        entriesToRefresh.Add(entry);
-                    }
+                    entriesToRefresh.Add(entry);
                 }
             }
 
             foreach (var entry in entriesToRefresh)
             {
-                statusItemGroup.SetStatusItem(entry.id, entry.category, entry.item, entry.data);
+                if(remove)
+                    Game.Instance.RemoveStatusItem(statusItemGroup.gameObject.transform, entry.item);
+
+                if(add)
+                    Game.Instance.AddStatusItem(statusItemGroup.gameObject.transform, entry.item);
+                
+                // Might be required to fix the offset visual bug, but is a pain to access
+                // And who knows
+                //Game.Instance.SetStatusItemOffset(statusItemGroup.gameObject.transform, statusItemGroup.)
             }
         }
- 
+
         public List<StatusItem> GetSuppressedStatusItems()
         {
             List<StatusItem> currentStatusItems = GetCurrentStatusItems();
@@ -93,7 +97,7 @@ namespace SuppressNotifications
 
         private List<StatusItem> GetCurrentStatusItems()
         {
-            List<StatusItem> suppressableStatusItems = new List<StatusItem>();
+            List<StatusItem> currentStatusItems = new List<StatusItem>();
             var statEnumerator = statusItemGroup.GetEnumerator();
 
             using (statEnumerator)
@@ -101,11 +105,11 @@ namespace SuppressNotifications
                 while (statEnumerator.MoveNext())
                 {
                     StatusItem statusItem = statEnumerator.Current.item;
-                    suppressableStatusItems.Add(statusItem);
+                    currentStatusItems.Add(statusItem);
                 }
             }
 
-            return suppressableStatusItems;
+            return currentStatusItems;
         }
 
         public bool ShouldShowIcon(StatusItem statusItem)
