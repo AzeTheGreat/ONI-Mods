@@ -2,17 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using KSerialization;
+using UnityEngine;
 
 namespace SuppressNotifications
 {
-    class StatusItemsSuppressedComp : KMonoBehaviour
+    [SerializationConfig(MemberSerialization.OptIn)]
+    class StatusItemsSuppressedComp : KMonoBehaviour, ISaveLoadable
     {
-        public List<string> SuppressedStatusItems { get; private set; }
+        // Would be a property with private set, but that breaks serialization loading
+        [SerializeField]
+        public List<string> suppressedStatusItems;
+
         private StatusItemGroup statusItemGroup;
 
         protected override void OnPrefabInit()
         {
-            SuppressedStatusItems = new List<string>();
+            suppressedStatusItems = new List<string>();
             statusItemGroup = gameObject.GetComponent<KSelectable>().GetStatusItemGroup();
         }
 
@@ -22,7 +28,7 @@ namespace SuppressNotifications
 
             foreach (var item in suppressableStatusItems)
             {
-                SuppressedStatusItems.Add(item.Name);
+                suppressedStatusItems.Add(item.Name);
             }
 
             RefreshStatusItems(suppressableStatusItems, false, true);
@@ -31,7 +37,7 @@ namespace SuppressNotifications
         public void UnsuppressStatusItems()
         {
             List<StatusItem> suppressedStatusItems = GetSuppressedStatusItems();
-            SuppressedStatusItems.Clear();
+            this.suppressedStatusItems.Clear();
             RefreshStatusItems(suppressedStatusItems, true, false);
         }
 
@@ -54,7 +60,6 @@ namespace SuppressNotifications
                     // Might be required to fix the offset visual bug, but is a pain to access
                     // And who knows
                     //Game.Instance.SetStatusItemOffset(statusItemGroup.gameObject.transform, statusItemGroup.)
-
                 }
             }
         }
@@ -110,7 +115,7 @@ namespace SuppressNotifications
 
         public bool ShouldShowIcon(StatusItem statusItem)
         {
-            return statusItem.ShouldShowIcon() && !SuppressedStatusItems.Contains(statusItem.Name);
+            return statusItem.ShouldShowIcon() && !suppressedStatusItems.Contains(statusItem.Name);
         }
     }
 }

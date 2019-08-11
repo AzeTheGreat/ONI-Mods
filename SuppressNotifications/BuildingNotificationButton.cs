@@ -37,7 +37,7 @@ namespace SuppressNotifications
 
                 Game.Instance.userMenu.AddButton(base.gameObject, new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText));
             }
-            if (statusItemsSuppressedComp.SuppressedStatusItems.Any() || notificationsSuppressedComp.SuppressedNotifications.Any())
+            if (statusItemsSuppressedComp.suppressedStatusItems.Any() || notificationsSuppressedComp.SuppressedNotifications.Any())
             {
                 string iconName = "action_building_disabled";
                 string text = "Clear Suppressed";
