@@ -38,28 +38,24 @@ namespace SuppressNotifications
         private void RefreshStatusItems(List<StatusItem> itemsToRefresh, bool add, bool remove)
         {
             var statEnumerator = statusItemGroup.GetEnumerator();
-            var entriesToRefresh = new List<StatusItemGroup.Entry>();
 
             using (statEnumerator)
             {
                 while (statEnumerator.MoveNext())
                 {
                     var entry = statEnumerator.Current;
-                    entriesToRefresh.Add(entry);
+
+                    if (remove)
+                        Game.Instance.RemoveStatusItem(statusItemGroup.gameObject.transform, entry.item);
+
+                    if (add)
+                        Game.Instance.AddStatusItem(statusItemGroup.gameObject.transform, entry.item);
+                    
+                    // Might be required to fix the offset visual bug, but is a pain to access
+                    // And who knows
+                    //Game.Instance.SetStatusItemOffset(statusItemGroup.gameObject.transform, statusItemGroup.)
+
                 }
-            }
-
-            foreach (var entry in entriesToRefresh)
-            {
-                if(remove)
-                    Game.Instance.RemoveStatusItem(statusItemGroup.gameObject.transform, entry.item);
-
-                if(add)
-                    Game.Instance.AddStatusItem(statusItemGroup.gameObject.transform, entry.item);
-                
-                // Might be required to fix the offset visual bug, but is a pain to access
-                // And who knows
-                //Game.Instance.SetStatusItemOffset(statusItemGroup.gameObject.transform, statusItemGroup.)
             }
         }
 
