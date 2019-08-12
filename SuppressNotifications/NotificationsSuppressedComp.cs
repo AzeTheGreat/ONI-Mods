@@ -1,6 +1,7 @@
 ﻿using KSerialization;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace SuppressNotifications
 {
@@ -15,6 +16,7 @@ namespace SuppressNotifications
         {
             notifications = new List<Notification>();
             suppressedNotifications = new List<string>();
+            Subscribe(-905833192, OnCopySettingsDelegate);
         }
 
         public bool ShouldNotify(Notification notification)
@@ -74,6 +76,23 @@ namespace SuppressNotifications
                 notification.Clear();
                 notifier.Add(notification);
             }
+        }
+
+        private void OnCopySettings(object data)
+        {
+            GameObject gameObject = (GameObject)data;
+            NotificationsSuppressedComp comp = gameObject.GetComponent<NotificationsSuppressedComp>();
+            if (comp != null)
+            {
+                suppressedNotifications = comp.suppressedNotifications;
+            }
+        }
+
+        private static readonly EventSystem.IntraObjectHandler<NotificationsSuppressedComp> OnCopySettingsDelegate = new EventSystem.IntraObjectHandler<NotificationsSuppressedComp>(Handler);
+
+        private static void Handler(NotificationsSuppressedComp comp, object data)
+        {
+            comp.OnCopySettings(data);
         }
     }
 }

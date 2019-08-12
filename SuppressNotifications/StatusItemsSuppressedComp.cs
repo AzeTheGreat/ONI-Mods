@@ -1,5 +1,6 @@
 ﻿using KSerialization;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace SuppressNotifications
 {
@@ -16,6 +17,7 @@ namespace SuppressNotifications
         {
             suppressedStatusItems = new List<string>();
             statusItemGroup = gameObject.GetComponent<KSelectable>().GetStatusItemGroup();
+            Subscribe(-905833192, OnCopySettingsDelegate);
         }
 
         public void SuppressStatusItems()
@@ -112,6 +114,23 @@ namespace SuppressNotifications
         public bool ShouldShowIcon(StatusItem statusItem)
         {
             return statusItem.ShouldShowIcon() && !suppressedStatusItems.Contains(statusItem.Name);
+        }
+
+        private void OnCopySettings(object data)
+        {
+            GameObject gameObject = (GameObject)data;
+            StatusItemsSuppressedComp comp = gameObject.GetComponent<StatusItemsSuppressedComp>();
+            if (comp != null)
+            {
+                suppressedStatusItems = comp.suppressedStatusItems;
+            }
+        }
+
+        private static readonly EventSystem.IntraObjectHandler<StatusItemsSuppressedComp> OnCopySettingsDelegate = new EventSystem.IntraObjectHandler<StatusItemsSuppressedComp>(Handler);
+
+        private static void Handler(StatusItemsSuppressedComp comp, object data)
+        {
+            comp.OnCopySettings(data);
         }
     }
 }
