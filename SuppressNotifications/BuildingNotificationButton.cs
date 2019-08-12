@@ -5,14 +5,15 @@ namespace SuppressNotifications
 {
     public class BuildingNotificationButton : KMonoBehaviour
     {
+        [MyCmpAdd]
+        private CopyBuildingSettings copyBuildingSettings;
+        [MyCmpAdd]
         private StatusItemsSuppressedComp statusItemsSuppressedComp;
+        [MyCmpAdd]
         private NotificationsSuppressedComp notificationsSuppressedComp;
 
         protected override void OnPrefabInit()
         {
-            statusItemsSuppressedComp = gameObject.GetComponent<StatusItemsSuppressedComp>();
-            notificationsSuppressedComp = gameObject.GetComponent<NotificationsSuppressedComp>();
-
             Subscribe(493375141, OnRefreshUserMenuDelegate);
         }
 
@@ -114,8 +115,5 @@ namespace SuppressNotifications
         {
             component.OnRefreshUserMenu();
         }
-
-        [MyCmpAdd]
-        private CopyBuildingSettings copyBuildingSettings;
     }
 }
