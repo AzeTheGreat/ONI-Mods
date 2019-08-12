@@ -31,6 +31,7 @@ namespace SuppressNotifications
                     + GetNotificationListText(suppressableNotifications);
 
                 Game.Instance.userMenu.AddButton(base.gameObject, new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText));
+                return;
             }
             if (statusItemsSuppressedComp.suppressedStatusItemTitles.Any() || notificationsSuppressedComp.suppressedNotifications.Any())
             {
@@ -38,8 +39,8 @@ namespace SuppressNotifications
                 string text = "Clear Suppressed";
                 System.Action on_click = new System.Action(OnClearClick);
                 string tooltipText = "Stop the following status items and notifications from being suppressed:\n"
-                    + GetStatusItemListText(statusItemsSuppressedComp.GetSuppressedStatusItems())
-                    + GetNotificationListText(notificationsSuppressedComp.GetSuppressedNotifications());
+                    + GetStatusItemListText(statusItemsSuppressedComp.suppressedStatusItemTitles)
+                    + GetNotificationListText(notificationsSuppressedComp.suppressedNotifications);
 
                 Game.Instance.userMenu.AddButton(base.gameObject, new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText));
             }
@@ -71,6 +72,18 @@ namespace SuppressNotifications
             return text;
         }
 
+        private string GetStatusItemListText(List<string> statusItems)
+        {
+            string text = "";
+
+            foreach (var statusItem in statusItems)
+            {
+                text = text + "Status: " + statusItem + "\n";
+            }
+
+            return text;
+        }
+
         private string GetNotificationListText(List<Notification> notifications)
         {
             string text = "";
@@ -83,11 +96,26 @@ namespace SuppressNotifications
             return text;
         }
 
+        private string GetNotificationListText(List<string> notifications)
+        {
+            string text = "";
+
+            foreach (var notification in notifications)
+            {
+                text = text + "Notification: " + notification + "\n";
+            }
+
+            return text;
+        }
+
         private static readonly EventSystem.IntraObjectHandler<BuildingNotificationButton> OnRefreshUserMenuDelegate = new EventSystem.IntraObjectHandler<BuildingNotificationButton>(Handler);
 
         private static void Handler(BuildingNotificationButton component, object data)
         {
             component.OnRefreshUserMenu();
         }
+
+        [MyCmpAdd]
+        private CopyBuildingSettings copyBuildingSettings;
     }
 }
