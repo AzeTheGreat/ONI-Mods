@@ -45,17 +45,14 @@ namespace SuppressNotifications
 
         private void RefreshStatusItems(List<StatusItem> wasActive, List<StatusItem> wasSuppressed)
         {
-            Debug.Log("REFRESH");
             foreach (var item in wasActive)
             {
-                Debug.Log("Was Active: " + item.Name);
                 if(!ShouldShowIcon(item))
                     Game.Instance.RemoveStatusItem(statusItemGroup.gameObject.transform, item);
             }
 
             foreach (var item in wasSuppressed)
             {
-                Debug.Log("Was Sup: " + item.Name);
                 if(ShouldShowIcon(item))
                     Game.Instance.AddStatusItem(statusItemGroup.gameObject.transform, item);
             }
@@ -126,7 +123,6 @@ namespace SuppressNotifications
                 List<StatusItem> suppressedStatusItems = GetSuppressedStatusItems();
 
                 suppressedStatusItemTitles = new List<string>(comp.suppressedStatusItemTitles);
-                Debug.Log("ON COPY");
                 RefreshStatusItems(suppressableStatusItems, suppressedStatusItems);
             }
         }
