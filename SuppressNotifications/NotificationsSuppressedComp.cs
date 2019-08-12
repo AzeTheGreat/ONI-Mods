@@ -59,18 +59,18 @@ namespace SuppressNotifications
                 suppressedNotifications.Add(note.titleText);
             }
 
-            RefreshNotifications(notifications);
+            RefreshNotifications();
         }
 
         public void UnsupressNotifications()
         {
             suppressedNotifications.Clear();
-            RefreshNotifications(notifications);
+            RefreshNotifications();
         }
 
-        private void RefreshNotifications(List<Notification> notificationsToRefresh)
+        private void RefreshNotifications()
         {
-            foreach (var notification in notificationsToRefresh.ToList())
+            foreach (var notification in notifications.ToList())
             {
                 Notifier notifier = notification.Notifier;
                 notification.Clear();
@@ -85,6 +85,7 @@ namespace SuppressNotifications
             if (comp != null)
             {
                 suppressedNotifications = comp.suppressedNotifications;
+                RefreshNotifications();
             }
         }
 

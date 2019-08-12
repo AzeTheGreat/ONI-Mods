@@ -9,13 +9,13 @@ namespace SuppressNotifications
     {
         // Would be a property with private set, but that breaks serialization loading
         [Serialize]
-        public List<string> suppressedStatusItems;
+        public List<string> suppressedStatusItemTitles;
 
         private StatusItemGroup statusItemGroup;
 
         protected override void OnPrefabInit()
         {
-            suppressedStatusItems = new List<string>();
+            suppressedStatusItemTitles = new List<string>();
             statusItemGroup = gameObject.GetComponent<KSelectable>().GetStatusItemGroup();
             Subscribe(-905833192, OnCopySettingsDelegate);
         }
@@ -23,42 +23,41 @@ namespace SuppressNotifications
         public void SuppressStatusItems()
         {
             List<StatusItem> suppressableStatusItems = GetSuppressableStatusItems();
+            List<StatusItem> suppressedStatusItems = GetSuppressedStatusItems();
 
             foreach (var item in suppressableStatusItems)
             {
-                suppressedStatusItems.Add(item.Name);
+                suppressedStatusItemTitles.Add(item.Name);
             }
 
-            RefreshStatusItems(suppressableStatusItems, false, true);
+            RefreshStatusItems(suppressableStatusItems, suppressedStatusItems);
         }
 
         public void UnsuppressStatusItems()
         {
+            List<StatusItem> suppressableStatusItems = GetSuppressableStatusItems();
             List<StatusItem> suppressedStatusItems = GetSuppressedStatusItems();
-            this.suppressedStatusItems.Clear();
-            RefreshStatusItems(suppressedStatusItems, true, false);
+
+            suppressedStatusItemTitles.Clear();
+
+            RefreshStatusItems(suppressableStatusItems, suppressedStatusItems);
         }
 
-        private void RefreshStatusItems(List<StatusItem> itemsToRefresh, bool add, bool remove)
+        private void RefreshStatusItems(List<StatusItem> wasActive, List<StatusItem> wasSuppressed)
         {
-            var statEnumerator = statusItemGroup.GetEnumerator();
-
-            using (statEnumerator)
+            Debug.Log("REFRESH");
+            foreach (var item in wasActive)
             {
-                while (statEnumerator.MoveNext())
-                {
-                    var entry = statEnumerator.Current;
+                Debug.Log("Was Active: " + item.Name);
+                if(!ShouldShowIcon(item))
+                    Game.Instance.RemoveStatusItem(statusItemGroup.gameObject.transform, item);
+            }
 
-                    if (remove)
-                        Game.Instance.RemoveStatusItem(statusItemGroup.gameObject.transform, entry.item);
-
-                    if (add && ShouldShowIcon(entry.item))
-                        Game.Instance.AddStatusItem(statusItemGroup.gameObject.transform, entry.item);
-
-                    // Might be required to fix the offset visual bug, but is a pain to access
-                    // And who knows
-                    //Game.Instance.SetStatusItemOffset(statusItemGroup.gameObject.transform, statusItemGroup.)
-                }
+            foreach (var item in wasSuppressed)
+            {
+                Debug.Log("Was Sup: " + item.Name);
+                if(ShouldShowIcon(item))
+                    Game.Instance.AddStatusItem(statusItemGroup.gameObject.transform, item);
             }
         }
 
@@ -69,7 +68,7 @@ namespace SuppressNotifications
 
             foreach (var statusItem in currentStatusItems)
             {
-                if (!ShouldShowIcon(statusItem))
+                if (!ShouldShowIcon(statusItem) && statusItem.ShouldShowIcon())
                 {
                     suppressedStatusItems.Add(statusItem);
                 }
@@ -113,16 +112,22 @@ namespace SuppressNotifications
 
         public bool ShouldShowIcon(StatusItem statusItem)
         {
-            return statusItem.ShouldShowIcon() && !suppressedStatusItems.Contains(statusItem.Name);
+            return statusItem.ShouldShowIcon() && !suppressedStatusItemTitles.Contains(statusItem.Name);
         }
 
         private void OnCopySettings(object data)
         {
             GameObject gameObject = (GameObject)data;
             StatusItemsSuppressedComp comp = gameObject.GetComponent<StatusItemsSuppressedComp>();
+
             if (comp != null)
             {
-                suppressedStatusItems = comp.suppressedStatusItems;
+                List<StatusItem> suppressableStatusItems = GetSuppressableStatusItems();
+                List<StatusItem> suppressedStatusItems = GetSuppressedStatusItems();
+
+                suppressedStatusItemTitles = new List<string>(comp.suppressedStatusItemTitles);
+                Debug.Log("ON COPY");
+                RefreshStatusItems(suppressableStatusItems, suppressedStatusItems);
             }
         }
 
