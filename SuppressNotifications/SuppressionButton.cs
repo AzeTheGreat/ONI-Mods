@@ -6,8 +6,6 @@ namespace SuppressNotifications
     public class SuppressionButton : KMonoBehaviour
     {
         [MyCmpAdd]
-        private CopyBuildingSettings copyBuildingSettings;
-        [MyCmpAdd]
         private StatusItemsSuppressedComp statusItemsSuppressedComp;
         [MyCmpAdd]
         private NotificationsSuppressedComp notificationsSuppressedComp;

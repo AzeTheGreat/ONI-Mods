@@ -7,7 +7,7 @@ using UnityEngine;
 namespace SuppressNotifications
 {
     [HarmonyPatch(typeof(StatusItemGroup), nameof(StatusItemGroup.AddStatusItem))]
-    internal class Trans_StatusItemGroup
+    internal class Patch_StatusItemGroup_AddStatusItem
     {
         // Transpiler to replace default ShouldShowIcon with a custom version
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
@@ -25,7 +25,7 @@ namespace SuppressNotifications
 
                     // Call custom ShouldShowIcon
                     yield return new CodeInstruction(OpCodes.Call,
-                        AccessTools.Method(typeof(Trans_StatusItemGroup), nameof(Trans_StatusItemGroup.ShouldShowIconSub)));
+                        AccessTools.Method(typeof(Patch_StatusItemGroup_AddStatusItem), nameof(Patch_StatusItemGroup_AddStatusItem.ShouldShowIconSub)));
                     continue;
                 }
 

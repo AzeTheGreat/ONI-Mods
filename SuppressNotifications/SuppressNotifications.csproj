@@ -54,15 +54,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BuildingNotificationButton.cs" />
+    <Compile Include="BuildingSuppressionButton.cs" />
+    <Compile Include="SuppressionButton.cs" />
     <Compile Include="ModInfo.cs" />
     <Compile Include="NotificationsSuppressedComp.cs" />
-    <Compile Include="Patch_BuildingConfigManager.cs" />
+    <Compile Include="Patch_BuildingConfigManager_OnPrefabInit.cs" />
     <Compile Include="Patch_Capturable_OnPrefabInit.cs" />
     <Compile Include="Patch_NotificationScreen_AddNotification.cs" />
-    <Compile Include="Patch_StatusItemRenderer.cs" />
     <Compile Include="StatusItemsSuppressedComp.cs" />
-    <Compile Include="Trans_AddStatusItem.cs" />
+    <Compile Include="Patch_StatusItemGroup_AddStatusItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
