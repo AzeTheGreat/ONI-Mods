@@ -10,7 +10,7 @@ namespace SuppressNotifications
     {
         static void Postfix(ref GameObject ___baseTemplate)
         {
-            ___baseTemplate.AddComponent<BuildingNotificationButton>();
+            ___baseTemplate.AddComponent<SuppressionButton>();
         }
     }
 }

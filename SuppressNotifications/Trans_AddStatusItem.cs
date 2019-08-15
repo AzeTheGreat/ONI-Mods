@@ -35,8 +35,6 @@ namespace SuppressNotifications
 
         private static bool ShouldShowIconSub(StatusItem statusItem, GameObject gameObject)
         {
-            // Seems like the game attempts to add Status items before BuildingConfigManager is run?
-            // Thus the null check.  Might result in some status items not showing as the game initializes, unsure if it could be an issue.
             return gameObject.GetComponent<StatusItemsSuppressedComp>()?.ShouldShowIcon(statusItem) ?? statusItem.ShouldShowIcon();
         }
     }

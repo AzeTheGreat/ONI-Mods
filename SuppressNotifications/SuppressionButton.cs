@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace SuppressNotifications
 {
-    public class BuildingNotificationButton : KMonoBehaviour
+    public class SuppressionButton : KMonoBehaviour
     {
         [MyCmpAdd]
         private CopyBuildingSettings copyBuildingSettings;
@@ -109,9 +109,9 @@ namespace SuppressNotifications
             return text;
         }
 
-        private static readonly EventSystem.IntraObjectHandler<BuildingNotificationButton> OnRefreshUserMenuDelegate = new EventSystem.IntraObjectHandler<BuildingNotificationButton>(Handler);
+        private static readonly EventSystem.IntraObjectHandler<SuppressionButton> OnRefreshUserMenuDelegate = new EventSystem.IntraObjectHandler<SuppressionButton>(Handler);
 
-        private static void Handler(BuildingNotificationButton component, object data)
+        private static void Handler(SuppressionButton component, object data)
         {
             component.OnRefreshUserMenu();
         }
