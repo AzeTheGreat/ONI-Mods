@@ -11,7 +11,7 @@ namespace ONIFixedCameraPan
     [HarmonyPatch(typeof(CameraController), "OnPrefabInit")]
     class Patch_CameraController_OnPrefabInit
     {
-        private static float defaultMultiplier = 1f;
+        private static float defaultMultiplier = 120f;
 
         static void Postfix(ref float ___keyPanningSpeed)
         {

@@ -10,7 +10,7 @@ namespace ONIFixedCameraPan
     [HarmonyPatch(typeof(CameraController), "NormalCamUpdate")]
     public class Patch_CameraController_NormalCamUpdate
     {
-        private static float maxDeltaTime = 0.1f;
+        private static float maxDeltaTime = 0.05f;
 
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
