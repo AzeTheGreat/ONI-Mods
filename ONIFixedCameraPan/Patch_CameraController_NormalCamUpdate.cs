@@ -8,9 +8,13 @@ using UnityEngine;
 namespace ONIFixedCameraPan
 {
     [HarmonyPatch(typeof(CameraController), "NormalCamUpdate")]
-    public class Patch_CameraController_NormalCamUpdate
+    public static class Patch_CameraController_NormalCamUpdate
     {
-        private static float maxDeltaTime = 0.05f;
+        private static float spikeThreshold = 0.01f;
+
+        private static float lastFrameDT = 0.05f;
+        private static float lastLastFrameDT = 0.05f;
+        private static float lastGoodDT = 0.05f;
 
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
@@ -32,9 +36,17 @@ namespace ONIFixedCameraPan
             }
         }
 
-        private static float GetScalar(float unscaledDeltaTime)
+        private static float GetScalar(float dT)
         {
-            return Mathf.Clamp(unscaledDeltaTime, 0f, maxDeltaTime);
+            if (Mathf.Abs(dT - lastFrameDT) > spikeThreshold || Mathf.Abs(dT - lastLastFrameDT) > spikeThreshold)
+                return Mathf.Clamp(lastGoodDT, 0, dT);
+            else
+                lastGoodDT = dT;
+
+            lastFrameDT = dT;
+            lastLastFrameDT = lastFrameDT;
+
+            return dT;
         }
     }
 }
