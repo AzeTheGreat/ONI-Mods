@@ -55,9 +55,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buttons\BuildingSuppressionButton.cs" />
+    <Compile Include="Buttons\CritterSuppressionButton.cs" />
     <Compile Include="Buttons\SuppressionButton.cs" />
     <Compile Include="ModInfo.cs" />
     <Compile Include="NotificationsSuppressedComp.cs" />
+    <Compile Include="Patches\Patch_Amount_Copy.cs" />
     <Compile Include="Patches\Patch_BuildingConfigManager_OnPrefabInit.cs" />
     <Compile Include="Patches\Patch_Capturable_OnPrefabInit.cs" />
     <Compile Include="Patches\Patch_NotificationScreen_AddNotification.cs" />

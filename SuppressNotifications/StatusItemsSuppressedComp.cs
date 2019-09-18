@@ -15,9 +15,16 @@ namespace SuppressNotifications
 
         protected override void OnPrefabInit()
         {
-            suppressedStatusItemTitles = new List<string>();
-            statusItemGroup = gameObject.GetComponent<KSelectable>().GetStatusItemGroup();
+            Init();
             Subscribe(-905833192, OnCopySettingsDelegate);
+        }
+
+        internal void Init()
+        {
+            if (suppressedStatusItemTitles == null)
+                suppressedStatusItemTitles = new List<string>();
+            if (statusItemGroup == null)
+                statusItemGroup = gameObject.GetComponent<KSelectable>().GetStatusItemGroup();
         }
 
         public void SuppressStatusItems()
@@ -93,6 +100,10 @@ namespace SuppressNotifications
         private List<StatusItem> GetCurrentStatusItems()
         {
             List<StatusItem> currentStatusItems = new List<StatusItem>();
+
+            if (statusItemGroup == null)
+                return currentStatusItems;
+
             var statEnumerator = statusItemGroup.GetEnumerator();
 
             using (statEnumerator)
@@ -112,13 +123,14 @@ namespace SuppressNotifications
             return statusItem.ShouldShowIcon() && !suppressedStatusItemTitles.Contains(statusItem.Name);
         }
 
-        private void OnCopySettings(object data)
+        internal void OnCopySettings(object data)
         {
-            GameObject gameObject = (GameObject)data;
-            StatusItemsSuppressedComp comp = gameObject.GetComponent<StatusItemsSuppressedComp>();
+            Debug.Log("Status OnCopySettings");
+            StatusItemsSuppressedComp comp = (data as GameObject).GetComponent<StatusItemsSuppressedComp>();
 
             if (comp != null)
             {
+                Debug.Log("Not Null");
                 List<StatusItem> suppressableStatusItems = GetSuppressableStatusItems();
                 List<StatusItem> suppressedStatusItems = GetSuppressedStatusItems();
 

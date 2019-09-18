@@ -6,9 +6,9 @@ namespace SuppressNotifications
     public class SuppressionButton : KMonoBehaviour
     {
         [MyCmpAdd]
-        private StatusItemsSuppressedComp statusItemsSuppressedComp;
+        internal StatusItemsSuppressedComp statusItemsSuppressedComp;
         [MyCmpAdd]
-        private NotificationsSuppressedComp notificationsSuppressedComp;
+        internal NotificationsSuppressedComp notificationsSuppressedComp;
 
         protected override void OnPrefabInit()
         {

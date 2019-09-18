@@ -11,7 +11,7 @@ namespace SuppressNotifications
     {
         static void Postfix(Capturable __instance)
         {
-            __instance.gameObject.AddComponent<SuppressionButton>();
+            __instance.gameObject.AddComponent<CritterSuppressionButton>();
         }
     }
 }

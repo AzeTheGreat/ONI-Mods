@@ -14,9 +14,16 @@ namespace SuppressNotifications
 
         protected override void OnPrefabInit()
         {
-            notifications = new List<Notification>();
-            suppressedNotifications = new List<string>();
+            Init();
             Subscribe(-905833192, OnCopySettingsDelegate);
+        }
+
+        internal void Init()
+        {
+            if (notifications == null)
+                notifications = new List<Notification>();
+            if (suppressedNotifications == null)
+                suppressedNotifications = new List<string>();
         }
 
         public bool ShouldNotify(Notification notification)
@@ -78,18 +85,20 @@ namespace SuppressNotifications
             }
         }
 
-        private void OnCopySettings(object data)
+        internal void OnCopySettings(object data)
         {
-            GameObject gameObject = (GameObject)data;
-            NotificationsSuppressedComp comp = gameObject.GetComponent<NotificationsSuppressedComp>();
+            Debug.Log("Notification OnCopySettings");
+            NotificationsSuppressedComp comp = (data as GameObject).GetComponent<NotificationsSuppressedComp>();
             if (comp != null)
             {
-                suppressedNotifications = comp.suppressedNotifications;
+                Debug.Log("Not Null");
+                suppressedNotifications = new List<string>(comp.suppressedNotifications);
                 RefreshNotifications();
             }
         }
 
-        private static readonly EventSystem.IntraObjectHandler<NotificationsSuppressedComp> OnCopySettingsDelegate = new EventSystem.IntraObjectHandler<NotificationsSuppressedComp>(Handler);
+        private static readonly EventSystem.IntraObjectHandler<NotificationsSuppressedComp> OnCopySettingsDelegate = 
+            new EventSystem.IntraObjectHandler<NotificationsSuppressedComp>(Handler);
 
         private static void Handler(NotificationsSuppressedComp comp, object data)
         {
