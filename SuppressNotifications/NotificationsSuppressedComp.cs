@@ -15,7 +15,7 @@ namespace SuppressNotifications
         protected override void OnPrefabInit()
         {
             Init();
-            Subscribe(-905833192, OnCopySettingsDelegate);
+            Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
         }
 
         internal void Init()
