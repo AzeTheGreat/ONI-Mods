@@ -125,12 +125,10 @@ namespace SuppressNotifications
 
         internal void OnCopySettings(object data)
         {
-            Debug.Log("Status OnCopySettings");
             StatusItemsSuppressedComp comp = (data as GameObject).GetComponent<StatusItemsSuppressedComp>();
 
             if (comp != null)
             {
-                Debug.Log("Not Null");
                 List<StatusItem> suppressableStatusItems = GetSuppressableStatusItems();
                 List<StatusItem> suppressedStatusItems = GetSuppressedStatusItems();
 

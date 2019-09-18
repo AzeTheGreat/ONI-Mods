@@ -87,11 +87,9 @@ namespace SuppressNotifications
 
         internal void OnCopySettings(object data)
         {
-            Debug.Log("Notification OnCopySettings");
             NotificationsSuppressedComp comp = (data as GameObject).GetComponent<NotificationsSuppressedComp>();
             if (comp != null)
             {
-                Debug.Log("Not Null");
                 suppressedNotifications = new List<string>(comp.suppressedNotifications);
                 RefreshNotifications();
             }

@@ -24,17 +24,11 @@ namespace SuppressNotifications
 
         private static void OnSpawnedFrom(CritterSuppressionButton adult, object baby)
         {
-            Debug.Log("OnSpawnedFrom");
             adult.gameObject.Trigger((int)GameHashes.CopySettings, baby);
         }
 
         private static void OnLayEgg(CritterSuppressionButton critter, object egg)
         {
-            Debug.Log("OnLayEgg");
-
-            Debug.Log("Critter: " + critter);
-            Debug.Log("Egg: " + egg);
-
             var noteComp = (egg as GameObject).AddOrGet<NotificationsSuppressedComp>();
             var statComp = (egg as GameObject).AddOrGet<StatusItemsSuppressedComp>();
 
