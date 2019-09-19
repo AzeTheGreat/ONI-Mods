@@ -6,7 +6,7 @@ using STRINGS;
 
 namespace SuppressNotifications
 {
-    class CopyCritterSettingsTool : DragTool
+    class CopyEntitySettingsTool : DragTool
     {
         private List<int> cells;
 
@@ -29,7 +29,7 @@ namespace SuppressNotifications
             // Set the area visualizer
             var avTemplate = templateTool.GetField<GameObject>("areaVisualizer");
             var areaVisualizer = Util.KInstantiate(avTemplate, gameObject,
-                typeof(CopyCritterSettingsTool).Name + "AreaVisualizer");
+                typeof(CopyEntitySettingsTool).Name + "AreaVisualizer");
             areaVisualizer.SetActive(false);
             areaVisualizerSpriteRenderer = areaVisualizer.GetComponent<SpriteRenderer>();
 
@@ -73,6 +73,14 @@ namespace SuppressNotifications
 
         protected override void OnDragComplete(Vector3 cursorDown, Vector3 cursorUp)
         {
+            if(sourceGameObject.GetComponent<CritterSuppressionButton>() != null)
+                CopyCritterSettings();
+            if (sourceGameObject.GetComponent<CropSuppressionButton>() != null)
+                CopyCropSettings();
+        }
+
+        private void CopyCritterSettings()
+        {
             var enumerator = Components.Brains.GetEnumerator();
             using (enumerator as IDisposable)
             {
@@ -92,6 +100,24 @@ namespace SuppressNotifications
             }
         }
 
+        private void CopyCropSettings()
+        {
+            var enumerator = Components.Crops.GetEnumerator();
+            using(enumerator as IDisposable)
+            {
+                while (enumerator.MoveNext())
+                {
+                    var crop = enumerator.Current as Crop;
+
+                    if(crop != null)
+                    {
+                        crop.gameObject.Trigger((int)GameHashes.CopySettings, sourceGameObject);
+                        PopFXManager.Instance.SpawnFX(PopFXManager.Instance.sprite_Plus, UI.COPIED_SETTINGS, crop.gameObject.transform, new Vector3(0f, 0.5f, 0f), 1.5f, false, false);
+                    }
+                }
+            }
+        }
+
         protected override void OnActivateTool()
         {
             base.OnActivateTool();
@@ -104,7 +130,7 @@ namespace SuppressNotifications
             this.sourceGameObject = null;
         }
 
-        public static CopyCritterSettingsTool instance;
+        public static CopyEntitySettingsTool instance;
 
         public GameObject Placer;
 

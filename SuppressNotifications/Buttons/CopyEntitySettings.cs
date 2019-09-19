@@ -3,7 +3,7 @@ using STRINGS;
 
 namespace SuppressNotifications
 {
-    class CopyCritterSettings : KMonoBehaviour
+    class CopyEntitySettings : KMonoBehaviour
     {
         protected override void OnPrefabInit()
         {
@@ -25,14 +25,14 @@ namespace SuppressNotifications
 
         private void ActivateCopyTool()
         {
-            CopyCritterSettingsTool.instance.SetSourceObject(base.gameObject);
-            CopyCritterSettingsTool.instance.Activate();
+            CopyEntitySettingsTool.instance.SetSourceObject(base.gameObject);
+            CopyEntitySettingsTool.instance.Activate();
         }
 
-        private static readonly EventSystem.IntraObjectHandler<CopyCritterSettings> OnRefreshUserMenuDelegate =
-            new EventSystem.IntraObjectHandler<CopyCritterSettings>(Handler);
+        private static readonly EventSystem.IntraObjectHandler<CopyEntitySettings> OnRefreshUserMenuDelegate =
+            new EventSystem.IntraObjectHandler<CopyEntitySettings>(Handler);
 
-        private static void Handler(CopyCritterSettings component, object data)
+        private static void Handler(CopyEntitySettings component, object data)
         {
             component.OnRefreshUserMenu(data);
         }
