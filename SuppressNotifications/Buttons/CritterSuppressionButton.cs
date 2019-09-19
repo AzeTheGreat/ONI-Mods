@@ -8,6 +8,9 @@ namespace SuppressNotifications
 {
     class CritterSuppressionButton : SuppressionButton
     {
+        [MyCmpAdd]
+        private CopyCritterSettings copyCritterSettings;
+
         private static readonly EventSystem.IntraObjectHandler<CritterSuppressionButton> OnSpawnedFromDelegate =
             new EventSystem.IntraObjectHandler<CritterSuppressionButton>(OnSpawnedFrom);
 

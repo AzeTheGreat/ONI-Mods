@@ -107,7 +107,8 @@ namespace SuppressNotifications
             return text;
         }
 
-        private static readonly EventSystem.IntraObjectHandler<SuppressionButton> OnRefreshUserMenuDelegate = new EventSystem.IntraObjectHandler<SuppressionButton>(Handler);
+        private static readonly EventSystem.IntraObjectHandler<SuppressionButton> OnRefreshUserMenuDelegate = 
+            new EventSystem.IntraObjectHandler<SuppressionButton>(Handler);
 
         private static void Handler(SuppressionButton component, object data)
         {
