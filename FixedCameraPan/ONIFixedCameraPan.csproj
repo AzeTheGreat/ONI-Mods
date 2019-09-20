@@ -7,8 +7,8 @@
     <ProjectGuid>{36E144B6-3558-4213-82BD-70B2A57DA895}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ONIFixedCameraPan</RootNamespace>
-    <AssemblyName>ONIFixedCameraPan</AssemblyName>
+    <RootNamespace>FixedCameraPan</RootNamespace>
+    <AssemblyName>FixedCameraPan</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -60,7 +60,9 @@
   <ItemGroup>
     <Compile Include="Config.cs" />
     <Compile Include="Patch_CameraController_NormalCamUpdate.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
