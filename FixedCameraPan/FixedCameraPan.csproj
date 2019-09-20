@@ -64,5 +64,11 @@
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ALib\ALib.csproj">
+      <Project>{a0c24f8c-4b7e-457e-bc57-2e9d64a428d3}</Project>
+      <Name>ALib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.489
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONIFixedCameraPan", "FixedCameraPan\ONIFixedCameraPan.csproj", "{36E144B6-3558-4213-82BD-70B2A57DA895}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixedCameraPan", "FixedCameraPan\FixedCameraPan.csproj", "{36E144B6-3558-4213-82BD-70B2A57DA895}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuppressNotifications", "SuppressNotifications\SuppressNotifications.csproj", "{FBD4BFC8-DAC6-495A-A616-90E921919458}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ALib", "ALib\ALib.csproj", "{A0C24F8C-4B7E-457E-BC57-2E9D64A428D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{FBD4BFC8-DAC6-495A-A616-90E921919458}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBD4BFC8-DAC6-495A-A616-90E921919458}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBD4BFC8-DAC6-495A-A616-90E921919458}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0C24F8C-4B7E-457E-BC57-2E9D64A428D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0C24F8C-4B7E-457E-BC57-2E9D64A428D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0C24F8C-4B7E-457E-BC57-2E9D64A428D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0C24F8C-4B7E-457E-BC57-2E9D64A428D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
