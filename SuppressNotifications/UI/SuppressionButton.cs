@@ -12,7 +12,7 @@ namespace SuppressNotifications
 
         protected override void OnPrefabInit()
         {
-            Subscribe(493375141, OnRefreshUserMenuDelegate);
+            Subscribe((int)GameHashes.RefreshUserMenu, OnRefreshUserMenuDelegate);
         }
 
         private void OnRefreshUserMenu()

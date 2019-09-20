@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace SuppressNotifications
 {
@@ -10,12 +6,6 @@ namespace SuppressNotifications
     {
         [MyCmpAdd]
         private CopyEntitySettings copyCritterSettings;
-
-        private static readonly EventSystem.IntraObjectHandler<CritterSuppressionButton> OnSpawnedFromDelegate =
-            new EventSystem.IntraObjectHandler<CritterSuppressionButton>(OnSpawnedFrom);
-
-        private static readonly EventSystem.IntraObjectHandler<CritterSuppressionButton> OnLayEggDelegate =
-            new EventSystem.IntraObjectHandler<CritterSuppressionButton>(OnLayEgg);
 
         protected override void OnPrefabInit()
         {
@@ -40,5 +30,11 @@ namespace SuppressNotifications
             noteComp.OnCopySettings(critter.gameObject);
             statComp.OnCopySettings(critter.gameObject);
         }
+
+        private static readonly EventSystem.IntraObjectHandler<CritterSuppressionButton> OnSpawnedFromDelegate =
+            new EventSystem.IntraObjectHandler<CritterSuppressionButton>(OnSpawnedFrom);
+
+        private static readonly EventSystem.IntraObjectHandler<CritterSuppressionButton> OnLayEggDelegate =
+            new EventSystem.IntraObjectHandler<CritterSuppressionButton>(OnLayEgg);
     }
 }

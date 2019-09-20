@@ -8,7 +8,10 @@ namespace SuppressNotifications
 {
     class CopyEntitySettingsTool : DragTool
     {
+        public static CopyEntitySettingsTool instance;
+
         private List<int> cells;
+        private GameObject sourceGameObject;
 
         protected override void OnPrefabInit()
         {
@@ -44,19 +47,9 @@ namespace SuppressNotifications
             hoverConfig.ToolName = hoverTemplate.ToolName;
         }
 
-        public void Activate()
-        {
-            PlayerController.Instance.ActivateTool(this);
-        }
-
-        public void SetSourceObject(GameObject sourceGameObject)
-        {
-            this.sourceGameObject = sourceGameObject;
-        }
-
         protected override void OnDragTool(int cell, int distFromOrigin)
         {
-            if (this.sourceGameObject == null)
+            if (sourceGameObject == null)
             {
                 return;
             }
@@ -113,6 +106,16 @@ namespace SuppressNotifications
             }
         }
 
+        public void SetSourceObject(GameObject go)
+        {
+            sourceGameObject = go;
+        }
+
+        public void Activate()
+        {
+            PlayerController.Instance.ActivateTool(this);
+        }
+
         protected override void OnActivateTool()
         {
             base.OnActivateTool();
@@ -122,11 +125,7 @@ namespace SuppressNotifications
         protected override void OnDeactivateTool(InterfaceTool new_tool)
         {
             base.OnDeactivateTool(new_tool);
-            this.sourceGameObject = null;
+            sourceGameObject = null;
         }
-
-        public static CopyEntitySettingsTool instance;
-
-        private GameObject sourceGameObject;
     }
 }
