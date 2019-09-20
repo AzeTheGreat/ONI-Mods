@@ -10,11 +10,6 @@ namespace SuppressNotifications
     {
         private List<int> cells;
 
-        public static void DestroyInstance()
-        {
-            instance = null;
-        }
-
         protected override void OnPrefabInit()
         {
             // Initialize
@@ -131,8 +126,6 @@ namespace SuppressNotifications
         }
 
         public static CopyEntitySettingsTool instance;
-
-        public GameObject Placer;
 
         private GameObject sourceGameObject;
     }

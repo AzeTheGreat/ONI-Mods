@@ -54,23 +54,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Crops\CropSuppressionButton.cs" />
-    <Compile Include="Buildings\BuildingSuppressionButton.cs" />
-    <Compile Include="CopyEntitySettingsTool\CopyEntitySettings.cs" />
-    <Compile Include="Critters\CritterSuppressionButton.cs" />
-    <Compile Include="SuppressionButton.cs" />
-    <Compile Include="CopyEntitySettingsTool\CopyEntitySettingsTool.cs" />
-    <Compile Include="ExtensionMethods.cs" />
-    <Compile Include="ModInfo.cs" />
-    <Compile Include="Notifications\NotificationsSuppressedComp.cs" />
-    <Compile Include="Critters\Patch_Amount_Copy.cs" />
-    <Compile Include="Buildings\Patch_BuildingConfigManager_OnPrefabInit.cs" />
-    <Compile Include="Critters\Patch_Capturable_OnPrefabInit.cs" />
-    <Compile Include="Crops\Patch_Crop_OnPrefabInit.cs" />
-    <Compile Include="Notifications\Patch_NotificationScreen_AddNotification.cs" />
-    <Compile Include="CopyEntitySettingsTool\Patch_PlayerController_OnPrefabInit.cs" />
-    <Compile Include="StatusItems\StatusItemsSuppressedComp.cs" />
-    <Compile Include="StatusItems\Patch_StatusItemGroup_AddStatusItem.cs" />
+    <Compile Include="UI\Crops\CropSuppressionButton.cs" />
+    <Compile Include="UI\Buildings\BuildingSuppressionButton.cs" />
+    <Compile Include="UI\CopyEntitySettingsTool\CopyEntitySettings.cs" />
+    <Compile Include="UI\Critters\CritterSuppressionButton.cs" />
+    <Compile Include="UI\SuppressionButton.cs" />
+    <Compile Include="UI\CopyEntitySettingsTool\CopyEntitySettingsTool.cs" />
+    <Compile Include="Util\ExtensionMethods.cs" />
+    <Compile Include="Util\ModInfo.cs" />
+    <Compile Include="Suppression\Notifications\NotificationsSuppressedComp.cs" />
+    <Compile Include="UI\Critters\Patch_Amount_Copy.cs" />
+    <Compile Include="UI\Buildings\Patch_BuildingConfigManager_OnPrefabInit.cs" />
+    <Compile Include="UI\Critters\Patch_Capturable_OnPrefabInit.cs" />
+    <Compile Include="UI\Crops\Patch_Crop_OnPrefabInit.cs" />
+    <Compile Include="Suppression\Notifications\Patch_NotificationScreen_AddNotification.cs" />
+    <Compile Include="UI\CopyEntitySettingsTool\Patch_PlayerController_OnPrefabInit.cs" />
+    <Compile Include="Suppression\StatusItems\StatusItemsSuppressedComp.cs" />
+    <Compile Include="Suppression\StatusItems\Patch_StatusItemGroup_AddStatusItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
