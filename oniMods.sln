@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuppressNotifications", "Su
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ALib", "ALib\ALib.csproj", "{A0C24F8C-4B7E-457E-BC57-2E9D64A428D3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterDeselect", "BetterDeselect\BetterDeselect.csproj", "{CDF0B160-A394-46E0-A49E-DE2F9CF9898C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{A0C24F8C-4B7E-457E-BC57-2E9D64A428D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0C24F8C-4B7E-457E-BC57-2E9D64A428D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0C24F8C-4B7E-457E-BC57-2E9D64A428D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDF0B160-A394-46E0-A49E-DE2F9CF9898C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDF0B160-A394-46E0-A49E-DE2F9CF9898C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDF0B160-A394-46E0-A49E-DE2F9CF9898C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDF0B160-A394-46E0-A49E-DE2F9CF9898C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
