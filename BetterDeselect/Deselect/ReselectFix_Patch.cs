@@ -8,6 +8,13 @@ namespace BetterDeselect.Deselect
     [HarmonyPatch(typeof(PlanScreen), nameof(PlanScreen.OnSelectBuilding))]
     public class ReselectFix_patch
     {
+        private static InterfaceTool lastTool;
+
+        static void Prefix()
+        {
+            lastTool = PlayerController.Instance.ActiveTool;
+        }
+
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             MethodInfo targetMethodInfo = AccessTools.Method(typeof(PlanScreen), "CloseRecipe");
@@ -23,8 +30,10 @@ namespace BetterDeselect.Deselect
 
         public static void Helper()
         {
-            if (Options.options.ImplementReselectFix)
-                PlayerController.Instance.ActivateTool(SelectTool.Instance);
+            PlayerController.Instance.ActivateTool(SelectTool.Instance);
+
+            if (Options.options.Mode == Options.FixMode.Hold)
+                PlayerController.Instance.ActivateTool(lastTool);
         }
     }
 }

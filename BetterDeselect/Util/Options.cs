@@ -16,15 +16,23 @@ namespace BetterDeselect
         [JsonProperty]
         public bool ImplementBuildMenu { get; set; }
 
-        [Option("Reselect Fix", "Fixes a vanilla issue that can cause the UI to get into a weird state.")]
+        [Option("Selection Mode", "When reselecting a held tool, or opening a category, choose what to do with the selected tool.")]
         [JsonProperty]
-        public bool ImplementReselectFix { get; set; }
+        public FixMode Mode { get; set; }
+
+        public enum FixMode
+        {
+            [Option("Hold Selected", "Continue holding the same tool.")]
+            Hold,
+            [Option("Deselect Selected", "Deselect the tool.  Closest to vanilla behavior.")]
+            Close
+        }
 
         public Options()
         {
             ImplementOverlay = true;
             ImplementBuildMenu = true;
-            ImplementReselectFix = true;
+            Mode = FixMode.Hold;
         }
 
         public static void ReadSettings()
