@@ -1,6 +1,6 @@
 # Aze's mods for Oxygen Not Included
 
-<p align="center">[Steam Workshop](https://steamcommunity.com/profiles/76561198044590606/myworkshopfiles/?appid=457140)</p>
+[Steam Workshop](https://steamcommunity.com/profiles/76561198044590606/myworkshopfiles/?appid=457140)
 
 
 |**Name**|**Description**|
