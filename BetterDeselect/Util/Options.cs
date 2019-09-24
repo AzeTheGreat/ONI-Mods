@@ -12,7 +12,7 @@ namespace BetterDeselect
         [JsonProperty]
         public bool ImplementOverlay { get; set; }
 
-        [Option("Separate Build Menu", "Requires a separate right click to close the build menu.")]
+        [Option("Separate Build Menu", "Requires a separate right click to close the build menu. Requires Restart.")]
         [JsonProperty]
         public bool ImplementBuildMenu { get; set; }
 
