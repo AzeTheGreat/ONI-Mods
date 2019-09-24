@@ -71,13 +71,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Options.cs" />
-    <Compile Include="Patch_InterfaceTool_DeactivateTool.cs" />
+    <Compile Include="Deselect\DeselectBuildMenu_Patch.cs" />
+    <Compile Include="Deselect\HeldCategoryFix_Patch.cs" />
+    <Compile Include="Deselect\ReselectFix_Patch.cs" />
+    <Compile Include="Util\Options.cs" />
+    <Compile Include="Deselect\DeselectOverlay_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ILMerge.props" />
-    <None Include="packages.config" />
+    <None Include="Util\packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ILMergeOrder.txt" />

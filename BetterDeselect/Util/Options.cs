@@ -12,9 +12,9 @@ namespace BetterDeselect
         [JsonProperty]
         public bool ImplementOverlay { get; set; }
 
-        [Option("Separate Cursor", "Requires a separate right click to close the cursor item.")]
+        [Option("Separate Build Menu", "Requires a separate right click to close the build menu.")]
         [JsonProperty]
-        public bool ImplementCursor { get; set; }
+        public bool ImplementBuildMenu { get; set; }
 
         [Option("Reselect Fix", "Fixes a vanilla issue that can cause the UI to get into a weird state.")]
         [JsonProperty]
@@ -23,11 +23,11 @@ namespace BetterDeselect
         public Options()
         {
             ImplementOverlay = true;
-            ImplementCursor = true;
+            ImplementBuildMenu = true;
             ImplementReselectFix = true;
         }
 
-        public static void Initialize()
+        public static void ReadSettings()
         {
             options = POptions.ReadSettings<Options>() ?? new Options();
         }
@@ -46,7 +46,7 @@ namespace BetterDeselect
         {
             internal static void Prefix()
             {
-                Initialize();
+                ReadSettings();
             }
         }
     }
