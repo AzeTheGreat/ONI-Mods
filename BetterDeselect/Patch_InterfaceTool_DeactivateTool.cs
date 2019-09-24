@@ -10,7 +10,8 @@ namespace BetterDeselect
     {
         static void Prefix(ref HashedString ___toolActivatedViewMode)
         {
-            ___toolActivatedViewMode = OverlayModes.None.ID;
+            if(Options.options.ImplementOverlay)
+                ___toolActivatedViewMode = OverlayModes.None.ID;
         }
     }
 
@@ -40,7 +41,8 @@ namespace BetterDeselect
     {
         static void Postfix()
         {
-            PlayerController.Instance.ActivateTool(SelectTool.Instance);
+            if(Options.options.ImplementReselectFix)
+                PlayerController.Instance.ActivateTool(SelectTool.Instance);
         }
     }
 

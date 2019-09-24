@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using PeterHan.PLib;
+﻿using Harmony;
 using Newtonsoft.Json;
+using PeterHan.PLib;
 using PeterHan.PLib.Options;
-using Harmony;
 
 namespace BetterDeselect
 {
@@ -31,7 +27,7 @@ namespace BetterDeselect
             ImplementReselectFix = true;
         }
 
-        private static Options options;
+        public static Options options;
 
         public static void OnLoad()
         {
