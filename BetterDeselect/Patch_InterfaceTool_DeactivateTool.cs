@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using UnityEngine;
 
 namespace BetterDeselect
 {
@@ -32,6 +33,37 @@ namespace BetterDeselect
                 else
                     yield return i;
             }
+        }
+    }
+
+    [HarmonyPatch(typeof(PlanScreen), "OnClickCategory")]
+    public class Patch_PlanScreen_OnClickCategory
+    {
+        static void Postfix()
+        {
+            PlayerController.Instance.ActivateTool(SelectTool.Instance);
+        }
+    }
+
+    [HarmonyPatch(typeof(PlanScreen), nameof(PlanScreen.OnSelectBuilding))]
+    public class Patch_PlanScreen_OnSelectBuilding
+    {
+        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            MethodInfo targetMethodInfo = AccessTools.Method(typeof(PlanScreen), "CloseRecipe");
+
+            foreach (CodeInstruction i in instructions)
+            {
+                yield return i;
+
+                if (i.opcode == OpCodes.Call && i.operand == targetMethodInfo)
+                    yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Patch_PlanScreen_OnSelectBuilding), "Helper"));
+            }
+        }
+
+        public static void Helper()
+        {
+            PlayerController.Instance.ActivateTool(SelectTool.Instance);
         }
     }
 }
