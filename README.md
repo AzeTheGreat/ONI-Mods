@@ -1,6 +1,6 @@
-<p align="center"># Aze's mods for Oxygen Not Included</p>
+# Aze's mods for Oxygen Not Included</p>
 
-<p align="center"><a href="https://steamcommunity.com/profiles/76561198044590606/myworkshopfiles/?appid=457140">Steam Workshop</a></p>
+[Steam Workshop](https://steamcommunity.com/profiles/76561198044590606/myworkshopfiles/?appid=457140)
 
 
 |**Name**|**Description**|
