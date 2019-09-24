@@ -27,6 +27,11 @@ namespace BetterDeselect
             ImplementReselectFix = true;
         }
 
+        public static void Initialize()
+        {
+            options = POptions.ReadSettings<Options>() ?? new Options();
+        }
+
         public static Options options;
 
         public static void OnLoad()
@@ -41,7 +46,7 @@ namespace BetterDeselect
         {
             internal static void Prefix()
             {
-                options = POptions.ReadSettings<Options>() ?? new Options();
+                Initialize();
             }
         }
     }

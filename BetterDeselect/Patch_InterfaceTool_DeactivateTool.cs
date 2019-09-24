@@ -10,7 +10,8 @@ namespace BetterDeselect
     {
         static void Prefix(ref HashedString ___toolActivatedViewMode)
         {
-            if(Options.options.ImplementOverlay)
+            Debug.Log("HEEEEERE: " + Options.options.ImplementOverlay);
+            if (Options.options.ImplementOverlay)
                 ___toolActivatedViewMode = OverlayModes.None.ID;
         }
     }
@@ -20,11 +21,13 @@ namespace BetterDeselect
     {
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
+            Options.Initialize();
+
             MethodInfo targetMethodInfo = AccessTools.Method(typeof(PlanScreen), "CloseCategoryPanel");
 
             foreach (CodeInstruction i in instructions)
             {
-                if (i.opcode == OpCodes.Call && i.operand == targetMethodInfo)
+                if (i.opcode == OpCodes.Call && i.operand == targetMethodInfo && Options.options.ImplementCursor)
                 {
                     yield return new CodeInstruction(OpCodes.Pop);
                     yield return new CodeInstruction(OpCodes.Pop);
@@ -57,14 +60,15 @@ namespace BetterDeselect
             {
                 yield return i;
 
-                if (i.opcode == OpCodes.Call && i.operand == targetMethodInfo)
+                if (i.opcode == OpCodes.Call && i.operand == targetMethodInfo && Options.options.ImplementReselectFix)
                     yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Patch_PlanScreen_OnSelectBuilding), "Helper"));
             }
         }
 
         public static void Helper()
         {
-            PlayerController.Instance.ActivateTool(SelectTool.Instance);
+            if(Options.options.ImplementReselectFix)
+                PlayerController.Instance.ActivateTool(SelectTool.Instance);
         }
     }
 }
