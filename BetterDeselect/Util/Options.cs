@@ -22,9 +22,9 @@ namespace BetterDeselect
 
         public enum FixMode
         {
-            [Option("Hold Selected", "Continue holding the same tool.")]
+            [Option("Hold Selected", "Continue holding the same tool. Reqiores Restart.")]
             Hold,
-            [Option("Deselect Selected", "Deselect the tool.  Closest to vanilla behavior.")]
+            [Option("Deselect Selected", "Deselect the tool.  Closest to vanilla behavior. Requires Restart.")]
             Close
         }
 
