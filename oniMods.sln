@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ALib", "ALib\ALib.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterDeselect", "BetterDeselect\BetterDeselect.csproj", "{CDF0B160-A394-46E0-A49E-DE2F9CF9898C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FewerPopups", "FewerPopups\FewerPopups.csproj", "{47D6292D-FB31-44B0-B678-6B5275DAC00F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{CDF0B160-A394-46E0-A49E-DE2F9CF9898C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDF0B160-A394-46E0-A49E-DE2F9CF9898C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDF0B160-A394-46E0-A49E-DE2F9CF9898C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47D6292D-FB31-44B0-B678-6B5275DAC00F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47D6292D-FB31-44B0-B678-6B5275DAC00F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47D6292D-FB31-44B0-B678-6B5275DAC00F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47D6292D-FB31-44B0-B678-6B5275DAC00F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

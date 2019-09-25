@@ -71,6 +71,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Deselect\BaseUtilityBuildToolFix_Patch.cs" />
     <Compile Include="Deselect\DeselectBuildMenu_Patch.cs" />
     <Compile Include="Deselect\CategoryFix_Patch.cs" />
     <Compile Include="Deselect\ReselectFix_Patch.cs" />
