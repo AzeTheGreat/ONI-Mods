@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterDeselect", "BetterDes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoResearchAlerts", "NoResearchAlerts\NoResearchAlerts.csproj", "{62F8C76D-E739-42DA-BE38-C0DE690CA280}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RebalancedTiles", "RebalancedTiles\RebalancedTiles.csproj", "{0F04D8D7-55EA-4414-AFC5-16D38338893E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{62F8C76D-E739-42DA-BE38-C0DE690CA280}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62F8C76D-E739-42DA-BE38-C0DE690CA280}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62F8C76D-E739-42DA-BE38-C0DE690CA280}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F04D8D7-55EA-4414-AFC5-16D38338893E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F04D8D7-55EA-4414-AFC5-16D38338893E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F04D8D7-55EA-4414-AFC5-16D38338893E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F04D8D7-55EA-4414-AFC5-16D38338893E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
