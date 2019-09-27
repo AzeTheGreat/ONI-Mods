@@ -11,6 +11,9 @@ namespace RebalancedTiles
         {
             __result.BaseDecor = BUILDINGS.DECOR.BONUS.TIER2.amount;
             __result.BaseDecorRadius = BUILDINGS.DECOR.BONUS.TIER2.radius;
+            __result.Overheatable = true;
+            __result.OverheatTemperature = BUILDINGS.OVERHEAT_TEMPERATURES.LOW_2;
+
         }
     }
 
