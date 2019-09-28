@@ -13,6 +13,7 @@ namespace RebalancedTiles
             __result.BaseDecorRadius = TUNING.BUILDINGS.DECOR.BONUS.TIER2.radius;
             __result.Overheatable = true;
             __result.OverheatTemperature = TUNING.BUILDINGS.OVERHEAT_TEMPERATURES.LOW_2;
+            __result.Mass[1] = 1;
         }
     }
 
