@@ -9,11 +9,10 @@ namespace RebalancedTiles
     {
         static void Postfix(BuildingDef __result)
         {
-            __result.BaseDecor = BUILDINGS.DECOR.BONUS.TIER2.amount;
-            __result.BaseDecorRadius = BUILDINGS.DECOR.BONUS.TIER2.radius;
+            __result.BaseDecor = TUNING.BUILDINGS.DECOR.BONUS.TIER2.amount;
+            __result.BaseDecorRadius = TUNING.BUILDINGS.DECOR.BONUS.TIER2.radius;
             __result.Overheatable = true;
-            __result.OverheatTemperature = BUILDINGS.OVERHEAT_TEMPERATURES.LOW_2;
-
+            __result.OverheatTemperature = TUNING.BUILDINGS.OVERHEAT_TEMPERATURES.LOW_2;
         }
     }
 
@@ -26,4 +25,27 @@ namespace RebalancedTiles
             simCellOccupier.movementSpeedMultiplier = DUPLICANTSTATS.MOVEMENT.PENALTY_1;
         }
     }
+
+    [HarmonyPatch(typeof(OccupyArea), nameof(OccupyArea.GetExtents), new[] { typeof(Orientation) })]
+    public class Test
+    {
+        static void Postfix(OccupyArea __instance, ref Extents __result)
+        {
+            if (__instance.name == "CarpetTileComplete")
+            {
+                if (Grid.IsSolidCell(Grid.CellAbove(Grid.PosToCell(__instance.gameObject))))
+                {
+                    //Why is that not needed?  Idk...
+                    //__result.y += 3;
+                    __result.x += 3;
+                    __result.height = -4;
+                    __result.width = -5;
+                }
+
+                __result.y += 3;
+                __result.height = -4;
+            }
+        }
+    }
 }
+
