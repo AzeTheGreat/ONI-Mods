@@ -35,10 +35,7 @@ namespace RebalancedTiles
             {
                 if (Grid.IsSolidCell(Grid.CellAbove(Grid.PosToCell(__instance.gameObject))))
                 {
-                    //Why is that not needed?  Idk...
-                    //__result.y += 3;
                     __result.x += 3;
-                    __result.height = -4;
                     __result.width = -5;
                 }
 
