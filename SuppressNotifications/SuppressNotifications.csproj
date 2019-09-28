@@ -49,6 +49,7 @@
     </Reference>
     <Reference Include="PLib">
       <HintPath>..\packages\PLib.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -83,12 +84,6 @@
     <Compile Include="Suppression\StatusItems\StatusItemsSuppressedComp.cs" />
     <Compile Include="Suppression\StatusItems\Patch_StatusItemGroup_AddStatusItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ALib\ALib.csproj">
-      <Project>{a0c24f8c-4b7e-457e-bc57-2e9d64a428d3}</Project>
-      <Name>ALib</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="ILMerge.props" />
