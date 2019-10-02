@@ -44,6 +44,6 @@ namespace RebalancedTiles
                 __result.height = -4;
             }
         }
-    }
+    }   
 }
 
