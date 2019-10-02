@@ -73,7 +73,6 @@
     <Compile Include="UI\Critters\CritterSuppressionButton.cs" />
     <Compile Include="UI\SuppressionButton.cs" />
     <Compile Include="UI\CopyEntitySettingsTool\CopyEntitySettingsTool.cs" />
-    <Compile Include="Util\ModInfo.cs" />
     <Compile Include="Suppression\Notifications\NotificationsSuppressedComp.cs" />
     <Compile Include="UI\Critters\Patch_Amount_Copy.cs" />
     <Compile Include="UI\Buildings\Patch_BuildingConfigManager_OnPrefabInit.cs" />
@@ -84,6 +83,7 @@
     <Compile Include="Suppression\StatusItems\StatusItemsSuppressedComp.cs" />
     <Compile Include="Suppression\StatusItems\Patch_StatusItemGroup_AddStatusItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\Options.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ILMerge.props" />

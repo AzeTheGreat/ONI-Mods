@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ILMerge.props" />
+    <None Include="packages.config" />
     <None Include="Util\packages.config" />
   </ItemGroup>
   <ItemGroup>
