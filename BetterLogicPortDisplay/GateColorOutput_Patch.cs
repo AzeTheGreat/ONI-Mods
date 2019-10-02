@@ -83,9 +83,12 @@ namespace BetterLogicPortDisplay
         {
             foreach (var sender in networkForCell.Senders)
             {
-                if (sender.GetLogicCell() == (int)cell && sender.GetLogicValue() <= 0)
+                if (sender.GetLogicCell() == (int)cell)
                 {
-                    return false;
+                    if(sender.GetLogicValue() <= 0)
+                        return false;
+
+                    return true;
                 }
             }
 
