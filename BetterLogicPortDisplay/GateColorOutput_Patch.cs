@@ -46,11 +46,12 @@ namespace BetterLogicPortDisplay
                     yield return new CodeInstruction(OpCodes.Brfalse, jump);
 
                     // Call Helper()
-                    yield return new CodeInstruction(OpCodes.Ldloca_S, (byte)4);
-                    //yield return new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(
-                    //    AccessTools.TypeByName("OverlayModes+Logic+UIInfo"),
-                    //    "cell"));
-                    //yield return new CodeInstruction(OpCodes.Ldloc_S, 6);
+                    yield return new CodeInstruction(OpCodes.Ldloc_S, (byte)4);
+                    yield return new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(
+                        AccessTools.TypeByName("OverlayModes+Logic+UIInfo"),
+                        "cell"));
+                    yield return new CodeInstruction(OpCodes.Box, typeof(int));
+                    yield return new CodeInstruction(OpCodes.Ldloc_S, 6);
                     yield return new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(
                         typeof(GateOutputColor_Patch),
                         nameof(GateOutputColor_Patch.Helper)));
@@ -78,22 +79,17 @@ namespace BetterLogicPortDisplay
             }
         }
 
-        public static bool Helper(object cell)
+        public static bool Helper(object cell, LogicCircuitNetwork networkForCell)
         {
-            Debug.Log("ENTER");
-            //Debug.Log(networkForCell.Senders.Count);
-            //foreach (var sender in networkForCell.Senders)
-            //{
-            //    Debug.Log("Yeah!");
-            //    if(sender.GetLogicCell() == cell && sender.GetLogicValue() <= 0)
-            //    {
-            //        Debug.Log("Out");
-            //        return false;
-            //    }
-            //}
+            foreach (var sender in networkForCell.Senders)
+            {
+                if (sender.GetLogicCell() == (int)cell && sender.GetLogicValue() <= 0)
+                {
+                    return false;
+                }
+            }
 
-            //Debug.Log("Out2");
-            return false;
+            return true;
         }
 
         public static void OnLoad()
