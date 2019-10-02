@@ -5,10 +5,10 @@ using System.Reflection.Emit;
 using UnityEngine;
 
 
-namespace ONIFixedCameraPan
+namespace FixedCameraPan
 {
     [HarmonyPatch(typeof(CameraController), "NormalCamUpdate")]
-    public static class Patch_CameraController_NormalCamUpdate
+    public static class ConstantSpeed_Patch
     {
         private static float spikeThreshold = 0.01f;
 
@@ -27,7 +27,7 @@ namespace ONIFixedCameraPan
                     yield return i;
                     yield return new CodeInstruction(OpCodes.Ldloc_0);
                     yield return new CodeInstruction(OpCodes.Call,
-                        AccessTools.Method(typeof(Patch_CameraController_NormalCamUpdate), nameof(Patch_CameraController_NormalCamUpdate.GetScalar)));
+                        AccessTools.Method(typeof(ConstantSpeed_Patch), nameof(ConstantSpeed_Patch.GetScalar)));
                     yield return new CodeInstruction(OpCodes.Mul);
                 }
 
