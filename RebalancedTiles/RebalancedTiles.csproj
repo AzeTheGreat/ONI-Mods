@@ -76,11 +76,12 @@
     <Compile Include="Carpet Tile\CarpetTile_Patch.cs" />
     <Compile Include="Metal Tile\MetalTile_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\Options.cs" />
     <Compile Include="Window Tile\WindowTile_Patch.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ILMerge.props" />
-    <None Include="packages.config" />
+    <None Include="Util\packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ILMergeOrder.txt" />
