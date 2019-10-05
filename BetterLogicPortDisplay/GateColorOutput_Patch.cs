@@ -53,6 +53,10 @@ namespace BetterLogicPortDisplay
 
         public static bool Helper(int cell, LogicCircuitNetwork networkForCell)
         {
+            // If there's only 1 sender on the network then it's impossible for another to be overwriting it
+            if (networkForCell.Senders.Count <= 1)
+                return true;
+
             foreach (var sender in networkForCell.Senders)
             {
                 if (sender.GetLogicCell() == cell)
