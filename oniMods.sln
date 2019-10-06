@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RebalancedTiles", "Rebalanc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterLogicPortDisplay", "BetterLogicPortDisplay\BetterLogicPortDisplay.csproj", "{3C27ACC1-7974-4AC5-9609-4AA906A42A09}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoNotificationSounds", "NoNotificationSounds\NoNotificationSounds.csproj", "{05ED00DD-6872-4702-BD5C-46C682A6813F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{3C27ACC1-7974-4AC5-9609-4AA906A42A09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C27ACC1-7974-4AC5-9609-4AA906A42A09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C27ACC1-7974-4AC5-9609-4AA906A42A09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05ED00DD-6872-4702-BD5C-46C682A6813F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05ED00DD-6872-4702-BD5C-46C682A6813F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05ED00DD-6872-4702-BD5C-46C682A6813F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05ED00DD-6872-4702-BD5C-46C682A6813F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
