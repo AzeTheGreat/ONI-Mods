@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Harmony;
+﻿using Harmony;
 using UnityEngine;
 
 namespace RebalancedTiles.Mesh_Airflow_Tiles
@@ -17,27 +13,16 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
 
             for (int i = 0; i < Grid.WidthInCells; i++)
             {
-                CalculateUpdateRange(i);
                 CalculateSunMod(i);
             }
         }
 
-        public static bool IsInUpdateRange(Transform transform)
-        {
-            return true;
-        }
-
         public static void Update(GameObject go)
         {
-            if (go.HasTag(GameTags.FloorTiles))
+            if (go.name == "MeshTileComplete" || go.name == "GasPermeableMembraneComplete")
             {
                 CalculateSunMod((int)go.transform.position.x);
             }
-        }
-
-        private static void CalculateUpdateRange(int column)
-        {
-
         }
 
         private static void CalculateSunMod(int column)
@@ -50,13 +35,12 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
                 GameObject go = Grid.Objects[cell, (int)ObjectLayer.FoundationTile];
                 sunlightModifiers[cell] = currentMod;
 
-                if(go?.name == "MeshTileComplete")
+                if(go?.name == "MeshTileComplete" || go?.name == "GasPermeableMembraneComplete")
                 {
                     if (currentMod + 64 > 255)
                         currentMod = 255;
                     else
                         currentMod += 64;
-                    
                 }
             }
         }
