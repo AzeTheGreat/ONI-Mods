@@ -14,7 +14,7 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
 
             for (int i = 0; i < Grid.WidthInCells; i++)
             {
-                CalculateSunMod(i);
+                CalculateSunMod(i, Grid.HeightInCells-1);
             }
         }
 
@@ -26,15 +26,15 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
             Debug.Log(go.name);
             if (go.name == "MeshTileComplete" || go.name == "GasPermeableMembraneComplete")
             {
-                CalculateSunMod((int)go.transform.position.x);
+                CalculateSunMod((int)go.transform.position.x, (int)go.transform.position.y);
             }
         }
 
-        private static void CalculateSunMod(int column)
+        private static void CalculateSunMod(int column, int row)
         {
-            byte currentMod = 0;
+            byte currentMod = sunlightModifiers[Grid.XYToCell(column, row)];
 
-            for (int y = Grid.HeightInCells-1; y >= 0; y--)
+            for (int y = row; y >= 0; y--)
             {
                 int cell = Grid.XYToCell(column, y);
                 GameObject go = Grid.Objects[cell, (int)ObjectLayer.FoundationTile];
