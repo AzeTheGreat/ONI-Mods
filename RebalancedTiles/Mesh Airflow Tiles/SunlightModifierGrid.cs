@@ -23,7 +23,6 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
             if (!isInit)
                 return;
 
-            Debug.Log(go.name);
             if (go.name == "MeshTileComplete" || go.name == "GasPermeableMembraneComplete")
             {
                 CalculateSunMod((int)go.transform.position.x, (int)go.transform.position.y);
