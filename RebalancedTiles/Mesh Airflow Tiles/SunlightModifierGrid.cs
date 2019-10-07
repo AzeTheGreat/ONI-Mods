@@ -5,11 +5,12 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
 {
     static class SunlightModifierGrid
     {
-        public static byte[] sunlightModifiers;
+        public static byte[] sunlightModifiers = new byte[Grid.WidthInCells * Grid.HeightInCells];
+        private static bool isInit = false;
 
         public static void Initialize()
         {
-            sunlightModifiers = new byte[Grid.WidthInCells * Grid.HeightInCells];
+            isInit = true;
 
             for (int i = 0; i < Grid.WidthInCells; i++)
             {
@@ -19,6 +20,10 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
 
         public static void Update(GameObject go)
         {
+            if (!isInit)
+                return;
+
+            Debug.Log(go.name);
             if (go.name == "MeshTileComplete" || go.name == "GasPermeableMembraneComplete")
             {
                 CalculateSunMod((int)go.transform.position.x);
@@ -46,7 +51,7 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
         }
     }
 
-    [HarmonyPatch(typeof(Game), "OnSpawn")]
+    [HarmonyPatch(typeof(CameraController), "OnSpawn")]
     class SunlightModifierGridInit_Patch
     {
         static void Postfix()
