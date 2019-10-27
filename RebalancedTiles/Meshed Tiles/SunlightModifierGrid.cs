@@ -1,4 +1,5 @@
 ﻿using Harmony;
+using System;
 using UnityEngine;
 
 namespace RebalancedTiles.Mesh_Airflow_Tiles
@@ -7,10 +8,12 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
     {
         public static byte[] sunlightModifiers = new byte[Grid.WidthInCells * Grid.HeightInCells];
         private static bool isInit = false;
+        private static byte sunlightReductionFactor;
 
         public static void Initialize()
         {
             isInit = true;
+            sunlightReductionFactor = Convert.ToByte(Options.Opts.MeshedTilesSunlightReduction * byte.MaxValue/100f);
 
             for (int i = 0; i < Grid.WidthInCells; i++)
             {
@@ -41,10 +44,10 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
 
                 if(go?.name == "MeshTileComplete" || go?.name == "GasPermeableMembraneComplete")
                 {
-                    if (currentMod + 64 > 255)
-                        currentMod = 255;
+                    if (currentMod + sunlightReductionFactor > byte.MaxValue)
+                        currentMod = byte.MaxValue;
                     else
-                        currentMod += 64;
+                        currentMod += sunlightReductionFactor;
                 }
             }
         }
@@ -53,6 +56,11 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
     [HarmonyPatch(typeof(CameraController), "OnSpawn")]
     class SunlightModifierGridInit_Patch
     {
+        static bool Prepare()
+        {
+            return Options.Opts.DoMeshedTilesReduceSunlight;
+        }
+
         static void Postfix()
         {
             SunlightModifierGrid.Initialize();
@@ -62,6 +70,11 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
     [HarmonyPatch(typeof(BuildingComplete), "OnSpawn")]
     class SpawnTracker_Patch
     {
+        static bool Prepare()
+        {
+            return Options.Opts.DoMeshedTilesReduceSunlight;
+        }
+
         static void Postfix(BuildingComplete __instance)
         {
             SunlightModifierGrid.Update(__instance.gameObject);
@@ -71,6 +84,11 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
     [HarmonyPatch(typeof(Deconstructable), "OnCompleteWork")]
     class RemovalTracker_Patch
     {
+        static bool Prepare()
+        {
+            return Options.Opts.DoMeshedTilesReduceSunlight;
+        }
+
         static void Postfix(Deconstructable __instance)
         {
             SunlightModifierGrid.Update(__instance.gameObject);

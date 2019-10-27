@@ -30,6 +30,11 @@ namespace RebalancedTiles
     [HarmonyPatch(typeof(OccupyArea), nameof(OccupyArea.GetExtents), new[] { typeof(Orientation) })]
     public class Test
     {
+        static bool Prepare()
+        {
+            return Options.Opts.IsCarpetNotWall;
+        }
+
         static void Postfix(OccupyArea __instance, ref Extents __result)
         {
             if (__instance.name == "CarpetTileComplete")

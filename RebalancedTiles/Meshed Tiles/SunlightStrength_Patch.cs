@@ -6,6 +6,11 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
     [HarmonyPatch(typeof(Grid.LightIntensityIndexer), "get_Item")]
     class SunlightStrength_Patch
     {
+        static bool Prepare()
+        {
+            return Options.Opts.DoMeshedTilesReduceSunlight;
+        }
+
         static unsafe bool Prefix(int i, ref int __result)
         {
             int adjustedExposure = Math.Max(0, Grid.exposedToSunlight[i] - SunlightModifierGrid.sunlightModifiers[i]);
