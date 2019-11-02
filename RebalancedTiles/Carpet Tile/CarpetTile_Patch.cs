@@ -24,6 +24,16 @@ namespace RebalancedTiles
         {
             SimCellOccupier simCellOccupier = go.GetComponent<SimCellOccupier>();
             simCellOccupier.movementSpeedMultiplier = DUPLICANTSTATS.MOVEMENT.PENALTY_1;
+            simCellOccupier.strengthMultiplier = 0.1f;
+        }
+    }
+
+    [HarmonyPatch(typeof(CarpetTileConfig), nameof(CarpetTileConfig.DoPostConfigureComplete))]
+    public class CarpetTileCombust
+    {
+        static void Postfix(GameObject go)
+        {
+            go.GetComponent<KPrefabID>().prefabInitFn += gameObject => new Combustible.Instance(gameObject.GetComponent<KPrefabID>()).StartSM();
         }
     }
 
@@ -49,6 +59,6 @@ namespace RebalancedTiles
                 __result.height = -4;
             }
         }
-    }   
+    }
 }
 

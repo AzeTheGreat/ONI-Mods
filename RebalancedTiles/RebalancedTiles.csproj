@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="Bunker Tile\BunkerTile_Patch.cs" />
     <Compile Include="Carpet Tile\CarpetTile_Patch.cs" />
+    <Compile Include="Carpet Tile\Combustible.cs" />
     <Compile Include="Meshed Tiles\SunlightModifierGrid.cs" />
     <Compile Include="Meshed Tiles\SunlightStrength_Patch.cs" />
     <Compile Include="Metal Tile\MetalTile_Patch.cs" />
