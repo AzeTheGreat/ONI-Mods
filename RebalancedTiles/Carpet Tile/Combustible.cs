@@ -57,19 +57,23 @@ namespace RebalancedTiles
                 if (gameObject.GetComponent<BuildingHP>().IsBroken)
                 {
                     var comp = gameObject.AddComponent<DestroyToTile>();
+                    int cell = Grid.PosToCell(gameObject);
+
                     comp.def = Assets.GetBuildingDef(TileConfig.ID);
-                    comp.cell = Grid.PosToCell(gameObject);
+                    comp.cell = cell;
                     comp.orientation = Orientation.Neutral;
                     comp.resource_storage = null;
                     comp.selected_elements = new List<Tag> { Grid.Element[Grid.PosToCell(gameObject)].tag };
                     comp.temp = Grid.Temperature[Grid.PosToCell(gameObject)];
-                    comp.playSound = false; 
+                    comp.playSound = false;
+                    comp.diseaseID = Grid.DiseaseIdx[cell];
+                    comp.diseaseCount = Grid.DiseaseCount[cell];
                 }
             }
         }
     }
 
-    public class DestroyToTile : KMonoBehaviour
+    public unsafe class DestroyToTile : KMonoBehaviour
     {
         public BuildingDef def;
         public int cell;
@@ -79,10 +83,15 @@ namespace RebalancedTiles
         public float temp;
         public bool playSound = true;
         public float timeBuilt = -1;
+        public byte diseaseID;
+        public int diseaseCount;
 
         new void OnDestroy()
         {
             def.Build(cell, orientation, resource_storage, selected_elements, temp, playSound, timeBuilt);
+
+            Grid.diseaseIdx[cell] = diseaseID;
+            Grid.diseaseCount[cell] = diseaseCount;
         }
     }
 }
