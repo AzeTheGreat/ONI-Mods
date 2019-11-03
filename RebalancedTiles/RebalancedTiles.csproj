@@ -75,10 +75,15 @@
   <ItemGroup>
     <Compile Include="Carpet Tile\CarpetTile_Patch.cs" />
     <Compile Include="Carpet Tile\Combustible.cs" />
-    <Compile Include="GenericGeneration.cs">
+    <Compile Include="GenericTileOptions.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GenericGeneration.tt</DependentUpon>
+      <DependentUpon>GenericTileOptions.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GenericTilePatches.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GenericTilePatches.tt</DependentUpon>
     </Compile>
     <Compile Include="Util\GenericPatch.cs" />
     <Compile Include="Meshed Tiles\SunlightModifierGrid.cs" />
@@ -91,9 +96,13 @@
     <None Include="Util\packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="GenericGeneration.tt">
+    <Content Include="GenericTileOptions.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>GenericGeneration.cs</LastGenOutput>
+      <LastGenOutput>GenericTileOptions.cs</LastGenOutput>
+    </Content>
+    <Content Include="GenericTilePatches.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GenericTilePatches.cs</LastGenOutput>
     </Content>
     <Content Include="ILMergeOrder.txt" />
   </ItemGroup>

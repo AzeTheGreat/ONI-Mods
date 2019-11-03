@@ -6,7 +6,7 @@ using TUNING;
 namespace RebalancedTiles
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class Options
+    public partial class Options
     {
         public class GenericOptions
         {
@@ -21,16 +21,6 @@ namespace RebalancedTiles
             [JsonProperty]
             public float StrengthMultiplier { get; set; }
         }
-
-        [JsonProperty]
-        public GenericOptions Tile;
-        [Option("Tile: Tweaked", "When true, normal tile uses custom values set in the config.")]
-        public bool _IsTileTweaked { get { return Tile.IsTweaked; } set { Tile.IsTweaked = value; } }
-
-        [JsonProperty]
-        public GenericOptions BunkerTile;
-        [Option("Bunker: Tweaked", "When true, bunker tile uses custom values set in the config.")]
-        public bool _IsBunkerTweaked { get { return BunkerTile.IsTweaked; } set { BunkerTile.IsTweaked = value; } }
 
         [JsonProperty]
         public CarpetTileOptions CarpetTile;
@@ -52,26 +42,6 @@ namespace RebalancedTiles
         [Option("Carpet: Combusts", "When true, carpet tiles will burn into normal tiles at high temperatures.")]
         public bool _IsCarpetCombustible { get { return CarpetTile.IsCombustible; } set { CarpetTile.IsCombustible = value; } }
 
-        [JsonProperty]
-        public GenericOptions GasPermeableMembrane;
-        [Option("Tile: Tweaked", "When true, normal tile uses custom values set in the config.")]
-        public bool _IsAirflowTweaked { get { return GasPermeableMembrane.IsTweaked; } set { GasPermeableMembrane.IsTweaked = value; } }
-
-        [JsonProperty]
-        public GenericOptions MetalTile;
-        [Option("Metal: Tweaked", "When true, metal tile uses custom values set in the config.")]
-        public bool _IsMetalTweaked { get { return MetalTile.IsTweaked; } set { MetalTile.IsTweaked = value; } }
-
-        [JsonProperty]
-        public GenericOptions GlassTile;
-        [Option("Window: Tweaked", "When true, window tile uses custom values set in the config.")]
-        public bool _IsGlassTweaked { get { return GlassTile.IsTweaked; } set { GlassTile.IsTweaked = value; } }
-
-        [JsonProperty]
-        public GenericOptions MeshTile;
-        [Option("Tile: Tweaked", "When true, normal tile uses custom values set in the config.")]
-        public bool _IsMeshTweaked { get { return MeshTile.IsTweaked; } set { MeshTile.IsTweaked = value; } }
-
         [Option("Meshed Tiles: Reduce Sunlight", "When true, sunlight's strength will be reduced when moving through airflow and mesh tiles.")]
         [JsonProperty]
         public bool DoMeshedTilesReduceSunlight { get; set; }
@@ -80,6 +50,14 @@ namespace RebalancedTiles
 
         public Options()
         {
+            Tile = new GenericOptions
+            {
+                IsTweaked = true,
+                Decor = BUILDINGS.DECOR.BONUS.TIER0.amount,
+                DecorRadius = BUILDINGS.DECOR.BONUS.TIER0.radius,
+                MovementSpeed = DUPLICANTSTATS.MOVEMENT.BONUS_2,
+                StrengthMultiplier = 1.5f
+            };
             BunkerTile = new GenericOptions
             {
                 IsTweaked = true,
@@ -87,6 +65,22 @@ namespace RebalancedTiles
                 DecorRadius = BUILDINGS.DECOR.PENALTY.TIER0.radius,
                 MovementSpeed = DUPLICANTSTATS.MOVEMENT.NEUTRAL,
                 StrengthMultiplier = 10f
+            };
+            GasPermeableMembrane = new GenericOptions
+            {
+                IsTweaked = true,
+                Decor = BUILDINGS.DECOR.PENALTY.TIER1.amount,
+                DecorRadius = BUILDINGS.DECOR.PENALTY.TIER1.radius,
+                MovementSpeed = DUPLICANTSTATS.MOVEMENT.NEUTRAL,
+                StrengthMultiplier = 1.5f
+            };
+            GlassTile = new GenericOptions
+            {
+                IsTweaked = true,
+                Decor = BUILDINGS.DECOR.BONUS.TIER1.amount,
+                DecorRadius = BUILDINGS.DECOR.BONUS.TIER0.radius,
+                MovementSpeed = DUPLICANTSTATS.MOVEMENT.BONUS_3,
+                StrengthMultiplier = 0.5f
             };
             CarpetTile = new CarpetTileOptions
             {
@@ -108,21 +102,13 @@ namespace RebalancedTiles
                 MovementSpeed = DUPLICANTSTATS.MOVEMENT.BONUS_3,
                 StrengthMultiplier = 2f
             };
-            Tile = new GenericOptions
+            MeshTile = new GenericOptions
             {
                 IsTweaked = true,
-                Decor = BUILDINGS.DECOR.BONUS.TIER0.amount,
-                DecorRadius = BUILDINGS.DECOR.BONUS.TIER0.radius,
-                MovementSpeed = DUPLICANTSTATS.MOVEMENT.BONUS_2,
+                Decor = BUILDINGS.DECOR.PENALTY.TIER1.amount,
+                DecorRadius = BUILDINGS.DECOR.PENALTY.TIER1.radius,
+                MovementSpeed = DUPLICANTSTATS.MOVEMENT.PENALTY_1,
                 StrengthMultiplier = 1.5f
-            };
-            GlassTile = new GenericOptions
-            {
-                IsTweaked = true,
-                Decor = BUILDINGS.DECOR.BONUS.TIER1.amount,
-                DecorRadius = BUILDINGS.DECOR.BONUS.TIER0.radius,
-                MovementSpeed = DUPLICANTSTATS.MOVEMENT.BONUS_3,
-                StrengthMultiplier = 0.5f
             };
 
             DoMeshedTilesReduceSunlight = true;
