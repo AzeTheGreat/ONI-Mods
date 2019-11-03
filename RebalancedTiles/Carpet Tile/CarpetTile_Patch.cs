@@ -7,30 +7,41 @@ namespace RebalancedTiles
     [HarmonyPatch(typeof(CarpetTileConfig), nameof(CarpetTileConfig.CreateBuildingDef))]
     public class CarpetTile_Patch
     {
+        static bool Prepare() { return Options.Opts.IsCarpetTileTweaked; }
+
         static void Postfix(BuildingDef __result)
         {
-            __result.BaseDecor = TUNING.BUILDINGS.DECOR.BONUS.TIER2.amount;
-            __result.BaseDecorRadius = TUNING.BUILDINGS.DECOR.BONUS.TIER2.radius;
-            __result.Overheatable = true;
-            __result.OverheatTemperature = TUNING.BUILDINGS.OVERHEAT_TEMPERATURES.LOW_2;
-            __result.Mass[1] = 1;
+            __result.BaseDecor = Options.Opts.CarpetTileDecor;
+            __result.BaseDecorRadius = Options.Opts.CarpetTileDecorRadius;
+
+            // Overheatable won't work on tiles without setting .UseStructureTemperature to true (iffy), but does display in the UI
+            if (Options.Opts.CarpetTileIsCombustible)
+            {
+                __result.Overheatable = true;
+                __result.OverheatTemperature = Options.Opts.CarpetTileCombustTemp;
+            }
+
+            __result.Mass[1] = Options.Opts.CarpetTileReedFiberCount;
         }
     }
 
     [HarmonyPatch(typeof(CarpetTileConfig), nameof(CarpetTileConfig.ConfigureBuildingTemplate))]
     public class CarpetTileMovement
     {
+        static bool Prepare() { return Options.Opts.IsCarpetTileTweaked; }
+
         static void Postfix(GameObject go)
         {
             SimCellOccupier simCellOccupier = go.GetComponent<SimCellOccupier>();
-            simCellOccupier.movementSpeedMultiplier = DUPLICANTSTATS.MOVEMENT.PENALTY_1;
-            simCellOccupier.strengthMultiplier = 0.1f;
+            simCellOccupier.movementSpeedMultiplier = Options.Opts.CarpetTileMovementSpeed;
         }
     }
 
     [HarmonyPatch(typeof(CarpetTileConfig), nameof(CarpetTileConfig.DoPostConfigureComplete))]
     public class CarpetTileCombust
     {
+        static bool Prepare() { return Options.Opts.IsCarpetTileTweaked && Options.Opts.CarpetTileIsCombustible; }
+
         static void Postfix(GameObject go)
         {
             go.GetComponent<KPrefabID>().prefabInitFn += gameObject => new Combustible.Instance(gameObject.GetComponent<KPrefabID>()).StartSM();
@@ -40,10 +51,7 @@ namespace RebalancedTiles
     [HarmonyPatch(typeof(OccupyArea), nameof(OccupyArea.GetExtents), new[] { typeof(Orientation) })]
     public class Test
     {
-        static bool Prepare()
-        {
-            return Options.Opts.IsCarpetNotWall;
-        }
+        static bool Prepare() { return Options.Opts.IsCarpetTileTweaked && Options.Opts.IsCarpetNotWall; }
 
         static void Postfix(OccupyArea __instance, ref Extents __result)
         {
