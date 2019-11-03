@@ -22,9 +22,7 @@ namespace RebalancedTiles
             public float StrengthMultiplier { get; set; }
         }
 
-        [JsonProperty]
-        public CarpetTileOptions CarpetTile;
-        public class CarpetTileOptions : GenericOptions
+        public partial class CarpetTileOptions : GenericOptions
         {
             [JsonProperty]
             public bool IsNotWall { get; set; }
@@ -35,8 +33,6 @@ namespace RebalancedTiles
             [JsonProperty]
             public int ReedFiberCount { get; set; }
         }
-        [Option("Carpet: Tweaked", "When true, carpet tile uses custom values set in the config.")]
-        public bool _IsCarpetTweaked { get { return CarpetTile.IsTweaked; } set { CarpetTile.IsTweaked = value; } }
         [Option("Carpet: Not a Wall", "When true, modifies the carpet's decor distribution so that it only works as a floor.")]
         public bool _IsCarpetNotWall { get { return CarpetTile.IsNotWall; } set { CarpetTile.IsNotWall = value; } }
         [Option("Carpet: Combusts", "When true, carpet tiles will burn into normal tiles at high temperatures.")]
@@ -50,7 +46,7 @@ namespace RebalancedTiles
 
         public Options()
         {
-            Tile = new GenericOptions
+            Tile = new TileOptions
             {
                 IsTweaked = true,
                 Decor = BUILDINGS.DECOR.BONUS.TIER0.amount,
@@ -58,7 +54,7 @@ namespace RebalancedTiles
                 MovementSpeed = DUPLICANTSTATS.MOVEMENT.BONUS_2,
                 StrengthMultiplier = 1.5f
             };
-            BunkerTile = new GenericOptions
+            BunkerTile = new BunkerTileOptions
             {
                 IsTweaked = true,
                 Decor = BUILDINGS.DECOR.PENALTY.TIER0.amount,
@@ -66,7 +62,7 @@ namespace RebalancedTiles
                 MovementSpeed = DUPLICANTSTATS.MOVEMENT.NEUTRAL,
                 StrengthMultiplier = 10f
             };
-            GasPermeableMembrane = new GenericOptions
+            GasPermeableMembrane = new GasPermeableMembraneOptions
             {
                 IsTweaked = true,
                 Decor = BUILDINGS.DECOR.PENALTY.TIER1.amount,
@@ -74,7 +70,7 @@ namespace RebalancedTiles
                 MovementSpeed = DUPLICANTSTATS.MOVEMENT.NEUTRAL,
                 StrengthMultiplier = 1.5f
             };
-            GlassTile = new GenericOptions
+            GlassTile = new GlassTileOptions
             {
                 IsTweaked = true,
                 Decor = BUILDINGS.DECOR.BONUS.TIER1.amount,
@@ -94,7 +90,7 @@ namespace RebalancedTiles
                 CombustTemp = BUILDINGS.OVERHEAT_TEMPERATURES.LOW_2,
                 ReedFiberCount = 1
             };
-            MetalTile = new GenericOptions
+            MetalTile = new MetalTileOptions
             {
                 IsTweaked = true,
                 Decor = BUILDINGS.DECOR.BONUS.TIER1.amount,
@@ -102,7 +98,7 @@ namespace RebalancedTiles
                 MovementSpeed = DUPLICANTSTATS.MOVEMENT.BONUS_3,
                 StrengthMultiplier = 2f
             };
-            MeshTile = new GenericOptions
+            MeshTile = new MeshTileOptions
             {
                 IsTweaked = true,
                 Decor = BUILDINGS.DECOR.PENALTY.TIER1.amount,

@@ -6,6 +6,7 @@
 <#@ output extension=".cs" #>
 <# var properties = new string [] { "Tile",
 									"BunkerTile",
+									"CarpetTile",
 									"GasPermeableMembrane",
 									"GlassTile",
 									"MeshTile",
@@ -18,8 +19,9 @@ namespace RebalancedTiles
 	public partial class Options
 	{
 <# foreach(var name in properties){ #>
-		[JsonProperty]
-		public GenericOptions <#=name #>;
+        [JsonProperty]
+        public <#=name #>Options <#=name #>;
+        public partial class <#=name #>Options : GenericOptions { }
 		[Option("<#=name #>: Tweaked", "When true, <#=name #> uses custom values set in the config.")]
 		public bool _Is<#=name #>Tweaked { get { return <#=name #>.IsTweaked; } set { <#=name #>.IsTweaked = value; } }
 
