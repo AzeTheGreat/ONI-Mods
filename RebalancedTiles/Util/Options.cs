@@ -23,6 +23,11 @@ namespace RebalancedTiles
         }
 
         [JsonProperty]
+        public GenericOptions Tile;
+        [Option("Tile: Tweaked", "When true, normal tile uses custom values set in the config.")]
+        public bool _IsTileTweaked { get { return Tile.IsTweaked; } set { Tile.IsTweaked = value; } }
+
+        [JsonProperty]
         public GenericOptions BunkerTile;
         [Option("Bunker: Tweaked", "When true, bunker tile uses custom values set in the config.")]
         public bool _IsBunkerTweaked { get { return BunkerTile.IsTweaked; } set { BunkerTile.IsTweaked = value; } }
@@ -48,20 +53,24 @@ namespace RebalancedTiles
         public bool _IsCarpetCombustible { get { return CarpetTile.IsCombustible; } set { CarpetTile.IsCombustible = value; } }
 
         [JsonProperty]
+        public GenericOptions GasPermeableMembrane;
+        [Option("Tile: Tweaked", "When true, normal tile uses custom values set in the config.")]
+        public bool _IsAirflowTweaked { get { return GasPermeableMembrane.IsTweaked; } set { GasPermeableMembrane.IsTweaked = value; } }
+
+        [JsonProperty]
         public GenericOptions MetalTile;
         [Option("Metal: Tweaked", "When true, metal tile uses custom values set in the config.")]
         public bool _IsMetalTweaked { get { return MetalTile.IsTweaked; } set { MetalTile.IsTweaked = value; } }
 
         [JsonProperty]
-        public GenericOptions Tile;
-        [Option("Tile: Tweaked", "When true, normal tile uses custom values set in the config.")]
-        public bool _IsTileTweaked { get { return Tile.IsTweaked; } set { Tile.IsTweaked = value; } }
+        public GenericOptions GlassTile;
+        [Option("Window: Tweaked", "When true, window tile uses custom values set in the config.")]
+        public bool _IsGlassTweaked { get { return GlassTile.IsTweaked; } set { GlassTile.IsTweaked = value; } }
 
         [JsonProperty]
-        public GenericOptions WindowTile;
-        [Option("Window: Tweaked", "When true, window tile uses custom values set in the config.")]
-        public bool _IsWindowTweaked { get { return WindowTile.IsTweaked; } set { WindowTile.IsTweaked = value; } }
-
+        public GenericOptions MeshTile;
+        [Option("Tile: Tweaked", "When true, normal tile uses custom values set in the config.")]
+        public bool _IsMeshTweaked { get { return MeshTile.IsTweaked; } set { MeshTile.IsTweaked = value; } }
 
         [Option("Meshed Tiles: Reduce Sunlight", "When true, sunlight's strength will be reduced when moving through airflow and mesh tiles.")]
         [JsonProperty]
@@ -107,7 +116,7 @@ namespace RebalancedTiles
                 MovementSpeed = DUPLICANTSTATS.MOVEMENT.BONUS_2,
                 StrengthMultiplier = 1.5f
             };
-            WindowTile = new GenericOptions
+            GlassTile = new GenericOptions
             {
                 IsTweaked = true,
                 Decor = BUILDINGS.DECOR.BONUS.TIER1.amount,

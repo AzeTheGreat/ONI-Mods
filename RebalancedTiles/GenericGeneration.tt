@@ -1,0 +1,43 @@
+﻿<#@ template debug="true" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+<# var properties = new string [] { "Tile",
+									"BunkerTile",
+									"CarpetTile",
+									"GasPermeableMembrane",
+									"GlassTile",
+									"MeshTile",
+									"MetalTile"}; #>
+using Harmony;
+using UnityEngine;
+
+namespace RebalancedTiles
+{
+<# foreach (string name in properties) { #>
+    [HarmonyPatch(typeof(<#=name #>Config), nameof(<#=name #>Config.CreateBuildingDef))]
+    public class <#=name #>Create_Patch
+    {
+        static bool Prepare() => Options.Opts.<#=name #>.IsTweaked;
+
+        static void Postfix(BuildingDef __result)
+        {
+            GenericPatch.CreateBuildingDef(__result, Options.Opts.<#=name #>);
+        }
+    }
+
+    [HarmonyPatch(typeof(<#=name #>Config), nameof(<#=name #>Config.ConfigureBuildingTemplate))]
+    public class <#=name #>Configure_Patch
+    {
+        static bool Prepare() => Options.Opts.<#=name #>.IsTweaked;
+
+        static void Postfix(GameObject go)
+        {
+            GenericPatch.ConfigureBuildingTemplate(go, Options.Opts.<#=name #>);
+        }
+    }
+
+<# } #>
+}

@@ -10,8 +10,6 @@ namespace RebalancedTiles
 
         static void Postfix(BuildingDef __result)
         {
-            GenericPatch.CreateBuildingDef(__result, Options.Opts.CarpetTile);
-
             // Overheatable won't work on tiles without setting .UseStructureTemperature to true (iffy), but does display in the UI
             if (Options.Opts.CarpetTile.IsCombustible)
             {
@@ -20,17 +18,6 @@ namespace RebalancedTiles
             }
 
             __result.Mass[1] = Options.Opts.CarpetTile.ReedFiberCount;
-        }
-    }
-
-    [HarmonyPatch(typeof(CarpetTileConfig), nameof(CarpetTileConfig.ConfigureBuildingTemplate))]
-    public class CarpetTileMovement
-    {
-        static bool Prepare() => Options.Opts.CarpetTile.IsTweaked;
-
-        static void Postfix(GameObject go)
-        {
-            GenericPatch.ConfigureBuildingTemplate(go, Options.Opts.CarpetTile);
         }
     }
 
