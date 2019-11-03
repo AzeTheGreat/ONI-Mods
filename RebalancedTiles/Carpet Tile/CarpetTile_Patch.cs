@@ -1,5 +1,4 @@
 ﻿using Harmony;
-using TUNING;
 using UnityEngine;
 
 namespace RebalancedTiles
@@ -7,40 +6,38 @@ namespace RebalancedTiles
     [HarmonyPatch(typeof(CarpetTileConfig), nameof(CarpetTileConfig.CreateBuildingDef))]
     public class CarpetTile_Patch
     {
-        static bool Prepare() { return Options.Opts.IsCarpetTileTweaked; }
+        static bool Prepare() => Options.Opts.CarpetTile.IsTweaked;
 
         static void Postfix(BuildingDef __result)
         {
-            __result.BaseDecor = Options.Opts.CarpetTileDecor;
-            __result.BaseDecorRadius = Options.Opts.CarpetTileDecorRadius;
+            GenericPatch.CreateBuildingDef(__result, Options.Opts.CarpetTile);
 
             // Overheatable won't work on tiles without setting .UseStructureTemperature to true (iffy), but does display in the UI
-            if (Options.Opts.CarpetTileIsCombustible)
+            if (Options.Opts.CarpetTile.IsCombustible)
             {
                 __result.Overheatable = true;
-                __result.OverheatTemperature = Options.Opts.CarpetTileCombustTemp;
+                __result.OverheatTemperature = Options.Opts.CarpetTile.CombustTemp;
             }
 
-            __result.Mass[1] = Options.Opts.CarpetTileReedFiberCount;
+            __result.Mass[1] = Options.Opts.CarpetTile.ReedFiberCount;
         }
     }
 
     [HarmonyPatch(typeof(CarpetTileConfig), nameof(CarpetTileConfig.ConfigureBuildingTemplate))]
     public class CarpetTileMovement
     {
-        static bool Prepare() { return Options.Opts.IsCarpetTileTweaked; }
+        static bool Prepare() => Options.Opts.CarpetTile.IsTweaked;
 
         static void Postfix(GameObject go)
         {
-            SimCellOccupier simCellOccupier = go.GetComponent<SimCellOccupier>();
-            simCellOccupier.movementSpeedMultiplier = Options.Opts.CarpetTileMovementSpeed;
+            GenericPatch.ConfigureBuildingTemplate(go, Options.Opts.CarpetTile);
         }
     }
 
     [HarmonyPatch(typeof(CarpetTileConfig), nameof(CarpetTileConfig.DoPostConfigureComplete))]
     public class CarpetTileCombust
     {
-        static bool Prepare() { return Options.Opts.IsCarpetTileTweaked && Options.Opts.CarpetTileIsCombustible; }
+        static bool Prepare() => Options.Opts.CarpetTile.IsTweaked && Options.Opts.CarpetTile.IsCombustible;
 
         static void Postfix(GameObject go)
         {
@@ -51,7 +48,7 @@ namespace RebalancedTiles
     [HarmonyPatch(typeof(OccupyArea), nameof(OccupyArea.GetExtents), new[] { typeof(Orientation) })]
     public class Test
     {
-        static bool Prepare() { return Options.Opts.IsCarpetTileTweaked && Options.Opts.IsCarpetNotWall; }
+        static bool Prepare() => Options.Opts.CarpetTile.IsTweaked && Options.Opts.CarpetTile.IsNotWall;
 
         static void Postfix(OccupyArea __instance, ref Extents __result)
         {

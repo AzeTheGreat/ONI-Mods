@@ -56,10 +56,7 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
     [HarmonyPatch(typeof(CameraController), "OnSpawn")]
     class SunlightModifierGridInit_Patch
     {
-        static bool Prepare()
-        {
-            return Options.Opts.DoMeshedTilesReduceSunlight;
-        }
+        static bool Prepare() => Options.Opts.DoMeshedTilesReduceSunlight;
 
         static void Postfix()
         {
@@ -70,10 +67,7 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
     [HarmonyPatch(typeof(BuildingComplete), "OnSpawn")]
     class SpawnTracker_Patch
     {
-        static bool Prepare()
-        {
-            return Options.Opts.DoMeshedTilesReduceSunlight;
-        }
+        static bool Prepare() => Options.Opts.DoMeshedTilesReduceSunlight;
 
         static void Postfix(BuildingComplete __instance)
         {
@@ -84,10 +78,7 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
     [HarmonyPatch(typeof(Deconstructable), "OnCompleteWork")]
     class RemovalTracker_Patch
     {
-        static bool Prepare()
-        {
-            return Options.Opts.DoMeshedTilesReduceSunlight;
-        }
+        static bool Prepare() => Options.Opts.DoMeshedTilesReduceSunlight;
 
         static void Postfix(Deconstructable __instance)
         {

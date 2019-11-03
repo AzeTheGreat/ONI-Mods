@@ -73,15 +73,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bunker Tile\BunkerTile_Patch.cs" />
+    <Compile Include="BunkerTile_Patch.cs" />
     <Compile Include="Carpet Tile\CarpetTile_Patch.cs" />
     <Compile Include="Carpet Tile\Combustible.cs" />
+    <Compile Include="GenericGeneration.cs" />
+    <Compile Include="Tile_Patch.cs" />
+    <Compile Include="Util\GenericPatch.cs" />
     <Compile Include="Meshed Tiles\SunlightModifierGrid.cs" />
     <Compile Include="Meshed Tiles\SunlightStrength_Patch.cs" />
-    <Compile Include="Metal Tile\MetalTile_Patch.cs" />
+    <Compile Include="MetalTile_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\Options.cs" />
-    <Compile Include="Window Tile\WindowTile_Patch.cs" />
+    <Compile Include="WindowTile_Patch.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ILMerge.props" />
