@@ -36,6 +36,12 @@ namespace RebalancedTiles
 		public bool _IsGlassTileTweaked { get { return GlassTile.IsTweaked; } set { GlassTile.IsTweaked = value; } }
 
         [JsonProperty]
+        public InsulationTileOptions InsulationTile;
+        public partial class InsulationTileOptions : GenericOptions { }
+		[Option("InsulationTile: Tweaked", "When true, InsulationTile uses custom values set in the config.")]
+		public bool _IsInsulationTileTweaked { get { return InsulationTile.IsTweaked; } set { InsulationTile.IsTweaked = value; } }
+
+        [JsonProperty]
         public MeshTileOptions MeshTile;
         public partial class MeshTileOptions : GenericOptions { }
 		[Option("MeshTile: Tweaked", "When true, MeshTile uses custom values set in the config.")]
@@ -46,6 +52,12 @@ namespace RebalancedTiles
         public partial class MetalTileOptions : GenericOptions { }
 		[Option("MetalTile: Tweaked", "When true, MetalTile uses custom values set in the config.")]
 		public bool _IsMetalTileTweaked { get { return MetalTile.IsTweaked; } set { MetalTile.IsTweaked = value; } }
+
+        [JsonProperty]
+        public PlasticTileOptions PlasticTile;
+        public partial class PlasticTileOptions : GenericOptions { }
+		[Option("PlasticTile: Tweaked", "When true, PlasticTile uses custom values set in the config.")]
+		public bool _IsPlasticTileTweaked { get { return PlasticTile.IsTweaked; } set { PlasticTile.IsTweaked = value; } }
 
 	}
 }

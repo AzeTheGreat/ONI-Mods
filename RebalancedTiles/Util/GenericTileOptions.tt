@@ -9,8 +9,10 @@
 									"CarpetTile",
 									"GasPermeableMembrane",
 									"GlassTile",
+									"InsulationTile",
 									"MeshTile",
-									"MetalTile"}; #>
+									"MetalTile",
+									"PlasticTile"}; #>
 using Newtonsoft.Json;
 using PeterHan.PLib;
 

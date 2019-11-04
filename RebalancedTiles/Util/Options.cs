@@ -72,23 +72,6 @@ namespace RebalancedTiles
                 MovementSpeed = DUPLICANTSTATS.MOVEMENT.NEUTRAL,
                 StrengthMultiplier = 10f
             };
-            GasPermeableMembrane = new GasPermeableMembraneOptions
-            {
-                IsTweaked = true,
-                Decor = BUILDINGS.DECOR.PENALTY.TIER1.amount,
-                DecorRadius = BUILDINGS.DECOR.PENALTY.TIER1.radius,
-                MovementSpeed = DUPLICANTSTATS.MOVEMENT.NEUTRAL,
-                StrengthMultiplier = 1.5f,
-                SunlightReduction = 25f
-            };
-            GlassTile = new GlassTileOptions
-            {
-                IsTweaked = true,
-                Decor = BUILDINGS.DECOR.BONUS.TIER1.amount,
-                DecorRadius = BUILDINGS.DECOR.BONUS.TIER0.radius,
-                MovementSpeed = DUPLICANTSTATS.MOVEMENT.BONUS_3,
-                StrengthMultiplier = 0.5f
-            };
             CarpetTile = new CarpetTileOptions
             {
                 IsTweaked = true,
@@ -101,22 +84,55 @@ namespace RebalancedTiles
                 CombustTemp = BUILDINGS.OVERHEAT_TEMPERATURES.LOW_2,
                 ReedFiberCount = 1
             };
+            GasPermeableMembrane = new GasPermeableMembraneOptions
+            {
+                IsTweaked = true,
+                Decor = BUILDINGS.DECOR.PENALTY.TIER0.amount,
+                DecorRadius = BUILDINGS.DECOR.PENALTY.TIER0.radius,
+                MovementSpeed = DUPLICANTSTATS.MOVEMENT.NEUTRAL,
+                StrengthMultiplier = 1f,
+                SunlightReduction = 25f
+            };
+            GlassTile = new GlassTileOptions
+            {
+                IsTweaked = true,
+                Decor = BUILDINGS.DECOR.BONUS.TIER0.amount,
+                DecorRadius = BUILDINGS.DECOR.BONUS.TIER0.radius,
+                MovementSpeed = DUPLICANTSTATS.MOVEMENT.PENALTY_2,
+                StrengthMultiplier = 0.5f
+            };
+            InsulationTile = new InsulationTileOptions
+            {
+                IsTweaked = true,
+                Decor = BUILDINGS.DECOR.PENALTY.TIER0.amount,
+                DecorRadius = BUILDINGS.DECOR.PENALTY.TIER0.radius,
+                MovementSpeed = DUPLICANTSTATS.MOVEMENT.NEUTRAL,
+                StrengthMultiplier = 3f
+            };
             MetalTile = new MetalTileOptions
             {
                 IsTweaked = true,
-                Decor = BUILDINGS.DECOR.BONUS.TIER1.amount,
+                Decor = BUILDINGS.DECOR.BONUS.TIER0.amount,
                 DecorRadius = BUILDINGS.DECOR.BONUS.TIER0.radius,
                 MovementSpeed = DUPLICANTSTATS.MOVEMENT.BONUS_3,
-                StrengthMultiplier = 2f
+                StrengthMultiplier = 1f
             };
             MeshTile = new MeshTileOptions
             {
                 IsTweaked = true,
-                Decor = BUILDINGS.DECOR.PENALTY.TIER1.amount,
-                DecorRadius = BUILDINGS.DECOR.PENALTY.TIER1.radius,
-                MovementSpeed = DUPLICANTSTATS.MOVEMENT.PENALTY_1,
-                StrengthMultiplier = 1.5f,
-                SunlightReduction = 10f
+                Decor = BUILDINGS.DECOR.PENALTY.TIER0.amount,
+                DecorRadius = BUILDINGS.DECOR.PENALTY.TIER0.radius,
+                MovementSpeed = DUPLICANTSTATS.MOVEMENT.NEUTRAL,
+                StrengthMultiplier = 1f,
+                SunlightReduction = 25f
+            };
+            PlasticTile = new PlasticTileOptions
+            {
+                IsTweaked = true,
+                Decor = BUILDINGS.DECOR.BONUS.TIER0.amount,
+                DecorRadius = BUILDINGS.DECOR.BONUS.TIER0.radius,
+                MovementSpeed = DUPLICANTSTATS.MOVEMENT.BONUS_3,
+                StrengthMultiplier = 1.5f
             };
 
             DoMeshedTilesReduceSunlight = true;

@@ -75,7 +75,7 @@
   <ItemGroup>
     <Compile Include="Carpet Tile\CarpetTile_Patch.cs" />
     <Compile Include="Carpet Tile\Combustible.cs" />
-    <Compile Include="GenericTileOptions.cs">
+    <Compile Include="Util\GenericTileOptions.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>GenericTileOptions.tt</DependentUpon>
@@ -96,7 +96,7 @@
     <None Include="Util\packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="GenericTileOptions.tt">
+    <Content Include="Util\GenericTileOptions.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>GenericTileOptions.cs</LastGenOutput>
     </Content>
