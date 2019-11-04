@@ -39,16 +39,19 @@ namespace RebalancedTiles
 
         static void Postfix(OccupyArea __instance, ref Extents __result)
         {
+            // Hacky manipulation to get the splat to be the right size/shape...
             if (__instance.name == "CarpetTileComplete")
             {
+                int radius = Options.Opts.CarpetTile.DecorRadius;
+
                 if (Grid.IsSolidCell(Grid.CellAbove(Grid.PosToCell(__instance.gameObject))))
                 {
-                    __result.x += 3;
-                    __result.width = -5;
+                    __result.x += radius;
+                    __result.width = -(radius * 2 - 1);
                 }
 
-                __result.y += 3;
-                __result.height = -4;
+                __result.y += radius;
+                __result.height = -(radius * 2 - 2);
             }
         }
     }
