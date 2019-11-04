@@ -8,12 +8,14 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
     {
         public static byte[] sunlightModifiers = new byte[Grid.WidthInCells * Grid.HeightInCells];
         private static bool isInit = false;
-        private static byte sunlightReductionFactor;
+        private static byte meshSunlightReduction;
+        private static byte airflowSunlightReduction;
 
         public static void Initialize()
         {
             isInit = true;
-            sunlightReductionFactor = Convert.ToByte(Options.Opts.MeshedTilesSunlightReduction * byte.MaxValue/100f);
+            meshSunlightReduction = Convert.ToByte(Options.Opts.MeshTile.SunlightReduction * byte.MaxValue/100f);
+            airflowSunlightReduction = Convert.ToByte(Options.Opts.GasPermeableMembrane.SunlightReduction * byte.MaxValue / 100f);
 
             for (int i = 0; i < Grid.WidthInCells; i++)
             {
@@ -42,13 +44,10 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
                 GameObject go = Grid.Objects[cell, (int)ObjectLayer.FoundationTile];
                 sunlightModifiers[cell] = currentMod;
 
-                if(go?.name == "MeshTileComplete" || go?.name == "GasPermeableMembraneComplete")
-                {
-                    if (currentMod + sunlightReductionFactor > byte.MaxValue)
-                        currentMod = byte.MaxValue;
-                    else
-                        currentMod += sunlightReductionFactor;
-                }
+                if (go?.name == "MeshTileComplete")
+                    currentMod = (byte)Math.Min(currentMod + meshSunlightReduction, byte.MaxValue);
+                if (go?.name == "GasPermeableMembraneComplete")
+                    currentMod = (byte)Math.Min(currentMod + airflowSunlightReduction, byte.MaxValue);
             }
         }
     }

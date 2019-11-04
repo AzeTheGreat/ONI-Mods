@@ -22,7 +22,7 @@ namespace RebalancedTiles
             public float StrengthMultiplier { get; set; }
         }
 
-        public partial class CarpetTileOptions : GenericOptions
+        public partial class CarpetTileOptions
         {
             [JsonProperty]
             public bool IsNotWall { get; set; }
@@ -38,11 +38,21 @@ namespace RebalancedTiles
         [Option("Carpet: Combusts", "When true, carpet tiles will burn into normal tiles at high temperatures.")]
         public bool _IsCarpetCombustible { get { return CarpetTile.IsCombustible; } set { CarpetTile.IsCombustible = value; } }
 
+        public partial class MeshTileOptions
+        {
+            [JsonProperty]
+            public float SunlightReduction { get; set; }
+        }
+
+        public partial class GasPermeableMembraneOptions
+        {
+            [JsonProperty]
+            public float SunlightReduction { get; set; }
+        }
+
         [Option("Meshed Tiles: Reduce Sunlight", "When true, sunlight's strength will be reduced when moving through airflow and mesh tiles.")]
         [JsonProperty]
         public bool DoMeshedTilesReduceSunlight { get; set; }
-        [JsonProperty]
-        public float MeshedTilesSunlightReduction { get; set; }
 
         public Options()
         {
@@ -68,7 +78,8 @@ namespace RebalancedTiles
                 Decor = BUILDINGS.DECOR.PENALTY.TIER1.amount,
                 DecorRadius = BUILDINGS.DECOR.PENALTY.TIER1.radius,
                 MovementSpeed = DUPLICANTSTATS.MOVEMENT.NEUTRAL,
-                StrengthMultiplier = 1.5f
+                StrengthMultiplier = 1.5f,
+                SunlightReduction = 25f
             };
             GlassTile = new GlassTileOptions
             {
@@ -104,11 +115,11 @@ namespace RebalancedTiles
                 Decor = BUILDINGS.DECOR.PENALTY.TIER1.amount,
                 DecorRadius = BUILDINGS.DECOR.PENALTY.TIER1.radius,
                 MovementSpeed = DUPLICANTSTATS.MOVEMENT.PENALTY_1,
-                StrengthMultiplier = 1.5f
+                StrengthMultiplier = 1.5f,
+                SunlightReduction = 10f
             };
 
             DoMeshedTilesReduceSunlight = true;
-            MeshedTilesSunlightReduction = 25;
         }
 
         private static Options _options;
