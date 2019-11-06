@@ -30,7 +30,8 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
 
             if (go.name == "MeshTileComplete" || go.name == "GasPermeableMembraneComplete")
             {
-                CalculateSunMod((int)go.transform.position.x, (int)go.transform.position.y);
+                Grid.CellToXY(Grid.PosToCell(go), out int x, out int y);
+                CalculateSunMod(x, y);
             }
         }
 
