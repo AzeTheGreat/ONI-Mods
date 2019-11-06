@@ -1,32 +1,34 @@
 ﻿using Harmony;
-using System.Collections.Generic;
-using System.Reflection.Emit;
 
 namespace SufficientOxygenGeneration
 {
     [HarmonyPatch(typeof(Tutorial), "SufficientOxygenLastCycleAndThisCycle")]
     public class Threshold_Patch
     {
-        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        static bool Prefix(ref bool __result)
         {
-            Options.ReadSettings();
-            bool second = false;
-
-            foreach (CodeInstruction i in instructions)
+            if (ReportManager.Instance.YesterdaysReport == null || Options.Opts.Mode == Options.OxygenThresholMode.Off)
             {
-                if(i.opcode == OpCodes.Ldc_R4)
-                {
-                    if (second)
-                        yield return new CodeInstruction(OpCodes.Ldc_R4, Options.options.OxygenThreshold);
-                    else
-                    {
-                        second = true;
-                        yield return i;
-                    } 
-                }
-                else
-                    yield return i;
+                __result = true;
+                return false;
             }
+
+            ReportManager.ReportEntry entryYest = ReportManager.Instance.YesterdaysReport.GetEntry(ReportManager.ReportType.OxygenCreated);
+            ReportManager.ReportEntry entryToday = ReportManager.Instance.TodaysReport.GetEntry(ReportManager.ReportType.OxygenCreated);
+
+            switch (Options.Opts.Mode)
+            {
+                case Options.OxygenThresholMode.Constant:
+                    __result = entryToday.Net > -Options.Opts.ConstantThreshold || entryYest.Net > 0.0001f;
+                    break;
+                case Options.OxygenThresholMode.Ratio:
+                    __result = ((entryToday.Positive / entryToday.Negative) > Options.Opts.RatioThreshold || entryYest.Net > 0.0001f) && GameClock.Instance.GetTimeSinceStartOfCycle() > Options.Opts.TimeDelay;
+                    break;
+                default:
+                    __result = true;
+                    break;
+            }
+            return false;
         }
     }
 }
