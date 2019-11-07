@@ -5,8 +5,30 @@ using TUNING;
 
 namespace RebalancedTiles
 {
+    public abstract class BaseOptions<T> where T : class, new()
+    {
+        private static T _opts;
+        public static T Opts
+        {
+            get
+            {
+                if (_opts == null)
+                    _opts = POptions.ReadSettings<T>() ?? new T();
+
+                return _opts;
+            }
+            set { _opts = value; }
+        }
+
+        static protected void Load()
+        {
+            PUtil.InitLibrary(true);
+            POptions.RegisterOptions(typeof(T));
+        }
+    }
+
     [JsonObject(MemberSerialization.OptIn)]
-    public partial class Options : POptions.SingletonOptions<Options>
+    public partial class Options : BaseOptions<Options>
     {
         public class GenericOptions
         {
@@ -138,18 +160,9 @@ namespace RebalancedTiles
             DoMeshedTilesReduceSunlight = true;
         }
 
-        //private static Options _options;
-        public static Options Opts {
-            get
-            {
-                return Instance;
-            }
-            set { Instance = value; } }
-
         public static void OnLoad()
         {
-            PUtil.LogModInit();
-            POptions.RegisterOptions(typeof(Options));
+            Load();
         }
     }
 }
