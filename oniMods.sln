@@ -21,7 +21,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoNotificationSounds", "NoN
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SufficientOxygenGeneration", "SufficientOxygenGeneration\SufficientOxygenGeneration.csproj", "{44FB0CAA-C9E8-4CF9-92BB-9AA93EC659C3}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AzeLib", "AzeLib\AzeLib.shproj", "{4D79FD78-6A90-4459-8A75-66C562CAEB24}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		AzeLib\AzeLib.projitems*{0f04d8d7-55ea-4414-afc5-16d38338893e}*SharedItemsImports = 4
+		AzeLib\AzeLib.projitems*{4d79fd78-6a90-4459-8a75-66c562caeb24}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
