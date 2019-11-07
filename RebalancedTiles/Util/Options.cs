@@ -6,7 +6,7 @@ using TUNING;
 namespace RebalancedTiles
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public partial class Options
+    public partial class Options : POptions.SingletonOptions<Options>
     {
         public class GenericOptions
         {
@@ -138,16 +138,13 @@ namespace RebalancedTiles
             DoMeshedTilesReduceSunlight = true;
         }
 
-        private static Options _options;
+        //private static Options _options;
         public static Options Opts {
             get
             {
-                if(_options == null)
-                    _options = POptions.ReadSettings<Options>() ?? new Options();
-
-                return _options;
+                return Instance;
             }
-            set { _options = value; } }
+            set { Instance = value; } }
 
         public static void OnLoad()
         {
