@@ -25,6 +25,7 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		AzeLib\AzeLib.projitems*{0f04d8d7-55ea-4414-afc5-16d38338893e}*SharedItemsImports = 4
 		AzeLib\AzeLib.projitems*{36e144b6-3558-4213-82bd-70b2a57da895}*SharedItemsImports = 4
+		AzeLib\AzeLib.projitems*{44fb0caa-c9e8-4cf9-92bb-9aa93ec659c3}*SharedItemsImports = 4
 		AzeLib\AzeLib.projitems*{4d79fd78-6a90-4459-8a75-66c562caeb24}*SharedItemsImports = 13
 		AzeLib\AzeLib.projitems*{cdf0b160-a394-46e0-a49e-de2f9cf9898c}*SharedItemsImports = 4
 	EndGlobalSection
