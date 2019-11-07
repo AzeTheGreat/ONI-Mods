@@ -1,11 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using AzeLib;
+using Newtonsoft.Json;
 using PeterHan.PLib;
 using PeterHan.PLib.Options;
 
 namespace SufficientOxygenGeneration
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class Options
+    public class Options : BaseOptions<Options>
     {
         public enum OxygenThresholMode
         {
@@ -40,23 +41,9 @@ namespace SufficientOxygenGeneration
             TimeDelay = 30f;
         }
 
-        private static Options _options;
-        public static Options Opts
-        {
-            get
-            {
-                if (_options == null)
-                    _options = POptions.ReadSettings<Options>() ?? new Options();
-
-                return _options;
-            }
-            set { _options = value; }
-        }
-
         public static void OnLoad()
         {
-            PUtil.LogModInit();
-            POptions.RegisterOptions(typeof(Options));
+            Load();
         }
     }
 }

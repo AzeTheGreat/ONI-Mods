@@ -5,10 +5,11 @@ namespace BetterDeselect
     [HarmonyPatch(typeof(InterfaceTool), nameof(InterfaceTool.DeactivateTool))]
     public class DeselectOverlay_Patch
     {
+        static bool Prepre() => Options.Opts.ImplementOverlay;
+
         static void Prefix(ref HashedString ___toolActivatedViewMode)
         {
-            if (Options.options.ImplementOverlay)
-                ___toolActivatedViewMode = OverlayModes.None.ID;
+            ___toolActivatedViewMode = OverlayModes.None.ID;
         }
     }
 }

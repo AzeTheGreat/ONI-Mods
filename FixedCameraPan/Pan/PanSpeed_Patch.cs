@@ -1,7 +1,4 @@
 ﻿using Harmony;
-using Newtonsoft.Json;
-using System;
-using System.IO;
 
 namespace FixedCameraPan.Pan
 {
@@ -10,8 +7,7 @@ namespace FixedCameraPan.Pan
     {
         static void Postfix(ref float ___keyPanningSpeed)
         {
-            Options.ReadSettings();
-            ___keyPanningSpeed *= Options.options.PanSpeed;
+            ___keyPanningSpeed *= Options.Opts.PanSpeed;
         }
     }
 }
