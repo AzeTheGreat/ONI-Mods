@@ -30,8 +30,10 @@ namespace NoResearchAlerts
             object[] parameters = new object[] { category, null };
 
             AccessTools.Method(typeof(PlanScreen), "GetToggleEntryForCategory").Invoke(PlanScreen.Instance, parameters);
-            List<Tag> pendingResearchAttentions = parameters[1].GetType().GetField("pendingResearchAttentions").GetValue(parameters[1]) as List<Tag>;
-            KIconToggleMenu.ToggleInfo toggleInfo = parameters[1].GetType().GetField("toggleInfo").GetValue(parameters[1]) as KIconToggleMenu.ToggleInfo;
+            object toggleEntry = parameters[1];
+
+            List<Tag> pendingResearchAttentions = toggleEntry.GetType().GetField("pendingResearchAttentions").GetValue(toggleEntry) as List<Tag>;
+            KIconToggleMenu.ToggleInfo toggleInfo = toggleEntry.GetType().GetField("toggleInfo").GetValue(toggleEntry) as KIconToggleMenu.ToggleInfo;
 
             pendingResearchAttentions.Clear();
             toggleInfo.toggle.GetComponent<PlanCategoryNotifications>().ToggleAttention(false);
