@@ -25,7 +25,7 @@ namespace NoResearchAlerts
             if (___ActiveToggles == null || ___ActiveToggles.Count == 0)
                 return;
 
-            var item = ___ActiveToggles.FirstOrDefault();
+            var item = ___ActiveToggles.First();
             HashedString category = ___tagCategoryMap[item.Key.Tag];
             object[] parameters = new object[] { category, null };
 
