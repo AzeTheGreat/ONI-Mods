@@ -41,13 +41,13 @@ namespace RebalancedTiles
         public partial class MeshTileOptions
         {
             [JsonProperty]
-            public float SunlightReduction { get; set; }
+            public float LightAbsorptionFactor { get; set; }
         }
 
         public partial class GasPermeableMembraneOptions
         {
             [JsonProperty]
-            public float SunlightReduction { get; set; }
+            public float LightAbsorptionFactor { get; set; }
         }
 
         public partial class GlassTileOptions
@@ -99,7 +99,7 @@ namespace RebalancedTiles
                 DecorRadius = BUILDINGS.DECOR.PENALTY.TIER0.radius,
                 MovementSpeed = DUPLICANTSTATS.MOVEMENT.NEUTRAL,
                 StrengthMultiplier = 1f,
-                SunlightReduction = 25f
+                LightAbsorptionFactor = 0.25f
             };
             GlassTile = new GlassTileOptions
             {
@@ -134,7 +134,7 @@ namespace RebalancedTiles
                 DecorRadius = BUILDINGS.DECOR.PENALTY.TIER0.radius,
                 MovementSpeed = DUPLICANTSTATS.MOVEMENT.NEUTRAL,
                 StrengthMultiplier = 1f,
-                SunlightReduction = 25f
+                LightAbsorptionFactor = 0.25f
             };
             PlasticTile = new PlasticTileOptions
             {

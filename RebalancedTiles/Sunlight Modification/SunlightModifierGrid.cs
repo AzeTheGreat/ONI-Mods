@@ -14,8 +14,8 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
         public static void Initialize()
         {
             isInit = true;
-            meshSunlightReduction = Convert.ToByte(Options.Opts.MeshTile.SunlightReduction * byte.MaxValue/100f);
-            airflowSunlightReduction = Convert.ToByte(Options.Opts.GasPermeableMembrane.SunlightReduction * byte.MaxValue / 100f);
+            meshSunlightReduction = Convert.ToByte(Options.Opts.MeshTile.LightAbsorptionFactor * byte.MaxValue);
+            airflowSunlightReduction = Convert.ToByte(Options.Opts.GasPermeableMembrane.LightAbsorptionFactor * byte.MaxValue);
 
             for (int i = 0; i < Grid.WidthInCells; i++)
             {
