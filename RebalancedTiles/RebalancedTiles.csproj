@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Carpet Tile\CarpetTile_Patch.cs" />
     <Compile Include="Carpet Tile\Combustible.cs" />
+    <Compile Include="Sunlight Modification\GlassTransparency_Patch.cs" />
     <Compile Include="Util\GenericTileOptions.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -87,8 +88,8 @@
       <DependentUpon>GenericTilePatches.tt</DependentUpon>
     </Compile>
     <Compile Include="Util\GenericPatch.cs" />
-    <Compile Include="Meshed Tiles\SunlightModifierGrid.cs" />
-    <Compile Include="Meshed Tiles\SunlightStrength_Patch.cs" />
+    <Compile Include="Sunlight Modification\SunlightModifierGrid.cs" />
+    <Compile Include="Sunlight Modification\SunlightStrength_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\Options.cs" />
   </ItemGroup>

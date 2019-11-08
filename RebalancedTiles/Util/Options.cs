@@ -50,6 +50,14 @@ namespace RebalancedTiles
             public float SunlightReduction { get; set; }
         }
 
+        public partial class GlassTileOptions
+        {
+            [JsonProperty]
+            public float GlassLightAbsorptionFactor;
+            [JsonProperty]
+            public float DiamondLightAbsorptionFactor;
+        }
+
         [Option("Meshed Tiles: Reduce Sunlight", "When true, sunlight's strength will be reduced when moving through airflow and mesh tiles.")]
         [JsonProperty]
         public bool DoMeshedTilesReduceSunlight { get; set; }
@@ -99,7 +107,9 @@ namespace RebalancedTiles
                 Decor = BUILDINGS.DECOR.BONUS.TIER0.amount,
                 DecorRadius = BUILDINGS.DECOR.BONUS.TIER0.radius,
                 MovementSpeed = DUPLICANTSTATS.MOVEMENT.PENALTY_2,
-                StrengthMultiplier = 0.5f
+                StrengthMultiplier = 0.5f,
+                GlassLightAbsorptionFactor = 0.1f,
+                DiamondLightAbsorptionFactor = 0.1f
             };
             InsulationTile = new InsulationTileOptions
             {
