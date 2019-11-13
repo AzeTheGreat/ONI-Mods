@@ -61,7 +61,7 @@ namespace BetterInfoCards
     [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.EndDrawing))]
     public class EditWidgets_Patch
     {
-        private const float maxColumnHeight = 1200f;
+        private const float targetAspectRatio = 1.5f;
 
         private static List<InfoCard> infoCards;
 
@@ -86,10 +86,11 @@ namespace BetterInfoCards
             // For each shadow bar, create an info card and add the relevant icons and texts.
             foreach (var shadowBar in GetWidgets_Patch.shadowBars)
             {
-                var infoCard = new InfoCard(shadowBar);
-
-                infoCard.iconWidgets = GetEntries(ref iconIndex, GetWidgets_Patch.iconWidgets, shadowBar);
-                infoCard.textWidgets = GetEntries(ref textIndex, GetWidgets_Patch.textWidgets, shadowBar);
+                var infoCard = new InfoCard(shadowBar)
+                {
+                    iconWidgets = GetEntries(ref iconIndex, GetWidgets_Patch.iconWidgets, shadowBar),
+                    textWidgets = GetEntries(ref textIndex, GetWidgets_Patch.textWidgets, shadowBar)
+                };
 
                 infoCards.Add(infoCard);
             }
@@ -109,24 +110,31 @@ namespace BetterInfoCards
             if (infoCards.Count < 4)
                 return;
 
-            // Get total length
-            float length = 0f;
-            foreach (var infoCard in infoCards)
+            // Determine column numbers
+            float totalLength = infoCards.Sum(x => x.ShadowBar.rect.rect.height);
+            float averageWidth = infoCards.Average(x => x.ShadowBar.rect.rect.width);
+
+            int columns = Mathf.CeilToInt(Mathf.Sqrt(targetAspectRatio * totalLength / averageWidth));
+            float lengthPerColumn = totalLength / columns;
+
+            // Build "grid"
+            float currentColLength = 0f;
+            float currentOffsetX = 0f;
+            float currentOffsetY = 0f;
+            int colStartIndex = 0;
+            for (int i = 0; i < infoCards.Count; i++)
             {
-                length += infoCard.ShadowBar.rect.rect.height;
+                infoCards[i].Translate(currentOffsetX, currentOffsetY);
+                currentColLength += infoCards[i].ShadowBar.rect.rect.height;
+
+                if (currentColLength > lengthPerColumn && i < infoCards.Count - 1)
+                {
+                    currentColLength = 0f;
+                    currentOffsetX += infoCards.GetRange(colStartIndex, i-colStartIndex+1).Max(x => x.ShadowBar.rect.rect.width) + 5f;
+                    currentOffsetY = infoCards[0].ShadowBar.rect.anchoredPosition.y - infoCards[i+1].ShadowBar.rect.anchoredPosition.y;
+                    colStartIndex = i;
+                }
             }
-
-            int minColumns = Mathf.CeilToInt(length / maxColumnHeight);
-
-            // Get the max width shadow bar
-            float maxWidth = 0f;
-            foreach (var infoCard in infoCards)
-            {
-                if (infoCard.ShadowBar.rect.rect.width > maxWidth)
-                    maxWidth = infoCard.ShadowBar.rect.rect.width;
-            }
-
-            int startColumns = Mathf.CeilToInt(length / maxWidth);
         }
 
         private static List<Entry> GetEntries(ref int index, List<Entry> widgets, Entry shadowBar)
