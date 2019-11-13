@@ -18,7 +18,6 @@ namespace BetterInfoCards
         {
             FormInfoCards();
             ArrangeInfoCards();
-            GetWidgets_Patch.callNumber = 0;
         }
 
         private static void FormInfoCards()
@@ -29,18 +28,17 @@ namespace BetterInfoCards
             int textIndex = 0;
 
             // For each shadow bar, create an info card and add the relevant icons and texts.
-            foreach (var shadowBar in GetWidgets_Patch.shadowBars)
+            foreach (var shadowBar in DrawnWidgets.shadowBars)
             {
-                var infoCard = new InfoCard(shadowBar, ref iconIndex, ref textIndex);
-                infoCards.Add(infoCard);
+                infoCards.Add(new InfoCard(shadowBar, ref iconIndex, ref textIndex));
             }
 
             // If something is selected, add the border to the correct info card.
-            if (GetWidgets_Patch.selectBorders.Count > 0)
+            if (DrawnWidgets.selectBorders.Count > 0)
             {
-                var number = GetWidgets_Patch.selectBorders[0].rect.anchoredPosition.y;
+                var number = DrawnWidgets.selectBorders[0].rect.anchoredPosition.y;
                 var closestInfoCard = infoCards.Aggregate((x, y) => Math.Abs(x.shadowBar.rect.anchoredPosition.y - number) < Math.Abs(y.shadowBar.rect.anchoredPosition.y - number) ? x : y);
-                closestInfoCard.selectBorder = GetWidgets_Patch.selectBorders[0];
+                closestInfoCard.selectBorder = DrawnWidgets.selectBorders[0];
             }
         }
 
@@ -79,8 +77,7 @@ namespace BetterInfoCards
 
         private static bool RectWithin(Entry main, Entry sub)
         {
-            return sub.rect.anchoredPosition.y > (main.rect.offsetMin.y - HoverTextScreen.Instance.drawer.skin.selectBorder.x)
-                    && sub.rect.anchoredPosition.y < main.rect.offsetMax.y;
+            return sub.rect.anchoredPosition.y > main.rect.offsetMin.y && sub.rect.anchoredPosition.y < main.rect.offsetMax.y;
         }
 
         // Collect the game's widgets into a single class grouped by item to make manipulation easier.
@@ -94,8 +91,8 @@ namespace BetterInfoCards
             public InfoCard(Entry shadowBar, ref int iconIndex, ref int textIndex)
             {
                 this.shadowBar = shadowBar;
-                iconWidgets = GetEntries(ref iconIndex, GetWidgets_Patch.iconWidgets);
-                textWidgets = GetEntries(ref textIndex, GetWidgets_Patch.textWidgets);
+                iconWidgets = GetEntries(ref iconIndex, DrawnWidgets.iconWidgets);
+                textWidgets = GetEntries(ref textIndex, DrawnWidgets.textWidgets);
             }
 
             public void Translate(float x, float y)

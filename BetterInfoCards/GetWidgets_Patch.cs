@@ -9,12 +9,7 @@ namespace BetterInfoCards
     [HarmonyPatch]
     public class GetWidgets_Patch
     {
-        public static int callNumber = 0;
-
-        public static List<Entry> shadowBars;
-        public static List<Entry> iconWidgets;
-        public static List<Entry> textWidgets;
-        public static List<Entry> selectBorders;
+        private static int callNumber = 0;
 
         static MethodBase TargetMethod()
         {
@@ -32,22 +27,24 @@ namespace BetterInfoCards
             switch (callNumber)
             {
                 case 0:
-                    shadowBars = drawnEntries;
+                    DrawnWidgets.shadowBars = drawnEntries;
+                    callNumber++;
                     break;
                 case 1:
-                    iconWidgets = drawnEntries;
+                    DrawnWidgets.iconWidgets = drawnEntries;
+                    callNumber++;
                     break;
                 case 2:
-                    textWidgets = drawnEntries;
+                    DrawnWidgets.textWidgets = drawnEntries;
+                    callNumber++;
                     break;
                 case 3:
-                    selectBorders = drawnEntries;
+                    DrawnWidgets.selectBorders = drawnEntries;
+                    callNumber = 0;
                     break;
                 default:
                     throw new Exception("GetWidgets is out of sync with the game.");
             }
-
-            callNumber++;
         }
     }
 
@@ -55,5 +52,13 @@ namespace BetterInfoCards
     {
         public MonoBehaviour widget;
         public RectTransform rect;
+    }
+
+    public static class DrawnWidgets
+    {
+        public static List<Entry> shadowBars;
+        public static List<Entry> iconWidgets;
+        public static List<Entry> textWidgets;
+        public static List<Entry> selectBorders;
     }
 }
