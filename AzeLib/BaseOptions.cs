@@ -3,7 +3,7 @@ using PeterHan.PLib.Options;
 
 namespace AzeLib
 {
-    [ConfigFile("config", true)]
+    [ConfigFile("config.json", true)]
     public abstract class BaseOptions<T> where T : class, new()
     {
         private static T _opts;
