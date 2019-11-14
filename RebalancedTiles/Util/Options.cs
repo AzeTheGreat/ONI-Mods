@@ -6,6 +6,7 @@ using TUNING;
 namespace RebalancedTiles
 {
     [JsonObject(MemberSerialization.OptIn)]
+    [PeterHan.PLib.Options.RestartRequired]
     public partial class Options : BaseOptions<Options>
     {
         public class GenericOptions
