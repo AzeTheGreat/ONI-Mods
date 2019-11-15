@@ -108,22 +108,15 @@ namespace BetterInfoCards
             }
 
             gridInfo.Add(colInfo);
-
-            foreach(var info in gridInfo)
-            {
-                foreach (var card in info.infoCards)
-                {
-                    card.Translate(info.offsetX, info.offsetY);  
-                }
-            }
-
-            for (int i = 0; i < gridInfo.Count - 1; i++)
+            for (int i = gridInfo.Count - 1; i >= 0; i--)
             {
                 ColumnInfo info = gridInfo[i];
 
                 foreach (var card in info.infoCards)
                 {
-                    if (gridInfo[i + 1].YMin < card.YMax - 10f)
+                    card.Translate(info.offsetX, info.offsetY);
+
+                    if (i != gridInfo.Count - 1 && gridInfo[i + 1].YMin < card.YMax - 10f)
                     {
                         Vector2 newSizeDelta = new Vector2(info.maxXInCol, card.shadowBar.rect.sizeDelta.y);
                         card.shadowBar.rect.sizeDelta = newSizeDelta;
@@ -131,7 +124,6 @@ namespace BetterInfoCards
                         if (card.selectBorder.rect != null)
                             card.selectBorder.rect.sizeDelta = newSizeDelta;
                     }
-                        
                 }
             }
         }
