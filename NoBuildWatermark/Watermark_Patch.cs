@@ -7,7 +7,7 @@ namespace NoBuildWatermark
     {
         static void Postfix(BuildWatermark __instance)
         {
-            __instance.Deactivate();
+            __instance.textDisplay.SetText(string.Empty);
         }
     }
 }
