@@ -92,8 +92,6 @@ namespace BetterInfoCards
                 {
                     offsetX += colInfo.maxXInCol + shadowBarSpacingX;
 
-                    colInfo.isLeftCol = true;
-
                     gridInfo.Add(colInfo);
                     colInfo = new ColumnInfo
                     {
@@ -111,14 +109,29 @@ namespace BetterInfoCards
 
             gridInfo.Add(colInfo);
 
-            foreach (var info in gridInfo)
+            foreach(var info in gridInfo)
             {
                 foreach (var card in info.infoCards)
                 {
-                    card.Translate(info.offsetX, info.offsetY);
+                    card.Translate(info.offsetX, info.offsetY);  
+                }
+            }
 
-                    if (info.isLeftCol)
-                        card.shadowBar.rect.sizeDelta = new Vector2(info.maxXInCol, card.shadowBar.rect.sizeDelta.y);
+            for (int i = 0; i < gridInfo.Count - 1; i++)
+            {
+                ColumnInfo info = gridInfo[i];
+
+                foreach (var card in info.infoCards)
+                {
+                    if (gridInfo[i + 1].YMin < card.YMax - 10f)
+                    {
+                        Vector2 newSizeDelta = new Vector2(info.maxXInCol, card.shadowBar.rect.sizeDelta.y);
+                        card.shadowBar.rect.sizeDelta = newSizeDelta;
+
+                        if (card.selectBorder.rect != null)
+                            card.selectBorder.rect.sizeDelta = newSizeDelta;
+                    }
+                        
                 }
             }
         }
@@ -129,7 +142,7 @@ namespace BetterInfoCards
             public float offsetY;
             public List<InfoCard> infoCards;
             public float maxXInCol = 0f;
-            public bool isLeftCol = false;
+            public float YMin { get { return infoCards.Last().YMin; } }
         }
 
         private static bool RectWithin(Entry main, Entry sub)
