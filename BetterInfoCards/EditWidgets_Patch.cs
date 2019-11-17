@@ -23,7 +23,18 @@ namespace BetterInfoCards
             if (HasMouseMovedEnough())
                 ArrangeInfoCards();
 
+            if (IsSelectedChanged())
+                FormSelectBorder();
+
             AlterInfoCards();
+            //var stopwatch = new Stopwatch();
+            //stopwatch.Start();
+            //for (int i = 0; i < 10000; i++)
+            //{
+            //    AlterInfoCards();
+            //}
+            //stopwatch.Stop();
+            //Debug.Log("Alter Info Cards: " + stopwatch.ElapsedMilliseconds);
         }
 
         private static float[] cachedShadowWidths = new float[0];
@@ -43,13 +54,28 @@ namespace BetterInfoCards
 
                 if (!NearEquals(rect.height, cachedShadowHeights[i], equalsThreshold) || !NearEquals(rect.width, cachedShadowWidths[i], equalsThreshold))
                 {
-                    Debug.Log("Height: " + rect.height + " == " + cachedShadowHeights[i]);
-                    Debug.Log("Width: " + rect.width + " == " + cachedShadowWidths[i]);
                     return true;
                 }
                     
             }
+            return false;
+        }
 
+        private static Vector3 cachedSelectBorder;
+
+        private static bool IsSelectedChanged()
+        {
+            Vector3 currentSelectBorder;
+            if (DrawnWidgets.selectBorders.Count > 0)
+                currentSelectBorder = DrawnWidgets.selectBorders[0].rect.anchoredPosition;
+            else
+                currentSelectBorder = Vector3.positiveInfinity;
+
+            if (Vector3.Distance(currentSelectBorder, cachedSelectBorder) > 0.0001f)
+            {
+                cachedSelectBorder = currentSelectBorder;
+                return true;
+            }
             return false;
         }
 
@@ -78,7 +104,6 @@ namespace BetterInfoCards
 
         private static void FormInfoCards()
         {
-            Debug.Log("REFORMING");
             infoCards = new List<InfoCard>();
 
             int iconIndex = 0;
@@ -96,13 +121,21 @@ namespace BetterInfoCards
                 cachedShadowWidths[i] = shadowBar.rect.rect.width;
                 cachedShadowHeights[i] = shadowBar.rect.rect.height; 
             }
+        }
 
-            // If something is selected, add the border to the correct info card.
+        private static void FormSelectBorder()
+        {
             if (DrawnWidgets.selectBorders.Count > 0)
             {
-                var number = DrawnWidgets.selectBorders[0].rect.anchoredPosition.y;
-                var closestInfoCard = infoCards.Aggregate((x, y) => Math.Abs(x.YMax - number) < Math.Abs(y.YMax - number) ? x : y);
-                closestInfoCard.selectBorder = DrawnWidgets.selectBorders[0];
+                Vector2 currentSelectBorderPos = DrawnWidgets.selectBorders[0].rect.anchoredPosition;
+                float number = DrawnWidgets.selectBorders[0].rect.anchoredPosition.y;
+                InfoCard closestInfoCard = infoCards.Aggregate((x, y) => Math.Abs(x.YMax - number) < Math.Abs(y.YMax - number) ? x : y);
+
+                if(cachedClosestInfoCard != null)
+                    cachedClosestInfoCard.selectBorder = new Entry();
+
+                cachedClosestInfoCard = closestInfoCard;
+
             }
         }
 
@@ -176,8 +209,13 @@ namespace BetterInfoCards
             gridInfo.Add(colInfo);
         }
 
+        private static InfoCard cachedClosestInfoCard;
+
         private static void AlterInfoCards()
         {
+            if (DrawnWidgets.selectBorders.Count > 0)
+                cachedClosestInfoCard.selectBorder = DrawnWidgets.selectBorders[0];
+
             for (int i = gridInfo.Count - 1; i >= 0; i--)
             {
                 ColumnInfo info = gridInfo[i];
