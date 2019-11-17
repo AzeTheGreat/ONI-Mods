@@ -11,6 +11,15 @@ namespace BetterInfoCards
     {
         private static int callNumber = 0;
 
+        public static void Initialize()
+        {
+            callNumber = 0;
+            CachedWidgets.shadowBars = new List<Entry>();
+            CachedWidgets.iconWidgets = new List<Entry>();
+            CachedWidgets.textWidgets = new List<Entry>();
+            CachedWidgets.selectBorders = new List<Entry>();
+        }
+
         static MethodBase TargetMethod()
         {
             return AccessTools.FirstInner(typeof(HoverTextDrawer), x => x.IsGenericType).MakeGenericType(typeof(object)).GetMethod("EndDrawing");
@@ -30,22 +39,22 @@ namespace BetterInfoCards
             {
                 case 0:
                     cachedEntries = CachedWidgets.shadowBars;
-                    drawnEntries = DrawnWidgets.shadowBars;
+                    drawnEntries = DrawnWidgets.Instance.shadowBars;
                     callNumber++;
                     break;
                 case 1:
                     cachedEntries = CachedWidgets.iconWidgets;
-                    drawnEntries = DrawnWidgets.iconWidgets;
+                    drawnEntries = DrawnWidgets.Instance.iconWidgets;
                     callNumber++;
                     break;
                 case 2:
                     cachedEntries = CachedWidgets.textWidgets;
-                    drawnEntries = DrawnWidgets.textWidgets;
+                    drawnEntries = DrawnWidgets.Instance.textWidgets;
                     callNumber++;
                     break;
                 case 3:
                     cachedEntries = CachedWidgets.selectBorders;
-                    drawnEntries = DrawnWidgets.selectBorders;
+                    drawnEntries = DrawnWidgets.Instance.selectBorders;
                     callNumber = 0;
                     break;
                 default:
@@ -77,13 +86,5 @@ namespace BetterInfoCards
     {
         public MonoBehaviour widget;
         public RectTransform rect;
-    }
-
-    public static class DrawnWidgets
-    {
-        public static List<Entry> shadowBars = new List<Entry>();
-        public static List<Entry> iconWidgets = new List<Entry>();
-        public static List<Entry> textWidgets = new List<Entry>();
-        public static List<Entry> selectBorders = new List<Entry>();
     }
 }

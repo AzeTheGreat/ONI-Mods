@@ -92,10 +92,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DrawnWidgets.cs" />
     <Compile Include="EditWidgets_Patch.cs" />
     <Compile Include="GetWidgets_Patch.cs" />
+    <Compile Include="InfoCard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoveShadow_Patch.cs" />
+    <Compile Include="WidgetModifier.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
