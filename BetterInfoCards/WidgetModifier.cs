@@ -11,10 +11,7 @@ namespace BetterInfoCards
 
         public static WidgetModifier Instance { get; set; }
 
-        private float[] cachedShadowWidths = new float[0];
-        private float[] cachedShadowHeights = new float[0];
         private Vector3 cachedMousePos = Vector3.positiveInfinity;
-        private Vector3 cachedSelectBorder = Vector3.positiveInfinity;
         private InfoCard cachedClosestInfoCard = null;
 
         private List<InfoCard> infoCards = new List<InfoCard>();
@@ -31,67 +28,19 @@ namespace BetterInfoCards
                 return _minY;
             }
         }
-            
-
-        private const float equalsThreshold = 0.001f;
 
         public void ModifyWidgets()
         {
-            if (IsLayoutChanged())
-                FormInfoCards();
+            if (DrawnWidgets.Instance.IsLayoutChanged())
+                infoCards = DrawnWidgets.Instance.FormInfoCards();
 
             if (HasMouseMovedEnough())
-                ArrangeInfoCards();
+                FormGridInfo();
 
-            if (IsSelectedChanged())
+            if (DrawnWidgets.Instance.IsSelectedChanged())
                 FormSelectBorder();
 
             AlterInfoCards();
-        }
-
-        // This could theoretically fail if objects with the same exact shadow bar width and height were swapped in the same frame...
-        private bool IsLayoutChanged()
-        {
-            if (DrawnWidgets.Instance.shadowBars.Count != cachedShadowWidths.Length)
-                return true;
-
-            for (int i = 0; i < DrawnWidgets.Instance.shadowBars.Count; i++)
-            {
-                Rect rect = DrawnWidgets.Instance.shadowBars[i].rect.rect;
-
-                if (!NearEquals(rect.height, cachedShadowHeights[i], equalsThreshold) || !NearEquals(rect.width, cachedShadowWidths[i], equalsThreshold))
-                    return true;
-            }
-            return false;
-        }
-
-        private bool NearEquals(float f1, float f2, float diff)
-        {
-            if (Math.Abs(f1 - f2) < diff)
-                return true;
-            else
-                return false;
-        }
-
-        private void FormInfoCards()
-        {
-            infoCards = new List<InfoCard>();
-
-            int iconIndex = 0;
-            int textIndex = 0;
-
-            cachedShadowWidths = new float[DrawnWidgets.Instance.shadowBars.Count];
-            cachedShadowHeights = new float[DrawnWidgets.Instance.shadowBars.Count];
-
-            // For each shadow bar, create an info card and add the relevant icons and texts.
-            for (int i = 0; i < DrawnWidgets.Instance.shadowBars.Count; i++)
-            {
-                Entry shadowBar = DrawnWidgets.Instance.shadowBars[i];
-                infoCards.Add(new InfoCard(shadowBar, ref iconIndex, ref textIndex));
-
-                cachedShadowWidths[i] = shadowBar.rect.rect.width;
-                cachedShadowHeights[i] = shadowBar.rect.rect.height;
-            }
         }
 
         private bool HasMouseMovedEnough()
@@ -106,7 +55,7 @@ namespace BetterInfoCards
             return false;
         }
 
-        private void ArrangeInfoCards()
+        private void FormGridInfo()
         {
             //// No point in arranging.
             //if (infoCards.Count < 4)
@@ -168,32 +117,14 @@ namespace BetterInfoCards
 
                 colInfo.infoCards.Add(infoCard);
             }
-
             gridInfo.Add(colInfo);
-        }
-
-        private bool IsSelectedChanged()
-        {
-            Vector3 currentSelectBorder;
-            if (DrawnWidgets.Instance.selectBorders.Count > 0)
-                currentSelectBorder = DrawnWidgets.Instance.selectBorders[0].rect.anchoredPosition;
-            else
-                currentSelectBorder = Vector3.positiveInfinity;
-
-            if (Vector3.Distance(currentSelectBorder, cachedSelectBorder) > 0.0001f)
-            {
-                cachedSelectBorder = currentSelectBorder;
-                return true;
-            }
-            return false;
         }
 
         private void FormSelectBorder()
         {
-            if (DrawnWidgets.Instance.selectBorders.Count > 0)
+            float number = DrawnWidgets.Instance.selectPos;
+            if (number != float.MaxValue)
             {
-                Vector2 currentSelectBorderPos = DrawnWidgets.Instance.selectBorders[0].rect.anchoredPosition;
-                float number = DrawnWidgets.Instance.selectBorders[0].rect.anchoredPosition.y;
                 InfoCard closestInfoCard = infoCards.Aggregate((x, y) => Math.Abs(x.YMax - number) < Math.Abs(y.YMax - number) ? x : y);
 
                 if (cachedClosestInfoCard != null)
@@ -217,13 +148,7 @@ namespace BetterInfoCards
                     card.Translate(info.offsetX, info.offsetY);
 
                     if (i != gridInfo.Count - 1 && gridInfo[i + 1].YMin < card.YMax - 10f)
-                    {
-                        Vector2 newSizeDelta = new Vector2(info.maxXInCol, card.shadowBar.rect.sizeDelta.y);
-                        card.shadowBar.rect.sizeDelta = newSizeDelta;
-
-                        if (card.selectBorder.rect != null)
-                            card.selectBorder.rect.sizeDelta = newSizeDelta;
-                    }
+                        card.Resize(info.maxXInCol);
                 }
             }
         }

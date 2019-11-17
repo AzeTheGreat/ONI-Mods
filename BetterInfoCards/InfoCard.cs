@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BetterInfoCards
 {
-    class InfoCard
+    public class InfoCard
     {
         public Entry shadowBar;
         public List<Entry> iconWidgets;
@@ -36,6 +36,15 @@ namespace BetterInfoCards
             {
                 text.rect.anchoredPosition = new Vector2(text.rect.anchoredPosition.x + x, text.rect.anchoredPosition.y + y);
             }
+        }
+
+        public void Resize(float newX)
+        {
+            Vector2 newSizeDelta = new Vector2(newX, shadowBar.rect.sizeDelta.y);
+            shadowBar.rect.sizeDelta = newSizeDelta;
+
+            if (selectBorder.rect != null)
+                selectBorder.rect.sizeDelta = newSizeDelta;
         }
 
         private List<Entry> GetEntries(ref int index, List<Entry> widgets)
