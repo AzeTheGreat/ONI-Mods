@@ -1,6 +1,7 @@
 ﻿using Harmony;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 
@@ -16,31 +17,96 @@ namespace BetterInfoCards
 
         static void Postfix()
         {
-            FormInfoCards();
-            ArrangeInfoCards();
+            if (IsLayoutChanged())
+                FormInfoCards();
+
+            if (HasMouseMovedEnough())
+                ArrangeInfoCards();
+
+            AlterInfoCards();
+        }
+
+        private static float[] cachedShadowWidths = new float[0];
+        private static float[] cachedShadowHeights = new float[0];
+
+        private const float equalsThreshold = 0.001f;
+
+        // This could theoretically fail if objects with the same exact shadow bar width and height were swapped in the same frame...
+        private static bool IsLayoutChanged()
+        {
+            if (DrawnWidgets.shadowBars.Count != cachedShadowWidths.Length)
+                return true;
+
+            for (int i = 0; i < DrawnWidgets.shadowBars.Count; i++)
+            {
+                Rect rect = DrawnWidgets.shadowBars[i].rect.rect;
+
+                if (!NearEquals(rect.height, cachedShadowHeights[i], equalsThreshold) || !NearEquals(rect.width, cachedShadowWidths[i], equalsThreshold))
+                {
+                    Debug.Log("Height: " + rect.height + " == " + cachedShadowHeights[i]);
+                    Debug.Log("Width: " + rect.width + " == " + cachedShadowWidths[i]);
+                    return true;
+                }
+                    
+            }
+
+            return false;
+        }
+
+        private static Vector3 cachedMousePos = Vector3.positiveInfinity;
+
+        private static bool HasMouseMovedEnough()
+        {
+            Vector3 cursorPos = Input.mousePosition;
+
+            if (cursorPos != cachedMousePos)
+            {
+                cachedMousePos = cursorPos;
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool NearEquals(float f1, float f2, float diff)
+        {
+            if (Math.Abs(f1 - f2) < diff)
+                return true;
+            else
+                return false;
         }
 
         private static void FormInfoCards()
         {
+            Debug.Log("REFORMING");
             infoCards = new List<InfoCard>();
 
             int iconIndex = 0;
             int textIndex = 0;
 
+            cachedShadowWidths = new float[DrawnWidgets.shadowBars.Count];
+            cachedShadowHeights = new float[DrawnWidgets.shadowBars.Count];
+
             // For each shadow bar, create an info card and add the relevant icons and texts.
-            foreach (var shadowBar in DrawnWidgets.shadowBars)
+            for (int i = 0; i < DrawnWidgets.shadowBars.Count; i++)
             {
+                Entry shadowBar = DrawnWidgets.shadowBars[i];
                 infoCards.Add(new InfoCard(shadowBar, ref iconIndex, ref textIndex));
+
+                cachedShadowWidths[i] = shadowBar.rect.rect.width;
+                cachedShadowHeights[i] = shadowBar.rect.rect.height; 
             }
 
             // If something is selected, add the border to the correct info card.
             if (DrawnWidgets.selectBorders.Count > 0)
             {
                 var number = DrawnWidgets.selectBorders[0].rect.anchoredPosition.y;
-                var closestInfoCard = infoCards.Aggregate((x, y) => Math.Abs(x.shadowBar.rect.anchoredPosition.y - number) < Math.Abs(y.shadowBar.rect.anchoredPosition.y - number) ? x : y);
+                var closestInfoCard = infoCards.Aggregate((x, y) => Math.Abs(x.YMax - number) < Math.Abs(y.YMax - number) ? x : y);
                 closestInfoCard.selectBorder = DrawnWidgets.selectBorders[0];
             }
         }
+
+        private static List<ColumnInfo> gridInfo = new List<ColumnInfo>();
 
         private static void ArrangeInfoCards()
         {
@@ -74,11 +140,11 @@ namespace BetterInfoCards
             //    }
             //}
 
-            float minY = -infoCards[0].shadowBar.rect.gameObject.GetComponentInParent<Canvas>().pixelRect.height / infoCards[0].shadowBar.rect.gameObject.GetComponentInParent<Canvas>().scaleFactor;
+            float minY = -CameraController.Instance.uiCamera.pixelRect.height;
 
             float offsetX = 0f;
 
-            var gridInfo = new List<ColumnInfo>() { };
+            gridInfo.Clear();
             var colInfo = new ColumnInfo
             {
                 offsetX = 0f,
@@ -108,6 +174,10 @@ namespace BetterInfoCards
             }
 
             gridInfo.Add(colInfo);
+        }
+
+        private static void AlterInfoCards()
+        {
             for (int i = gridInfo.Count - 1; i >= 0; i--)
             {
                 ColumnInfo info = gridInfo[i];
