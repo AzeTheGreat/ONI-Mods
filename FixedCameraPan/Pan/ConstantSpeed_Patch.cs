@@ -38,15 +38,17 @@ namespace FixedCameraPan
 
         private static float GetScalar(float dT)
         {
-            if (Mathf.Abs(dT - lastFrameDT) > spikeThreshold || Mathf.Abs(dT - lastLastFrameDT) > spikeThreshold)
-                return Mathf.Clamp(lastGoodDT, 0, dT);
-            else
-                lastGoodDT = dT;
+            //if (Mathf.Abs(dT - lastFrameDT) > spikeThreshold || Mathf.Abs(dT - lastLastFrameDT) > spikeThreshold)
+            //    return Mathf.Clamp(lastGoodDT, 0, dT);
+            //else
+            //    lastGoodDT = dT;
 
-            lastFrameDT = dT;
-            lastLastFrameDT = lastFrameDT;
+            //lastFrameDT = dT;
+            //lastLastFrameDT = lastFrameDT;
 
-            return dT;
+            //return dT;
+
+            return Mathf.Clamp(dT, 0f, 0.1f);
         }
     }
 }

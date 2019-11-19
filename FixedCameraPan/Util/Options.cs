@@ -14,7 +14,7 @@ namespace FixedCameraPan
 
         public Options()
         {
-            PanSpeed = 120f;
+            PanSpeed = 80f;
         }
 
         public static void OnLoad()
