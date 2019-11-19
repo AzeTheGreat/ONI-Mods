@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BetterInfoCards
 {
-    public class DrawnWidgets
+    public class DrawnWidgets : WidgetsBase
     {
         public static DrawnWidgets Instance { get; set; }
 
@@ -17,11 +17,6 @@ namespace BetterInfoCards
                 return float.MaxValue;
             }
         }
-
-        public List<Entry> shadowBars = new List<Entry>();
-        public List<Entry> iconWidgets = new List<Entry>();
-        public List<Entry> textWidgets = new List<Entry>();
-        public List<Entry> selectBorders = new List<Entry>();
 
         private float[] cachedShadowWidths = new float[0];
         private float[] cachedShadowHeights = new float[0];
@@ -62,27 +57,9 @@ namespace BetterInfoCards
             return false;
         }
 
-        public void Update(List<Entry> cachedEntries, CachedWidgets.EntryType type, int drawnWidgets)
+        public void Update(List<Entry> cachedEntries, EntryType type, int drawnWidgets)
         {
-            List<Entry> drawnEntries;
-
-            switch (type)
-            {
-                case CachedWidgets.EntryType.shadowBar:
-                    drawnEntries = shadowBars;
-                    break;
-                case CachedWidgets.EntryType.iconWidget:
-                    drawnEntries = iconWidgets;
-                    break;
-                case CachedWidgets.EntryType.textWidget:
-                    drawnEntries = textWidgets;
-                    break;
-                case CachedWidgets.EntryType.selectBorder:
-                    drawnEntries = selectBorders;
-                    break;
-                default:
-                    throw new Exception("Invalid EntryType");
-            }
+            List<Entry> drawnEntries = GetEntries(type);
 
             if (drawnWidgets > drawnEntries.Count)
                 drawnEntries.AddRange(cachedEntries.GetRange(drawnEntries.Count, drawnWidgets - drawnEntries.Count));

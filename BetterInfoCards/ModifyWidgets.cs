@@ -29,7 +29,7 @@ namespace BetterInfoCards
 
             static void Postfix(ref List<Entry> ___entries, int ___drawnWidgets)
             {
-                Instance.cachedWidgets.UpdateCache(___entries, (CachedWidgets.EntryType)callNumber, ___drawnWidgets);
+                Instance.cachedWidgets.UpdateCache(___entries, (WidgetsBase.EntryType)callNumber, ___drawnWidgets);
 
                 callNumber++;
                 if (callNumber > 3)
@@ -47,45 +47,15 @@ namespace BetterInfoCards
         }
     }
 
-    public class CachedWidgets
+    public class CachedWidgets : WidgetsBase
     {
-        public enum EntryType
-        {
-            shadowBar,
-            iconWidget,
-            textWidget,
-            selectBorder
-        }
-
         private DrawnWidgets drawnWidgets = new DrawnWidgets();
-
-        private List<Entry> shadowBars = new List<Entry>();
-        private List<Entry> iconWidgets = new List<Entry>();
-        private List<Entry> textWidgets = new List<Entry>();
-        private List<Entry> selectBorders = new List<Entry>();
 
         public void UpdateCache(List<Entry> entries, EntryType type, int numWidgetsDrawn)
         {
             DrawnWidgets.Instance = drawnWidgets;
-            List<Entry> cachedEntries;
 
-            switch (type)
-            {
-                case EntryType.shadowBar:
-                    cachedEntries = shadowBars;
-                    break;
-                case EntryType.iconWidget:
-                    cachedEntries = iconWidgets;
-                    break;
-                case EntryType.textWidget:
-                    cachedEntries = textWidgets;
-                    break;
-                case EntryType.selectBorder:
-                    cachedEntries = selectBorders;
-                    break;
-                default:
-                    throw new Exception("Invalid EntryType");
-            }
+            List<Entry> cachedEntries = GetEntries(type);
 
             if (entries.Count > cachedEntries.Count)
             {

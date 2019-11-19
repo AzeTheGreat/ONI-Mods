@@ -92,6 +92,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseWidget.cs" />
     <Compile Include="ChangeHits_Patch.cs" />
     <Compile Include="DrawnWidgets.cs" />
     <Compile Include="Instances_Patch.cs" />
