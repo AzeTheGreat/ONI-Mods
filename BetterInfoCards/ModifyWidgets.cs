@@ -26,7 +26,7 @@ namespace BetterInfoCards
                 return AccessTools.FirstInner(typeof(HoverTextDrawer), x => x.IsGenericType).MakeGenericType(typeof(object)).GetMethod("EndDrawing");
             }
 
-            static void Postfix(ref List<Entry> ___entries, int ___drawnWidgets)
+            static void Postfix(List<Entry> ___entries, int ___drawnWidgets)
             {
                 Instance.cachedWidgets.UpdateCache(___entries, (WidgetsBase.EntryType)callNumber, ___drawnWidgets);
 
