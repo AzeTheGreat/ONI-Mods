@@ -10,17 +10,11 @@ namespace BetterInfoCards
         public static ModifyWidgets Instance { get; set; }
 
         private CachedWidgets cachedWidgets = new CachedWidgets();
+        private int callNumber = 0;
 
         [HarmonyPatch]
         private class GetWidgets_Patch
         {
-            private static int callNumber = 0;
-
-            public static void Initialize()
-            {
-                callNumber = 0;
-            }
-
             static MethodBase TargetMethod()
             {
                 return AccessTools.FirstInner(typeof(HoverTextDrawer), x => x.IsGenericType).MakeGenericType(typeof(object)).GetMethod("EndDrawing");
@@ -28,6 +22,7 @@ namespace BetterInfoCards
 
             static void Postfix(List<Entry> ___entries, int ___drawnWidgets)
             {
+                int callNumber = Instance.callNumber;
                 Instance.cachedWidgets.UpdateCache(___entries, (WidgetsBase.EntryType)callNumber, ___drawnWidgets);
 
                 callNumber++;
