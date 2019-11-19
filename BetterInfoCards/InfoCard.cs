@@ -5,9 +5,9 @@ namespace BetterInfoCards
 {
     public class InfoCard
     {
-        public Entry shadowBar;
-        public List<Entry> iconWidgets;
-        public List<Entry> textWidgets;
+        private Entry shadowBar;
+        private List<Entry> iconWidgets;
+        private List<Entry> textWidgets;
         public Entry selectBorder;
 
         public float Width { get { return shadowBar.rect.rect.width; } }
@@ -15,20 +15,19 @@ namespace BetterInfoCards
         public float YMin { get { return YMax - shadowBar.rect.rect.height; } }
         public string Title { get { return ((LocText)textWidgets[0].widget).text; } }
 
-        public InfoCard(Entry shadowBar, ref int iconIndex, ref int textIndex)
+        public InfoCard(Entry shadowBar, List<Entry> icons, List<Entry> texts, ref int iconIndex, ref int textIndex)
         {
             this.shadowBar = shadowBar;
-            iconWidgets = GetEntries(ref iconIndex, DrawnWidgets.Instance.iconWidgets);
-            textWidgets = GetEntries(ref textIndex, DrawnWidgets.Instance.textWidgets);
+            iconWidgets = GetEntries(ref iconIndex, icons);
+            textWidgets = GetEntries(ref textIndex, texts);
         }
 
         public void Translate(float x, float y)
         {
+            Debug.Log("ICONS 2: " + iconWidgets.Count);
             shadowBar.rect.anchoredPosition = new Vector2(shadowBar.rect.anchoredPosition.x + x, shadowBar.rect.anchoredPosition.y + y);
-
             if (selectBorder.rect != null)
                 selectBorder.rect.anchoredPosition = new Vector2(selectBorder.rect.anchoredPosition.x + x, selectBorder.rect.anchoredPosition.y + y);
-
             foreach (var icon in iconWidgets)
             {
                 icon.rect.anchoredPosition = new Vector2(icon.rect.anchoredPosition.x + x, icon.rect.anchoredPosition.y + y);

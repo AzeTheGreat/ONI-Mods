@@ -6,9 +6,9 @@ namespace BetterInfoCards
 {
     public class DrawnWidgets : WidgetsBase
     {
-        public static DrawnWidgets Instance { get; set; }
+        private InfoCards InfoCards;
 
-        public float selectPos
+        public float SelectPos
         {
             get
             {
@@ -25,7 +25,7 @@ namespace BetterInfoCards
         private const float equalsThreshold = 0.001f;
 
         // This could theoretically fail if objects with the same exact shadow bar width and height were swapped in the same frame...
-        public bool IsLayoutChanged()
+        private bool IsLayoutChanged()
         {
             if (shadowBars.Count != cachedShadowWidths.Length)
                 return true;
@@ -41,7 +41,7 @@ namespace BetterInfoCards
         }
 
         // Could theoretically fail if user clicks and the layout changes in the same frame such that the new pos is identical to the old...
-        public bool IsSelectedChanged()
+        private bool IsSelectedChanged()
         {
             Vector3 currentSelectBorder;
             if (selectBorders.Count > 0)
@@ -57,7 +57,7 @@ namespace BetterInfoCards
             return false;
         }
 
-        public void Update(List<Entry> cachedEntries, EntryType type, int drawnWidgets)
+        public void UpdateCache(List<Entry> cachedEntries, EntryType type, int drawnWidgets)
         {
             List<Entry> drawnEntries = GetEntries(type);
 
@@ -67,27 +67,15 @@ namespace BetterInfoCards
                 drawnEntries.RemoveRange(drawnWidgets, drawnEntries.Count - drawnWidgets);
         }
 
-        public List<InfoCard> FormInfoCards()
+        public void Update()
         {
-            var infoCards = new List<InfoCard>();
+            if (IsLayoutChanged())
+                InfoCards = new InfoCards(cachedShadowWidths, cachedShadowHeights, shadowBars, iconWidgets, textWidgets);
 
-            int iconIndex = 0;
-            int textIndex = 0;
+            if (IsSelectedChanged())
+                InfoCards.UpdateSelected(SelectPos);
 
-            cachedShadowWidths = new float[shadowBars.Count];
-            cachedShadowHeights = new float[shadowBars.Count];
-
-            // For each shadow bar, create an info card and add the relevant icons and texts.
-            for (int i = 0; i < shadowBars.Count; i++)
-            {
-                Entry shadowBar = shadowBars[i];
-                infoCards.Add(new InfoCard(shadowBar, ref iconIndex, ref textIndex));
-
-                cachedShadowWidths[i] = shadowBar.rect.rect.width;
-                cachedShadowHeights[i] = shadowBar.rect.rect.height;
-            }
-
-            return infoCards;
+            InfoCards.Update(selectBorders);
         }
 
         private bool NearEquals(float f1, float f2, float diff)

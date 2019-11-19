@@ -41,7 +41,7 @@ namespace BetterInfoCards
         {
             static void Postfix()
             {
-                WidgetModifier.Instance.ModifyWidgets();
+                Instance.cachedWidgets.Update();
             }
         }
     }

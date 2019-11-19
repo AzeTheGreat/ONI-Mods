@@ -17,7 +17,12 @@ namespace BetterInfoCards
                 cachedEntries.AddRange(entries.ConvertAll(new Converter<Entry, Entry>(ConvertEntryToEntry)).GetRange(cachedEntries.Count, entries.Count - cachedEntries.Count));
             }
 
-            drawnWidgets.Update(cachedEntries, type, numWidgetsDrawn);
+            drawnWidgets.UpdateCache(cachedEntries, type, numWidgetsDrawn);
+        }
+
+        public void Update()
+        {
+            drawnWidgets.Update();
         }
 
         private Entry ConvertEntryToEntry(Entry source)
