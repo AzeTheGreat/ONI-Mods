@@ -4,9 +4,9 @@ using System.Reflection;
 
 namespace BetterInfoCards
 {
-    public class ModifyWidgets_Patch
+    public class ModifyWidgets
     {
-        public static ModifyWidgets_Patch Instance { get; set; }
+        public static ModifyWidgets Instance { get; set; }
 
         private CachedWidgets cachedWidgets = new CachedWidgets();
         private int callNumber = 0;
