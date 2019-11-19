@@ -62,6 +62,34 @@ namespace BetterInfoCards
             return false;
         }
 
+        public void Update(List<Entry> cachedEntries, CachedWidgets.EntryType type, int drawnWidgets)
+        {
+            List<Entry> drawnEntries;
+
+            switch (type)
+            {
+                case CachedWidgets.EntryType.shadowBar:
+                    drawnEntries = shadowBars;
+                    break;
+                case CachedWidgets.EntryType.iconWidget:
+                    drawnEntries = iconWidgets;
+                    break;
+                case CachedWidgets.EntryType.textWidget:
+                    drawnEntries = textWidgets;
+                    break;
+                case CachedWidgets.EntryType.selectBorder:
+                    drawnEntries = selectBorders;
+                    break;
+                default:
+                    throw new Exception("Invalid EntryType");
+            }
+
+            if (drawnWidgets > drawnEntries.Count)
+                drawnEntries.AddRange(cachedEntries.GetRange(drawnEntries.Count, drawnWidgets - drawnEntries.Count));
+            if (drawnWidgets < drawnEntries.Count)
+                drawnEntries.RemoveRange(drawnWidgets, drawnEntries.Count - drawnWidgets);
+        }
+
         public List<InfoCard> FormInfoCards()
         {
             var infoCards = new List<InfoCard>();
