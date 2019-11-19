@@ -22,7 +22,7 @@ namespace BetterInfoCards
 
             static void Postfix(List<Entry> ___entries, int ___drawnWidgets)
             {
-                int callNumber = Instance.callNumber;
+                ref int callNumber = ref Instance.callNumber;
                 Instance.cachedWidgets.UpdateCache(___entries, (WidgetsBase.EntryType)callNumber, ___drawnWidgets);
 
                 callNumber++;
