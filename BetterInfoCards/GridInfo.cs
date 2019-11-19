@@ -8,7 +8,6 @@ namespace BetterInfoCards
     class GridInfo
     {
         private const float shadowBarSpacingX = 5f;
-        private const float isOverlappedThreshold = 10f;
 
         List<ColumnInfo> columnInfos = new List<ColumnInfo>();
 
@@ -87,15 +86,12 @@ namespace BetterInfoCards
         {
             for (int i = columnInfos.Count - 1; i >= 0; i--)
             {
-                ColumnInfo info = columnInfos[i];
+                float colToRightYMin = float.MaxValue;
 
-                foreach (var card in info.infoCards)
-                {
-                    card.Translate(info.offsetX, info.offsetY);
+                if (i != columnInfos.Count - 1)
+                    colToRightYMin = columnInfos[i + 1].YMin;
 
-                    if (i != columnInfos.Count - 1 && columnInfos[i + 1].YMin < card.YMax - isOverlappedThreshold)
-                        card.Resize(info.maxXInCol);
-                }
+                columnInfos[i].MoveAndResize(colToRightYMin);
             }
         }
     }
