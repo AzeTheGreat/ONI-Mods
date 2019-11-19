@@ -1,4 +1,5 @@
 ﻿using Harmony;
+using System.Linq;
 
 namespace BetterInfoCards
 {
@@ -19,7 +20,6 @@ namespace BetterInfoCards
             WidgetModifier.Instance = new WidgetModifier();
             DrawnWidgets.Instance = new DrawnWidgets();
             GetWidgets_Patch.Initialize();
-
         }
     }
 

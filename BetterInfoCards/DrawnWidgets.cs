@@ -45,6 +45,7 @@ namespace BetterInfoCards
             return false;
         }
 
+        // Could theoretically fail if user clicks and the layout changes in the same frame such that the new pos is identical to the old...
         public bool IsSelectedChanged()
         {
             Vector3 currentSelectBorder;
