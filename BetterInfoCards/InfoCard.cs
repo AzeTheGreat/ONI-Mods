@@ -24,7 +24,6 @@ namespace BetterInfoCards
 
         public void Translate(float x, float y)
         {
-            Debug.Log("ICONS 2: " + iconWidgets.Count);
             shadowBar.rect.anchoredPosition = new Vector2(shadowBar.rect.anchoredPosition.x + x, shadowBar.rect.anchoredPosition.y + y);
             if (selectBorder.rect != null)
                 selectBorder.rect.anchoredPosition = new Vector2(selectBorder.rect.anchoredPosition.x + x, selectBorder.rect.anchoredPosition.y + y);

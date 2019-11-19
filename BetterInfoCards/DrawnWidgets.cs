@@ -8,7 +8,7 @@ namespace BetterInfoCards
     {
         private InfoCards InfoCards;
 
-        public float SelectPos
+        private float SelectPos
         {
             get
             {

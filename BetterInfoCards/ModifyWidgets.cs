@@ -1,7 +1,6 @@
 ﻿using Harmony;
 using System.Collections.Generic;
 using System.Reflection;
-using UnityEngine;
 
 namespace BetterInfoCards
 {
@@ -39,11 +38,5 @@ namespace BetterInfoCards
                 Instance.cachedWidgets.Update();
             }
         }
-    }
-
-    public struct Entry
-    {
-        public MonoBehaviour widget;
-        public RectTransform rect;
     }
 }
