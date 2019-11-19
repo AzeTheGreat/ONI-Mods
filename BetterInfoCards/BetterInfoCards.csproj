@@ -96,12 +96,12 @@
     <Compile Include="CachedWidgets.cs" />
     <Compile Include="ChangeHits_Patch.cs" />
     <Compile Include="DrawnWidgets.cs" />
+    <Compile Include="Entry.cs" />
     <Compile Include="InfoCards.cs" />
     <Compile Include="Instances_Patch.cs" />
     <Compile Include="ModifyWidgets.cs" />
     <Compile Include="GridInfo.cs" />
     <Compile Include="InfoCard.cs" />
-    <Compile Include="InfoCardModifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoveShadow_Patch.cs" />
     <Compile Include="SelectableGroup.cs" />
