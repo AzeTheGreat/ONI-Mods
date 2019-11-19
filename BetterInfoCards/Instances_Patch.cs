@@ -1,5 +1,4 @@
 ﻿using Harmony;
-using System.Linq;
 
 namespace BetterInfoCards
 {
@@ -17,7 +16,7 @@ namespace BetterInfoCards
     {
         static void Postfix()
         {
-
+            ModifyWidgets.Instance = null;
         }
     }
 }
