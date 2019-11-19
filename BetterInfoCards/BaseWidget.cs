@@ -13,11 +13,10 @@ namespace BetterInfoCards
             selectBorder
         }
 
-        // TODO: Make protected
-        public List<Entry> shadowBars = new List<Entry>();
-        public List<Entry> iconWidgets = new List<Entry>();
-        public List<Entry> textWidgets = new List<Entry>();
-        public List<Entry> selectBorders = new List<Entry>();
+        protected List<Entry> shadowBars = new List<Entry>();
+        protected List<Entry> iconWidgets = new List<Entry>();
+        protected List<Entry> textWidgets = new List<Entry>();
+        protected List<Entry> selectBorders = new List<Entry>();
 
         protected List<Entry> GetEntries(EntryType type)
         {
