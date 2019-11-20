@@ -14,7 +14,7 @@ namespace BetterInfoCards
 
         private GridInfo GridInfo;
 
-        public InfoCards(float[] cachedShadowWidths, float[] cachedShadowHeights, List<Entry> shadowBars, List<Entry> iconWidgets, List<Entry> textWidgets)
+        public InfoCards(ref float[] cachedShadowWidths, ref float[] cachedShadowHeights, List<Entry> shadowBars, List<Entry> iconWidgets, List<Entry> textWidgets)
         {
             infoCards = new List<InfoCard>();
 
@@ -39,8 +39,7 @@ namespace BetterInfoCards
         {
             if (HasMouseMovedEnough())
                 GridInfo = new GridInfo(infoCards);
-
-            if(selectBorders.Count > 0)
+            if (selectBorders.Count > 0)
                 cachedClosestInfoCard.selectBorder = selectBorders[0];
 
             GridInfo.MoveAndResizeInfoCards();
