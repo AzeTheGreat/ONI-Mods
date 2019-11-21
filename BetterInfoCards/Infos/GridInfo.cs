@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace BetterInfoCards
 {
     class GridInfo
     {
-        private const float shadowBarSpacingX = 5f;
+        private const float shadowBarSpacing = 5f;
 
         List<ColumnInfo> columnInfos = new List<ColumnInfo>();
 
@@ -23,26 +24,29 @@ namespace BetterInfoCards
             }
         }
 
-        public GridInfo(List<DisplayCard> displayCards)
+        public GridInfo(List<DisplayCard> displayCards, float topY)
         {
-            float offsetX = 0f;
+            if (displayCards.Count == 0)
+                return;
+
+            Vector2 offset = new Vector2(0f, topY);
 
             columnInfos.Clear();
             var colInfo = new ColumnInfo();
-
+    
             foreach (DisplayCard card in displayCards)
             {
-                if (card.YMin + colInfo.offsetY < MinY)
+                if (offset.y - card.Height < MinY)
                 {
-                    offsetX += colInfo.maxXInCol + shadowBarSpacingX;
+                    offset.x += colInfo.maxXInCol + shadowBarSpacing;
 
                     columnInfos.Add(colInfo);
-                    colInfo = new ColumnInfo
-                    {
-                        offsetX = offsetX,
-                        offsetY = displayCards[0].YMax - card.YMax
-                    };
+                    colInfo = new ColumnInfo { offsetX = offset.x };
+                    offset.y = topY;
                 }
+
+                card.offset.y = offset.y - card.YMax;
+                offset.y -= card.Height + shadowBarSpacing;
 
                 if (card.Width > colInfo.maxXInCol)
                     colInfo.maxXInCol = card.Width;

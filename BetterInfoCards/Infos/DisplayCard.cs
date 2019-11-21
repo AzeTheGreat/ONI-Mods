@@ -9,9 +9,12 @@ namespace BetterInfoCards
     public class DisplayCard
     {
         public float Width { get { return infoCards[0].Width; } }
+        public float Height { get { return infoCards[0].Height; } }
         public float YMax { get { return infoCards[0].YMax; } }
         public float YMin { get { return infoCards[0].YMin; } }
         public string Title { get { return infoCards[0].Title; } }
+
+        public Vector2 offset = new Vector2();
 
         private List<InfoCard> infoCards;
 
@@ -34,9 +37,9 @@ namespace BetterInfoCards
             this.infoCards = infoCards;
         }
 
-        public void Translate(float x, float y)
+        public void Translate(float x)
         {
-            infoCards[0].Translate(x, y);
+            infoCards[0].Translate(x, offset.y);
 
             for (int i = 1; i < infoCards.Count; i++)
             {

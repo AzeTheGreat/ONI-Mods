@@ -12,6 +12,7 @@ namespace BetterInfoCards
         public Entry selectBorder;
 
         public float Width { get { return shadowBar.rect.rect.width; } }
+        public float Height { get { return shadowBar.rect.rect.height; } }
         public float YMax { get { return shadowBar.rect.anchoredPosition.y; } }
         public float YMin { get { return YMax - shadowBar.rect.rect.height; } }
         public string Title { get { return ((LocText)textWidgets[0].widget).text; } }

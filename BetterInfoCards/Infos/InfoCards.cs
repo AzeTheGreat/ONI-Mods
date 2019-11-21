@@ -12,7 +12,7 @@ namespace BetterInfoCards
         private Vector3 cachedMousePos = Vector3.positiveInfinity;
         private InfoCard cachedClosestInfoCard = null;
 
-        private DisplayCards DisplayCards;
+        private DisplayCards displayCards;
 
         public InfoCards(ref float[] cachedShadowWidths, ref float[] cachedShadowHeights, List<Entry> shadowBars, List<Entry> iconWidgets, List<Entry> textWidgets)
         {
@@ -38,11 +38,11 @@ namespace BetterInfoCards
         public void Update(List<Entry> selectBorders)
         {
             if (HasMouseMovedEnough())
-                DisplayCards = new DisplayCards(infoCards);
+                displayCards = new DisplayCards(infoCards);
             if (selectBorders.Count > 0)
                 cachedClosestInfoCard.selectBorder = selectBorders[0];
 
-            DisplayCards.Update();
+            displayCards.Update();
         }
 
         public void UpdateSelected(float borderY)

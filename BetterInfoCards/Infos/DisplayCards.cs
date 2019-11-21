@@ -45,12 +45,12 @@ namespace BetterInfoCards
                 }
             }
 
-            foreach (var kvp in detailSplit)
+            foreach (var kvp in nameSplit)
             {
                 displayCards.Add(new DisplayCard(kvp.Value));
             }
 
-            gridInfo = new GridInfo(displayCards);
+            gridInfo = new GridInfo(displayCards, infoCards[0].YMax);
         }
 
         public void Update()
