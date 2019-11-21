@@ -8,6 +8,7 @@ namespace BetterInfoCards
     public class DisplayCards
     {
         private List<DisplayCard> displayCards = new List<DisplayCard>();
+        private GridInfo gridInfo;
 
         public DisplayCards(List<InfoCard> infoCards)
         {
@@ -18,11 +19,10 @@ namespace BetterInfoCards
             foreach (InfoCard card in infoCards)
             {
                 string key = card.Title;
-                var value = new List<InfoCard>();
-
-                if (!nameSplit.TryGetValue(key, out value))
-                    nameSplit[key] = value;
+                if (!nameSplit.TryGetValue(key, out List<InfoCard> value))
+                    value = new List<InfoCard>();
                 value.Add(card);
+                nameSplit[key] = value;
             }
 
             foreach (var kvp in nameSplit)
@@ -33,11 +33,10 @@ namespace BetterInfoCards
                     foreach (InfoCard card in infoCards)
                     {
                         string key = card.Title;
-                        var value = new List<InfoCard>();
-
-                        if (!detailSplit.TryGetValue(key, out value))
-                            detailSplit[key] = value;
+                        if (!detailSplit.TryGetValue(key, out List<InfoCard> value))
+                            value = new List<InfoCard>();
                         value.Add(card);
+                        detailSplit[key] = value;
                     }
                 }
                 else
@@ -50,6 +49,13 @@ namespace BetterInfoCards
             {
                 displayCards.Add(new DisplayCard(kvp.Value));
             }
+
+            gridInfo = new GridInfo(displayCards);
+        }
+
+        public void Update()
+        {
+            gridInfo.MoveAndResizeInfoCards();
         }
     }
 }
