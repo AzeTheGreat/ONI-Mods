@@ -8,7 +8,12 @@ namespace BetterInfoCards
     {
         static void Postfix(List<KSelectable> hits)
         {
-            hits.Sort((x,y) => x.entityName.CompareTo(y.entityName));
+            //hits.Sort((x,y) => x.entityName.CompareTo(y.entityName));
+
+            //foreach (KSelectable hit in hits)
+            //{
+            //    hit.gameObject
+            //}
         }
     }
 }

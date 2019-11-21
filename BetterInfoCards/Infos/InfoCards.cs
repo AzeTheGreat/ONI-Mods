@@ -13,6 +13,7 @@ namespace BetterInfoCards
         private InfoCard cachedClosestInfoCard = null;
 
         private GridInfo GridInfo;
+        private DisplayCards DisplayCards;
 
         public InfoCards(ref float[] cachedShadowWidths, ref float[] cachedShadowHeights, List<Entry> shadowBars, List<Entry> iconWidgets, List<Entry> textWidgets)
         {
@@ -43,6 +44,7 @@ namespace BetterInfoCards
                 cachedClosestInfoCard.selectBorder = selectBorders[0];
 
             GridInfo.MoveAndResizeInfoCards();
+            DisplayCards = new DisplayCards(infoCards);
         }
 
         public void UpdateSelected(float borderY)
