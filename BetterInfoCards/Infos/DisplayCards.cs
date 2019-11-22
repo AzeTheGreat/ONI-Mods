@@ -47,6 +47,8 @@ namespace BetterInfoCards
             ModifyHits.Instance.indexRedirect.Clear();
             // Not entirely sure why this isn't reset by the game's code...
             ModifyHits.Instance.localIndex = 0;
+            ModifyHits.Instance.first = true;
+            Debug.Log("RESET");
 
             foreach (var kvp in detailSplit)
             {
