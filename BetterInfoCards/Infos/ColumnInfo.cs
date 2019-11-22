@@ -17,6 +17,7 @@ namespace BetterInfoCards
             foreach (DisplayCard card in displayCards)
             {
                 card.Translate(offsetX);
+                card.Rename();
 
                 if (colToRightYMin < card.YMax - isOverlappedThreshold)
                     card.Resize(maxXInCol);

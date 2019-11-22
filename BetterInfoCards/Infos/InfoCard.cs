@@ -15,7 +15,10 @@ namespace BetterInfoCards
         public float Height { get { return shadowBar.rect.rect.height; } }
         public float YMax { get { return shadowBar.rect.anchoredPosition.y; } }
         public float YMin { get { return YMax - shadowBar.rect.rect.height; } }
-        public string Title { get { return ((LocText)textWidgets[0].widget).text; } }
+        public string Title {
+            get { return ((LocText)textWidgets[0].widget).text; }
+            set { ((LocText)textWidgets[0].widget).text = value; }
+        }
 
         public InfoCard(Entry shadowBar, List<Entry> icons, List<Entry> texts, ref int iconIndex, ref int textIndex)
         {

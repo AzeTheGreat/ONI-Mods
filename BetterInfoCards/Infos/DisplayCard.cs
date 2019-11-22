@@ -14,6 +14,8 @@ namespace BetterInfoCards
         public float YMin { get { return infoCards[0].YMin; } }
         public string Title { get { return infoCards[0].Title; } }
 
+        private string titleOverride = string.Empty;
+
         public Vector2 offset = new Vector2();
 
         private List<InfoCard> infoCards;
@@ -35,6 +37,31 @@ namespace BetterInfoCards
         public DisplayCard(List<InfoCard> infoCards)
         {
             this.infoCards = infoCards;
+
+            var charStack = new Stack<char>();
+
+            if(infoCards.Count > 1)
+            {
+                string title = infoCards[0].Title;
+
+                int i;
+                for (i = title.Length - 1; i >= 0; i--)
+                {
+                    if (!char.IsDigit(title[i]))
+                        break;
+
+                    charStack.Push(title[i]);
+                }
+
+                if(!int.TryParse(new string(charStack.ToArray()), out int titleCount))
+                {
+                    int trueCount = titleCount * infoCards.Count;
+                    titleOverride = title.Remove(i + 1, title.Length - i - 1) + trueCount;
+                }
+
+                titleOverride = title + " x " + infoCards.Count;
+            }
+                
         }
 
         public void Translate(float x)
@@ -51,6 +78,12 @@ namespace BetterInfoCards
                 else
                     break;
             }
+        }
+
+        public void Rename()
+        {
+            if(titleOverride != string.Empty)
+                infoCards[0].Title = titleOverride;
         }
 
         public void Resize(float newX)
