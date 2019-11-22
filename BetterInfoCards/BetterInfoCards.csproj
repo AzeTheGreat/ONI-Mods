@@ -97,7 +97,7 @@
     <Compile Include="MassStringFix_Patch.cs" />
     <Compile Include="Widgets\BaseWidget.cs" />
     <Compile Include="Widgets\CachedWidgets.cs" />
-    <Compile Include="Hits\ChangeHits_Patch.cs" />
+    <Compile Include="Hits\ModifyHits.cs" />
     <Compile Include="Widgets\DrawnWidgets.cs" />
     <Compile Include="Widgets\Entry.cs" />
     <Compile Include="Infos\InfoCards.cs" />

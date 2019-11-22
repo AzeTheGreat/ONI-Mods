@@ -53,13 +53,15 @@ namespace BetterInfoCards
                     charStack.Push(title[i]);
                 }
 
-                if(!int.TryParse(new string(charStack.ToArray()), out int titleCount))
+                if(int.TryParse(new string(charStack.ToArray()), out int titleCount))
                 {
                     int trueCount = titleCount * infoCards.Count;
                     titleOverride = title.Remove(i + 1, title.Length - i - 1) + trueCount;
                 }
-
-                titleOverride = title + " x " + infoCards.Count;
+                else
+                {
+                    titleOverride = title + " x " + infoCards.Count;
+                }
             }
                 
         }
@@ -89,6 +91,11 @@ namespace BetterInfoCards
         public void Resize(float newX)
         {
             infoCards[0].Resize(newX);
+        }
+
+        public int TopCardIndex(List<InfoCard> cards)
+        {
+            return cards.IndexOf(infoCards[0]);
         }
     }
 }

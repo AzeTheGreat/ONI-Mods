@@ -45,9 +45,15 @@ namespace BetterInfoCards
                 }
             }
 
+            ModifyHits.Instance.indexRedirect.Clear();
+            // Not entirely sure why this isn't reset by the game's code...
+            ModifyHits.Instance.localIndex = 0;
+
             foreach (var kvp in nameSplit)
             {
-                displayCards.Add(new DisplayCard(kvp.Value));
+                DisplayCard card = new DisplayCard(kvp.Value);
+                displayCards.Add(card);
+                ModifyHits.Instance.indexRedirect.Add(card.TopCardIndex(infoCards));
             }
 
             gridInfo = new GridInfo(displayCards, infoCards[0].YMax);

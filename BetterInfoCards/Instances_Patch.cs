@@ -8,6 +8,7 @@ namespace BetterInfoCards
         static void Postfix()
         {
             ModifyWidgets.Instance = new ModifyWidgets();
+            ModifyHits.Instance = new ModifyHits();
         }
     }
 
@@ -17,6 +18,7 @@ namespace BetterInfoCards
         static void Postfix()
         {
             ModifyWidgets.Instance = null;
+            ModifyHits.Instance = null;
         }
     }
 }
