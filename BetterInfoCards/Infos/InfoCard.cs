@@ -41,11 +41,10 @@ namespace BetterInfoCards
 
         public void Resize(float newX)
         {
-            Vector2 newSizeDelta = new Vector2(newX, shadowBar.rect.sizeDelta.y);
-            shadowBar.rect.sizeDelta = newSizeDelta;
+            shadowBar.rect.sizeDelta = new Vector2(newX, shadowBar.rect.sizeDelta.y);
 
             if (selectBorder.rect != null)
-                selectBorder.rect.sizeDelta = newSizeDelta;
+                selectBorder.rect.sizeDelta = new Vector2(newX + 2f, selectBorder.rect.sizeDelta.y);
         }
 
         private List<Entry> GetEntries(ref int index, List<Entry> widgets)

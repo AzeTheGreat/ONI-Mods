@@ -14,7 +14,7 @@ namespace BetterInfoCards
 
         private DisplayCards displayCards;
 
-        public InfoCards(ref float[] cachedShadowWidths, ref float[] cachedShadowHeights, List<Entry> shadowBars, List<Entry> iconWidgets, List<Entry> textWidgets)
+        public InfoCards(ref float[] cachedShadowWidths, ref float[] cachedShadowHeights, List<Entry> shadowBars, List<Entry> iconWidgets, List<Entry> textWidgets, float selectPos)
         {
             infoCards = new List<InfoCard>();
 
@@ -33,12 +33,15 @@ namespace BetterInfoCards
                 cachedShadowWidths[i] = shadowBar.rect.rect.width;
                 cachedShadowHeights[i] = shadowBar.rect.rect.height;
             }
+
+            UpdateSelected(selectPos);
         }
 
         public void Update(List<Entry> selectBorders)
         {
             if (HasMouseMovedEnough())
                 displayCards = new DisplayCards(infoCards);
+
             if (selectBorders.Count > 0)
                 cachedClosestInfoCard.selectBorder = selectBorders[0];
 
@@ -51,6 +54,7 @@ namespace BetterInfoCards
             {
                 InfoCard closestInfoCard = infoCards.Aggregate((x, y) => Math.Abs(x.YMax - borderY) < Math.Abs(y.YMax - borderY) ? x : y);
 
+                // Clear the old select border
                 if (cachedClosestInfoCard != null)
                     cachedClosestInfoCard.selectBorder = new Entry();
 

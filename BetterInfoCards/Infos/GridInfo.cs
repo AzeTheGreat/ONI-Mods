@@ -33,10 +33,13 @@ namespace BetterInfoCards
 
             columnInfos.Clear();
             var colInfo = new ColumnInfo();
-    
-            foreach (DisplayCard card in displayCards)
+
+            for (int i = 0; i < displayCards.Count; i++)
             {
-                if (offset.y - card.Height < MinY)
+                DisplayCard card = displayCards[i];
+
+                // If the first one can't fit, put it down anyways otherwise they all get shifted over by the shadow bar spacing.
+                if (offset.y - card.Height < MinY && i > 0)
                 {
                     offset.x += colInfo.maxXInCol + shadowBarSpacing;
 
@@ -53,6 +56,7 @@ namespace BetterInfoCards
 
                 colInfo.displayCards.Add(card);
             }
+
             columnInfos.Add(colInfo);
         }
 
