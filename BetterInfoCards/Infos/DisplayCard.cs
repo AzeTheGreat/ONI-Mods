@@ -35,12 +35,12 @@ namespace BetterInfoCards
         {
             this.infoCards = infoCards;
 
+            // Don't display "x 1" since it's implicit. Differs from vanilla so some players might want a config for this.
             int sum = infoCards.Sum(x => x.quantity);
             if (sum > 1)
                 titleOverride = infoCards[0].Title + " x " + sum;
             else
                 titleOverride = infoCards[0].Title;
-
         }
 
         public void Translate(float x)
