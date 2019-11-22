@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace BetterInfoCards
@@ -12,7 +10,6 @@ namespace BetterInfoCards
         public float Height { get { return infoCards[0].Height; } }
         public float YMax { get { return infoCards[0].YMax; } }
         public float YMin { get { return infoCards[0].YMin; } }
-        public string Title { get { return infoCards[0].Title; } }
 
         private string titleOverride = string.Empty;
 
@@ -38,32 +35,12 @@ namespace BetterInfoCards
         {
             this.infoCards = infoCards;
 
-            var charStack = new Stack<char>();
+            int sum = infoCards.Sum(x => x.quantity);
+            if (sum > 1)
+                titleOverride = infoCards[0].Title + " x " + sum;
+            else
+                titleOverride = infoCards[0].Title;
 
-            if(infoCards.Count > 1)
-            {
-                string title = infoCards[0].Title;
-
-                int i;
-                for (i = title.Length - 1; i >= 0; i--)
-                {
-                    if (!char.IsDigit(title[i]))
-                        break;
-
-                    charStack.Push(title[i]);
-                }
-
-                if(int.TryParse(new string(charStack.ToArray()), out int titleCount))
-                {
-                    int trueCount = titleCount * infoCards.Count;
-                    titleOverride = title.Remove(i + 1, title.Length - i - 1) + trueCount;
-                }
-                else
-                {
-                    titleOverride = title + " x " + infoCards.Count;
-                }
-            }
-                
         }
 
         public void Translate(float x)

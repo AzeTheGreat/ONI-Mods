@@ -15,10 +15,37 @@ namespace BetterInfoCards
         public float Height { get { return shadowBar.rect.rect.height; } }
         public float YMax { get { return shadowBar.rect.anchoredPosition.y; } }
         public float YMin { get { return YMax - shadowBar.rect.rect.height; } }
-        public string Title {
-            get { return ((LocText)textWidgets[0].widget).text; }
+
+        public int quantity = 0;
+        private string cachedTitle = string.Empty;
+        public string Title
+        {
+            get
+            {
+                if(cachedTitle == string.Empty)
+                {
+                    cachedTitle = ((LocText)textWidgets[0].widget).text;
+
+                    var charStack = new Stack<char>();
+                    int i;
+                    for (i = cachedTitle.Length - 1; i >= 0; i--)
+                    {
+                        if (!char.IsDigit(cachedTitle[i]))
+                            break;
+
+                        charStack.Push(cachedTitle[i]);
+                    }
+                    if (int.TryParse(new string(charStack.ToArray()), out quantity))
+                        cachedTitle = cachedTitle.Remove(i - 1, cachedTitle.Length - i + 1);
+                    else
+                        quantity = 1;
+                }
+                return cachedTitle;
+            }
             set { ((LocText)textWidgets[0].widget).text = value; }
         }
+
+        
 
         public InfoCard(Entry shadowBar, List<Entry> icons, List<Entry> texts, ref int iconIndex, ref int textIndex)
         {
