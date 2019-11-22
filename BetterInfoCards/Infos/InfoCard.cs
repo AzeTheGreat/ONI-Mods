@@ -45,8 +45,6 @@ namespace BetterInfoCards
             set { ((LocText)textWidgets[0].widget).text = value; }
         }
 
-        
-
         public InfoCard(Entry shadowBar, List<Entry> icons, List<Entry> texts, ref int iconIndex, ref int textIndex)
         {
             this.shadowBar = shadowBar;
@@ -99,6 +97,20 @@ namespace BetterInfoCards
         private bool RectWithin(Entry main, Entry sub)
         {
             return sub.rect.anchoredPosition.y > main.rect.offsetMin.y && sub.rect.anchoredPosition.y < main.rect.offsetMax.y;
+        }
+
+        public string GetTextKey()
+        {
+            var texts = new List<string>();
+            foreach (Entry entry in textWidgets)
+            {
+                string text = ((LocText)entry.widget).text;
+                if (!text.Any(char.IsDigit))
+                    texts.Add(text);
+            }
+            texts.Sort();
+
+            return string.Join(null, texts.ToArray()); ;
         }
     }
 }

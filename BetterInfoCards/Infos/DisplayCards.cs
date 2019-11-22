@@ -27,12 +27,11 @@ namespace BetterInfoCards
 
             foreach (var kvp in nameSplit)
             {
-                // If there are multiple infoCards with the same title, consider stacking them
-                if(kvp.Value.Count > 1)
+                if (kvp.Value.Count > 1)
                 {
-                    foreach (InfoCard card in infoCards)
+                    foreach (InfoCard card in kvp.Value)
                     {
-                        string key = card.Title;
+                        string key = card.Title + card.GetTextKey();
                         if (!detailSplit.TryGetValue(key, out List<InfoCard> value))
                             value = new List<InfoCard>();
                         value.Add(card);
@@ -41,7 +40,7 @@ namespace BetterInfoCards
                 }
                 else
                 {
-                    displaySplit.Add(kvp.Value);
+                    detailSplit[kvp.Key] = kvp.Value;
                 }
             }
 
@@ -49,7 +48,7 @@ namespace BetterInfoCards
             // Not entirely sure why this isn't reset by the game's code...
             ModifyHits.Instance.localIndex = 0;
 
-            foreach (var kvp in nameSplit)
+            foreach (var kvp in detailSplit)
             {
                 DisplayCard card = new DisplayCard(kvp.Value);
                 displayCards.Add(card);
