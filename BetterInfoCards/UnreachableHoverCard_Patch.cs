@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Linq;
+using UnityEngine;
 
 namespace BetterInfoCards
 {
@@ -56,14 +58,21 @@ namespace BetterInfoCards
         {
             // I THINK checking just the first one will always work, but it might be kinda sketchy...
             if(overlayValidHoverObjects.Count > 0)
-                if (overlayValidHoverObjects[0].HasStatusItem(Db.Get().MiscStatusItems.PickupableUnreachable))
+            {
+                StatusItem unreachable = Db.Get().MiscStatusItems.PickupableUnreachable;
+                if (overlayValidHoverObjects[0].HasStatusItem(unreachable))
                 {
                     HoverTextDrawer drawer = HoverTextScreen.Instance.drawer;
+
                     drawer.BeginShadowBar();
-                    drawer.DrawText(Db.Get().MiscStatusItems.PickupableUnreachable.Name.ToUpper(), instance.Styles_Title.Standard);
+                    drawer.DrawIcon(unreachable.sprite.sprite, instance.Styles_BodyText.Standard.textColor, 18, -6);
+                    drawer.AddIndent(8);
+                    drawer.DrawText(unreachable.Name.ToUpper(), instance.Styles_Title.Standard);
                     drawer.EndShadowBar();
+
                     isUnreachableCard = true;
                 }
+            }  
         }
     }
 }
