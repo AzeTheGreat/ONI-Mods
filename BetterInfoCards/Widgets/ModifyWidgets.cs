@@ -14,6 +14,8 @@ namespace BetterInfoCards
         [HarmonyPatch]
         private class GetWidgets_Patch
         {
+            static bool Prepare() => true;
+
             static MethodBase TargetMethod()
             {
                 return AccessTools.FirstInner(typeof(HoverTextDrawer), x => x.IsGenericType).MakeGenericType(typeof(object)).GetMethod("EndDrawing");
@@ -33,6 +35,8 @@ namespace BetterInfoCards
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.EndDrawing))]
         private class EditWidgets_Patch
         {
+            static bool Prepare() => true;
+
             static void Postfix()
             {
                 Instance.cachedWidgets.Update();

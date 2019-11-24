@@ -19,6 +19,8 @@ namespace BetterInfoCards
         [HarmonyPatch]
         private class ChangeHits_Patch
         {
+            static bool Prepare() => true;
+
             static MethodBase TargetMethod()
             {
                 return AccessTools.Method(typeof(InterfaceTool), "GetObjectUnderCursor").MakeGenericMethod(typeof(KSelectable));
