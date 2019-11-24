@@ -92,6 +92,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompactCards.cs" />
     <Compile Include="Hits\UpdateHitsBefore_Patch.cs" />
     <Compile Include="Infos\DisplayCard.cs" />
     <Compile Include="Infos\DisplayCards.cs" />

@@ -8,7 +8,7 @@ namespace BetterInfoCards
 {
     class GridInfo
     {
-        private const float shadowBarSpacing = 5f;
+        private const float shadowBarSpacing = 4f;
 
         List<ColumnInfo> columnInfos = new List<ColumnInfo>();
 
