@@ -10,6 +10,7 @@ namespace BetterInfoCards
         public float Height { get { return infoCards[0].Height; } }
         public float YMax { get { return infoCards[0].YMax; } }
         public float YMin { get { return infoCards[0].YMin; } }
+        public string Title { get { return infoCards[0].Title; } }
 
         private string titleOverride = string.Empty;
 
@@ -72,7 +73,11 @@ namespace BetterInfoCards
 
         public int TopCardIndex(List<InfoCard> cards)
         {
-            return cards.IndexOf(infoCards[0]);
+            int num = cards.IndexOf(infoCards[0]);
+            if (DetectRunStart_Patch.isUnreachableCard)
+                return num - 1;
+            else
+                return num;
         }
     }
 }

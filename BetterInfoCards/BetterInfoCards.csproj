@@ -96,6 +96,7 @@
     <Compile Include="Infos\DisplayCard.cs" />
     <Compile Include="Infos\DisplayCards.cs" />
     <Compile Include="MassStringFix_Patch.cs" />
+    <Compile Include="UnreachableHoverCard_Patch.cs" />
     <Compile Include="Widgets\BaseWidget.cs" />
     <Compile Include="Widgets\CachedWidgets.cs" />
     <Compile Include="Hits\ModifyHits.cs" />

@@ -35,6 +35,7 @@ namespace BetterInfoCards
 
                         charStack.Push(cachedTitle[i]);
                     }
+                    
                     if (int.TryParse(new string(charStack.ToArray()), out quantity))
                         cachedTitle = cachedTitle.Remove(i - 1, cachedTitle.Length - i + 1);
                     else

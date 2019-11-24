@@ -46,11 +46,16 @@ namespace BetterInfoCards
 
             var redirects = new List<int>();
 
+            bool isFirst = true;
             foreach (var kvp in detailSplit)
             {
                 DisplayCard card = new DisplayCard(kvp.Value);
                 displayCards.Add(card);
-                redirects.Add(card.TopCardIndex(infoCards));
+
+                if(!(DetectRunStart_Patch.isUnreachableCard && isFirst))
+                    redirects.Add(card.TopCardIndex(infoCards));
+
+                isFirst = false;
             }
             ModifyHits.Instance.Reset(redirects);
             gridInfo = new GridInfo(displayCards, infoCards[0].YMax);
