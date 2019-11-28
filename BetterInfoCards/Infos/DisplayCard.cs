@@ -46,7 +46,9 @@ namespace BetterInfoCards
             foreach (var textValue in infoCards[0].textValues)
             {
                 string name = textValue.Key;
-                StatusDataManager.statusConverter[name].getTextOverride(name, infoCards.Select(x => x.textValues[name]).ToList());
+                
+                string test = StatusDataManager.statusConverter[name].getTextOverride(name, infoCards.Select(x => x.textValues[name]).ToList());
+                Debug.Log(test);
             }
         }
 

@@ -46,6 +46,11 @@ namespace BetterInfoCards
             {
                 if (kvp.Value.Count > 1)
                 {
+                    foreach (InfoCard card in kvp.Value)
+                    {
+                        card.FormTextValues();
+                    }
+
                     var splits = new List<List<InfoCard>>
                     {
                         kvp.Value

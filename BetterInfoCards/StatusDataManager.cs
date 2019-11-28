@@ -12,13 +12,22 @@ namespace BetterInfoCards
         {
             { Db.Get().MiscStatusItems.OreMass.Name, new StatusData() {
                 getStatusValue = go => ((GameObject)go).GetComponent<PrimaryElement>().Mass,
-                getTextOverride = (name, masses) => name.Replace("{Mass}", GameUtil.GetFormattedMass((masses.Cast<float>()).Sum())),
-                getSplitLists = (masses, infoCards) => SplitList(infoCards, GetSplitIndices((List<float>)masses, 2f))
+                getTextOverride = (name, masses) => "Net: " + name.Replace("{Mass}", GameUtil.GetFormattedMass((masses.Cast<float>()).Sum())),
+                //getSplitLists = (masses, infoCards) => SplitList(infoCards, GetSplitIndices(masses.Cast<float>().ToList(), 10f))
+                getSplitLists = (masses, infoCards) => new List<List<InfoCard>> {infoCards}
             } }
         };
 
         private static List<int> GetSplitIndices(List<float> values, float maxVariance)
         {
+            //var sortedValues = new List<float>(values);
+            //sortedValues.Sort();
+
+            //for (int i = 1; i < sortedValues.Count; i++)
+            //{
+
+            //}
+
             return null;
         }
 
@@ -31,7 +40,7 @@ namespace BetterInfoCards
         {
             public Func<object, ValueType> getStatusValue;
             public Func<string, List<ValueType>, string> getTextOverride;
-            public Func<object, List<InfoCard>, List<List<InfoCard>>> getSplitLists;
+            public Func<List<ValueType>, List<InfoCard>, List<List<InfoCard>>> getSplitLists;
         }
     }
 }
