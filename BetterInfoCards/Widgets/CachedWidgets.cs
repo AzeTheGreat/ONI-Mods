@@ -13,7 +13,7 @@ namespace BetterInfoCards
 
             if (entries.Count > cachedEntries.Count)
             {
-                // Why the hell can't I convert after getting the range!?  BS
+                // Why the hell can't I convert AFTER getting the range!?  BS
                 cachedEntries.AddRange(entries.ConvertAll(new Converter<Entry, Entry>(ConvertEntryToEntry)).GetRange(cachedEntries.Count, entries.Count - cachedEntries.Count));
             }
 

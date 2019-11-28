@@ -57,6 +57,8 @@ namespace BetterInfoCards
         private static void DrawUnreachableCard(SelectToolHoverTextCard instance, List<KSelectable> overlayValidHoverObjects)
         {
             // I THINK checking just the first one will always work, but it might be kinda sketchy...
+            // No it's not, status item hover cards can be above it.
+            // TODO: Fix
             if(overlayValidHoverObjects.Count > 0)
             {
                 StatusItem unreachable = Db.Get().MiscStatusItems.PickupableUnreachable;

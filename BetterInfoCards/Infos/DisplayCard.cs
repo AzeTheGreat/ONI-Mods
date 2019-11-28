@@ -42,6 +42,12 @@ namespace BetterInfoCards
                 titleOverride = infoCards[0].Title + " x " + sum;
             else
                 titleOverride = infoCards[0].Title;
+
+            foreach (var textValue in infoCards[0].textValues)
+            {
+                string name = textValue.Key;
+                StatusDataManager.statusConverter[name].getTextOverride(name, infoCards.Select(x => x.textValues[name]).ToList());
+            }
         }
 
         public void Translate(float x)

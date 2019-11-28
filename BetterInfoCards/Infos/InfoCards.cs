@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace BetterInfoCards
@@ -27,8 +26,10 @@ namespace BetterInfoCards
             // For each shadow bar, create an info card and add the relevant icons and texts.
             for (int i = 0; i < shadowBars.Count; i++)
             {
+                int gridPos = CollectHoverInfo.Instance.gridPositions[i];
+                KSelectable kSelectable = CollectHoverInfo.Instance.kSelectables[i];
                 Entry shadowBar = shadowBars[i];
-                infoCards.Add(new InfoCard(shadowBar, iconWidgets, textWidgets, ref iconIndex, ref textIndex));
+                infoCards.Add(new InfoCard(shadowBar, iconWidgets, textWidgets, gridPos, kSelectable, ref iconIndex, ref textIndex));
 
                 cachedShadowWidths[i] = shadowBar.rect.rect.width;
                 cachedShadowHeights[i] = shadowBar.rect.rect.height;

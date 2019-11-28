@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -16,8 +17,12 @@ namespace BetterInfoCards
         public float YMax { get { return shadowBar.rect.anchoredPosition.y; } }
         public float YMin { get { return YMax - shadowBar.rect.rect.height; } }
 
+        private KSelectable kSelectable;
         public int quantity = 0;
+        public Dictionary<string, ValueType> textValues = new Dictionary<string, ValueType>();
+
         private string cachedTitle = string.Empty;
+
         public string Title
         {
             get
@@ -46,11 +51,13 @@ namespace BetterInfoCards
             set { ((LocText)textWidgets[0].widget).text = value; }
         }
 
-        public InfoCard(Entry shadowBar, List<Entry> icons, List<Entry> texts, ref int iconIndex, ref int textIndex)
+        public InfoCard(Entry shadowBar, List<Entry> icons, List<Entry> texts, int gridPos, KSelectable kSelectable, ref int iconIndex, ref int textIndex)
         {
             this.shadowBar = shadowBar;
             iconWidgets = GetEntries(ref iconIndex, icons);
             textWidgets = GetEntries(ref textIndex, texts);
+
+            this.kSelectable = kSelectable;
         }
 
         public void Translate(float x, float y)
@@ -103,15 +110,24 @@ namespace BetterInfoCards
         public string GetTextKey()
         {
             var texts = new List<string>();
-            foreach (Entry entry in textWidgets)
+            foreach (var item in kSelectable.GetStatusItemGroup())
             {
-                string text = ((LocText)entry.widget).text;
-                if (!text.Any(char.IsDigit))
-                    texts.Add(text);
+                texts.Add(item.item.Name);
             }
             texts.Sort();
 
             return string.Join(null, texts.ToArray()); ;
+        }
+
+        public void FormTextValues()
+        {
+            textValues.Clear();
+            foreach (var item in kSelectable.GetStatusItemGroup())
+            {
+                string name = item.item.Name;
+                if (StatusDataManager.statusConverter.TryGetValue(name, out StatusDataManager.StatusData statusData))
+                    textValues[name] = statusData.getStatusValue(item.data);
+            }
         }
     }
 }

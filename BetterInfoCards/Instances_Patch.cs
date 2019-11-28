@@ -9,6 +9,7 @@ namespace BetterInfoCards
         {
             ModifyWidgets.Instance = new ModifyWidgets();
             ModifyHits.Instance = new ModifyHits();
+            CollectHoverInfo.Instance = new CollectHoverInfo();
         }
     }
 
@@ -19,6 +20,7 @@ namespace BetterInfoCards
         {
             ModifyWidgets.Instance = null;
             ModifyHits.Instance = null;
+            CollectHoverInfo.Instance = null;
         }
     }
 }

@@ -93,10 +93,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompactCards.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Hits\UpdateHitsBefore_Patch.cs" />
     <Compile Include="Infos\DisplayCard.cs" />
     <Compile Include="Infos\DisplayCards.cs" />
     <Compile Include="MassStringFix_Patch.cs" />
+    <Compile Include="CollectHoverInfo.cs" />
+    <Compile Include="StatusDataManager.cs" />
     <Compile Include="UnreachableHoverCard_Patch.cs" />
     <Compile Include="Widgets\BaseWidget.cs" />
     <Compile Include="Widgets\CachedWidgets.cs" />
