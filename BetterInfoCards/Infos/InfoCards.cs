@@ -27,9 +27,9 @@ namespace BetterInfoCards
             for (int i = 0; i < shadowBars.Count; i++)
             {
                 int gridPos = CollectHoverInfo.Instance.gridPositions[i];
-                KSelectable kSelectable = CollectHoverInfo.Instance.kSelectables[i];
+                List<StatusItemGroup.Entry> entries = CollectHoverInfo.Instance.activeStatuses[i];
                 Entry shadowBar = shadowBars[i];
-                infoCards.Add(new InfoCard(shadowBar, iconWidgets, textWidgets, gridPos, kSelectable, ref iconIndex, ref textIndex));
+                infoCards.Add(new InfoCard(shadowBar, iconWidgets, textWidgets, entries, gridPos, ref iconIndex, ref textIndex));
 
                 cachedShadowWidths[i] = shadowBar.rect.rect.width;
                 cachedShadowHeights[i] = shadowBar.rect.rect.height;

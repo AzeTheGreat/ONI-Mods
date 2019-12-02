@@ -17,7 +17,8 @@ namespace BetterInfoCards
         public float YMax { get { return shadowBar.rect.anchoredPosition.y; } }
         public float YMin { get { return YMax - shadowBar.rect.rect.height; } }
 
-        private KSelectable kSelectable;
+        private List<StatusItemGroup.Entry> statusItemEntries = new List<StatusItemGroup.Entry>();
+
         public int quantity = 0;
         public Dictionary<string, ValueType> textValues = new Dictionary<string, ValueType>();
 
@@ -51,13 +52,12 @@ namespace BetterInfoCards
             set { ((LocText)textWidgets[0].widget).text = value; }
         }
 
-        public InfoCard(Entry shadowBar, List<Entry> icons, List<Entry> texts, int gridPos, KSelectable kSelectable, ref int iconIndex, ref int textIndex)
+        public InfoCard(Entry shadowBar, List<Entry> icons, List<Entry> texts, List<StatusItemGroup.Entry> entries, int gridPos, ref int iconIndex, ref int textIndex)
         {
             this.shadowBar = shadowBar;
             iconWidgets = GetEntries(ref iconIndex, icons);
             textWidgets = GetEntries(ref textIndex, texts);
-
-            this.kSelectable = kSelectable;
+            statusItemEntries = entries;
         }
 
         public void Translate(float x, float y)
@@ -110,9 +110,9 @@ namespace BetterInfoCards
         public string GetTextKey()
         {
             var texts = new List<string>();
-            foreach (var item in kSelectable.GetStatusItemGroup())
+            foreach (var item in statusItemEntries)
             {
-                texts.Add(item.item.Name);
+                texts.Add(item.item?.Name ?? string.Empty);
             }
             texts.Sort();
 
@@ -121,10 +121,11 @@ namespace BetterInfoCards
 
         public void FormTextValues()
         {
+            Debug.Log(statusItemEntries.Count);
             textValues.Clear();
-            foreach (var item in kSelectable.GetStatusItemGroup())
+            foreach (var item in statusItemEntries)
             {
-                string name = item.item.Name;
+                string name = item.item?.Name ?? string.Empty;
                 if (StatusDataManager.statusConverter.TryGetValue(name, out StatusDataManager.StatusData statusData))
                     textValues[name] = statusData.getStatusValue(item.data);
             }
