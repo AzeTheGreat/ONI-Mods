@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BetterInfoCards
 {
-    [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.DrawText), new Type[] { typeof(string), typeof(TextStyleSetting), typeof(Color), typeof(bool)})]
+    [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.DrawText), new Type[] { typeof(string), typeof(TextStyleSetting), typeof(Color), typeof(bool) })]
     class CompactCards
     {
         const int fontSizeDecrease = 2;

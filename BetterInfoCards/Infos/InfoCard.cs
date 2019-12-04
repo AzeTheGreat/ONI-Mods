@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -17,47 +16,19 @@ namespace BetterInfoCards
         public float YMax { get { return shadowBar.rect.anchoredPosition.y; } }
         public float YMin { get { return YMax - shadowBar.rect.rect.height; } }
 
-        private List<StatusItemGroup.Entry> statusItemEntries = new List<StatusItemGroup.Entry>();
+        private List<StatusData> statusDatas = new List<StatusData>();
 
         public int quantity = 0;
-        public Dictionary<string, ValueType> textValues = new Dictionary<string, ValueType>();
+        public Dictionary<string, float> textValues = new Dictionary<string, float>();
 
         private string cachedTitle = string.Empty;
 
-        public string Title
-        {
-            get
-            {
-                if(cachedTitle == string.Empty)
-                {
-                    cachedTitle = ((LocText)textWidgets[0].widget).text;
-
-                    var charStack = new Stack<char>();
-                    int i;
-                    for (i = cachedTitle.Length - 1; i >= 0; i--)
-                    {
-                        if (!char.IsDigit(cachedTitle[i]))
-                            break;
-
-                        charStack.Push(cachedTitle[i]);
-                    }
-                    
-                    if (int.TryParse(new string(charStack.ToArray()), out quantity))
-                        cachedTitle = cachedTitle.Remove(i - 1, cachedTitle.Length - i + 1);
-                    else
-                        quantity = 1;
-                }
-                return cachedTitle;
-            }
-            set { ((LocText)textWidgets[0].widget).text = value; }
-        }
-
-        public InfoCard(Entry shadowBar, List<Entry> icons, List<Entry> texts, List<StatusItemGroup.Entry> entries, int gridPos, ref int iconIndex, ref int textIndex)
+        public InfoCard(Entry shadowBar, List<Entry> icons, List<Entry> texts, List<StatusData> statusDatas, int gridPos, ref int iconIndex, ref int textIndex)
         {
             this.shadowBar = shadowBar;
             iconWidgets = GetEntries(ref iconIndex, icons);
             textWidgets = GetEntries(ref textIndex, texts);
-            statusItemEntries = entries;
+            this.statusDatas = statusDatas;
         }
 
         public void Translate(float x, float y)
@@ -107,27 +78,76 @@ namespace BetterInfoCards
             return sub.rect.anchoredPosition.y > main.rect.offsetMin.y && sub.rect.anchoredPosition.y < main.rect.offsetMax.y;
         }
 
+        public string GetTitleKey()
+        {
+            string text = ((LocText)textWidgets[0].widget).text;
+
+            var charStack = new Stack<char>();
+            int i;
+            for (i = text.Length - 1; i >= 0; i--)
+            {
+                if (!char.IsDigit(text[i]))
+                    break;
+
+                charStack.Push(text[i]);
+            }
+
+            text = text.Remove(i - 1, text.Length - i + 1);
+
+            return text;
+        }
+
         public string GetTextKey()
         {
             var texts = new List<string>();
-            foreach (var item in statusItemEntries)
+            foreach (StatusData status in statusDatas)
             {
-                texts.Add(item.item?.Name ?? string.Empty);
+                // TODO: Make this a func so that things like germs aren't ignored in keying
+                texts.Add(status.name);
             }
             texts.Sort();
 
-            return string.Join(null, texts.ToArray()); ;
+            return string.Join(null, texts.ToArray());
         }
 
         public void FormTextValues()
         {
-            Debug.Log(statusItemEntries.Count);
             textValues.Clear();
-            foreach (var item in statusItemEntries)
+            foreach (StatusData status in statusDatas)
             {
-                string name = item.item?.Name ?? string.Empty;
+                string name = status.name;
                 if (StatusDataManager.statusConverter.TryGetValue(name, out StatusDataManager.StatusData statusData))
-                    textValues[name] = statusData.getStatusValue(item.data);
+                    textValues[name] = statusData.getStatusValue(status.data);
+            }
+        }
+
+        public List<string> GetTextOverrides(List<InfoCard> cards)
+        {
+            var overrides = new List<string>();
+
+            for (int i = 0; i < statusDatas.Count; i++)
+            {
+                StatusData status = statusDatas[i];
+                string name = status.name;
+                string original = ((LocText)textWidgets[i].widget).text;
+
+                if (StatusDataManager.statusConverter.TryGetValue(name, out StatusDataManager.StatusData statusData))
+                    overrides.Add(statusData.getTextOverride(name, cards.Select(x => x.textValues[name]).ToList(), original));
+                else
+                    overrides.Add(original);
+            }
+
+            return overrides;
+        }
+
+        public void Rename(List<string> overrides)
+        {
+            for (int i = 0; i < textWidgets.Count; i++)
+            {
+                var widget = textWidgets[i].widget as LocText;
+                string text = overrides[i];
+
+                widget.text = text;
             }
         }
     }

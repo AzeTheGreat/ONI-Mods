@@ -10,9 +10,8 @@ namespace BetterInfoCards
         public float Height { get { return infoCards[0].Height; } }
         public float YMax { get { return infoCards[0].YMax; } }
         public float YMin { get { return infoCards[0].YMin; } }
-        public string Title { get { return infoCards[0].Title; } }
 
-        private string titleOverride = string.Empty;
+        private List<string> textOverrides = new List<string>();
 
         public Vector2 offset = new Vector2();
 
@@ -36,23 +35,8 @@ namespace BetterInfoCards
         {
             this.infoCards = infoCards;
 
-            // Don't display "x 1" since it's implicit. Differs from vanilla so some players might want a config for this.
-            int sum = infoCards.Sum(x => x.quantity);
-            if (sum > 1)
-                titleOverride = infoCards[0].Title + " x " + sum;
-            else
-                titleOverride = infoCards[0].Title;
-
             if(infoCards.Count > 1)
-            {
-                foreach (var textValue in infoCards[0].textValues)
-                {
-                    string name = textValue.Key;
-
-                    string test = StatusDataManager.statusConverter[name].getTextOverride(name, infoCards.Select(x => x.textValues[name]).ToList());
-                    Debug.Log(test);
-                }
-            } 
+                textOverrides = infoCards[0].GetTextOverrides(infoCards);
         }
 
         public void Translate(float x)
@@ -73,8 +57,8 @@ namespace BetterInfoCards
 
         public void Rename()
         {
-            if(titleOverride != string.Empty)
-                infoCards[0].Title = titleOverride;
+            if (infoCards.Count > 1)
+                infoCards[0].Rename(textOverrides);
         }
 
         public void Resize(float newX)

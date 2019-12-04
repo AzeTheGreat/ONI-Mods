@@ -18,7 +18,7 @@ namespace BetterInfoCards
 
             foreach (InfoCard card in infoCards)
             {
-                string key = card.Title;
+                string key = card.GetTitleKey();
                 if (!nameSplit.TryGetValue(key, out List<InfoCard> value))
                     value = new List<InfoCard>();
                 value.Add(card);
@@ -31,7 +31,7 @@ namespace BetterInfoCards
                 {
                     foreach (InfoCard card in kvp.Value)
                     {
-                        string key = card.Title + card.GetTextKey();
+                        string key = card.GetTitleKey() + card.GetTextKey();
                         if (!detailSplit.TryGetValue(key, out List<InfoCard> value))
                             value = new List<InfoCard>();
                         value.Add(card);
