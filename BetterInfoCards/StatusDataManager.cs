@@ -7,46 +7,38 @@ namespace BetterInfoCards
 {
     public class StatusDataManager
     {
-        public static readonly Dictionary<string, StatusData> statusConverter = new Dictionary<string, StatusData>()
+        private static readonly string oreMass = Db.Get().MiscStatusItems.OreMass.Name;
+        private static readonly string oreTemp = Db.Get().MiscStatusItems.OreTemp.Name;
+
+        public static readonly Dictionary<string, ITextDataConverter> statusConverter = new Dictionary<string, ITextDataConverter>()
         {
-            { "Title", new StatusData() {
-                getStatusValue = data => {
+            { "Title", new Status<float>(
+                "Title",
+                data => {
                     GameObject go = data as GameObject;
                     KPrefabID prefabID = go.GetComponent<KPrefabID>();
                     if (prefabID != null && Assets.IsTagCountable(prefabID.PrefabTag))
                         return go.GetComponent<PrimaryElement>().Units;
                     return 1; },
-                getTextOverride = (name, counts, original) => original + " x " + counts.Sum(),
-                getSplitLists = (infoCards) => new List<List<InfoCard>> {infoCards}
-            } },
+                (template, counts) => template + " x " + counts.Sum(),
+                infoCards => new List<List<InfoCard>>() { infoCards } ) },
 
-            { "Germs", new StatusData() {
-                getStatusValue = data => {
-                    GameObject go = data as GameObject;
-                    KPrefabID prefabID = go.GetComponent<KPrefabID>();
-                    if (prefabID != null && Assets.IsTagCountable(prefabID.PrefabTag))
-                        return go.GetComponent<PrimaryElement>().Units;
-                    return 1; },
-                getTextOverride = (name, counts, original) => original + " x " + counts.Sum(),
-                getSplitLists = (infoCards) => new List<List<InfoCard>> {infoCards}
-            } },
+            { oreMass, new Status<float>(
+                oreMass,
+                go => ((GameObject)go).GetComponent<PrimaryElement>().Mass,
+                (template, masses) => template.Replace("{Mass}", GameUtil.GetFormattedMass(masses.Sum())) + " (Σ)",
+                infoCards => new List<List<InfoCard>>() { infoCards } ) },
 
-            { Db.Get().MiscStatusItems.OreMass.Name, new StatusData() {
-                getStatusValue = go => ((GameObject)go).GetComponent<PrimaryElement>().Mass,
-                getTextOverride = (name, masses, original) => name.Replace("{Mass}", GameUtil.GetFormattedMass(masses.Sum())) + " (Σ)",
-                getSplitLists = (infoCards) => new List<List<InfoCard>> {infoCards}
-            } },
-
-            { Db.Get().MiscStatusItems.OreTemp.Name, new StatusData() {
-                getStatusValue = go => ((GameObject)go).GetComponent<PrimaryElement>().Temperature,
-                getTextOverride = (name, temps, original) => name.Replace("{Temp}", GameUtil.GetFormattedTemperature(temps.Average())) + " (μ)",
-                getSplitLists = (infoCards) => GetSplitLists(infoCards, Db.Get().MiscStatusItems.OreTemp.Name, 10f)
-            } }
+            { oreTemp, new Status<float>(
+                oreTemp,
+                go => ((GameObject)go).GetComponent<PrimaryElement>().Temperature,
+                (template, temps) => template.Replace("{Temp}", GameUtil.GetFormattedTemperature(temps.Average())) + " (μ)",
+                infoCards => GetSplitLists(infoCards, oreTemp, 10f) ) },
         };
 
         private static List<List<InfoCard>> GetSplitLists(List<InfoCard> cards, string name, float maxRange)
         {
-            List<float> values = cards.Select(x => x.textValues[name]).ToList();
+            List<float> values = cards.Select(x => x.textValues[name]).Cast<float>().ToList();
             values.Sort();
 
             var splits = new List<List<InfoCard>>();
@@ -102,11 +94,43 @@ namespace BetterInfoCards
             return text;
         }
 
-        public class StatusData
+        public interface ITextDataConverter
         {
-            public Func<object, float> getStatusValue;
-            public Func<string, List<float>, string, string> getTextOverride;
-            public Func<List<InfoCard>, List<List<InfoCard>>> getSplitLists;
+            string GetTextOverride(string original, List<object> values);
+            List<List<InfoCard>> GetSplitLists(List<InfoCard> cards);
+            object GetTextValue(object data);
+        }
+
+        public class Status<T> : ITextDataConverter
+        {
+            public Status(string name, Func<object, T> getValue, Func<string, List<T>, string> getTextOverride, Func<List<InfoCard>, List<List<InfoCard>>> getSplitLists)
+            {
+                this.name = name;
+                this.getStatusValue = getValue;
+                this.getTextOverride = getTextOverride;
+                this.getSplitLists = getSplitLists;
+                //values = infoCards.ForEach(x => getStatusValue(x.statusDatas[name]));
+            }
+
+            private readonly string name;
+            private readonly Func<object, T> getStatusValue;
+            private readonly Func<string, List<T>, string> getTextOverride;
+            private readonly Func<List<InfoCard>, List<List<InfoCard>>> getSplitLists;
+
+            public object GetTextValue(object data)
+            {
+                return getStatusValue(data);
+            }
+
+            public string GetTextOverride(string original, List<object> values)
+            {
+                return getTextOverride(original, values.Cast<T>().ToList());
+            }
+
+            public List<List<InfoCard>> GetSplitLists(List<InfoCard> cards)
+            {
+                return getSplitLists(cards);
+            }
         }
     }
 }

@@ -27,7 +27,7 @@ namespace BetterInfoCards
             for (int i = 0; i < shadowBars.Count; i++)
             {
                 int gridPos = CollectHoverInfo.Instance.gridPositions[i];
-                List<StatusData> entries = CollectHoverInfo.Instance.activeStatuses[i];
+                List<TextInfo> entries = CollectHoverInfo.Instance.activeStatuses[i];
                 Entry shadowBar = shadowBars[i];
                 infoCards.Add(new InfoCard(shadowBar, iconWidgets, textWidgets, entries, gridPos, ref iconIndex, ref textIndex));
 

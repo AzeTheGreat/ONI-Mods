@@ -16,14 +16,14 @@ namespace BetterInfoCards
         public float YMax { get { return shadowBar.rect.anchoredPosition.y; } }
         public float YMin { get { return YMax - shadowBar.rect.rect.height; } }
 
-        private List<StatusData> statusDatas = new List<StatusData>();
+        private List<TextInfo> statusDatas = new List<TextInfo>();
 
         public int quantity = 0;
-        public Dictionary<string, float> textValues = new Dictionary<string, float>();
+        public Dictionary<string, object> textValues = new Dictionary<string, object>();
 
         private string cachedTitle = string.Empty;
 
-        public InfoCard(Entry shadowBar, List<Entry> icons, List<Entry> texts, List<StatusData> statusDatas, int gridPos, ref int iconIndex, ref int textIndex)
+        public InfoCard(Entry shadowBar, List<Entry> icons, List<Entry> texts, List<TextInfo> statusDatas, int gridPos, ref int iconIndex, ref int textIndex)
         {
             this.shadowBar = shadowBar;
             iconWidgets = GetEntries(ref iconIndex, icons);
@@ -100,7 +100,7 @@ namespace BetterInfoCards
         public string GetTextKey()
         {
             var texts = new List<string>();
-            foreach (StatusData status in statusDatas)
+            foreach (TextInfo status in statusDatas)
             {
                 // TODO: Make this a func so that things like germs aren't ignored in keying
                 texts.Add(status.name);
@@ -113,11 +113,11 @@ namespace BetterInfoCards
         public void FormTextValues()
         {
             textValues.Clear();
-            foreach (StatusData status in statusDatas)
+            foreach (TextInfo status in statusDatas)
             {
                 string name = status.name;
-                if (StatusDataManager.statusConverter.TryGetValue(name, out StatusDataManager.StatusData statusData))
-                    textValues[name] = statusData.getStatusValue(status.data);
+                if (StatusDataManager.statusConverter.TryGetValue(name, out var statusData))
+                    textValues[name] = statusData.GetTextValue(status.data);
             }
         }
 
@@ -127,12 +127,12 @@ namespace BetterInfoCards
 
             for (int i = 0; i < statusDatas.Count; i++)
             {
-                StatusData status = statusDatas[i];
+                TextInfo status = statusDatas[i];
                 string name = status.name;
                 string original = ((LocText)textWidgets[i].widget).text;
 
-                if (StatusDataManager.statusConverter.TryGetValue(name, out StatusDataManager.StatusData statusData))
-                    overrides.Add(statusData.getTextOverride(name, cards.Select(x => x.textValues[name]).ToList(), original));
+                if (StatusDataManager.statusConverter.TryGetValue(name, out var statusData))
+                    overrides.Add(statusData.GetTextOverride(original, cards.Select(x => x.textValues[name]).ToList()));
                 else
                     overrides.Add(original);
             }

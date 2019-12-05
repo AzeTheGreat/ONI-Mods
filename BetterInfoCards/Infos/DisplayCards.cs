@@ -67,7 +67,7 @@ namespace BetterInfoCards
                         foreach (List<InfoCard> split in splits)
                         {
                             //List<ValueType> values = split.Select(x => x.textValues[name]).ToList();
-                            newSplits.AddRange(converter.getSplitLists(split));
+                            newSplits.AddRange(converter.GetSplitLists(split));
                         }
 
                         splits = newSplits;

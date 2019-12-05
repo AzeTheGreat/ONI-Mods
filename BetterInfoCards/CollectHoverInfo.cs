@@ -13,9 +13,9 @@ namespace BetterInfoCards
 
         private int infoCard;
         public List<int> gridPositions = new List<int>();
-        public List<List<StatusData>> activeStatuses = new List<List<StatusData>>();
+        public List<List<TextInfo>> activeStatuses = new List<List<TextInfo>>();
 
-        private List<StatusData> intermediateList = new List<StatusData>();
+        private List<TextInfo> intermediateList = new List<TextInfo>();
 
         [HarmonyPatch(typeof(SelectToolHoverTextCard), nameof(SelectToolHoverTextCard.UpdateHoverElements))]
         private class Test
@@ -111,20 +111,20 @@ namespace BetterInfoCards
 
             private static void ExportTitle(GameObject go)
             {
-                var statusData = new StatusData() { name = "Title", data = go };
-                Instance.intermediateList.Add(statusData);
+                var textInfo = new TextInfo() { name = "Title", data = go };
+                Instance.intermediateList.Add(textInfo);
             }
 
-            private static void ExportBlank() => Instance.intermediateList.Add(new StatusData());
+            private static void ExportBlank() => Instance.intermediateList.Add(new TextInfo());
 
             private static void ExportStatus(StatusItemGroup.Entry entry)
             {
-                var statusData = new StatusData() { name = entry.item.Name, data = entry.data };
-                Instance.intermediateList.Add(statusData);
+                var textInfo = new TextInfo() { name = entry.item.Name, data = entry.data };
+                Instance.intermediateList.Add(textInfo);
             }
 
             // Is the new list necessary?
-            private static void ExportFinal() => Instance.activeStatuses.SetOrAdd(Instance.infoCard, new List<StatusData>(Instance.intermediateList));
+            private static void ExportFinal() => Instance.activeStatuses.SetOrAdd(Instance.infoCard, new List<TextInfo>(Instance.intermediateList));
 
             static void Prefix()
             {
@@ -146,7 +146,7 @@ namespace BetterInfoCards
         }
     }
 
-    public class StatusData
+    public class TextInfo
     {
         public string name = string.Empty;
         public object data = null;
