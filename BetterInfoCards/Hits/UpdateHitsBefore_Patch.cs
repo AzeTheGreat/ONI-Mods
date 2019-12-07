@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace BetterInfoCards.Hits
+namespace BetterInfoCards
 {
     [HarmonyPatch(typeof(InterfaceTool), nameof(InterfaceTool.LateUpdate))]
     class UpdateHitsBefore_Patch
