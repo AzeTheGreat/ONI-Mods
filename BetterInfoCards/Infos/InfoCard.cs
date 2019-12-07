@@ -144,9 +144,7 @@ namespace BetterInfoCards
             for (int i = 0; i < textWidgets.Count; i++)
             {
                 var widget = textWidgets[i].widget as LocText;
-                string text = overrides[i];
-
-                widget.text = text;
+                widget.text = overrides[i];
             }
         }
     }
