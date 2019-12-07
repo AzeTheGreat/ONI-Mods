@@ -16,10 +16,7 @@ namespace BetterInfoCards
             foreach (InfoCard card in infoCards)
             {
                 string key = card.GetTitleKey();
-                if (!nameSplit.TryGetValue(key, out List<InfoCard> value))
-                    value = new List<InfoCard>();
-                value.Add(card);
-                nameSplit[key] = value;
+                TryAddToDict(nameSplit, key, card);
             }
 
             foreach (var kvp in nameSplit)
@@ -29,10 +26,7 @@ namespace BetterInfoCards
                     foreach (InfoCard card in kvp.Value)
                     {
                         string key = card.GetTitleKey() + card.GetTextKey();
-                        if (!detailSplit.TryGetValue(key, out List<InfoCard> value))
-                            value = new List<InfoCard>();
-                        value.Add(card);
-                        detailSplit[key] = value;
+                        TryAddToDict(detailSplit, key, card);
                     }
                 }
                 else
@@ -90,6 +84,14 @@ namespace BetterInfoCards
 
             ModifyHits.Instance.Reset(redirects);
             gridInfo = new GridInfo(displayCards, infoCards[0].YMax);
+        }
+
+        private void TryAddToDict(Dictionary<string, List<InfoCard>> dict, string key, InfoCard card)
+        {
+            if (!dict.TryGetValue(key, out List<InfoCard> value))
+                value = new List<InfoCard>();
+            value.Add(card);
+            dict[key] = value;
         }
 
         public void Update()

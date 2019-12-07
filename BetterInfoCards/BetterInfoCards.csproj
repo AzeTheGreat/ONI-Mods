@@ -92,7 +92,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infos\ITextDataConverter.cs" />
     <Compile Include="Infos\Status.cs" />
     <Compile Include="Tweaks\CompactCards.cs" />
     <Compile Include="Util\Extensions.cs" />
