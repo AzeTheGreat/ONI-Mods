@@ -58,10 +58,12 @@ namespace BetterInfoCards
                         // Germs
                         else if (hitsAfter == 2)
                         {
-                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Test), "ExportBlank"));
                             yield return i;
-                        }
+                            yield return new CodeInstruction(OpCodes.Ldloc_S, 72);
+                            yield return new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(UnityEngine.Component), "get_gameObject"));
+                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Test), "ExportGerms"));
                             
+                        }
 
                         // Status items
                         else if (hitsAfter == 3)
@@ -112,6 +114,12 @@ namespace BetterInfoCards
             private static void ExportTitle(GameObject go)
             {
                 var textInfo = new TextInfo() { name = "Title", data = go };
+                Instance.intermediateList.Add(textInfo);
+            }
+
+            private static void ExportGerms(GameObject go)
+            {
+                var textInfo = new TextInfo() { name = "Germs", data = go };
                 Instance.intermediateList.Add(textInfo);
             }
 
