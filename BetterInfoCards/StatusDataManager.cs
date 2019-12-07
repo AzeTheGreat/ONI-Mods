@@ -34,7 +34,7 @@ namespace BetterInfoCards
                 (template, pairs) => {
                     string text = UI.OVERLAYS.DISEASE.NO_DISEASE;
                     if(pairs[0].diseaseIdx != 255)
-                        text = GameUtil.GetFormattedDisease(pairs[0].diseaseIdx, pairs.Sum(x => x.diseaseCount), true);
+                        text = GameUtil.GetFormattedDisease(pairs[0].diseaseIdx, pairs.Sum(x => x.diseaseCount), true) + " (Σ)";
                     return text; },
                 infoCards => {
                     List<DiseasePair> pairs = infoCards.Select(x => x.textValues["Germs"]).Cast<DiseasePair>().ToList();
@@ -68,10 +68,9 @@ namespace BetterInfoCards
                 return splits;
             }
 
-            var listStartIndices = new List<int>();
-            float listStartValue = 0;
+            var listStartIndices = new List<int>() { 0 };
+            float listStartValue = values[0];
 
-            listStartIndices.Add(0);
             for (int i = 0; i < values.Count; i++)
             {
                 float value = values[i];
