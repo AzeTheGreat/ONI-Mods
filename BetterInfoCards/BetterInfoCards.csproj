@@ -92,27 +92,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CompactCards.cs" />
-    <Compile Include="Extensions.cs" />
+    <Compile Include="Tweaks\CompactCards.cs" />
+    <Compile Include="Util\Extensions.cs" />
     <Compile Include="Hits\UpdateHitsBefore_Patch.cs" />
     <Compile Include="Infos\DisplayCard.cs" />
     <Compile Include="Infos\DisplayCards.cs" />
-    <Compile Include="MassStringFix_Patch.cs" />
-    <Compile Include="CollectHoverInfo.cs" />
-    <Compile Include="StatusDataManager.cs" />
-    <Compile Include="UnreachableHoverCard_Patch.cs" />
+    <Compile Include="Tweaks\EmptyStringFixes.cs" />
+    <Compile Include="Widgets\CollectHoverInfo.cs" />
+    <Compile Include="Infos\StatusDataManager.cs" />
+    <Compile Include="Tweaks\UnreachableHoverCard_Patch.cs" />
     <Compile Include="Widgets\BaseWidget.cs" />
     <Compile Include="Widgets\CachedWidgets.cs" />
     <Compile Include="Hits\ModifyHits.cs" />
     <Compile Include="Widgets\DrawnWidgets.cs" />
     <Compile Include="Widgets\Entry.cs" />
     <Compile Include="Infos\InfoCards.cs" />
-    <Compile Include="Instances_Patch.cs" />
+    <Compile Include="Util\Instances_Patch.cs" />
     <Compile Include="Widgets\ModifyWidgets.cs" />
     <Compile Include="Infos\GridInfo.cs" />
     <Compile Include="Infos\InfoCard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RemoveShadow_Patch.cs" />
+    <Compile Include="Tweaks\RemoveShadow_Patch.cs" />
     <Compile Include="Infos\ColumnInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

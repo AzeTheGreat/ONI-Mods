@@ -111,25 +111,13 @@ namespace BetterInfoCards
                 Instance.gridPositions.SetOrAdd(Instance.infoCard, gridPos);
             }
 
-            private static void ExportTitle(GameObject go)
-            {
-                var textInfo = new TextInfo() { name = "Title", data = go };
-                Instance.intermediateList.Add(textInfo);
-            }
+            private static void ExportTitle(GameObject go) => Instance.intermediateList.Add(new TextInfo() { name = StatusDataManager.title, data = go });
 
-            private static void ExportGerms(GameObject go)
-            {
-                var textInfo = new TextInfo() { name = "Germs", data = go };
-                Instance.intermediateList.Add(textInfo);
-            }
+            private static void ExportGerms(GameObject go) => Instance.intermediateList.Add(new TextInfo() { name = StatusDataManager.germs, data = go });
 
             private static void ExportBlank() => Instance.intermediateList.Add(new TextInfo());
 
-            private static void ExportStatus(StatusItemGroup.Entry entry)
-            {
-                var textInfo = new TextInfo() { name = entry.item.Name, data = entry.data };
-                Instance.intermediateList.Add(textInfo);
-            }
+            private static void ExportStatus(StatusItemGroup.Entry entry) => Instance.intermediateList.Add(new TextInfo() { name = entry.item.Name, data = entry.data });
 
             // Is the new list necessary?
             private static void ExportFinal() => Instance.activeStatuses.SetOrAdd(Instance.infoCard, new List<TextInfo>(Instance.intermediateList));

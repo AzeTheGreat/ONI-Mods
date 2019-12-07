@@ -9,13 +9,19 @@ namespace BetterInfoCards
 {
     public class StatusDataManager
     {
+        public const string title = "Title";
+        public const string germs = "Germs";
+
+        private const string sumSuffix = " (Σ)";
+        private const string avgSuffix = " (μ)";
+
         private static readonly string oreMass = Db.Get().MiscStatusItems.OreMass.Name;
         private static readonly string oreTemp = Db.Get().MiscStatusItems.OreTemp.Name;
 
         public static readonly Dictionary<string, ITextDataConverter> statusConverter = new Dictionary<string, ITextDataConverter>()
         {
-            { "Title", new Status<float>(
-                "Title",
+            { title, new Status<float>(
+                title,
                 data => {
                     GameObject go = data as GameObject;
                     KPrefabID prefabID = go.GetComponent<KPrefabID>();
@@ -25,8 +31,8 @@ namespace BetterInfoCards
                 (template, counts) => template + " x " + counts.Sum(),
                 infoCards => new List<List<InfoCard>>() { infoCards } ) },
 
-            { "Germs", new Status<DiseasePair>(
-                "Germs",
+            { germs, new Status<DiseasePair>(
+                germs,
                 data => {
                     PrimaryElement element = ((GameObject)data).GetComponent<PrimaryElement>();
                     return new DiseasePair(element.DiseaseIdx, element.DiseaseCount); },
@@ -34,23 +40,23 @@ namespace BetterInfoCards
                 (template, pairs) => {
                     string text = UI.OVERLAYS.DISEASE.NO_DISEASE;
                     if(pairs[0].diseaseIdx != 255)
-                        text = GameUtil.GetFormattedDisease(pairs[0].diseaseIdx, pairs.Sum(x => x.diseaseCount), true) + " (Σ)";
+                        text = GameUtil.GetFormattedDisease(pairs[0].diseaseIdx, pairs.Sum(x => x.diseaseCount), true) + sumSuffix;
                     return text; },
                 infoCards => {
-                    List<DiseasePair> pairs = infoCards.Select(x => x.textValues["Germs"]).Cast<DiseasePair>().ToList();
+                    List<DiseasePair> pairs = infoCards.Select(x => x.textValues[germs]).Cast<DiseasePair>().ToList();
                     var splits = GetSplitLists(infoCards, pairs.Select(x => (float)x.diseaseIdx).ToList(), 1f);
                     return splits; } ) },
 
             { oreMass, new Status<float>(
                 oreMass,
                 go => ((GameObject)go).GetComponent<PrimaryElement>().Mass,
-                (template, masses) => template.Replace("{Mass}", GameUtil.GetFormattedMass(masses.Sum())) + " (Σ)",
+                (template, masses) => template.Replace("{Mass}", GameUtil.GetFormattedMass(masses.Sum())) + sumSuffix,
                 infoCards => new List<List<InfoCard>>() { infoCards } ) },
 
             { oreTemp, new Status<float>(
                 oreTemp,
                 go => ((GameObject)go).GetComponent<PrimaryElement>().Temperature,
-                (template, temps) => template.Replace("{Temp}", GameUtil.GetFormattedTemperature(temps.Average())) + " (μ)",
+                (template, temps) => template.Replace("{Temp}", GameUtil.GetFormattedTemperature(temps.Average())) + avgSuffix,
                 infoCards => GetSplitLists(infoCards, infoCards.Select(x => x.textValues[oreTemp]).Cast<float>().ToList(), 10f) ) },
         };
 
