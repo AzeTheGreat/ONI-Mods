@@ -11,6 +11,7 @@ namespace BetterInfoCards
     {
         public const string title = "Title";
         public const string germs = "Germs";
+        public const string temp = "Temp";
 
         private const string sumSuffix = " (Σ)";
         private const string avgSuffix = " (μ)";
@@ -18,51 +19,63 @@ namespace BetterInfoCards
         private static readonly string oreMass = Db.Get().MiscStatusItems.OreMass.Name;
         private static readonly string oreTemp = Db.Get().MiscStatusItems.OreTemp.Name;
 
-        public static readonly Dictionary<string, ITextDataConverter> statusConverter = new Dictionary<string, ITextDataConverter>()
-        {
-            { title, new Status<float>(
+        private static readonly Status<float> titleStatus = new Status<float>(
                 title,
                 data => {
                     GameObject go = data as GameObject;
                     KPrefabID prefabID = go.GetComponent<KPrefabID>();
                     if (prefabID != null && Assets.IsTagCountable(prefabID.PrefabTag))
                         return go.GetComponent<PrimaryElement>().Units;
-                    return 1; },
+                    return 1;
+                },
                 (template, counts) => template + " x " + counts.Sum(),
-                infoCards => new List<List<InfoCard>>() { infoCards } ) },
+                infoCards => new List<List<InfoCard>>() { infoCards });
 
-            { germs, new Status<DiseasePair>(
+        private static readonly Status<DiseasePair> germStatus = new Status<DiseasePair>(
                 germs,
                 data => {
                     PrimaryElement element = ((GameObject)data).GetComponent<PrimaryElement>();
-                    return new DiseasePair(element.DiseaseIdx, element.DiseaseCount); },
+                    return new DiseasePair(element.DiseaseIdx, element.DiseaseCount);
+                },
                 // Impossible for multiple storages to overlap, so no need to worry about that part of the germ text since it will never be overwritten
                 (template, pairs) => {
                     string text = UI.OVERLAYS.DISEASE.NO_DISEASE;
-                    if(pairs[0].diseaseIdx != 255)
+                    if (pairs[0].diseaseIdx != 255)
                         text = GameUtil.GetFormattedDisease(pairs[0].diseaseIdx, pairs.Sum(x => x.diseaseCount), true) + sumSuffix;
-                    return text; },
+                    return text;
+                },
                 infoCards => {
-                    List<DiseasePair> pairs = infoCards.Select(x => x.textValues[germs]).Cast<DiseasePair>().ToList();
+                    List<DiseasePair> pairs = infoCards.Select(x => (DiseasePair)x.textValues[germs]).ToList();
                     var splits = GetSplitLists(infoCards, pairs.Select(x => (float)x.diseaseIdx).ToList(), 1f);
-                    return splits; } ) },
+                    return splits;
+                });
 
-            { oreMass, new Status<float>(
-                oreMass,
-                go => ((GameObject)go).GetComponent<PrimaryElement>().Mass,
-                (template, masses) => template.Replace("{Mass}", GameUtil.GetFormattedMass(masses.Sum())) + sumSuffix,
-                infoCards => new List<List<InfoCard>>() { infoCards } ) },
-
-            { oreTemp, new Status<float>(
+        private static readonly Status<float> tempStatus = new Status<float>(
                 oreTemp,
-                go => ((GameObject)go).GetComponent<PrimaryElement>().Temperature,
+                data => ((GameObject)data).GetComponent<PrimaryElement>().Temperature,
                 (template, temps) => template.Replace("{Temp}", GameUtil.GetFormattedTemperature(temps.Average())) + avgSuffix,
-                infoCards => GetSplitLists(infoCards, infoCards.Select(x => x.textValues[oreTemp]).Cast<float>().ToList(), 10f) ) },
+                infoCards => GetSplitLists(infoCards, infoCards.Select(x => (float)x.textValues[oreTemp]).ToList(), 10f));
+
+        private static readonly Status<float> massStatus = new Status<float>(
+                oreMass,
+                data => ((GameObject)data).GetComponent<PrimaryElement>().Mass,
+                (template, masses) => template.Replace("{Mass}", GameUtil.GetFormattedMass(masses.Sum())) + sumSuffix,
+                infoCards => new List<List<InfoCard>>() { infoCards });
+
+        public static readonly Dictionary<string, ITextDataConverter> statusConverter = new Dictionary<string, ITextDataConverter>()
+        {
+            { title, titleStatus },
+            { germs, germStatus },
+            { temp, tempStatus },
+            { oreMass, massStatus },
+            { oreTemp, tempStatus },
         };
 
         private static List<List<InfoCard>> GetSplitLists(List<InfoCard> cards, List<float> values, float maxRange)
         {
+            cards = cards.OrderBy(x => values[cards.IndexOf(x)]).ToList();
             values.Sort();
+
             var splits = new List<List<InfoCard>>();
 
             float range = values[values.Count - 1] - values[0];

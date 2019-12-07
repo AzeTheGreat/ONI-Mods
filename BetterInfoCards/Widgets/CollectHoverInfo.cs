@@ -84,8 +84,10 @@ namespace BetterInfoCards
                         // Temps
                         else if (hitsAfter == 5)
                         {
-                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Test), "ExportBlank"));
                             yield return i;
+                            yield return new CodeInstruction(OpCodes.Ldloc_S, 72);
+                            yield return new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(UnityEngine.Component), "get_gameObject"));
+                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Test), "ExportTemp"));
                         }     
                     }
 
@@ -118,6 +120,8 @@ namespace BetterInfoCards
             private static void ExportBlank() => Instance.intermediateList.Add(new TextInfo());
 
             private static void ExportStatus(StatusItemGroup.Entry entry) => Instance.intermediateList.Add(new TextInfo() { name = entry.item.Name, data = entry.data });
+
+            private static void ExportTemp(GameObject go) => Instance.intermediateList.Add(new TextInfo() { name = StatusDataManager.temp, data = go });
 
             // Is the new list necessary?
             private static void ExportFinal() => Instance.activeStatuses.SetOrAdd(Instance.infoCard, new List<TextInfo>(Instance.intermediateList));
