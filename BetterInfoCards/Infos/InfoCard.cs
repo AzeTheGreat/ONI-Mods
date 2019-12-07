@@ -18,10 +18,7 @@ namespace BetterInfoCards
 
         private List<TextInfo> statusDatas = new List<TextInfo>();
 
-        public int quantity = 0;
         public Dictionary<string, object> textValues = new Dictionary<string, object>();
-
-        private string cachedTitle = string.Empty;
 
         public InfoCard(Entry shadowBar, List<Entry> icons, List<Entry> texts, List<TextInfo> statusDatas, int gridPos, ref int iconIndex, ref int textIndex)
         {
