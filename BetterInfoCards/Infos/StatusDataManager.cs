@@ -1,6 +1,4 @@
-﻿using Harmony;
-using STRINGS;
-using System;
+﻿using STRINGS;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -28,7 +26,7 @@ namespace BetterInfoCards
                         return go.GetComponent<PrimaryElement>().Units;
                     return 1;
                 },
-                (template, counts) => template + " x " + counts.Sum(),
+                (original, counts) => original + " x " + counts.Sum(),
                 infoCards => new List<List<InfoCard>>() { infoCards });
 
         private static readonly Status<DiseasePair> germStatus = new Status<DiseasePair>(
@@ -38,7 +36,7 @@ namespace BetterInfoCards
                     return new DiseasePair(element.DiseaseIdx, element.DiseaseCount);
                 },
                 // Impossible for multiple storages to overlap, so no need to worry about that part of the germ text since it will never be overwritten
-                (template, pairs) => {
+                (original, pairs) => {
                     string text = UI.OVERLAYS.DISEASE.NO_DISEASE;
                     if (pairs[0].diseaseIdx != 255)
                         text = GameUtil.GetFormattedDisease(pairs[0].diseaseIdx, pairs.Sum(x => x.diseaseCount), true) + sumSuffix;
@@ -53,13 +51,13 @@ namespace BetterInfoCards
         private static readonly Status<float> tempStatus = new Status<float>(
                 oreTemp,
                 data => ((GameObject)data).GetComponent<PrimaryElement>().Temperature,
-                (template, temps) => template.Replace("{Temp}", GameUtil.GetFormattedTemperature(temps.Average())) + avgSuffix,
+                (original, temps) => oreTemp.Replace("{Temp}", GameUtil.GetFormattedTemperature(temps.Average())) + avgSuffix,
                 infoCards => GetSplitLists(infoCards, infoCards.Select(x => (float)x.textValues[oreTemp]).ToList(), 10f));
 
         private static readonly Status<float> massStatus = new Status<float>(
                 oreMass,
                 data => ((GameObject)data).GetComponent<PrimaryElement>().Mass,
-                (template, masses) => template.Replace("{Mass}", GameUtil.GetFormattedMass(masses.Sum())) + sumSuffix,
+                (original, masses) => oreMass.Replace("{Mass}", GameUtil.GetFormattedMass(masses.Sum())) + sumSuffix,
                 infoCards => new List<List<InfoCard>>() { infoCards });
 
         public static readonly Dictionary<string, ITextDataConverter> statusConverter = new Dictionary<string, ITextDataConverter>()
@@ -127,45 +125,6 @@ namespace BetterInfoCards
             text = text.Remove(i - 1, text.Length - i + 1);
 
             return text;
-        }
-
-        public interface ITextDataConverter
-        {
-            string GetTextOverride(string original, List<object> values);
-            List<List<InfoCard>> GetSplitLists(List<InfoCard> cards);
-            object GetTextValue(object data);
-        }
-
-        public class Status<T> : ITextDataConverter
-        {
-            public Status(string name, Func<object, T> getValue, Func<string, List<T>, string> getTextOverride, Func<List<InfoCard>, List<List<InfoCard>>> getSplitLists)
-            {
-                this.name = name;
-                this.getStatusValue = getValue;
-                this.getTextOverride = getTextOverride;
-                this.getSplitLists = getSplitLists;
-                //values = infoCards.ForEach(x => getStatusValue(x.statusDatas[name]));
-            }
-
-            private readonly string name;
-            private readonly Func<object, T> getStatusValue;
-            private readonly Func<string, List<T>, string> getTextOverride;
-            private readonly Func<List<InfoCard>, List<List<InfoCard>>> getSplitLists;
-
-            public object GetTextValue(object data)
-            {
-                return getStatusValue(data);
-            }
-
-            public string GetTextOverride(string original, List<object> values)
-            {
-                return getTextOverride(original, values.Cast<T>().ToList());
-            }
-
-            public List<List<InfoCard>> GetSplitLists(List<InfoCard> cards)
-            {
-                return getSplitLists(cards);
-            }
         }
 
         private struct DiseasePair

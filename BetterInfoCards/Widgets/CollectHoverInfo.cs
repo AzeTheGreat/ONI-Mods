@@ -18,8 +18,27 @@ namespace BetterInfoCards
         private List<TextInfo> intermediateList = new List<TextInfo>();
 
         [HarmonyPatch(typeof(SelectToolHoverTextCard), nameof(SelectToolHoverTextCard.UpdateHoverElements))]
-        private class Test
+        private class Patch
         {
+            static void Prefix()
+            {
+                Instance.infoCard = 0;
+                Instance.gridPositions.Clear();
+                Instance.activeStatuses.Clear();
+            }
+
+            private static void ExportInitial(int gridPos)
+            {
+                Instance.intermediateList.Clear();
+                Instance.gridPositions.SetOrAdd(Instance.infoCard, gridPos);
+            }
+
+            private static void ExportTitle(GameObject go) => Instance.intermediateList.Add(new TextInfo() { name = StatusDataManager.title, data = go });
+            private static void ExportGerms(GameObject go) => Instance.intermediateList.Add(new TextInfo() { name = StatusDataManager.germs, data = go });
+            private static void ExportStatus(StatusItemGroup.Entry entry) => Instance.intermediateList.Add(new TextInfo() { name = entry.item.Name, data = entry.data });
+            private static void ExportTemp(GameObject go) => Instance.intermediateList.Add(new TextInfo() { name = StatusDataManager.temp, data = go });
+            private static void ExportFinal() => Instance.activeStatuses.SetOrAdd(Instance.infoCard, new List<TextInfo>(Instance.intermediateList));
+
             static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
             {
                 MethodInfo targetMethod = AccessTools.Method(typeof(UnityEngine.Component), "GetComponent").MakeGenericMethod(typeof(PrimaryElement));
@@ -38,57 +57,40 @@ namespace BetterInfoCards
                         afterTarget = true;
 
                         yield return new CodeInstruction(OpCodes.Ldloc_0);
-                        yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Test), "ExportInitial"));
+                        yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Patch), nameof(Patch.ExportInitial)));
                         yield return i;
                     }
 
                     else if (afterTarget && i.opcode == OpCodes.Callvirt && i.operand == targetMethod2)
                     {
                         hitsAfter++;
+                        yield return i;
 
                         // Title
                         if (hitsAfter == 1)
-                        {
-                            yield return i;
-                            yield return new CodeInstruction(OpCodes.Ldloc_S, 72);
-                            yield return new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(UnityEngine.Component), "get_gameObject"));
-                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Test), "ExportTitle"));
-                        }
-                            
+                            foreach (var ci in GetCIsToGetGameObject(nameof(Patch.ExportTitle))) { yield return ci; }
+                           
                         // Germs
                         else if (hitsAfter == 2)
-                        {
-                            yield return i;
-                            yield return new CodeInstruction(OpCodes.Ldloc_S, 72);
-                            yield return new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(UnityEngine.Component), "get_gameObject"));
-                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Test), "ExportGerms"));
-                            
-                        }
+                            foreach (var ci in GetCIsToGetGameObject(nameof(Patch.ExportGerms))) { yield return ci; }
 
                         // Status items
                         else if (hitsAfter == 3)
                         {
                             yield return new CodeInstruction(OpCodes.Ldloc_S, 84);
-                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Test), "ExportStatus"));
-                            yield return i;
+                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Patch), nameof(Patch.ExportStatus)));
                         }
 
                         // Status items 2
                         else if (hitsAfter == 4)
                         {
                             yield return new CodeInstruction(OpCodes.Ldloc_S, 89);
-                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Test), "ExportStatus"));
-                            yield return i;
+                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Patch), nameof(Patch.ExportStatus)));
                         }
 
                         // Temps
                         else if (hitsAfter == 5)
-                        {
-                            yield return i;
-                            yield return new CodeInstruction(OpCodes.Ldloc_S, 72);
-                            yield return new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(UnityEngine.Component), "get_gameObject"));
-                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Test), "ExportTemp"));
-                        }     
+                            foreach (var ci in GetCIsToGetGameObject(nameof(Patch.ExportTemp))) { yield return ci; } 
                     }
 
                     // After each selectable
@@ -96,41 +98,20 @@ namespace BetterInfoCards
                     {
                         afterTarget = false;
 
-                        yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Test), "ExportFinal"));
+                        yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Patch), nameof(Patch.ExportFinal)));
                         yield return i;
                     }
 
                     else
-                    {
                         yield return i;
-                    }
                 }
             }
 
-            private static void ExportInitial(int gridPos)
+            private static IEnumerable<CodeInstruction> GetCIsToGetGameObject(string method)
             {
-                Instance.intermediateList.Clear();
-                Instance.gridPositions.SetOrAdd(Instance.infoCard, gridPos);
-            }
-
-            private static void ExportTitle(GameObject go) => Instance.intermediateList.Add(new TextInfo() { name = StatusDataManager.title, data = go });
-
-            private static void ExportGerms(GameObject go) => Instance.intermediateList.Add(new TextInfo() { name = StatusDataManager.germs, data = go });
-
-            private static void ExportBlank() => Instance.intermediateList.Add(new TextInfo());
-
-            private static void ExportStatus(StatusItemGroup.Entry entry) => Instance.intermediateList.Add(new TextInfo() { name = entry.item.Name, data = entry.data });
-
-            private static void ExportTemp(GameObject go) => Instance.intermediateList.Add(new TextInfo() { name = StatusDataManager.temp, data = go });
-
-            // Is the new list necessary?
-            private static void ExportFinal() => Instance.activeStatuses.SetOrAdd(Instance.infoCard, new List<TextInfo>(Instance.intermediateList));
-
-            static void Prefix()
-            {
-                Instance.infoCard = 0;
-                Instance.gridPositions.Clear();
-                Instance.activeStatuses.Clear();
+                yield return new CodeInstruction(OpCodes.Ldloc_S, 72);
+                yield return new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(UnityEngine.Component), "get_gameObject"));
+                yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Patch), method));
             }
         }
 
@@ -144,11 +125,5 @@ namespace BetterInfoCards
                 Instance.activeStatuses.ExpandToIndex(Instance.infoCard);
             }
         }
-    }
-
-    public class TextInfo
-    {
-        public string name = string.Empty;
-        public object data = null;
     }
 }

@@ -102,7 +102,6 @@ namespace BetterInfoCards
             var texts = new List<string>();
             foreach (TextInfo status in statusDatas)
             {
-                // TODO: Make this a func so that things like germs aren't ignored in keying
                 texts.Add(status.name);
             }
             texts.Sort();
