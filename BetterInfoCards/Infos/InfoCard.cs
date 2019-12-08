@@ -151,16 +151,23 @@ namespace BetterInfoCards
         {
             Rename(overrides, true);
 
-            float largestWidth = 0f;
+            float largestWdith = 0f;
+            float indentWidth = 0f;
+
             for (int i = 0; i < textWidgets.Count; i++)
             {
                 var widget = textWidgets[i].widget as LocText;
 
-                if (widget.renderedWidth > largestWidth)
-                    largestWidth = widget.renderedWidth;
+                float width = 0f;
+                if (i > 0)
+                    indentWidth = widget.rectTransform.anchoredPosition.x - ((LocText)textWidgets[0].widget).rectTransform.anchoredPosition.x;
+                width = widget.renderedWidth + indentWidth;
+
+                if (width > largestWdith)
+                    largestWdith = width;
             }
 
-            return largestWidth + HoverTextScreen.Instance.drawer.skin.shadowBarBorder.x * 2f - Width;
+            return largestWdith + HoverTextScreen.Instance.drawer.skin.shadowBarBorder.x * 2f - Width;
         }
     }
 }
