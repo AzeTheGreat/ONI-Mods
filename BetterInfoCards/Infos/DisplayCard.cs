@@ -24,9 +24,7 @@ namespace BetterInfoCards
             get
             {
                 if (_minY == float.MaxValue)
-                { 
                     _minY = -CameraController.Instance?.uiCamera.pixelRect.height / HoverTextScreen.Instance.GetComponentInParent<Canvas>().scaleFactor ?? float.MaxValue;
-                } 
                 return _minY;
             }
         }
