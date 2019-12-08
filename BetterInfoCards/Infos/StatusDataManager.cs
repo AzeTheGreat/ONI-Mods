@@ -49,6 +49,12 @@ namespace BetterInfoCards
                 });
 
         private static readonly Status<float> tempStatus = new Status<float>(
+                temp,
+                data => ((GameObject)data).GetComponent<PrimaryElement>().Temperature,
+                (original, temps) => GameUtil.GetFormattedTemperature(temps.Average()) + avgSuffix,
+                infoCards => GetSplitLists(infoCards, infoCards.Select(x => (float)x.textValues[temp]).ToList(), 10f));
+
+        private static readonly Status<float> oreTempStatus = new Status<float>(
                 oreTemp,
                 data => ((GameObject)data).GetComponent<PrimaryElement>().Temperature,
                 (original, temps) => oreTemp.Replace("{Temp}", GameUtil.GetFormattedTemperature(temps.Average())) + avgSuffix,
@@ -66,7 +72,7 @@ namespace BetterInfoCards
             { germs, germStatus },
             { temp, tempStatus },
             { oreMass, massStatus },
-            { oreTemp, tempStatus },
+            { oreTemp, oreTempStatus },
         };
 
         private static List<List<InfoCard>> GetSplitLists(List<InfoCard> cards, List<float> values, float maxRange)

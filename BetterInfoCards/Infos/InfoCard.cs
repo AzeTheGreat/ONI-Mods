@@ -90,10 +90,15 @@ namespace BetterInfoCards
                 return string.Empty;
 
             var texts = new List<string>();
-            foreach (TextInfo status in statusDatas)
+            for (int i = 0; i < statusDatas.Count; i++)
             {
-                texts.Add(status.name);
+                TextInfo status = statusDatas[i];
+                if (StatusDataManager.statusConverter.ContainsKey(status.name))
+                    texts.Add(status.name);
+                else
+                    texts.Add(((LocText)textWidgets[i].widget).text);
             }
+
             texts.Sort();
 
             return string.Join(null, texts.ToArray());
@@ -106,7 +111,7 @@ namespace BetterInfoCards
             {
                 string name = status.name;
                 if (StatusDataManager.statusConverter.TryGetValue(name, out var statusData))
-                    textValues[name] = statusData.GetTextValue(status.data);
+                    textValues[status.name] = statusData.GetTextValue(status.data);
             }
         }
 
