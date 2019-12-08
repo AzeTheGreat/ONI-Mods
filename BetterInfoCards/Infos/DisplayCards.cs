@@ -96,6 +96,7 @@ namespace BetterInfoCards
 
         public void Update()
         {
+            displayCards.ForEach(x => x.Rename());
             gridInfo.MoveAndResizeInfoCards();
         }
     }

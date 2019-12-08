@@ -43,6 +43,7 @@ namespace BetterInfoCards
             }
         }
 
+        // TODO: Check, but pretty sure this is actually a width not an x?
         public void Resize(float newX)
         {
             shadowBar.rect.sizeDelta = new Vector2(newX, shadowBar.rect.sizeDelta.y);
@@ -136,13 +137,33 @@ namespace BetterInfoCards
             return overrides;
         }
 
-        public void Rename(List<string> overrides)
-        {
+        // TODO: cache width checking
+        public void Rename(List<string> overrides, bool forceUpdate = false)
+        { 
             for (int i = 0; i < textWidgets.Count; i++)
             {
                 var widget = textWidgets[i].widget as LocText;
                 widget.text = overrides[i];
+
+                if(forceUpdate)
+                    widget.KForceUpdateDirty(); 
             }
+        }
+
+        public float GetWidthDelta(List<string> overrides)
+        {
+            Rename(overrides, true);
+
+            float largestWidth = 0f;
+            for (int i = 0; i < textWidgets.Count; i++)
+            {
+                var widget = textWidgets[i].widget as LocText;
+
+                if (widget.renderedWidth > largestWidth)
+                    largestWidth = widget.renderedWidth;
+            }
+
+            return largestWidth + HoverTextScreen.Instance.drawer.skin.shadowBarBorder.x * 2f - Width;
         }
     }
 }
