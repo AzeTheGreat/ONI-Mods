@@ -26,7 +26,7 @@ namespace BetterInfoCards
                         return go.GetComponent<PrimaryElement>().Units;
                     return 1;
                 },
-                (original, counts) => RemoveQuantityCount(original) + " x " + counts.Sum(),
+                (original, counts) => original.RemoveCountSuffix() + " x " + counts.Sum(),
                 infoCards => new List<List<InfoCard>>() { infoCards });
 
         private static readonly Status<DiseasePair> germStatus = new Status<DiseasePair>(
@@ -108,24 +108,6 @@ namespace BetterInfoCards
             }
 
             return splits;
-        }
-
-        private static string RemoveQuantityCount(string text)
-        {
-            int i;
-            bool wasDigit = false;
-            for (i = text.Length - 1; i >= 0; i--)
-            {
-                if (char.IsDigit(text[i]))
-                    wasDigit = true;
-                else
-                    break;
-            }
-
-            if(wasDigit)
-                text = text.Remove(i - 2, text.Length - i + 2);
-
-            return text;
         }
 
         private struct DiseasePair
