@@ -78,25 +78,17 @@ namespace BetterInfoCards
 
         public string GetTitleKey()
         {
-            string text = ((LocText)textWidgets[0].widget).text;
-
-            var charStack = new Stack<char>();
-            int i;
-            for (i = text.Length - 1; i >= 0; i--)
-            {
-                if (!char.IsDigit(text[i]))
-                    break;
-
-                charStack.Push(text[i]);
-            }
-
-            text = text.Remove(i - 1, text.Length - i + 1);
-
-            return text;
+            return ((LocText)textWidgets[0].widget).text.RemoveCountSuffix();
         }
 
         public string GetTextKey()
         {
+            // Only ever matters if element has the same name as an item
+            // Eg. Salt water with a salt water bottle in it
+            // Not sure how this can be null, should be empty list...figure out later.
+            if (statusDatas == null)
+                return string.Empty;
+
             var texts = new List<string>();
             foreach (TextInfo status in statusDatas)
             {
