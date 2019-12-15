@@ -47,14 +47,12 @@ namespace BetterInfoCards
 
                         yield return new CodeInstruction(OpCodes.Ldloc_0);
                         yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Patch), nameof(Patch.ExportInitial)));
-                        yield return i;
                     }
 
                     else if (afterTarget && i.opcode == OpCodes.Callvirt && i.operand == targetMethod2)
                     {
                         hitsAfter++;
                         
-
                         // Title
                         if (hitsAfter == 1)
                             foreach (var ci in GetCIsToExport(nameof(Patch.ExportTitle))) { yield return ci; }
@@ -80,12 +78,9 @@ namespace BetterInfoCards
                         // Temps
                         else if (hitsAfter == 5)
                             foreach (var ci in GetCIsToExport(nameof(Patch.ExportTemp))) { yield return ci; }
-
-                        yield return i;
                     }
 
-                    else
-                        yield return i;
+                    yield return i;
                 }
             }
 
@@ -98,7 +93,7 @@ namespace BetterInfoCards
         }
 
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginDrawing))]
-        private class TrackDrawn_Patch
+        private class HoverDrawerStart_Patch
         {
             static void Postfix()
             {
@@ -108,7 +103,7 @@ namespace BetterInfoCards
         }
 
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginShadowBar))]
-        private class TrackInfoCards_Patch2
+        private class BeginShadowBar_Patch
         {
             static void Postfix()
             {
@@ -117,7 +112,7 @@ namespace BetterInfoCards
         }
 
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.EndShadowBar))]
-        private class TrackInfoCards_Patch
+        private class EndShadowBar_Patch
         {
             // Occurs after each shadow bar
             // Essentially after each item
@@ -129,7 +124,7 @@ namespace BetterInfoCards
         }
 
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.DrawText), new Type[] { typeof(string), typeof(TextStyleSetting), typeof(Color), typeof(bool) })]
-        private class TrackInfoTexts_Patch
+        private class TrackTexts_Patch
         {
             // Occurs after each text is drawn
             static void Postfix()
