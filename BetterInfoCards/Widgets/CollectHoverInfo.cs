@@ -11,33 +11,22 @@ namespace BetterInfoCards
     {
         public static CollectHoverInfo Instance { get; set; }
 
-        private int infoCard;
+        //private int infoCard;
         public List<int> gridPositions = new List<int>();
         public List<List<TextInfo>> activeStatuses = new List<List<TextInfo>>();
 
-        private List<TextInfo> intermediateList = new List<TextInfo>();
+        private TextInfo intermediateTextInfo = null;
+        private int intermediateGridPos = 0;
+        private List<TextInfo> intermediateStatuses = new List<TextInfo>();
 
         [HarmonyPatch(typeof(SelectToolHoverTextCard), nameof(SelectToolHoverTextCard.UpdateHoverElements))]
         private class Patch
         {
-            static void Prefix()
-            {
-                Instance.infoCard = 0;
-                Instance.gridPositions.Clear();
-                Instance.activeStatuses.Clear();
-            }
-
-            private static void ExportInitial(int gridPos)
-            {
-                Instance.intermediateList.Clear();
-                Instance.gridPositions.SetOrAdd(Instance.infoCard, gridPos);
-            }
-
-            private static void ExportTitle(GameObject go) => Instance.intermediateList.Add(new TextInfo() { name = StatusDataManager.title, data = go });
-            private static void ExportGerms(GameObject go) => Instance.intermediateList.Add(new TextInfo() { name = StatusDataManager.germs, data = go });
-            private static void ExportStatus(StatusItemGroup.Entry entry) => Instance.intermediateList.Add(new TextInfo() { name = entry.item.Name, data = entry.data });
-            private static void ExportTemp(GameObject go) => Instance.intermediateList.Add(new TextInfo() { name = StatusDataManager.temp, data = go });
-            private static void ExportFinal() => Instance.activeStatuses.SetOrAdd(Instance.infoCard, new List<TextInfo>(Instance.intermediateList));
+            private static void ExportInitial(int gridPos) => Instance.intermediateGridPos = gridPos;
+            private static void ExportTitle(GameObject go) => Instance.intermediateTextInfo = new TextInfo() { name = StatusDataManager.title, data = go };
+            private static void ExportGerms(GameObject go) => Instance.intermediateTextInfo = new TextInfo() { name = StatusDataManager.germs, data = go };
+            private static void ExportStatus(StatusItemGroup.Entry entry) => Instance.intermediateTextInfo = new TextInfo() { name = entry.item.Name, data = entry.data };
+            private static void ExportTemp(GameObject go) => Instance.intermediateTextInfo = new TextInfo() { name = StatusDataManager.temp, data = go };
 
             static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
             {
@@ -64,15 +53,15 @@ namespace BetterInfoCards
                     else if (afterTarget && i.opcode == OpCodes.Callvirt && i.operand == targetMethod2)
                     {
                         hitsAfter++;
-                        yield return i;
+                        
 
                         // Title
                         if (hitsAfter == 1)
-                            foreach (var ci in GetCIsToGetGameObject(nameof(Patch.ExportTitle))) { yield return ci; }
+                            foreach (var ci in GetCIsToExport(nameof(Patch.ExportTitle))) { yield return ci; }
                            
                         // Germs
                         else if (hitsAfter == 2)
-                            foreach (var ci in GetCIsToGetGameObject(nameof(Patch.ExportGerms))) { yield return ci; }
+                            foreach (var ci in GetCIsToExport(nameof(Patch.ExportGerms))) { yield return ci; }
 
                         // Status items
                         else if (hitsAfter == 3)
@@ -90,15 +79,8 @@ namespace BetterInfoCards
 
                         // Temps
                         else if (hitsAfter == 5)
-                            foreach (var ci in GetCIsToGetGameObject(nameof(Patch.ExportTemp))) { yield return ci; } 
-                    }
+                            foreach (var ci in GetCIsToExport(nameof(Patch.ExportTemp))) { yield return ci; }
 
-                    // After each selectable
-                    else if(afterTarget && i.opcode == OpCodes.Callvirt && i.operand == targetMethod3)
-                    {
-                        afterTarget = false;
-
-                        yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Patch), nameof(Patch.ExportFinal)));
                         yield return i;
                     }
 
@@ -107,7 +89,7 @@ namespace BetterInfoCards
                 }
             }
 
-            private static IEnumerable<CodeInstruction> GetCIsToGetGameObject(string method)
+            private static IEnumerable<CodeInstruction> GetCIsToExport(string method)
             {
                 yield return new CodeInstruction(OpCodes.Ldloc_S, 72);
                 yield return new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(UnityEngine.Component), "get_gameObject"));
@@ -115,14 +97,45 @@ namespace BetterInfoCards
             }
         }
 
-        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.EndShadowBar))]
-        private class TrackInfoCards_Patch
+        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginDrawing))]
+        private class TrackDrawn_Patch
         {
             static void Postfix()
             {
-                Instance.infoCard++;
-                Instance.gridPositions.ExpandToIndex(Instance.infoCard);
-                Instance.activeStatuses.ExpandToIndex(Instance.infoCard);
+                Instance.gridPositions.Clear();
+                Instance.activeStatuses.Clear();
+            }
+        }
+
+        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginShadowBar))]
+        private class TrackInfoCards_Patch2
+        {
+            static void Postfix()
+            {
+                Instance.intermediateStatuses.Clear();
+            }
+        }
+
+        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.EndShadowBar))]
+        private class TrackInfoCards_Patch
+        {
+            // Occurs after each shadow bar
+            // Essentially after each item
+            static void Postfix()
+            {
+                Instance.gridPositions.Add(Instance.intermediateGridPos);
+                Instance.activeStatuses.Add(new List<TextInfo>(Instance.intermediateStatuses));
+            }
+        }
+
+        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.DrawText), new Type[] { typeof(string), typeof(TextStyleSetting), typeof(Color), typeof(bool) })]
+        private class TrackInfoTexts_Patch
+        {
+            // Occurs after each text is drawn
+            static void Postfix()
+            {
+                Instance.intermediateStatuses.Add(Instance.intermediateTextInfo);
+                Instance.intermediateTextInfo = null;
             }
         }
     }

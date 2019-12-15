@@ -90,10 +90,10 @@ namespace BetterInfoCards
                 return string.Empty;
 
             var texts = new List<string>();
-            for (int i = 0; i < statusDatas.Count; i++)
+            for (int i = 0; i < textWidgets.Count; i++)
             {
                 TextInfo status = statusDatas[i];
-                if (StatusDataManager.statusConverter.ContainsKey(status.name))
+                if (status != null && StatusDataManager.statusConverter.ContainsKey(status.name))
                     texts.Add(status.name);
                 else
                     texts.Add(((LocText)textWidgets[i].widget).text);
@@ -119,11 +119,13 @@ namespace BetterInfoCards
         {
             var overrides = new List<string>();
 
-            for (int i = 0; i < statusDatas.Count; i++)
+            for (int i = 0; i < textWidgets.Count; i++)
             {
-                TextInfo status = statusDatas[i];
-                string name = status.name;
                 string original = ((LocText)textWidgets[i].widget).text;
+                string name = string.Empty;
+
+                if(textWidgets.Count == statusDatas.Count)
+                    name = statusDatas[i].name;
 
                 if (StatusDataManager.statusConverter.TryGetValue(name, out var statusData))
                     overrides.Add(statusData.GetTextOverride(original, cards.Select(x => x.textValues[name]).ToList()));
