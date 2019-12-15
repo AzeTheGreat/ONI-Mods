@@ -83,12 +83,6 @@ namespace BetterInfoCards
 
         public string GetTextKey()
         {
-            // Only ever matters if element has the same name as an item
-            // Eg. Salt water with a salt water bottle in it
-            // Not sure how this can be null, should be empty list...figure out later.
-            if (statusDatas == null)
-                return string.Empty;
-
             var texts = new List<string>();
             for (int i = 0; i < textWidgets.Count; i++)
             {
@@ -100,7 +94,6 @@ namespace BetterInfoCards
             }
 
             texts.Sort();
-
             return string.Join(null, texts.ToArray());
         }
 
