@@ -7,7 +7,9 @@ namespace BetterInfoCards
     [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.DrawText), new Type[] { typeof(string), typeof(TextStyleSetting), typeof(Color), typeof(bool) })]
     class CompactCards
     {
-        const int fontSizeDecrease = 2;
+        private static readonly int fontSizeDecrease = Options.Opts.InfoCardSize.fontSizeDecrease;
+
+        static bool Prepare() => Options.Opts.Compactness != Options.CompactMode.Default;
 
         static void Prefix(ref TextStyleSetting style)
         {
@@ -25,16 +27,22 @@ namespace BetterInfoCards
     [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.NewLine))]
     class CompactCards2
     {
+        private static readonly int minHeight = Options.Opts.InfoCardSize.minHeight;
+
+        static bool Prepare() => Options.Opts.Compactness != Options.CompactMode.Default;
+
         static void Prefix(ref int min_height)
         {
-            min_height = 16;
+            min_height = minHeight;
         }
     }
 
     [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.DrawIcon), new Type[] { typeof(Sprite), typeof(Color), typeof(int), typeof(int)})]
     class CompactCards4
     {
-        const int maxImageSize = 16;
+        private static readonly int maxImageSize = Options.Opts.InfoCardSize.maxImageSize;
+
+        static bool Prepare() => Options.Opts.Compactness != Options.CompactMode.Default;
 
         static void Prefix(ref int image_size)
         {
@@ -46,10 +54,14 @@ namespace BetterInfoCards
     [HarmonyPatch(typeof(HoverTextDrawer), MethodType.Constructor, new Type[] { typeof(HoverTextDrawer.Skin), typeof(RectTransform)})]
     class CompactCards3
     {
+        private static readonly Vector2 border = Options.Opts.InfoCardSize.shadowBarBorder;
+        private static readonly float opacity = Options.Opts.InfoCardOpacity;
+
         static void Prefix(ref HoverTextDrawer.Skin skin)
         {
-            skin.shadowBarBorder = new Vector2(10f, 6f);
-            skin.shadowImageColor.a = 0.8f;
+            if(Options.Opts.Compactness != Options.CompactMode.Default)
+                skin.shadowBarBorder = border;
+            skin.shadowImageColor.a = opacity;
         }
     }
 }
