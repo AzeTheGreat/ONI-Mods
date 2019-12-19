@@ -102,9 +102,12 @@ namespace BetterInfoCards
             textValues.Clear();
             foreach (TextInfo status in statusDatas)
             {
-                string name = status.name;
-                if (StatusDataManager.statusConverter.TryGetValue(name, out var statusData))
-                    textValues[status.name] = statusData.GetTextValue(status.data);
+                if(status != null)
+                {
+                    string name = status.name;
+                    if (StatusDataManager.statusConverter.TryGetValue(name, out var statusData))
+                        textValues[status.name] = statusData.GetTextValue(status.data);
+                }
             }
         }
 
@@ -117,7 +120,7 @@ namespace BetterInfoCards
                 string original = ((LocText)textWidgets[i].widget).text;
                 string name = string.Empty;
 
-                if(textWidgets.Count == statusDatas.Count)
+                if(statusDatas[i] != null)
                     name = statusDatas[i].name;
 
                 if (StatusDataManager.statusConverter.TryGetValue(name, out var statusData))
