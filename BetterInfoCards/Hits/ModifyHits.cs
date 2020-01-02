@@ -10,7 +10,7 @@ namespace BetterInfoCards
     {
         public static ModifyHits Instance { get; set; }
 
-        private List<int> indexRedirect = new List<int>();
+        private List<int> indexRedirects = new List<int>();
         private int localIndex = -1;
         private bool first = true;
         private List<MonoBehaviour> intersections = new List<MonoBehaviour>();
@@ -42,13 +42,15 @@ namespace BetterInfoCards
                 if (cycleSelection)
                 {
                     Instance.localIndex++;
-                    if (Instance.localIndex > Instance.indexRedirect.Count - 1)
+                    if (Instance.localIndex > Instance.indexRedirects.Count - 1)
                         Instance.localIndex = 0;
                 }
 
                 int targetIndex = 0;
                 if (Instance.localIndex != -1)
-                    targetIndex = Instance.indexRedirect[Instance.localIndex];
+                {
+                    targetIndex = Instance.indexRedirects[Instance.localIndex];
+                }
 
                 __result = ___intersections[targetIndex].component as KSelectable;
             }
@@ -56,13 +58,13 @@ namespace BetterInfoCards
 
         public void Reset(List<int> redirects)
         {
-            if (indexRedirect.Count > 0 && localIndex != -1)
+            if (indexRedirects.Count > 0 && localIndex != -1)
             {
-                int index = indexRedirect[localIndex];
-                priorSelectedComps = intersections.GetRange(index, GetRedirectCount(index));
+                int index = indexRedirects[localIndex];
+                priorSelectedComps = intersections.GetRange(index, GetRedirectCount(localIndex));
             }
 
-            indexRedirect = redirects;
+            indexRedirects = redirects;
             localIndex = -1;
             first = true;
         }
@@ -79,10 +81,10 @@ namespace BetterInfoCards
 
             if (index != -1)
             {
-                for (int i = 0; i < indexRedirect.Count; i++)
+                for (int i = 0; i < indexRedirects.Count; i++)
                 {
-                    int start = indexRedirect[i];
-                    int end = start + GetRedirectCount(start);
+                    int start = indexRedirects[i];
+                    int end = start + GetRedirectCount(i);
 
                     if (index >= start && index < end)
                         localIndex = i;
@@ -97,14 +99,12 @@ namespace BetterInfoCards
         private int GetRedirectCount(int index)
         {
             int count = 0;
-            if (index + 1 >= indexRedirect.Count)
-                count = intersections.Count - 2 - index;
+            if (index + 1 >= indexRedirects.Count)
+                count = intersections.Count - 2 - indexRedirects[index];
             else
-                count = indexRedirect[index + 1] - index;
+                count = indexRedirects[index + 1] - indexRedirects[index];
 
             return count;
         }
     }
-
-    
 }
