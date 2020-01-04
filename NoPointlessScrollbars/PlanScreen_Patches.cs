@@ -11,10 +11,11 @@ namespace NoPointlessScrollbars
         {
             int buttons = __instance.GroupsTransform.childCount;
             int rows = Mathf.CeilToInt(buttons / 3f);
+            bool shouldShowScroll = rows >= ___buildGrid_maxRowsBeforeScroll + 1;
 
-            __instance.BuildingGroupContentsRect.GetComponent<ScrollRect>().vertical = rows >= ___buildGrid_maxRowsBeforeScroll + 1;
+            __instance.BuildingGroupContentsRect.GetComponent<ScrollRect>().vertical = shouldShowScroll;
 
-            if (rows < ___buildGrid_maxRowsBeforeScroll + 1)
+            if (!shouldShowScroll)
                 // Couldn't find any relevant numbers in the source so I guess I too get to use magic numbers...
                 __instance.buildingGroupsRoot.sizeDelta += new Vector2(-13f, 0f);
         }
