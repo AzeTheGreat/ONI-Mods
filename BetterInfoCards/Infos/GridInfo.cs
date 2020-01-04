@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace BetterInfoCards
 {
     class GridInfo
     {
-        private const float shadowBarSpacingX = 5f;
+        private const float shadowBarSpacing = 4f;
 
         List<ColumnInfo> columnInfos = new List<ColumnInfo>();
 
@@ -23,62 +24,39 @@ namespace BetterInfoCards
             }
         }
 
-        public GridInfo(List<InfoCard> infoCards)
+        public GridInfo(List<DisplayCard> displayCards, float topY)
         {
-            //// No point in arranging.
-            //if (infoCards.Count < 4)
-            //    return;
+            if (displayCards.Count == 0)
+                return;
 
-            //// Determine column numbers
-            //float totalLength = infoCards.Sum(x => x.shadowBar.rect.rect.height);
-            //float averageWidth = infoCards.Average(x => x.shadowBar.rect.rect.width);
-
-            //int columns = Mathf.CeilToInt(Mathf.Sqrt(targetAspectRatio * totalLength / averageWidth));
-            //float lengthPerColumn = totalLength / columns;
-
-            //// Build "grid"
-            //float currentColLength = 0f;
-            //float currentOffsetX = 0f;
-            //float currentOffsetY = 0f;
-            //int colStartIndex = 0;
-            //for (int i = 0; i < infoCards.Count; i++)
-            //{
-            //    infoCards[i].Translate(currentOffsetX, currentOffsetY);
-            //    currentColLength += infoCards[i].shadowBar.rect.rect.height;
-
-            //    if (currentColLength > lengthPerColumn && i < infoCards.Count - 1)
-            //    {
-            //        currentColLength = 0f;
-            //        currentOffsetX += infoCards.GetRange(colStartIndex, i-colStartIndex+1).Max(x => x.shadowBar.rect.rect.width) + shadowBarSpacingX;
-            //        currentOffsetY = infoCards[0].shadowBar.rect.anchoredPosition.y - infoCards[i+1].shadowBar.rect.anchoredPosition.y;
-            //        colStartIndex = i;
-            //    }
-            //}
-
-            float offsetX = 0f;
+            Vector2 offset = new Vector2(0f, topY);
 
             columnInfos.Clear();
             var colInfo = new ColumnInfo();
 
-            foreach (var card in infoCards)
+            for (int i = 0; i < displayCards.Count; i++)
             {
-                if (card.YMin + colInfo.offsetY < MinY)
+                DisplayCard card = displayCards[i];
+
+                // If the first one can't fit, put it down anyways otherwise they all get shifted over by the shadow bar spacing.
+                if (offset.y - card.Height < MinY && i > 0)
                 {
-                    offsetX += colInfo.maxXInCol + shadowBarSpacingX;
+                    offset.x += colInfo.maxXInCol + shadowBarSpacing;
 
                     columnInfos.Add(colInfo);
-                    colInfo = new ColumnInfo
-                    {
-                        offsetX = offsetX,
-                        offsetY = infoCards[0].YMax - card.YMax
-                    };
+                    colInfo = new ColumnInfo { offsetX = offset.x };
+                    offset.y = topY;
                 }
+
+                card.offset.y = offset.y - card.YMax;
+                offset.y -= card.Height + shadowBarSpacing;
 
                 if (card.Width > colInfo.maxXInCol)
                     colInfo.maxXInCol = card.Width;
 
-                colInfo.infoCards.Add(card);
+                colInfo.displayCards.Add(card);
             }
+
             columnInfos.Add(colInfo);
         }
 

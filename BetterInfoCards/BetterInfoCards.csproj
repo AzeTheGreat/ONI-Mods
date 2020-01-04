@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\MSBuild.ILMerge.Task.1.0.5\build\MSBuild.ILMerge.Task.props" Condition="Exists('..\packages\MSBuild.ILMerge.Task.1.0.5\build\MSBuild.ILMerge.Task.props')" />
+  <Import Project="..\packages\ILMerge.3.0.29\build\ILMerge.props" Condition="Exists('..\packages\ILMerge.3.0.29\build\ILMerge.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -12,6 +14,8 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -50,7 +54,7 @@
     </Reference>
     <Reference Include="PLib">
       <HintPath>..\packages\PLib.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System">
       <Private>False</Private>
@@ -92,20 +96,50 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseWidget.cs" />
-    <Compile Include="CachedWidgets.cs" />
-    <Compile Include="ChangeHits_Patch.cs" />
-    <Compile Include="DrawnWidgets.cs" />
-    <Compile Include="Entry.cs" />
-    <Compile Include="InfoCards.cs" />
-    <Compile Include="Instances_Patch.cs" />
-    <Compile Include="ModifyWidgets.cs" />
-    <Compile Include="GridInfo.cs" />
-    <Compile Include="InfoCard.cs" />
+    <Compile Include="Infos\Status.cs" />
+    <Compile Include="Tweaks\CompactCards.cs" />
+    <Compile Include="Util\Extensions.cs" />
+    <Compile Include="Hits\UpdateHitsBefore_Patch.cs" />
+    <Compile Include="Infos\DisplayCard.cs" />
+    <Compile Include="Infos\DisplayCards.cs" />
+    <Compile Include="Tweaks\EmptyStringFixes.cs" />
+    <Compile Include="Util\Options.cs" />
+    <Compile Include="Widgets\CollectHoverInfo.cs" />
+    <Compile Include="Infos\StatusDataManager.cs" />
+    <Compile Include="Tweaks\UnreachableHoverCard_Patch.cs" />
+    <Compile Include="Widgets\BaseWidget.cs" />
+    <Compile Include="Widgets\CachedWidgets.cs" />
+    <Compile Include="Hits\ModifyHits.cs" />
+    <Compile Include="Widgets\DrawnWidgets.cs" />
+    <Compile Include="Widgets\Entry.cs" />
+    <Compile Include="Infos\InfoCards.cs" />
+    <Compile Include="Util\Instances_Patch.cs" />
+    <Compile Include="Widgets\ModifyWidgets.cs" />
+    <Compile Include="Infos\GridInfo.cs" />
+    <Compile Include="Infos\InfoCard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RemoveShadow_Patch.cs" />
-    <Compile Include="SelectableGroup.cs" />
-    <Compile Include="ColumnInfo.cs" />
+    <Compile Include="Tweaks\RemoveShadow_Patch.cs" />
+    <Compile Include="Infos\ColumnInfo.cs" />
+    <Compile Include="Widgets\TextInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ILMerge.props">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ILMergeOrder.txt" />
+  </ItemGroup>
+  <Import Project="..\AzeLib\AzeLib.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\ILMerge.3.0.29\build\ILMerge.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ILMerge.3.0.29\build\ILMerge.props'))" />
+    <Error Condition="!Exists('..\packages\MSBuild.ILMerge.Task.1.0.5\build\MSBuild.ILMerge.Task.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSBuild.ILMerge.Task.1.0.5\build\MSBuild.ILMerge.Task.props'))" />
+    <Error Condition="!Exists('..\packages\MSBuild.ILMerge.Task.1.0.5\build\MSBuild.ILMerge.Task.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSBuild.ILMerge.Task.1.0.5\build\MSBuild.ILMerge.Task.targets'))" />
+  </Target>
+  <Import Project="..\packages\MSBuild.ILMerge.Task.1.0.5\build\MSBuild.ILMerge.Task.targets" Condition="Exists('..\packages\MSBuild.ILMerge.Task.1.0.5\build\MSBuild.ILMerge.Task.targets')" />
 </Project>

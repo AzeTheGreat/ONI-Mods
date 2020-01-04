@@ -69,8 +69,8 @@ namespace BetterInfoCards
 
         public void Update()
         {
-            if (IsLayoutChanged())
-                InfoCards = new InfoCards(cachedShadowWidths, cachedShadowHeights, shadowBars, iconWidgets, textWidgets);
+            if (IsLayoutChanged() && shadowBars.Count > 0)
+                InfoCards = new InfoCards(ref cachedShadowWidths, ref cachedShadowHeights, shadowBars, iconWidgets, textWidgets, SelectPos);
 
             if (IsSelectedChanged())
                 InfoCards.UpdateSelected(SelectPos);
