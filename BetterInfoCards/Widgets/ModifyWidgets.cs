@@ -16,6 +16,7 @@ namespace BetterInfoCards
         {
             static bool Prepare() => true;
 
+            // HoverTextDrawer.Pool.EndDrawing
             static MethodBase TargetMethod()
             {
                 return AccessTools.FirstInner(typeof(HoverTextDrawer), x => x.IsGenericType).MakeGenericType(typeof(object)).GetMethod("EndDrawing");

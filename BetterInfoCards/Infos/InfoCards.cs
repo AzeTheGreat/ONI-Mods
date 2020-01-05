@@ -13,7 +13,7 @@ namespace BetterInfoCards
 
         private DisplayCards displayCards;
 
-        public InfoCards(ref float[] cachedShadowWidths, ref float[] cachedShadowHeights, List<Entry> shadowBars, List<Entry> iconWidgets, List<Entry> textWidgets, float selectPos)
+        public InfoCards(ref float[] cachedShadowWidths, ref float[] cachedShadowHeights, List<Entry> shadowBars, List<Entry> iconWidgets, List<Entry> textWidgets, float selectPos, List<KSelectable> hoverHits)
         {
             infoCards = new List<InfoCard>();
 
@@ -26,10 +26,11 @@ namespace BetterInfoCards
             // For each shadow bar, create an info card and add the relevant icons and texts.
             for (int i = 0; i < shadowBars.Count; i++)
             {
-                int gridPos = CollectHoverInfo.Instance.gridPositions[i];
                 List<TextInfo> entries = CollectHoverInfo.Instance.activeStatuses[i];
+                KSelectable selectable = CollectHoverInfo.Instance.selectables[i];
                 Entry shadowBar = shadowBars[i];
-                infoCards.Add(new InfoCard(shadowBar, iconWidgets, textWidgets, entries, gridPos, ref iconIndex, ref textIndex));
+
+                infoCards.Add(new InfoCard(shadowBar, iconWidgets, textWidgets, entries, ref iconIndex, ref textIndex, selectable));
 
                 cachedShadowWidths[i] = shadowBar.rect.rect.width;
                 cachedShadowHeights[i] = shadowBar.rect.rect.height;

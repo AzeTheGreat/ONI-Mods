@@ -68,21 +68,12 @@ namespace BetterInfoCards
                     displaySplit.Add(kvp.Value);
             }
 
-            var redirects = new List<int>();
-
-            bool isFirst = true;
             foreach (List<InfoCard> cards in displaySplit)
             {
-                DisplayCard card = new DisplayCard(cards);
-                displayCards.Add(card);
-
-                if(!(DetectRunStart_Patch.isUnreachableCard && isFirst))
-                    redirects.Add(card.TopCardIndex(infoCards));
-
-                isFirst = false;
+                displayCards.Add(new DisplayCard(cards));
             }
 
-            ModifyHits.Instance.Reset(redirects);
+            ModifyHits.Instance.Update(displayCards);
             gridInfo = new GridInfo(displayCards, infoCards[0].YMax);
         }
 

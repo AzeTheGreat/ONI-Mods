@@ -6,6 +6,8 @@ namespace BetterInfoCards
 {
     public class InfoCard
     {
+        public KSelectable selectable;
+
         private Entry shadowBar;
         private List<Entry> iconWidgets;
         private List<Entry> textWidgets;
@@ -20,12 +22,13 @@ namespace BetterInfoCards
 
         public Dictionary<string, object> textValues = new Dictionary<string, object>();
 
-        public InfoCard(Entry shadowBar, List<Entry> icons, List<Entry> texts, List<TextInfo> statusDatas, int gridPos, ref int iconIndex, ref int textIndex)
+        public InfoCard(Entry shadowBar, List<Entry> icons, List<Entry> texts, List<TextInfo> statusDatas, ref int iconIndex, ref int textIndex, KSelectable selectable)
         {
             this.shadowBar = shadowBar;
             iconWidgets = GetEntries(ref iconIndex, icons);
             textWidgets = GetEntries(ref textIndex, texts);
             this.statusDatas = statusDatas;
+            this.selectable = selectable;
         }
 
         public void Translate(float x, float y)

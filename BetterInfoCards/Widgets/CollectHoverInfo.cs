@@ -1,6 +1,7 @@
 ﻿using Harmony;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using UnityEngine;
@@ -12,17 +13,17 @@ namespace BetterInfoCards
         public static CollectHoverInfo Instance { get; set; }
 
         //private int infoCard;
-        public List<int> gridPositions = new List<int>();
+        public List<KSelectable> selectables = new List<KSelectable>();
         public List<List<TextInfo>> activeStatuses = new List<List<TextInfo>>();
 
         private TextInfo intermediateTextInfo = null;
-        private int intermediateGridPos = 0;
+        private KSelectable intermediateSelectable = null;
         private List<TextInfo> intermediateStatuses = new List<TextInfo>();
 
         [HarmonyPatch(typeof(SelectToolHoverTextCard), nameof(SelectToolHoverTextCard.UpdateHoverElements))]
         private class Patch
         {
-            private static void ExportInitial(int gridPos) => Instance.intermediateGridPos = gridPos;
+            private static void ExportSelectable(KSelectable selectable) => Instance.intermediateSelectable = selectable;
             private static void ExportTitle(GameObject go) => Instance.intermediateTextInfo = new TextInfo() { name = StatusDataManager.title, data = go };
             private static void ExportGerms(GameObject go) => Instance.intermediateTextInfo = new TextInfo() { name = StatusDataManager.germs, data = go };
             private static void ExportStatus(StatusItemGroup.Entry entry) => Instance.intermediateTextInfo = new TextInfo() { name = entry.item.Name, data = entry.data };
@@ -45,8 +46,8 @@ namespace BetterInfoCards
                         isFirst = false;
                         afterTarget = true;
 
-                        yield return new CodeInstruction(OpCodes.Ldloc_0);
-                        yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Patch), nameof(Patch.ExportInitial)));
+                        yield return new CodeInstruction(OpCodes.Ldloc_S, 72);
+                        yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Patch), nameof(Patch.ExportSelectable)));
                     }
 
                     else if (afterTarget && i.opcode == OpCodes.Callvirt && i.operand == targetMethod2)
@@ -80,8 +81,19 @@ namespace BetterInfoCards
                             foreach (var ci in GetCIsToExport(nameof(Patch.ExportTemp))) { yield return ci; }
                     }
 
+                    else if (i.opcode == OpCodes.Call && i.operand == AccessTools.Method(typeof(WorldInspector), nameof(WorldInspector.MassStringsReadOnly)))
+                    {
+                        yield return new CodeInstruction(OpCodes.Ldarg_1);
+                        yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Patch), nameof(Patch.Helper)));
+                    }
+
                     yield return i;
                 }
+            }
+
+            private static void Helper(List<KSelectable> selectables)
+            {
+                Instance.intermediateSelectable = selectables.LastOrDefault();
             }
 
             private static IEnumerable<CodeInstruction> GetCIsToExport(string method)
@@ -97,7 +109,7 @@ namespace BetterInfoCards
         {
             static void Postfix()
             {
-                Instance.gridPositions.Clear();
+                Instance.selectables.Clear();
                 Instance.activeStatuses.Clear();
             }
         }
@@ -118,7 +130,8 @@ namespace BetterInfoCards
             // Essentially after each item
             static void Postfix()
             {
-                Instance.gridPositions.Add(Instance.intermediateGridPos);
+                Instance.selectables.Add(Instance.intermediateSelectable);
+                Instance.intermediateSelectable = null;
                 Instance.activeStatuses.Add(new List<TextInfo>(Instance.intermediateStatuses));
             }
         }

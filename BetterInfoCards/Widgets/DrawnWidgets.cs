@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Harmony;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ namespace BetterInfoCards
     public class DrawnWidgets : WidgetsBase
     {
         private InfoCards InfoCards;
+        private static List<KSelectable> hoverHits;
 
         private float SelectPos
         {
@@ -69,11 +71,12 @@ namespace BetterInfoCards
 
         public void Update()
         {
-            if (IsLayoutChanged() && shadowBars.Count > 0)
-                InfoCards = new InfoCards(ref cachedShadowWidths, ref cachedShadowHeights, shadowBars, iconWidgets, textWidgets, SelectPos);
+            //if (IsLayoutChanged() && shadowBars.Count > 0)
+            if(shadowBars.Count > 0)
+                InfoCards = new InfoCards(ref cachedShadowWidths, ref cachedShadowHeights, shadowBars, iconWidgets, textWidgets, SelectPos, hoverHits);
 
-            if (IsSelectedChanged())
-                InfoCards.UpdateSelected(SelectPos);
+            //if (IsSelectedChanged())
+            InfoCards.UpdateSelected(SelectPos);
 
             InfoCards.Update(selectBorders);
         }
@@ -84,6 +87,15 @@ namespace BetterInfoCards
                 return true;
             else
                 return false;
+        }
+
+        [HarmonyPatch(typeof(InterfaceTool), "UpdateHoverElements")]
+        private class GetHits_Patch
+        {
+            static void Prefix(List<KSelectable> hits)
+            {
+                hoverHits = hits;
+            }
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Linq;
-using UnityEngine;
 
 namespace BetterInfoCards
 {
@@ -20,8 +19,6 @@ namespace BetterInfoCards
     [HarmonyPatch(typeof(SelectToolHoverTextCard), nameof(SelectToolHoverTextCard.UpdateHoverElements))]
     static class DetectRunStart_Patch
     {
-        public static bool isUnreachableCard = false;
-
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             MethodInfo targetMethod = AccessTools.Method(typeof(UnityEngine.Component), "GetComponent").MakeGenericMethod(typeof(ChoreConsumer));
@@ -49,11 +46,6 @@ namespace BetterInfoCards
             }
         }
 
-        static void Prefix()
-        {
-            isUnreachableCard = false;
-        }
-
         private static void DrawUnreachableCard(SelectToolHoverTextCard instance, List<KSelectable> overlayValidHoverObjects)
         {
             if(overlayValidHoverObjects.Count > 0)
@@ -69,8 +61,6 @@ namespace BetterInfoCards
                     drawer.AddIndent(8);
                     drawer.DrawText(unreachable.Name.ToUpper(), instance.Styles_Title.Standard);
                     drawer.EndShadowBar();
-
-                    isUnreachableCard = true;
                 }
             }  
         }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace BetterInfoCards
@@ -49,10 +50,12 @@ namespace BetterInfoCards
                 InfoCard card = infoCards[i];
 
                 // Push the duplicate cards off the screen, break iteration if they're already off since cards are ordered top to bottom
+                // Or maybe not since it looks like not breaking fixed a rare error...
+                // TODO: investigate
                 if (card.YMax > MinY)
                     card.Translate(0f, MinY - card.YMax);
-                else
-                    break;
+                //else
+                //    break;
             }
         }
 
@@ -67,13 +70,14 @@ namespace BetterInfoCards
             infoCards[0].Resize(newWidth);
         }
 
-        public int TopCardIndex(List<InfoCard> cards)
+        public KSelectable GetTopSelectable()
         {
-            int num = cards.IndexOf(infoCards[0]);
-            if (DetectRunStart_Patch.isUnreachableCard)
-                return num - 1;
-            else
-                return num;
+            return infoCards[0].selectable;
+        }
+
+        public List<KSelectable> GetAllSelectables()
+        {
+            return infoCards.Select(x => x.selectable).ToList();
         }
     }
 }
