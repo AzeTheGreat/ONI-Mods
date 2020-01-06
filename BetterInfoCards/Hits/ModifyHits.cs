@@ -24,24 +24,30 @@ namespace BetterInfoCards
                 if (__result == null)
                     return;
 
+                List<KSelectable> validSelectables = ___intersections.Select(x => x.component as KSelectable).ToList();
+
                 if (cycleSelection)
                 {
                     int i = 0;
+                    bool isValidSelection = false;
                     do
                     {
                         Instance.localIndex++;
                         if (Instance.localIndex > Instance.displayCards.Count - 1)
                             Instance.localIndex = 0;
                         i++;
-                    } while (Instance.displayCards[Instance.localIndex].GetTopSelectable() == null && i < Instance.displayCards.Count);
+                        KSelectable selectable = Instance.displayCards[Instance.localIndex].GetTopSelectable();
+                        isValidSelection = selectable != null && validSelectables.Contains(selectable);
+                    } while (!isValidSelection && i < Instance.displayCards.Count);
 
                     Instance.priorSelected = Instance.displayCards[Instance.localIndex];
                 }
 
                 if (Instance.localIndex == -1)
-                    __result = ___intersections[0].component as KSelectable;
+                    __result = null;
                 else
                     __result = Instance.displayCards[Instance.localIndex].GetTopSelectable();
+
             }
         }
 
