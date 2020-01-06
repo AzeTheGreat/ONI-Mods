@@ -11,6 +11,7 @@
 |[Clean Floors](https://steamcommunity.com/sharedfiles/filedetails/?id=1937854017)|Removes the largest decor pieces from tiles to give a smoother look.|
 |[Constant, Configurable Camera Speed](https://steamcommunity.com/sharedfiles/filedetails/?id=1845747605)|Makes camera pan speed independent of frame rate and configurable.|
 |[No Build Watermark](https://steamcommunity.com/sharedfiles/filedetails/?id=1909037839)|Removes the watermark showing the build version.|
+|[No Meteors](https://steamcommunity.com/sharedfiles/filedetails/?id=1962090267)|Stops the game from spawning meteors.|
 |[No Notification Sounds](https://steamcommunity.com/sharedfiles/filedetails/?id=1882035088)|Removes sounds from notifications for those who just hate noise.|
 |[No Pointless Scrollbars](https://steamcommunity.com/sharedfiles/filedetails/?id=1959130035)|Removes scrollbars from plan screen windows that don't need them.|
 |[No Research Alerts](https://steamcommunity.com/sharedfiles/filedetails/?id=1872885565)|Prevents notification icons from showing newly unlocked buildings.|
