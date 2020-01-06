@@ -6,6 +6,7 @@
 |**Name**|**Description**|
 |---|---|
 |[Better Deselect](https://steamcommunity.com/sharedfiles/filedetails/?id=1870696175)|Requires separate clicks to: deselect the cursor item, close the building menu, and close the overlay.|
+|[Better Info Cards](https://steamcommunity.com/sharedfiles/filedetails/?id=1960947963)|Overhauls info cards to be more powerful and user friendly.|
 |[Better Automation Port Display](https://steamcommunity.com/sharedfiles/filedetails/?id=1878896484)|Automation gates sending a red signal are not visually overwritten by green wire.|
 |[Clean Floors](https://steamcommunity.com/sharedfiles/filedetails/?id=1937854017)|Removes the largest decor pieces from tiles to give a smoother look.|
 |[Constant, Configurable Camera Speed](https://steamcommunity.com/sharedfiles/filedetails/?id=1845747605)|Makes camera pan speed independent of frame rate and configurable.|
