@@ -7,7 +7,7 @@ namespace BetterInfoCards
 {
     public class DrawnWidgets : WidgetsBase
     {
-        private InfoCards InfoCards;
+        private InfoCards infoCards = new InfoCards();
         private static List<KSelectable> hoverHits;
 
         private float SelectPos
@@ -72,13 +72,12 @@ namespace BetterInfoCards
         public void Update()
         {
             //if (IsLayoutChanged() && shadowBars.Count > 0)
-            if(shadowBars.Count > 0)
-                InfoCards = new InfoCards(ref cachedShadowWidths, ref cachedShadowHeights, shadowBars, iconWidgets, textWidgets, SelectPos, hoverHits);
+            infoCards.UpdateData(ref cachedShadowWidths, ref cachedShadowHeights, shadowBars, iconWidgets, textWidgets, SelectPos, hoverHits);
 
             //if (IsSelectedChanged())
-            InfoCards.UpdateSelected(SelectPos);
+            infoCards.UpdateSelected(SelectPos);
 
-            InfoCards.Update(selectBorders);
+            infoCards.Update(selectBorders);
         }
 
         private bool NearEquals(float f1, float f2, float diff)

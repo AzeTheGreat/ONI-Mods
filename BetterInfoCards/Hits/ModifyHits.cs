@@ -21,7 +21,7 @@ namespace BetterInfoCards
 
             static void Postfix(bool cycleSelection, ref KSelectable __result, List<InterfaceTool.Intersection> ___intersections)
             {
-                if (__result == null)
+                if (__result == null || !Instance.displayCards.Any())
                     return;
 
                 List<KSelectable> validSelectables = ___intersections.Select(x => x.component as KSelectable).ToList();
