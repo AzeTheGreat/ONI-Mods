@@ -43,11 +43,8 @@ namespace BetterInfoCards
                     Instance.priorSelected = Instance.displayCards[Instance.localIndex];
                 }
 
-                if (Instance.localIndex == -1)
-                    __result = null;
-                else
+                if (Instance.localIndex != -1)
                     __result = Instance.displayCards[Instance.localIndex].GetTopSelectable();
-
             }
         }
 
