@@ -20,10 +20,14 @@ namespace NoResearchAlerts
         [Option("Mode", "The mode to use.")]
         [JsonProperty]
         public Mode AlertMode { get; set; }
+        [Option("Prevent Notification", "If true, prevents notifications in the top left due to completed research.")]
+        [JsonProperty]
+        public bool SuppressMessage { get; set; }
 
         public Options()
         {
             AlertMode = Mode.None;
+            SuppressMessage = false;
         }
 
         public static void OnLoad()
