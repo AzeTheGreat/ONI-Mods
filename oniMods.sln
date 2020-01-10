@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoPointlessScrollbars", "No
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoMeteors", "NoMeteors\NoMeteors.csproj", "{489BD967-516D-4112-B450-9395B1831B2E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfiniteResearch", "InfiniteResearch\InfiniteResearch.csproj", "{647A3C46-3AE4-43A8-941B-EEE876BD5509}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		AzeLib\AzeLib.projitems*{0f04d8d7-55ea-4414-afc5-16d38338893e}*SharedItemsImports = 4
@@ -98,6 +100,10 @@ Global
 		{489BD967-516D-4112-B450-9395B1831B2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{489BD967-516D-4112-B450-9395B1831B2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{489BD967-516D-4112-B450-9395B1831B2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{647A3C46-3AE4-43A8-941B-EEE876BD5509}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{647A3C46-3AE4-43A8-941B-EEE876BD5509}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{647A3C46-3AE4-43A8-941B-EEE876BD5509}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{647A3C46-3AE4-43A8-941B-EEE876BD5509}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
