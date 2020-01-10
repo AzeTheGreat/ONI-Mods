@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="ILRepack.MSBuild.Task" Version="2.0.13" />
+    <PackageReference Include ="MSBuildTasks" Version="1.5.0.235"/>
     <Reference Include="0Harmony" HintPath="$(GameFolder)/0Harmony.dll" />
     <Reference Include="Assembly-CSharp" HintPath="$(GameFolder)/Assembly-CSharp.dll"  />
     <Reference Include="Assembly-CSharp-firstpass" HintPath="$(GameFolder)/Assembly-CSharp-firstpass.dll" />
@@ -30,7 +31,7 @@
   <Import Project="./AzeLib/AzeLib.projitems" Label="Shared" />
   
   <ItemGroup Condition=" '$(UsesPLib)' != 'false' ">
-    <Reference Include="../packages/PLib.dll" Private="true" />
+    <Reference Include="../lib/PLib.dll" Private="true" />
   </ItemGroup>
 
 </Project>

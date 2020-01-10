@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <InstallFolder>..\..\Release\$(ProjectName)</InstallFolder>
+    <DistributeFolder>..\..\Distribute\</DistributeFolder>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <InstallFolder>$(ModFolder)\DEV_$(ProjectName)</InstallFolder>
+  </PropertyGroup>
+
   <Target Name="ClearGameFolderCopyLocal" AfterTargets="ResolveAssemblyReferences">
     <ItemGroup>
       <ReferenceCopyLocalPaths Remove="$(GameFolder)\*" />
@@ -24,12 +32,6 @@
   </Target>
 
   <Target Name="CopyArtifactsToInstallFolder" AfterTargets="ILRepack" Condition=" '$(AssemblyName)' != 'PLib' ">
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-      <InstallFolder>..\..\Release\$(ProjectName)</InstallFolder>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-      <InstallFolder>$(ModFolder)\DEV_$(ProjectName)</InstallFolder>
-    </PropertyGroup>
 
     <ItemGroup>
       <AnimFiles Include="$(ProjectDir)\anim\**\*.*" />
@@ -41,6 +43,13 @@
     <Copy SourceFiles="@(WorldGenFiles)" DestinationFiles="@(WorldGenFiles->'$(InstallFolder)\worldgen\%(RecursiveDir)%(Filename)%(Extension)')" />
     <Copy SourceFiles="@(YamlFiles)" DestinationFolder="$(InstallFolder)" />
     <Copy SourceFiles="$(TargetPath)" DestinationFiles="$(InstallFolder)\$(TargetFileName)" />
+  </Target>
+
+  <Target Name="Zip" AfterTargets="CopyArtifactsToInstallFolder">
+    <CreateItem Include="$(InstallFolder)\*.*" Exclude="$(InstallFolder)\*.zip">
+      <Output ItemName="ZipFiles" TaskParameter="Include"/>
+    </CreateItem>
+    <Zip ZipFileName="$(DistributeFolder)\$(ProjectName).zip" WorkingDirectory="$(InstallFolder)" Files="@(ZipFiles)" />
   </Target>
   
 </Project>
