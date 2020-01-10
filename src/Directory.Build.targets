@@ -25,7 +25,7 @@
 
   <Target Name="CopyArtifactsToInstallFolder" AfterTargets="ILRepack" Condition=" '$(AssemblyName)' != 'PLib' ">
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-      <InstallFolder>..\Release\$(ProjectName)</InstallFolder>
+      <InstallFolder>..\..\Release\$(ProjectName)</InstallFolder>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
       <InstallFolder>$(ModFolder)\DEV_$(ProjectName)</InstallFolder>
