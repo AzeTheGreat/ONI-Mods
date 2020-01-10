@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
 
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <InstallFolder>..\..\Release\$(ProjectName)</InstallFolder>
     <DistributeFolder>..\..\Distribute\</DistributeFolder>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <InstallFolder>$(ModFolder)\DEV_$(ProjectName)</InstallFolder>
   </PropertyGroup>
 
@@ -45,7 +45,7 @@
     <Copy SourceFiles="$(TargetPath)" DestinationFiles="$(InstallFolder)\$(TargetFileName)" />
   </Target>
 
-  <Target Name="Zip" AfterTargets="CopyArtifactsToInstallFolder">
+  <Target Name="Zip" AfterTargets="CopyArtifactsToInstallFolder" Condition=" '$(Configuration)' == 'Release' ">
     <CreateItem Include="$(InstallFolder)\*.*" Exclude="$(InstallFolder)\*.zip">
       <Output ItemName="ZipFiles" TaskParameter="Include"/>
     </CreateItem>
