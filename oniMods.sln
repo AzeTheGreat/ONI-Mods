@@ -3,44 +3,47 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.489
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixedCameraPan", "FixedCameraPan\FixedCameraPan.csproj", "{36E144B6-3558-4213-82BD-70B2A57DA895}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FixedCameraPan", "FixedCameraPan\FixedCameraPan.csproj", "{36E144B6-3558-4213-82BD-70B2A57DA895}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuppressNotifications", "SuppressNotifications\SuppressNotifications.csproj", "{FBD4BFC8-DAC6-495A-A616-90E921919458}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuppressNotifications", "SuppressNotifications\SuppressNotifications.csproj", "{FBD4BFC8-DAC6-495A-A616-90E921919458}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterDeselect", "BetterDeselect\BetterDeselect.csproj", "{CDF0B160-A394-46E0-A49E-DE2F9CF9898C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetterDeselect", "BetterDeselect\BetterDeselect.csproj", "{CDF0B160-A394-46E0-A49E-DE2F9CF9898C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoResearchAlerts", "NoResearchAlerts\NoResearchAlerts.csproj", "{62F8C76D-E739-42DA-BE38-C0DE690CA280}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoResearchAlerts", "NoResearchAlerts\NoResearchAlerts.csproj", "{62F8C76D-E739-42DA-BE38-C0DE690CA280}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RebalancedTiles", "RebalancedTiles\RebalancedTiles.csproj", "{0F04D8D7-55EA-4414-AFC5-16D38338893E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RebalancedTiles", "RebalancedTiles\RebalancedTiles.csproj", "{0F04D8D7-55EA-4414-AFC5-16D38338893E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterLogicPortDisplay", "BetterLogicPortDisplay\BetterLogicPortDisplay.csproj", "{3C27ACC1-7974-4AC5-9609-4AA906A42A09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetterLogicPortDisplay", "BetterLogicPortDisplay\BetterLogicPortDisplay.csproj", "{3C27ACC1-7974-4AC5-9609-4AA906A42A09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoNotificationSounds", "NoNotificationSounds\NoNotificationSounds.csproj", "{05ED00DD-6872-4702-BD5C-46C682A6813F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoNotificationSounds", "NoNotificationSounds\NoNotificationSounds.csproj", "{05ED00DD-6872-4702-BD5C-46C682A6813F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SufficientOxygenGeneration", "SufficientOxygenGeneration\SufficientOxygenGeneration.csproj", "{44FB0CAA-C9E8-4CF9-92BB-9AA93EC659C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SufficientOxygenGeneration", "SufficientOxygenGeneration\SufficientOxygenGeneration.csproj", "{44FB0CAA-C9E8-4CF9-92BB-9AA93EC659C3}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AzeLib", "AzeLib\AzeLib.shproj", "{4D79FD78-6A90-4459-8A75-66C562CAEB24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterInfoCards", "BetterInfoCards\BetterInfoCards.csproj", "{F63913ED-4AD0-47FC-B8B0-B27601C77CCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetterInfoCards", "BetterInfoCards\BetterInfoCards.csproj", "{F63913ED-4AD0-47FC-B8B0-B27601C77CCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoBuildWatermark", "NoBuildWatermark\NoBuildWatermark.csproj", "{8A68EC5E-DF54-4649-8B91-21F1BBBF4242}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoBuildWatermark", "NoBuildWatermark\NoBuildWatermark.csproj", "{8A68EC5E-DF54-4649-8B91-21F1BBBF4242}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanFloors", "CleanFloors\CleanFloors.csproj", "{134D5EAC-AA84-4E53-B226-1811F95E5864}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanFloors", "CleanFloors\CleanFloors.csproj", "{134D5EAC-AA84-4E53-B226-1811F95E5864}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoPointlessScrollbars", "NoPointlessScrollbars\NoPointlessScrollbars.csproj", "{431086B5-C090-4EFE-88E2-945FEAAB5654}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoPointlessScrollbars", "NoPointlessScrollbars\NoPointlessScrollbars.csproj", "{431086B5-C090-4EFE-88E2-945FEAAB5654}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoMeteors", "NoMeteors\NoMeteors.csproj", "{489BD967-516D-4112-B450-9395B1831B2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoMeteors", "NoMeteors\NoMeteors.csproj", "{489BD967-516D-4112-B450-9395B1831B2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfiniteResearch", "InfiniteResearch\InfiniteResearch.csproj", "{647A3C46-3AE4-43A8-941B-EEE876BD5509}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InfiniteResearch", "InfiniteResearch\InfiniteResearch.csproj", "{647A3C46-3AE4-43A8-941B-EEE876BD5509}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2C056CAE-97C2-4AFF-B882-D2CD04220B96}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.props.default = Directory.Build.props.default
+		Directory.Build.targets = Directory.Build.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary1", "ClassLibrary1\ClassLibrary1.csproj", "{8D76E752-1A73-44B0-BF42-7FCB9FFF7358}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		AzeLib\AzeLib.projitems*{0f04d8d7-55ea-4414-afc5-16d38338893e}*SharedItemsImports = 4
-		AzeLib\AzeLib.projitems*{36e144b6-3558-4213-82bd-70b2a57da895}*SharedItemsImports = 4
-		AzeLib\AzeLib.projitems*{44fb0caa-c9e8-4cf9-92bb-9aa93ec659c3}*SharedItemsImports = 4
-		AzeLib\AzeLib.projitems*{4d79fd78-6a90-4459-8a75-66c562caeb24}*SharedItemsImports = 13
-		AzeLib\AzeLib.projitems*{62f8c76d-e739-42da-be38-c0de690ca280}*SharedItemsImports = 4
-		AzeLib\AzeLib.projitems*{cdf0b160-a394-46e0-a49e-de2f9cf9898c}*SharedItemsImports = 4
 		AzeLib\AzeLib.projitems*{f63913ed-4ad0-47fc-b8b0-b27601c77cce}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -104,6 +107,10 @@ Global
 		{647A3C46-3AE4-43A8-941B-EEE876BD5509}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{647A3C46-3AE4-43A8-941B-EEE876BD5509}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{647A3C46-3AE4-43A8-941B-EEE876BD5509}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D76E752-1A73-44B0-BF42-7FCB9FFF7358}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D76E752-1A73-44B0-BF42-7FCB9FFF7358}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D76E752-1A73-44B0-BF42-7FCB9FFF7358}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D76E752-1A73-44B0-BF42-7FCB9FFF7358}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
