@@ -11,7 +11,7 @@ namespace BetterInfoCards
         private Entry shadowBar;
         private List<Entry> iconWidgets = new List<Entry>();
         private List<Entry> textWidgets = new List<Entry>();
-        private Entry selectBorder;
+        public Entry selectBorder;
 
         private List<TextInfo> statusDatas = new List<TextInfo>();
 
@@ -146,7 +146,6 @@ namespace BetterInfoCards
             return overrides;
         }
 
-        // TODO: cache width checking
         public void Rename(List<string> overrides, bool forceUpdate = false)
         { 
             for (int i = 0; i < textWidgets.Count; i++)
