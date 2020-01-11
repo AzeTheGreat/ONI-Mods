@@ -66,30 +66,6 @@ namespace BetterInfoCards
                 selectBorder.rect.sizeDelta = new Vector2(newX + 2f, selectBorder.rect.sizeDelta.y);
         }
 
-        private List<Entry> GetEntries(ref int index, List<Entry> widgets)
-        {
-            var entries = new List<Entry>();
-
-            for (int i = index; i < widgets.Count; i++)
-            {
-                var widget = widgets[i];
-
-                if (RectWithin(shadowBar, widget))
-                    entries.Add(widget);
-                else
-                {
-                    index = i;
-                    break;
-                }
-            }
-            return entries;
-        }
-
-        private bool RectWithin(Entry main, Entry sub)
-        {
-            return sub.rect.anchoredPosition.y > main.rect.offsetMin.y && sub.rect.anchoredPosition.y < main.rect.offsetMax.y;
-        }
-
         public string GetTitleKey()
         {
             return ((LocText)textWidgets[0].widget).text.RemoveCountSuffix();

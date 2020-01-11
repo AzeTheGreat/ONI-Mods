@@ -57,16 +57,11 @@ namespace BetterInfoCards
             {
                 if(card != VisCard)
                 {
-                    // Push the duplicate cards off the screen, break iteration if they're already off since cards are ordered top to bottom
-                    // Or maybe not since it looks like not breaking fixed a rare error...
-                    // TODO: investigate
+                    // TODO: See if it's more performant to not check and just shift
                     if (card.YMax > MinY)
                         card.Translate(0f, MinY - card.YMax);
-                    //else
-                    //    break;
                 }
             }
-
         }
 
         public void Resize(float newWidth)

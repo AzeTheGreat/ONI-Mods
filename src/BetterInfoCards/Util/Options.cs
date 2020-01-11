@@ -9,6 +9,9 @@ namespace BetterInfoCards
     [PeterHan.PLib.Options.RestartRequired]
     public class Options : BaseOptions<Options>
     {
+        [Option("Info Card Compactness", "How compact the info cards should be.")]
+        [JsonProperty]
+        public CompactMode Compactness { get; set; }
         public enum CompactMode
         {
             [Option("Default", "The game's default sizing")]
@@ -20,9 +23,6 @@ namespace BetterInfoCards
             [Option("Custom", "Use values defined in the config file.  Defaults to Small values.")]
             Custom
         }
-        [Option("Info Card Compactness", "How compact the info cards should be.")]
-        [JsonProperty]
-        public CompactMode Compactness { get; set; }
         
         public CardSize InfoCardSize {
             get {

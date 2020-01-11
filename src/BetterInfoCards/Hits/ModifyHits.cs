@@ -98,18 +98,6 @@ namespace BetterInfoCards
             return -1;
         }
 
-        private int GetNewCardIndex()
-        {
-            if (Instance.localIndex == -1)
-                return 0;
-
-            int i = Instance.displayCards[Instance.localIndex].GetAllSelectables().IndexOf(Instance.selected);
-            if (i != -1)
-                return i;
-            else
-                return 0;
-        }
-
         [HarmonyPatch(typeof(SelectTool), nameof(SelectTool.Select))]
         private class ResetIndex_Patch
         {

@@ -48,15 +48,6 @@ namespace BetterInfoCards
             }
         }
 
-        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginDrawing))]
-        private class BeginDrawing_Patch
-        {
-            static void Postfix()
-            {
-                Instance.infoCards.Clear();
-            }
-        }
-
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.EndDrawing))]
         private class EditWidgets_Patch
         {
@@ -64,6 +55,7 @@ namespace BetterInfoCards
             {
                 Instance.infoCardManager.UpdateData(Instance.infoCards);
                 Instance.infoCardManager.Update();
+                Instance.infoCards.Clear();
             }
         }
     }
