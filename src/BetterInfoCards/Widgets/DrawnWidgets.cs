@@ -75,7 +75,7 @@ namespace BetterInfoCards
             infoCards.UpdateData(ref cachedShadowWidths, ref cachedShadowHeights, shadowBars, iconWidgets, textWidgets, SelectPos, hoverHits);
 
             //if (IsSelectedChanged())
-            infoCards.UpdateSelected(SelectPos);
+            //infoCards.UpdateSelected(SelectPos);
 
             infoCards.Update(selectBorders);
         }

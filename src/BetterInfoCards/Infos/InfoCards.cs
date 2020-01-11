@@ -36,7 +36,7 @@ namespace BetterInfoCards
                 cachedShadowHeights[i] = shadowBar.rect.rect.height;
             }
 
-            UpdateSelected(selectPos);
+            //UpdateSelected(selectPos);
         }
 
         public void Update(List<Entry> selectBorders)
@@ -44,8 +44,8 @@ namespace BetterInfoCards
             //if (HasMouseMovedEnough())
             displayCards.UpdateData(infoCards);
 
-            if (selectBorders.Count > 0)
-                cachedClosestInfoCard.selectBorder = selectBorders[0];
+            //if (selectBorders.Count > 0)
+            //    cachedClosestInfoCard.selectBorder = selectBorders[0];
 
             displayCards.Update();
         }

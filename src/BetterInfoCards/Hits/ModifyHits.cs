@@ -11,8 +11,9 @@ namespace BetterInfoCards
         public static ModifyHits Instance { get; set; }
 
         private int localIndex = -1;
-        private List<DisplayCard> displayCards;
+        private List<DisplayCard> displayCards = new List<DisplayCard>();
         private DisplayCard priorSelected;
+        private KSelectable selected;
 
         [HarmonyPatch]
         private class ChangeHits_Patch
@@ -25,27 +26,53 @@ namespace BetterInfoCards
                     return;
 
                 List<KSelectable> validSelectables = ___intersections.Select(x => x.component as KSelectable).ToList();
+                bool cycleWithinCard = Input.GetKey(KeyCode.LeftShift);
 
-                if (cycleSelection)
-                {
-                    int i = 0;
-                    bool isValidSelection = false;
-                    do
-                    {
-                        Instance.localIndex++;
-                        if (Instance.localIndex > Instance.displayCards.Count - 1)
-                            Instance.localIndex = 0;
-                        i++;
-                        KSelectable selectable = Instance.displayCards[Instance.localIndex].GetTopSelectable();
-                        isValidSelection = selectable != null && validSelectables.Contains(selectable);
-                    } while (!isValidSelection && i < Instance.displayCards.Count);
+                if(cycleSelection && cycleWithinCard)
+                    Instance.selected = Instance.SelectNextValidSelectable(validSelectables);
+                else if (cycleSelection)
+                    Instance.selected = Instance.SelectNextValidDisplayCard(validSelectables).GetTopSelectable();
 
-                    Instance.priorSelected = Instance.displayCards[Instance.localIndex];
-                }
-
-                if (Instance.localIndex != -1)
-                    __result = Instance.displayCards[Instance.localIndex].GetTopSelectable();
+                __result = Instance.selected;
             }
+        }
+
+        private DisplayCard SelectNextValidDisplayCard(List<KSelectable> validSelectables)
+        {
+            int i = 0;
+            bool isValidSelection = false;
+            do
+            {
+                Instance.localIndex++;
+                if (Instance.localIndex > Instance.displayCards.Count - 1)
+                    Instance.localIndex = 0;
+                i++;
+                KSelectable selectable = Instance.displayCards[Instance.localIndex].GetTopSelectable();
+
+                if (isValidSelection = selectable != null && validSelectables.Contains(selectable))
+                {
+                    Instance.priorSelected = Instance.displayCards[Instance.localIndex];
+                    return Instance.displayCards[Instance.localIndex];
+                }    
+            }
+            while (!isValidSelection && i < Instance.displayCards.Count);
+
+            // No valid selectables, so go back to a valid state we "know" won't break anything.
+            Instance.localIndex = -1;
+            Instance.priorSelected = null;
+            return null;
+        }
+
+        private KSelectable SelectNextValidSelectable(List<KSelectable> validSelectables)
+        {
+            if (Instance.localIndex == -1)
+                return null;
+
+            List<KSelectable> selectables = Instance.displayCards[Instance.localIndex].GetAllSelectables();
+            int i = selectables.IndexOf(Instance.selected);
+            if (++i > selectables.Count - 1)
+                i = 0;
+            return selectables[i];
         }
 
         public void Update(List<DisplayCard> displayCards)
@@ -69,6 +96,18 @@ namespace BetterInfoCards
             }
 
             return -1;
+        }
+
+        private int GetNewCardIndex()
+        {
+            if (Instance.localIndex == -1)
+                return 0;
+
+            int i = Instance.displayCards[Instance.localIndex].GetAllSelectables().IndexOf(Instance.selected);
+            if (i != -1)
+                return i;
+            else
+                return 0;
         }
 
         [HarmonyPatch(typeof(SelectTool), nameof(SelectTool.Select))]
