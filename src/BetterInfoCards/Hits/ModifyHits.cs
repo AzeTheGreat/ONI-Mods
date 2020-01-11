@@ -33,7 +33,8 @@ namespace BetterInfoCards
                 else if (cycleSelection)
                     Instance.selected = Instance.SelectNextValidDisplayCard(validSelectables).GetTopSelectable();
 
-                __result = Instance.selected;
+                if(Instance.localIndex != -1)
+                    __result = Instance.selected;
             }
         }
 
@@ -43,8 +44,7 @@ namespace BetterInfoCards
             bool isValidSelection = false;
             do
             {
-                Instance.localIndex++;
-                if (Instance.localIndex > Instance.displayCards.Count - 1)
+                if (++Instance.localIndex > Instance.displayCards.Count - 1)
                     Instance.localIndex = 0;
                 i++;
                 KSelectable selectable = Instance.displayCards[Instance.localIndex].GetTopSelectable();
