@@ -1,6 +1,8 @@
 ﻿using Harmony;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using UnityEngine;
 
 namespace BetterInfoCards
 {
@@ -8,39 +10,60 @@ namespace BetterInfoCards
     {
         public static ModifyWidgets Instance { get; set; }
 
-        private CachedWidgets cachedWidgets = new CachedWidgets();
-        private int callNumber = 0;
+        private List<InfoCard> infoCards = new List<InfoCard>();
+        private InfoCards infoCardManager = new InfoCards();
 
         [HarmonyPatch]
-        private class GetWidgets_Patch
+        private class Test
         {
-            static bool Prepare() => true;
+            // HoverTextDrawer.Pool.Draw
+            static MethodBase TargetMethod() => AccessTools.FirstInner(typeof(HoverTextDrawer), x => x.IsGenericType).MakeGenericType(typeof(object)).GetMethod("Draw");
 
-            // HoverTextDrawer.Pool.EndDrawing
-            static MethodBase TargetMethod()
+            static void Postfix(Entry __result, GameObject ___prefab)
             {
-                return AccessTools.FirstInner(typeof(HoverTextDrawer), x => x.IsGenericType).MakeGenericType(typeof(object)).GetMethod("EndDrawing");
+                InfoCard card = Instance.infoCards.Last();
+                card.AddWidget(__result, ___prefab);
             }
+        }
 
-            static void Postfix(List<Entry> ___entries, int ___drawnWidgets)
+        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginShadowBar))]
+        private class BeginShadowBar_Patch
+        {
+            static void Postfix()
             {
-                ref int callNumber = ref Instance.callNumber;
-                Instance.cachedWidgets.UpdateCache(___entries, (WidgetsBase.EntryType)callNumber, ___drawnWidgets);
+                Instance.infoCards.Add(new InfoCard());
+            }
+        }
 
-                callNumber++;
-                if (callNumber > 3)
-                    callNumber = 0;
+        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.EndShadowBar))]
+        private class EndShadowBar_Patch
+        {
+            static void Postfix()
+            {
+                List<TextInfo> entries = CollectHoverInfo.Instance.activeStatuses[Instance.infoCards.Count - 1];
+                KSelectable selectable = CollectHoverInfo.Instance.selectables[Instance.infoCards.Count - 1];
+
+                InfoCard card = Instance.infoCards.Last();
+                card.AddData(entries, selectable);
+            }
+        }
+
+        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginDrawing))]
+        private class BeginDrawing_Patch
+        {
+            static void Postfix()
+            {
+                Instance.infoCards.Clear();
             }
         }
 
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.EndDrawing))]
         private class EditWidgets_Patch
         {
-            static bool Prepare() => true;
-
             static void Postfix()
             {
-                Instance.cachedWidgets.Update();
+                Instance.infoCardManager.UpdateData(Instance.infoCards);
+                Instance.infoCardManager.Update();
             }
         }
     }

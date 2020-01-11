@@ -9,26 +9,37 @@ namespace BetterInfoCards
         public KSelectable selectable;
 
         private Entry shadowBar;
-        private List<Entry> iconWidgets;
-        private List<Entry> textWidgets;
-        public Entry selectBorder;
+        private List<Entry> iconWidgets = new List<Entry>();
+        private List<Entry> textWidgets = new List<Entry>();
+        private Entry selectBorder;
+
+        private List<TextInfo> statusDatas = new List<TextInfo>();
+
+        public Dictionary<string, object> textValues = new Dictionary<string, object>();
 
         public float Width { get { return shadowBar.rect.rect.width; } }
         public float Height { get { return shadowBar.rect.rect.height; } }
         public float YMax { get { return shadowBar.rect.anchoredPosition.y; } }
         public float YMin { get { return YMax - shadowBar.rect.rect.height; } }
 
-        private List<TextInfo> statusDatas = new List<TextInfo>();
-
-        public Dictionary<string, object> textValues = new Dictionary<string, object>();
-
-        public InfoCard(Entry shadowBar, List<Entry> icons, List<Entry> texts, List<TextInfo> statusDatas, ref int iconIndex, ref int textIndex, KSelectable selectable)
+        public void AddData(List<TextInfo> statusDatas, KSelectable selectable)
         {
-            this.shadowBar = shadowBar;
-            iconWidgets = GetEntries(ref iconIndex, icons);
-            textWidgets = GetEntries(ref textIndex, texts);
             this.statusDatas = statusDatas;
             this.selectable = selectable;
+        }
+
+        public void AddWidget(Entry entry, GameObject prefab)
+        {
+            var skin = HoverTextScreen.Instance.drawer.skin;
+
+            if (prefab == skin.shadowBarWidget.gameObject)
+                shadowBar = entry;
+            else if (prefab == skin.iconWidget.gameObject)
+                iconWidgets.Add(entry);
+            else if (prefab == skin.textWidget.gameObject)
+                textWidgets.Add(entry);
+            else if (prefab == skin.selectBorderWidget.gameObject)
+                selectBorder = entry;
         }
 
         public void Translate(float x, float y)
