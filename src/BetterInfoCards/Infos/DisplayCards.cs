@@ -5,15 +5,13 @@ namespace BetterInfoCards
     public class DisplayCards
     {
         private List<DisplayCard> displayCards;
-        private GridInfo gridInfo;
 
-        public void UpdateData(List<InfoCard> infoCards)
+        public List<DisplayCard> UpdateData(List<InfoCard> infoCards)
         {
             displayCards = new List<DisplayCard>();
-            gridInfo = null;
 
             if (infoCards == null || infoCards.Count <= 0)
-                return;
+                return displayCards;
 
             var nameSplit = new Dictionary<string, List<InfoCard>>();
             var detailSplit = new Dictionary<string, List<InfoCard>>();
@@ -79,7 +77,7 @@ namespace BetterInfoCards
                 displayCards.Add(new DisplayCard(cards));
             }
 
-            gridInfo = new GridInfo(displayCards, infoCards[0].YMax);
+            return displayCards;
         }
 
         private void TryAddToDict(Dictionary<string, List<InfoCard>> dict, string key, InfoCard card)
@@ -88,16 +86,6 @@ namespace BetterInfoCards
                 value = new List<InfoCard>();
             value.Add(card);
             dict[key] = value;
-        }
-
-        public void Update()
-        {
-            ModifyHits.Instance.Update(displayCards);
-
-            displayCards.ForEach(x => x.Rename());
-
-            if(gridInfo != null)
-                gridInfo.MoveAndResizeInfoCards();
         }
     }
 }

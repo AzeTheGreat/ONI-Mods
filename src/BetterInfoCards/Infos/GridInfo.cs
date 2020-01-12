@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace BetterInfoCards
 {
-    class GridInfo
+    public class GridInfo
     {
         private const float shadowBarSpacing = 4f;
 

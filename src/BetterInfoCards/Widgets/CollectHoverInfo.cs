@@ -13,7 +13,7 @@ namespace BetterInfoCards
         public static CollectHoverInfo Instance { get; set; }
 
         private List<InfoCard> infoCards = new List<InfoCard>();
-        private InfoCards infoCardManager = new InfoCards();
+        private DisplayCards displayCardManager = new DisplayCards();
 
         private TextInfo intermediateTextInfo = null;
         private KSelectable intermediateSelectable = null;
@@ -102,7 +102,6 @@ namespace BetterInfoCards
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.DrawText), new Type[] { typeof(string), typeof(TextStyleSetting), typeof(Color), typeof(bool) })]
         private class TrackTexts_Patch
         {
-            // Occurs after each text is drawn
             static void Postfix()
             {
                 Instance.intermediateStatuses.Add(Instance.intermediateTextInfo);
@@ -149,8 +148,13 @@ namespace BetterInfoCards
         {
             static void Postfix()
             {
-                Instance.infoCardManager.UpdateData(Instance.infoCards);
-                Instance.infoCardManager.Update();
+                var displayCards = Instance.displayCardManager.UpdateData(Instance.infoCards);
+                ModifyHits.Instance.Update(displayCards);
+                displayCards.ForEach(x => x.Rename());
+
+                var gridInfo = new GridInfo(displayCards, Instance.infoCards[0].YMax);
+                gridInfo.MoveAndResizeInfoCards();
+
                 Instance.infoCards.Clear();
             }
         }
