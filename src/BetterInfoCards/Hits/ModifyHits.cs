@@ -28,17 +28,17 @@ namespace BetterInfoCards
                 List<KSelectable> validSelectables = ___intersections.Select(x => x.component as KSelectable).ToList();
                 bool cycleWithinCard = Input.GetKey(KeyCode.LeftShift);
 
-                if(cycleSelection && cycleWithinCard)
+                if (cycleSelection && cycleWithinCard)
                     Instance.selected = Instance.SelectNextValidSelectable(validSelectables);
                 else if (cycleSelection)
-                    Instance.selected = Instance.SelectNextValidDisplayCard(validSelectables).GetTopSelectable();
+                    Instance.selected = Instance.SelectNextValidDisplayCard(validSelectables);
 
-                if(Instance.localIndex != -1)
+                if (Instance.localIndex != -1)
                     __result = Instance.selected;
             }
         }
 
-        private DisplayCard SelectNextValidDisplayCard(List<KSelectable> validSelectables)
+        private KSelectable SelectNextValidDisplayCard(List<KSelectable> validSelectables)
         {
             int i = 0;
             bool isValidSelection = false;
@@ -52,7 +52,7 @@ namespace BetterInfoCards
                 if (isValidSelection = selectable != null && validSelectables.Contains(selectable))
                 {
                     Instance.priorSelected = Instance.displayCards[Instance.localIndex];
-                    return Instance.displayCards[Instance.localIndex];
+                    return Instance.displayCards[Instance.localIndex].GetTopSelectable();
                 }    
             }
             while (!isValidSelection && i < Instance.displayCards.Count);
