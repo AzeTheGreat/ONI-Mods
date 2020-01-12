@@ -152,6 +152,8 @@ namespace BetterInfoCards
                 ModifyHits.Instance.Update(displayCards);
                 displayCards.ForEach(x => x.Rename());
 
+                if (displayCards.Count == 0)
+                    return;
                 var gridInfo = new GridInfo(displayCards, Instance.infoCards[0].YMax);
                 gridInfo.MoveAndResizeInfoCards();
 
