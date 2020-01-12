@@ -5,6 +5,7 @@ using PeterHan.PLib;
 namespace BetterDeselect
 {
     [JsonObject(MemberSerialization.OptIn)]
+    [PeterHan.PLib.Options.RestartRequired]
     public class Options : BaseOptions<Options>
     {
         [Option("Separate Overlay", "Requires a separate right click to close the overlay.")]
