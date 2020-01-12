@@ -8,27 +8,20 @@ using UnityEngine;
 
 namespace BetterInfoCards
 {
-    class CollectHoverInfo
+    public class CollectHoverInfo
     {
         public static CollectHoverInfo Instance { get; set; }
 
-        //private int infoCard;
-        public List<KSelectable> selectables = new List<KSelectable>();
-        public List<List<TextInfo>> activeStatuses = new List<List<TextInfo>>();
+        private List<InfoCard> infoCards = new List<InfoCard>();
+        private InfoCards infoCardManager = new InfoCards();
 
         private TextInfo intermediateTextInfo = null;
         private KSelectable intermediateSelectable = null;
         private List<TextInfo> intermediateStatuses = new List<TextInfo>();
 
         [HarmonyPatch(typeof(SelectToolHoverTextCard), nameof(SelectToolHoverTextCard.UpdateHoverElements))]
-        private class Patch
+        private class GetSelectInfo_Patch
         {
-            private static void ExportSelectable(KSelectable selectable) => Instance.intermediateSelectable = selectable;
-            private static void ExportTitle(GameObject go) => Instance.intermediateTextInfo = new TextInfo() { name = StatusDataManager.title, data = go };
-            private static void ExportGerms(GameObject go) => Instance.intermediateTextInfo = new TextInfo() { name = StatusDataManager.germs, data = go };
-            private static void ExportStatus(StatusItemGroup.Entry entry) => Instance.intermediateTextInfo = new TextInfo() { name = entry.item.Name, data = entry.data };
-            private static void ExportTemp(GameObject go) => Instance.intermediateTextInfo = new TextInfo() { name = StatusDataManager.temp, data = go };
-
             static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
             {
                 MethodInfo targetMethod = AccessTools.Method(typeof(UnityEngine.Component), "GetComponent").MakeGenericMethod(typeof(PrimaryElement));
@@ -47,93 +40,63 @@ namespace BetterInfoCards
                         afterTarget = true;
 
                         yield return new CodeInstruction(OpCodes.Ldloc_S, 72);
-                        yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Patch), nameof(Patch.ExportSelectable)));
+                        yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.ExportSelectable)));
                     }
 
                     else if (afterTarget && i.opcode == OpCodes.Callvirt && i.operand == targetMethod2)
                     {
                         hitsAfter++;
-                        
+
                         // Title
                         if (hitsAfter == 1)
-                            foreach (var ci in GetCIsToExport(nameof(Patch.ExportTitle))) { yield return ci; }
-                           
+                        {
+                            yield return new CodeInstruction(OpCodes.Ldstr, StatusDataManager.title);
+                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.Export)));
+                        }
+
                         // Germs
                         else if (hitsAfter == 2)
-                            foreach (var ci in GetCIsToExport(nameof(Patch.ExportGerms))) { yield return ci; }
+                        {
+                            yield return new CodeInstruction(OpCodes.Ldstr, StatusDataManager.germs);
+                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.Export)));
+                        }
 
                         // Status items
                         else if (hitsAfter == 3)
                         {
                             yield return new CodeInstruction(OpCodes.Ldloc_S, 84);
-                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Patch), nameof(Patch.ExportStatus)));
+                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.ExportStatus)));
                         }
 
                         // Status items 2
                         else if (hitsAfter == 4)
                         {
                             yield return new CodeInstruction(OpCodes.Ldloc_S, 89);
-                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Patch), nameof(Patch.ExportStatus)));
+                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.ExportStatus)));
                         }
 
                         // Temps
                         else if (hitsAfter == 5)
-                            foreach (var ci in GetCIsToExport(nameof(Patch.ExportTemp))) { yield return ci; }
+                        {
+                            yield return new CodeInstruction(OpCodes.Ldstr, StatusDataManager.temp);
+                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.Export)));
+                        }
                     }
 
                     else if (i.opcode == OpCodes.Call && i.operand == AccessTools.Method(typeof(WorldInspector), nameof(WorldInspector.MassStringsReadOnly)))
                     {
                         yield return new CodeInstruction(OpCodes.Ldarg_1);
-                        yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Patch), nameof(Patch.Helper)));
+                        yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.Helper)));
                     }
 
                     yield return i;
                 }
             }
 
-            private static void Helper(List<KSelectable> selectables)
-            {
-                Instance.intermediateSelectable = selectables.LastOrDefault();
-            }
-
-            private static IEnumerable<CodeInstruction> GetCIsToExport(string method)
-            {
-                yield return new CodeInstruction(OpCodes.Ldloc_S, 72);
-                yield return new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(UnityEngine.Component), "get_gameObject"));
-                yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Patch), method));
-            }
-        }
-
-        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginDrawing))]
-        private class HoverDrawerStart_Patch
-        {
-            static void Postfix()
-            {
-                Instance.selectables.Clear();
-                Instance.activeStatuses.Clear();
-            }
-        }
-
-        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginShadowBar))]
-        private class BeginShadowBar_Patch
-        {
-            static void Postfix()
-            {
-                Instance.intermediateStatuses.Clear();
-            }
-        }
-
-        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.EndShadowBar))]
-        private class EndShadowBar_Patch
-        {
-            // Occurs after each shadow bar
-            // Essentially after each item
-            static void Postfix()
-            {
-                Instance.selectables.Add(Instance.intermediateSelectable);
-                Instance.intermediateSelectable = null;
-                Instance.activeStatuses.Add(new List<TextInfo>(Instance.intermediateStatuses));
-            }
+            private static void Helper(List<KSelectable> selectables) => Instance.intermediateSelectable = selectables.LastOrDefault();
+            private static void ExportSelectable(KSelectable selectable) => Instance.intermediateSelectable = selectable;
+            private static void Export(string name) => Instance.intermediateTextInfo = new TextInfo() { name = name, data = Instance.intermediateSelectable.gameObject };
+            private static void ExportStatus(StatusItemGroup.Entry entry) => Instance.intermediateTextInfo = new TextInfo() { name = entry.item.Name, data = entry.data };
         }
 
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.DrawText), new Type[] { typeof(string), typeof(TextStyleSetting), typeof(Color), typeof(bool) })]
@@ -144,6 +107,51 @@ namespace BetterInfoCards
             {
                 Instance.intermediateStatuses.Add(Instance.intermediateTextInfo);
                 Instance.intermediateTextInfo = null;
+            }
+        }
+
+        [HarmonyPatch]
+        private class GetWidget_Patch
+        {
+            // HoverTextDrawer.Pool.Draw
+            static MethodBase TargetMethod() => AccessTools.FirstInner(typeof(HoverTextDrawer), x => x.IsGenericType).MakeGenericType(typeof(object)).GetMethod("Draw");
+
+            static void Postfix(Entry __result, GameObject ___prefab)
+            {
+                InfoCard card = Instance.infoCards.Last();
+                card.AddWidget(__result, ___prefab);
+            }
+        }
+
+        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginShadowBar))]
+        private class BeginShadowBar_Patch
+        {
+            static void Postfix()
+            {
+                Instance.infoCards.Add(new InfoCard());
+            }
+        }
+
+        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.EndShadowBar))]
+        private class EndShadowBar_Patch
+        {
+            static void Postfix()
+            {
+                InfoCard card = Instance.infoCards.Last();
+                card.AddData(new List<TextInfo>(Instance.intermediateStatuses), Instance.intermediateSelectable);
+                Instance.intermediateSelectable = null;
+                Instance.intermediateStatuses.Clear();
+            }
+        }
+
+        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.EndDrawing))]
+        private class EditWidgets_Patch
+        {
+            static void Postfix()
+            {
+                Instance.infoCardManager.UpdateData(Instance.infoCards);
+                Instance.infoCardManager.Update();
+                Instance.infoCards.Clear();
             }
         }
     }
