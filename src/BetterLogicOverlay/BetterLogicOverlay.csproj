@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
-    <AssemblyTitle>BetterLogicPortDisplay</AssemblyTitle>
+    <AssemblyTitle>BetterLogicOverlay</AssemblyTitle>
     <Version>1.0.0</Version>
   </PropertyGroup>
   <ItemGroup>

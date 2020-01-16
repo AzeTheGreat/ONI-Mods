@@ -1,15 +1,8 @@
 ﻿using Harmony;
-using PeterHan.PLib;
 using System.Collections.Generic;
 using System.Reflection.Emit;
-using System.Reflection;
-using UnityEngine;
-using System.Linq;
-using System;
-using System.Collections;
-using UnityEngine.UI;
 
-namespace BetterLogicPortDisplay
+namespace BetterLogicOverlay
 {
     [HarmonyPatch(typeof(OverlayModes.Logic), "UpdateUI")]
     class GateOutputColor_Patch

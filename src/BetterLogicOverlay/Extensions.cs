@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BetterLogicPortDisplay
+namespace BetterLogicOverlay
 {
     static class Extensions
     {

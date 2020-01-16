@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace BetterLogicPortDisplay
+namespace BetterLogicOverlay
 {
     class LogicSettingUIInfo
     {
