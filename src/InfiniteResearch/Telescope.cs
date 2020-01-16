@@ -15,7 +15,7 @@ namespace InfiniteResearch
 
             foreach (CodeInstruction i in instructions)
             {
-                if (first)
+                if (first && i.opcode == OpCodes.Ldc_I4_0)
                 {
                     first = false;
                     yield return new CodeInstruction(OpCodes.Ldsfld, AccessTools.Field(typeof(SpacecraftManager), nameof(SpacecraftManager.instance)));
@@ -45,6 +45,4 @@ namespace InfiniteResearch
                 __instance.ShowProgressBar(false);
         }
     }
-
-
 }

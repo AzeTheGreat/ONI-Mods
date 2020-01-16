@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <Import Project="./AzeLib/AzeLib.projitems" Label="Shared" />
-  
+
   <ItemGroup Condition=" '$(UsesPLib)' != 'false' ">
     <Reference Include="../lib/PLib.dll" Private="true" />
   </ItemGroup>
