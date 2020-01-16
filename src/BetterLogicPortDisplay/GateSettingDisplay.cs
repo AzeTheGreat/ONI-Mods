@@ -1,10 +1,5 @@
 ﻿using Harmony;
-using PeterHan.PLib;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using TMPro;
 using UnityEngine;
 
@@ -14,7 +9,7 @@ namespace BetterLogicPortDisplay
     {
         private static GateSettingDisplay instance;
         private GameObject logicSettingUIPrefab;
-        private Dictionary<GameObject, GameObject> logicSettingUIs = new Dictionary<GameObject, GameObject>();
+        private Dictionary<ILogicUIElement, LogicSettingUIInfo> logicSettingUIs = new Dictionary<ILogicUIElement, LogicSettingUIInfo>();
 
         private void OnEnable()
         {
@@ -23,48 +18,37 @@ namespace BetterLogicPortDisplay
 
         private void OnDisable()
         {
+            foreach (var logicSettingUIInfo in logicSettingUIs.Values)
+            {
+                logicSettingUIInfo.Destroy();
+            }
+
             logicSettingUIs.Clear();
         }
 
         private void OnAddUI(ILogicUIElement logicPortUI)
         {
-            if (logicPortUI == null)
-                return;
-
-            var go = Grid.Objects[logicPortUI.GetLogicUICell(), (int)ObjectLayer.LogicGates];
-            if (go == null)
-                go = Grid.Objects[logicPortUI.GetLogicUICell(), (int)ObjectLayer.Building];
-
-            if (!logicSettingUIs.ContainsKey(go))
-                logicSettingUIs.Add(go, DrawSetting(logicPortUI));
+            if(logicPortUI.GetLogicPortSpriteType() == LogicPortSpriteType.Output)
+            {
+                if (!logicSettingUIs.ContainsKey(logicPortUI))
+                    logicSettingUIs.Add(logicPortUI, new LogicSettingUIInfo(logicPortUI, logicSettingUIPrefab));
+            }
         }
 
         private void OnFreeUI(ILogicUIElement logicPortUI)
         {
-            if (logicPortUI == null)
-                return;
-
-            var go = Grid.Objects[logicPortUI.GetLogicUICell(), (int)ObjectLayer.LogicGates];
-            if (go == null)
-                go = Grid.Objects[logicPortUI.GetLogicUICell(), (int)ObjectLayer.Building];
-
-            if (logicSettingUIs.TryGetValue(go, out GameObject uiInfo))
+            if (logicPortUI != null && logicSettingUIs.TryGetValue(logicPortUI, out LogicSettingUIInfo logicSettingUIInfo))
             {
-                logicSettingUIs.Remove(go);
-                UnityEngine.Object.Destroy(uiInfo);
+                logicSettingUIs.Remove(logicPortUI);
+                logicSettingUIInfo.Destroy();
             }
         }
 
         private void OnUpdateUI()
         {
-            foreach (var uiInfo in logicSettingUIs)
+            foreach (var logicSettingUI in logicSettingUIs.Values)
             {
-                var slider = uiInfo.Key.GetComponent<ISliderControl>();
-                if (slider != null)
-                    uiInfo.Value.GetComponent<TextMeshPro>().text = slider.GetSliderValue(0).ToString();
-                var switchSlider = uiInfo.Key.GetComponent<IThresholdSwitch>();
-                if (switchSlider != null)
-                    uiInfo.Value.GetComponent<TextMeshPro>().text = switchSlider.Threshold.ToString();
+                logicSettingUI.UpdateText();
             }
         }
 
@@ -78,34 +62,27 @@ namespace BetterLogicPortDisplay
             rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
             rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
             rectTransform.pivot = new Vector2(0.5f, 0.5f);
-            rectTransform.localScale = Vector2.one;
-            rectTransform.sizeDelta = new Vector2(Grid.CellSizeInMeters, Grid.CellSizeInMeters);
+            rectTransform.localScale = Vector2.one / 3f;
 
             var tmp = settingPrefab.AddComponent<TextMeshPro>();
-            tmp.fontSize = 3f;
+            tmp.fontSize = 9f;
+            tmp.characterSpacing = -4f;
+            tmp.lineSpacing = -30f;
+            tmp.fontStyle = FontStyles.Bold;
+
+            tmp.fontSharedMaterial.EnableKeyword(ShaderUtilities.Keyword_Underlay);
+            tmp.fontSharedMaterial.SetFloat(ShaderUtilities.ID_UnderlayDilate, 0.5f);
+            tmp.fontSharedMaterial.SetFloat(ShaderUtilities.ID_UnderlaySoftness, 0.35f);
+            //tmp.fontSharedMaterial.EnableKeyword(ShaderUtilities.Keyword_Outline);
+            //tmp.fontSharedMaterial.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.15f);
+            tmp.UpdateMeshPadding();
+
             tmp.alignment = TMPro.TextAlignmentOptions.Bottom;
-            tmp.enableWordWrapping = false;
-            tmp.overflowMode = TMPro.TextOverflowModes.Overflow;
+            tmp.enableWordWrapping = true;
+            tmp.overflowMode = TMPro.TextOverflowModes.Truncate;
             tmp.raycastTarget = false;
 
             logicSettingUIPrefab = settingPrefab;
-        }
-
-        private GameObject DrawSetting(ILogicUIElement ui_elem)
-        {
-            GameObject uiText = global::Util.KInstantiate(
-                logicSettingUIPrefab,
-                Grid.CellToPosCCC(ui_elem.GetLogicUICell(), Grid.SceneLayer.Front),
-                Quaternion.identity,
-                GameScreenManager.Instance.worldSpaceCanvas,
-                null, true, 0);
-
-            // No clue why I have to set this again
-            var rect = uiText.GetComponent<RectTransform>();
-            rect.sizeDelta = new Vector2(Grid.CellSizeInMeters, Grid.CellSizeInMeters);
-            uiText.SetActive(true);
-
-            return uiText;
         }
 
         private static void UpdateBuffer(GameObject uiText, LogicGateBuffer buffer)

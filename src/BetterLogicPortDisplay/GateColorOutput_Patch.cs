@@ -7,7 +7,7 @@ using UnityEngine;
 using System.Linq;
 using System;
 using System.Collections;
-using TMPro;
+using UnityEngine.UI;
 
 namespace BetterLogicPortDisplay
 {
@@ -59,20 +59,6 @@ namespace BetterLogicPortDisplay
 
         static bool Helper(int cell, LogicCircuitNetwork networkForCell)
         {
-            //var uiInfoField = Traverse.Create(__instance).GetField<object>("uiInfo");
-            //var uiInfos = Traverse.Create(uiInfoField).Method("GetDataList").GetValue();
-
-            //foreach (var info in ((IEnumerable)uiInfos))
-            //{
-            //    int cell = Traverse.Create(info).GetField<int>("cell");
-
-            //    GameObject gate = Grid.Objects[cell, (int)ObjectLayer.LogicGates];
-            //    var buffer = gate?.GetComponent<LogicGateBuffer>() ?? null;
-
-            //    if (buffer != null && buffer.OutputCell == cell)
-            //        updateBuffer( buffer);
-            //}
-
             // If there's only 1 sender on the network then it's impossible for another to be overwriting it
             if (networkForCell.Senders.Count <= 1)
                 return true;
@@ -90,6 +76,41 @@ namespace BetterLogicPortDisplay
 
             return true;
         }
+
+        // Failed alternate reflection attempt.  Issues:
+        // Color not getting set on the actual image, probably some ref issue
+        // Sensors don't have ILogicSender components.  Not sure how when they work in the transpiler...
+        // Looks like on spawn it creates LogicPorts and adds them to the LogicCircuitNetworkManager...
+
+        //static void Postfix(OverlayModes.Logic __instance)
+        //{
+        //    var uiInfoField = Traverse.Create(__instance).GetField<object>("uiInfo");
+        //    var uiInfos = Traverse.Create(uiInfoField).Method("GetDataList").GetValue();
+
+        //    foreach (var info in ((IEnumerable)uiInfos))
+        //    {
+        //        Debug.Log(1);
+        //        var infoTrav = Traverse.Create(info);
+        //        int cell = infoTrav.GetField<int>("cell");
+
+        //        GameObject sourceGO = Grid.Objects[cell, (int)ObjectLayer.LogicGates];
+        //        if(sourceGO == null)
+        //            sourceGO = Grid.Objects[cell, (int)ObjectLayer.Building];
+        //        Debug.Log("Source GO: " + sourceGO);
+        //        Debug.Log("Test value: " + (sourceGO?.GetComponent<ILogicEventSender>()?.GetLogicValue() ?? 1));
+        //        if((sourceGO?.GetComponent<ILogicEventSender>()?.GetLogicValue() ?? 1) <= 0)
+        //        {
+        //            Debug.Log(2);
+        //            Image image = infoTrav.GetField<Image>("image");
+        //            LogicModeUI logicModeUI = Assets.instance.logicModeUIData;
+        //            if (image.color == logicModeUI.colourOn)
+        //            {
+        //                Traverse.Create(image).SetField("color", logicModeUI.colourOff);
+        //                Debug.Log("Color overriden");
+        //            }       
+        //        }
+        //    }
+        //}
     }
 }
 
