@@ -2,11 +2,17 @@
 using PeterHan.PLib;
 using System.Collections.Generic;
 using System.Reflection.Emit;
+using System.Reflection;
+using UnityEngine;
+using System.Linq;
+using System;
+using System.Collections;
+using TMPro;
 
 namespace BetterLogicPortDisplay
 {
     [HarmonyPatch(typeof(OverlayModes.Logic), "UpdateUI")]
-    public class GateOutputColor_Patch
+    class GateOutputColor_Patch
     {
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator ilg)
         {
@@ -51,8 +57,22 @@ namespace BetterLogicPortDisplay
             }
         }
 
-        public static bool Helper(int cell, LogicCircuitNetwork networkForCell)
+        static bool Helper(int cell, LogicCircuitNetwork networkForCell)
         {
+            //var uiInfoField = Traverse.Create(__instance).GetField<object>("uiInfo");
+            //var uiInfos = Traverse.Create(uiInfoField).Method("GetDataList").GetValue();
+
+            //foreach (var info in ((IEnumerable)uiInfos))
+            //{
+            //    int cell = Traverse.Create(info).GetField<int>("cell");
+
+            //    GameObject gate = Grid.Objects[cell, (int)ObjectLayer.LogicGates];
+            //    var buffer = gate?.GetComponent<LogicGateBuffer>() ?? null;
+
+            //    if (buffer != null && buffer.OutputCell == cell)
+            //        updateBuffer( buffer);
+            //}
+
             // If there's only 1 sender on the network then it's impossible for another to be overwriting it
             if (networkForCell.Senders.Count <= 1)
                 return true;
@@ -69,11 +89,6 @@ namespace BetterLogicPortDisplay
             }
 
             return true;
-        }
-
-        public static void OnLoad()
-        {
-            PUtil.LogModInit();
         }
     }
 }
