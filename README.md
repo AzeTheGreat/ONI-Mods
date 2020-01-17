@@ -8,7 +8,7 @@ If you can't download through the Steam Workshop, zipped releases are available 
 |---|---|
 |[Better Deselect](https://steamcommunity.com/sharedfiles/filedetails/?id=1870696175)|Requires separate clicks to: deselect the cursor item, close the building menu, and close the overlay.|
 |[Better Info Cards](https://steamcommunity.com/sharedfiles/filedetails/?id=1960947963)|Overhauls info cards to be more powerful and user friendly.|
-|[Better Automation Port Display](https://steamcommunity.com/sharedfiles/filedetails/?id=1878896484)|Automation gates sending a red signal are not visually overwritten by green wire.|
+|[Better Automation Overlay](https://steamcommunity.com/sharedfiles/filedetails/?id=1878896484)|Improves the automation overlay.|
 |[Clean Floors](https://steamcommunity.com/sharedfiles/filedetails/?id=1937854017)|Removes the largest decor pieces from tiles to give a smoother look.|
 |[Drink Tea Not Coffee](https://steamcommunity.com/sharedfiles/filedetails/?id=1969458444)|A silly mod that changes references to espresso to tea.|
 |[Fixed Camera Pan](https://steamcommunity.com/sharedfiles/filedetails/?id=1845747605)|Makes camera pan speed independent of frame rate and configurable.|
