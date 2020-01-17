@@ -46,6 +46,7 @@ namespace BetterLogicOverlay
 
         private void OnUpdateUI()
         {
+            Debug.Log("UIs to Update: " + logicSettingUIs.Count);
             foreach (var logicSettingUI in logicSettingUIs.Values)
             {
                 logicSettingUI.UpdateText();
@@ -65,13 +66,13 @@ namespace BetterLogicOverlay
             rectTransform.localScale = Vector2.one / 3f;
 
             var tmp = settingPrefab.AddComponent<TextMeshPro>();
-            tmp.fontSize = 9f;
-            tmp.characterSpacing = -4f;
+            tmp.fontSize = Options.Opts.FontSize;
+            tmp.characterSpacing = -3f;
             tmp.lineSpacing = -30f;
             tmp.fontStyle = FontStyles.Bold;
 
             tmp.fontSharedMaterial.EnableKeyword(ShaderUtilities.Keyword_Underlay);
-            tmp.fontSharedMaterial.SetFloat(ShaderUtilities.ID_UnderlayDilate, 0.5f);
+            tmp.fontSharedMaterial.SetFloat(ShaderUtilities.ID_UnderlayDilate, 0.4f);
             tmp.fontSharedMaterial.SetFloat(ShaderUtilities.ID_UnderlaySoftness, 0.35f);
             //tmp.fontSharedMaterial.EnableKeyword(ShaderUtilities.Keyword_Outline);
             //tmp.fontSharedMaterial.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.15f);
@@ -102,12 +103,15 @@ namespace BetterLogicOverlay
         private class Disable { static void Postfix() => instance.OnDisable(); }
 
         [HarmonyPatch(typeof(OverlayModes.Logic), "AddUI")]
-        private class AddUI { static void Postfix(ILogicUIElement ui_elem) => instance.OnAddUI(ui_elem); }
+        private class AddUI { static void Postfix(ILogicUIElement ui_elem) => instance.OnAddUI(ui_elem);
+            static bool Prepare() => Options.Opts.DisplayLogicSettings; }
 
         [HarmonyPatch(typeof(OverlayModes.Logic), "FreeUI")]
-        private class FreeUI { static void Postfix(ILogicUIElement item) => instance.OnFreeUI(item); }
+        private class FreeUI { static void Postfix(ILogicUIElement item) => instance.OnFreeUI(item);
+            static bool Prepare() => Options.Opts.DisplayLogicSettings; }
 
         [HarmonyPatch(typeof(OverlayModes.Logic), "UpdateUI")]
-        private class UpdateUI { static void Postfix() => instance.OnUpdateUI(); }
+        private class UpdateUI { static void Postfix() => instance.OnUpdateUI();
+            static bool Prepare() => Options.Opts.DisplayLogicSettings; }
     }
 }

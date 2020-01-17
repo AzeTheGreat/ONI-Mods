@@ -7,6 +7,8 @@ namespace BetterLogicOverlay
     [HarmonyPatch(typeof(OverlayModes.Logic), "UpdateUI")]
     class GateOutputColor_Patch
     {
+        static bool Prepare() => Options.Opts.FixWireOverwrite;
+
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator ilg)
         {
             bool flag1 = false;

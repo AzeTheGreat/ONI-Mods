@@ -33,12 +33,22 @@ namespace BetterLogicOverlay
                 if ((thresholdSwitch = sourceGO.GetComponent<IThresholdSwitch>()) != null)
                 {
                     cachedObject = thresholdSwitch;
-                    getObjectString = (obj) =>
-                    {
-                        var component = obj as IThresholdSwitch;
-                        string aboveOrBelow = component.ActivateAboveThreshold ? ">" : "<";
-                        return aboveOrBelow + GameUtil.GetFormattedMass(component.Threshold);
-                    };
+
+                    string thresholdUnits = thresholdSwitch.ThresholdValueUnits();
+                    if (thresholdUnits == GameUtil.GetCurrentMassUnit(true))
+                        getObjectString = (obj) =>
+                        {
+                            var component = obj as IThresholdSwitch;
+                            string aboveOrBelow = component.ActivateAboveThreshold ? ">" : "<";
+                            return aboveOrBelow + GameUtil.GetFormattedMass(component.Threshold);
+                        };
+                    else
+                        getObjectString = (obj) =>
+                        {
+                            var component = obj as IThresholdSwitch;
+                            string aboveOrBelow = component.ActivateAboveThreshold ? ">" : "<";
+                            return aboveOrBelow + component.Format(component.Threshold, true);
+                        };
                 }
             }
             else
@@ -63,11 +73,12 @@ namespace BetterLogicOverlay
         {
             if(cachedObject != null)
             {
+                Debug.Log("Update");
                 string newText = getObjectString(cachedObject);
+                Debug.Log(newText);
                 if(cachedTMP.text != newText)
                     cachedTMP.text = newText;
-            }
-                    
+            }         
         }
 
         private GameObject DrawSetting(GameObject prefab, Vector3 position, Vector2 size)
