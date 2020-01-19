@@ -67,9 +67,10 @@ namespace BetterLogicOverlay
 
             var tmp = settingPrefab.AddComponent<TextMeshPro>();
             tmp.fontSize = Options.Opts.FontSize;
-            tmp.characterSpacing = -3f;
+            tmp.characterSpacing = -4f;
             tmp.lineSpacing = -30f;
             tmp.fontStyle = FontStyles.Bold;
+            tmp.enableKerning = true;
 
             tmp.fontSharedMaterial.EnableKeyword(ShaderUtilities.Keyword_Underlay);
             tmp.fontSharedMaterial.SetFloat(ShaderUtilities.ID_UnderlayDilate, 0.4f);
