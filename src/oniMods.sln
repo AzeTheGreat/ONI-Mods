@@ -17,8 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoNotificationSounds", "NoN
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SufficientOxygenGeneration", "SufficientOxygenGeneration\SufficientOxygenGeneration.csproj", "{44FB0CAA-C9E8-4CF9-92BB-9AA93EC659C3}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AzeLib", "AzeLib\AzeLib.shproj", "{4D79FD78-6A90-4459-8A75-66C562CAEB24}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetterInfoCards", "BetterInfoCards\BetterInfoCards.csproj", "{F63913ED-4AD0-47FC-B8B0-B27601C77CCE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoBuildWatermark", "NoBuildWatermark\NoBuildWatermark.csproj", "{8A68EC5E-DF54-4649-8B91-21F1BBBF4242}"
@@ -41,6 +39,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrinkTeaNotCoffee", "DrinkTeaNotCoffee\DrinkTeaNotCoffee.csproj", "{9EA4F5CA-3063-4A73-AF33-5B0789B87F20}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetterLogicOverlay", "BetterLogicOverlay\BetterLogicOverlay.csproj", "{6CE7DABE-015B-4828-A1FD-E972EBF4E8F9}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AzeLib", "AzeLib\AzeLib.shproj", "{ECF172BE-1568-4161-B9CE-9AE31C84F9BF}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
