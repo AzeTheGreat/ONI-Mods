@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BetterLogicOverlay.LogicSettingDisplay
 {
-    class LogicTimeOfDaySensorSetting : KMonoBehaviour, ILogicSettingDisplay
+    class LogicTimeOfDaySensorSetting : LogicSettingDispComp
     {
         private LogicTimeOfDaySensor logicTimeOfDaySensor;
 
@@ -13,7 +13,7 @@ namespace BetterLogicOverlay.LogicSettingDisplay
             logicTimeOfDaySensor = gameObject.GetComponent<LogicTimeOfDaySensor>();
         }
 
-        public string GetSetting()
+        public override string GetSetting()
         {
             return GameUtil.GetFormattedPercent(logicTimeOfDaySensor.startTime * 100f) + " : " + GameUtil.GetFormattedPercent(logicTimeOfDaySensor.duration * 100f);
         }

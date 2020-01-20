@@ -4,7 +4,7 @@ using UnityEngine;
 namespace BetterLogicOverlay.LogicSettingDisplay
 {
     // Separate from ThresholdSwitchSetting due to the game not rounding temperature strings on conduits
-    class ConduitTemperatureSensorSetting : KMonoBehaviour, ILogicSettingDisplay
+    class ConduitTemperatureSensorSetting : LogicSettingDispComp
     {
         private IThresholdSwitch thresholdSwitch;
 
@@ -14,7 +14,7 @@ namespace BetterLogicOverlay.LogicSettingDisplay
             thresholdSwitch = gameObject.GetComponent<IThresholdSwitch>();
         }
 
-        public string GetSetting()
+        public override string GetSetting()
         {
             string aboveOrBelow = thresholdSwitch.ActivateAboveThreshold ? ">" : "<";
             return aboveOrBelow + GameUtil.GetFormattedTemperature(thresholdSwitch.Threshold, GameUtil.TimeSlice.None, GameUtil.TemperatureInterpretation.Absolute, true, true);

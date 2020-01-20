@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BetterLogicOverlay.LogicSettingDisplay
 {
-    class SliderControlSetting : KMonoBehaviour, ILogicSettingDisplay
+    class SliderControlSetting : LogicSettingDispComp
     {
         private ISliderControl sliderControl;
 
@@ -13,7 +13,7 @@ namespace BetterLogicOverlay.LogicSettingDisplay
             sliderControl = gameObject.GetComponent<ISliderControl>();
         }
 
-        public string GetSetting()
+        public override string GetSetting()
         {
             return sliderControl.GetSliderValue(0) + sliderControl.SliderUnits;
         }

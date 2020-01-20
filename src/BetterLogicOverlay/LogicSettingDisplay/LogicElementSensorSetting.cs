@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BetterLogicOverlay.LogicSettingDisplay
 {
-    class LogicElementSensorSetting : KMonoBehaviour, ILogicSettingDisplay
+    class LogicElementSensorSetting : LogicSettingDispComp
     {
         private Traverse desiredElementIdx;
 
@@ -13,7 +13,7 @@ namespace BetterLogicOverlay.LogicSettingDisplay
             desiredElementIdx = Traverse.Create(gameObject.GetComponent<LogicElementSensor>()).Field("desiredElementIdx");
         }
 
-        public string GetSetting()
+        public override string GetSetting()
         {
             Element element = ElementLoader.elements[desiredElementIdx.GetValue<byte>()];
             return element.GetAbbreviation();

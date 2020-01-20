@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BetterLogicOverlay.LogicSettingDisplay
 {
-    class ConduitElementSensorSetting : KMonoBehaviour, ILogicSettingDisplay
+    class ConduitElementSensorSetting : LogicSettingDispComp
     {
         private Traverse desiredElementIdx;
 
@@ -13,7 +13,7 @@ namespace BetterLogicOverlay.LogicSettingDisplay
             desiredElementIdx = Traverse.Create(gameObject.GetComponent<ConduitElementSensor>()).Field("desiredElement");
         }
 
-        public string GetSetting()
+        public override string GetSetting()
         {
             Element element = ElementLoader.FindElementByHash(desiredElementIdx.GetValue<SimHashes>());
             return element.GetAbbreviation();

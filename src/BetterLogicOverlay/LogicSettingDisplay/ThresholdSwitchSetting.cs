@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BetterLogicOverlay.LogicSettingDisplay
 {
-    class ThresholdSwitchSetting : KMonoBehaviour, ILogicSettingDisplay
+    class ThresholdSwitchSetting : LogicSettingDispComp
     {
         private IThresholdSwitch thresholdSwitch;
 
@@ -15,7 +15,7 @@ namespace BetterLogicOverlay.LogicSettingDisplay
             thresholdSwitch = gameObject.GetComponent<IThresholdSwitch>();
         }
 
-        public string GetSetting()
+        public override string GetSetting()
         {
             string aboveOrBelow = thresholdSwitch.ActivateAboveThreshold ? ">" : "<";
             return aboveOrBelow + thresholdSwitch.Format(thresholdSwitch.Threshold, false) + thresholdSwitch.ThresholdValueUnits();

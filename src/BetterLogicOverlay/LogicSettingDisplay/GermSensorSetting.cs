@@ -5,7 +5,7 @@ using STRINGS;
 namespace BetterLogicOverlay.LogicSettingDisplay
 {
     // Separate from ThresholSwitchSetting due to spacing before "germs"
-    class GermSensorSetting : KMonoBehaviour, ILogicSettingDisplay
+    class GermSensorSetting : LogicSettingDispComp
     {
         private IThresholdSwitch thresholdSwitch;
 
@@ -15,7 +15,7 @@ namespace BetterLogicOverlay.LogicSettingDisplay
             thresholdSwitch = gameObject.GetComponent<IThresholdSwitch>();
         }
 
-        public string GetSetting()
+        public override string GetSetting()
         {
             string aboveOrBelow = thresholdSwitch.ActivateAboveThreshold ? ">" : "<";
 

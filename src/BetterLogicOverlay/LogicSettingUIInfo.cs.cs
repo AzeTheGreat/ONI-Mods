@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using BetterLogicOverlay.LogicSettingDisplay;
 
 namespace BetterLogicOverlay
 {
@@ -7,25 +8,26 @@ namespace BetterLogicOverlay
     {
         private GameObject uiGO;
         private TextMeshPro cachedTMP;
-        private ILogicSettingDisplay logicSettingDisplay;
+        private LogicSettingDispComp logicSettingDisplay;
 
         public LogicSettingUIInfo(ILogicUIElement logicPortUI, GameObject prefab)
         {
             GameObject sourceGO = Grid.Objects[logicPortUI.GetLogicUICell(), (int)ObjectLayer.LogicGates];
             if (sourceGO == null)
                 sourceGO = Grid.Objects[logicPortUI.GetLogicUICell(), (int)ObjectLayer.Building];
-
+                
             if (sourceGO == null)
                 return;
 
-            ILogicSettingDisplay logicSettingDisplay;
-            if ((logicSettingDisplay = sourceGO.GetComponent<ILogicSettingDisplay>()) != null)
-                this.logicSettingDisplay = logicSettingDisplay;
+            LogicSettingDispComp logicSettingDisplay = sourceGO.GetComponent<LogicSettingDispComp>();
+            if (logicSettingDisplay == null)
+                return;
 
-            var extents = sourceGO.GetComponent<Building>().GetExtents();
-            Vector3 position = Grid.CellToPosCCC(Grid.XYToCell(extents.x, extents.y + extents.height - 1), Grid.SceneLayer.Front) + new Vector3((extents.width - 1) * Grid.CellSizeInMeters / 2, 0f, 0f);
+            this.logicSettingDisplay = logicSettingDisplay;
+
+            Vector3 position = logicSettingDisplay.GetPosition();
             var offset = new Vector3(0f, (Grid.CellSizeInMeters * 2 / 3) + 0.05f, 0f);
-            Vector2 sizeDelta = new Vector2(Grid.CellSizeInMeters * extents.width, Grid.CellSizeInMeters) * prefab.GetComponent<RectTransform>().InverseLocalScale();
+            Vector2 sizeDelta = logicSettingDisplay.GetSizeDelta() * prefab.GetComponent<RectTransform>().InverseLocalScale();
 
             uiGO = DrawSetting(prefab, position + offset, sizeDelta);
             cachedTMP = uiGO.GetComponent<TextMeshPro>();
