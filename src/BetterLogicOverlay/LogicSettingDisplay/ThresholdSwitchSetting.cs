@@ -1,4 +1,6 @@
 ﻿using Harmony;
+using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 namespace BetterLogicOverlay.LogicSettingDisplay
@@ -19,19 +21,18 @@ namespace BetterLogicOverlay.LogicSettingDisplay
             return aboveOrBelow + thresholdSwitch.Format(thresholdSwitch.Threshold, false) + thresholdSwitch.ThresholdValueUnits();
         }
 
-        [HarmonyPatch(typeof(LogicCritterCountSensorConfig), nameof(LogicCritterCountSensorConfig.DoPostConfigureComplete))]
-        private class AddToCritterCount { static void Postfix(GameObject go) => go.AddComponent<ThresholdSwitchSetting>(); }
-
-        [HarmonyPatch(typeof(FloorSwitchConfig), nameof(FloorSwitchConfig.DoPostConfigureComplete))]
-        private class AddToFloorSwitch { static void Postfix(GameObject go) => go.AddComponent<ThresholdSwitchSetting>(); }
-
-        [HarmonyPatch(typeof(LogicPressureSensorGasConfig), nameof(LogicPressureSensorGasConfig.DoPostConfigureComplete))]
-        private class AddToGasPressure { static void Postfix(GameObject go) => go.AddComponent<ThresholdSwitchSetting>(); }
-
-        [HarmonyPatch(typeof(LogicPressureSensorLiquidConfig), nameof(LogicPressureSensorLiquidConfig.DoPostConfigureComplete))]
-        private class AddToLiquidPressure { static void Postfix(GameObject go) => go.AddComponent<ThresholdSwitchSetting>(); }
-
-        [HarmonyPatch(typeof(LogicTemperatureSensorConfig), nameof(LogicTemperatureSensorConfig.DoPostConfigureComplete))]
-        private class AddToTemp { static void Postfix(GameObject go) => go.AddComponent<ThresholdSwitchSetting>(); }
+        [HarmonyPatch]
+        private class Add
+        {
+            static IEnumerable<MethodBase> TargetMethods()
+            {
+                yield return AccessTools.Method(typeof(LogicCritterCountSensorConfig), nameof(LogicCritterCountSensorConfig.DoPostConfigureComplete));
+                yield return AccessTools.Method(typeof(FloorSwitchConfig), nameof(FloorSwitchConfig.DoPostConfigureComplete));
+                yield return AccessTools.Method(typeof(LogicPressureSensorGasConfig), nameof(LogicPressureSensorGasConfig.DoPostConfigureComplete));
+                yield return AccessTools.Method(typeof(LogicPressureSensorLiquidConfig), nameof(LogicPressureSensorLiquidConfig.DoPostConfigureComplete));
+                yield return AccessTools.Method(typeof(LogicTemperatureSensorConfig), nameof(LogicTemperatureSensorConfig.DoPostConfigureComplete));
+            }
+            static void Postfix(GameObject go) => go.AddComponent<ThresholdSwitchSetting>();
+        }
     }
 }

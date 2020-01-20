@@ -1,5 +1,6 @@
 ﻿using Harmony;
 using UnityEngine;
+using STRINGS;
 
 namespace BetterLogicOverlay.LogicSettingDisplay
 {
@@ -17,7 +18,19 @@ namespace BetterLogicOverlay.LogicSettingDisplay
         public string GetSetting()
         {
             string aboveOrBelow = thresholdSwitch.ActivateAboveThreshold ? ">" : "<";
-            return aboveOrBelow + thresholdSwitch.Format(thresholdSwitch.Threshold, false) + " " +  STRINGS.UI.UNITSUFFIXES.DISEASE.UNITS;
+
+            float threshold = thresholdSwitch.Threshold;
+            string modifier = string.Empty;
+
+            if (threshold > 10000f)
+            {
+                threshold /= 1000f;
+                modifier = ASTRINGS.UNITMODIFIERS.thousand;
+            }
+
+            threshold = Mathf.Round(threshold);
+                
+            return aboveOrBelow + threshold + modifier + " " +  UI.UNITSUFFIXES.DISEASE.UNITS;
         }
 
         [HarmonyPatch(typeof(GasConduitDiseaseSensorConfig), nameof(GasConduitDiseaseSensorConfig.DoPostConfigureComplete))]

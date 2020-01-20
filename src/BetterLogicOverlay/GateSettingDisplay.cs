@@ -46,7 +46,6 @@ namespace BetterLogicOverlay
 
         private void OnUpdateUI()
         {
-            Debug.Log("UIs to Update: " + logicSettingUIs.Count);
             foreach (var logicSettingUI in logicSettingUIs.Values)
             {
                 logicSettingUI.UpdateText();

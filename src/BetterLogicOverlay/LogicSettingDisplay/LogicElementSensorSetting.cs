@@ -16,7 +16,7 @@ namespace BetterLogicOverlay.LogicSettingDisplay
         public string GetSetting()
         {
             Element element = ElementLoader.elements[desiredElementIdx.GetValue<byte>()];
-            return element.nameUpperCase;
+            return element.GetAbbreviation();
         }
 
         [HarmonyPatch(typeof(LogicElementSensorGasConfig), nameof(LogicElementSensorGasConfig.DoPostConfigureComplete))]
