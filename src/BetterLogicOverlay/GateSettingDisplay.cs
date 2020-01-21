@@ -10,6 +10,7 @@ namespace BetterLogicOverlay
         private static GateSettingDisplay instance;
         private GameObject logicSettingUIPrefab;
         private Dictionary<ILogicUIElement, LogicSettingUIInfo> logicSettingUIs = new Dictionary<ILogicUIElement, LogicSettingUIInfo>();
+        private HashSet<GameObject> existingGOs = new HashSet<GameObject>();
 
         private void OnEnable()
         {
@@ -28,11 +29,9 @@ namespace BetterLogicOverlay
 
         private void OnAddUI(ILogicUIElement logicPortUI)
         {
-            if(logicPortUI.GetLogicPortSpriteType() == LogicPortSpriteType.Output)
-            {
-                if (!logicSettingUIs.ContainsKey(logicPortUI))
-                    logicSettingUIs.Add(logicPortUI, new LogicSettingUIInfo(logicPortUI, logicSettingUIPrefab));
-            }
+            var go = GetGOForLogicPort(logicPortUI);
+            if (!existingGOs.Contains(go))
+                logicSettingUIs.Add(logicPortUI, new LogicSettingUIInfo(go, logicSettingUIPrefab));  
         }
 
         private void OnFreeUI(ILogicUIElement logicPortUI)
@@ -40,8 +39,19 @@ namespace BetterLogicOverlay
             if (logicPortUI != null && logicSettingUIs.TryGetValue(logicPortUI, out LogicSettingUIInfo logicSettingUIInfo))
             {
                 logicSettingUIs.Remove(logicPortUI);
+                existingGOs.Remove(logicSettingUIInfo.sourceGO);
                 logicSettingUIInfo.Destroy();
             }
+        }
+
+        private GameObject GetGOForLogicPort(ILogicUIElement logicPortUI)
+        {
+            GameObject sourceGO = Grid.Objects[logicPortUI.GetLogicUICell(), (int)ObjectLayer.LogicGates];
+            if (sourceGO == null)
+                sourceGO = Grid.Objects[logicPortUI.GetLogicUICell(), (int)ObjectLayer.Building];
+            if (sourceGO == null)
+                sourceGO = Grid.Objects[logicPortUI.GetLogicUICell(), (int)ObjectLayer.FoundationTile];
+            return sourceGO;
         }
 
         private void OnUpdateUI()
@@ -74,8 +84,6 @@ namespace BetterLogicOverlay
             tmp.fontSharedMaterial.EnableKeyword(ShaderUtilities.Keyword_Underlay);
             tmp.fontSharedMaterial.SetFloat(ShaderUtilities.ID_UnderlayDilate, 0.4f);
             tmp.fontSharedMaterial.SetFloat(ShaderUtilities.ID_UnderlaySoftness, 0.35f);
-            //tmp.fontSharedMaterial.EnableKeyword(ShaderUtilities.Keyword_Outline);
-            //tmp.fontSharedMaterial.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.15f);
             tmp.UpdateMeshPadding();
 
             tmp.alignment = TMPro.TextAlignmentOptions.Bottom;
