@@ -1,27 +1,27 @@
 ﻿using Harmony;
+using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 namespace BetterLogicOverlay.LogicSettingDisplay
 {
     class SliderControlSetting : LogicSettingDispComp
     {
-        private ISliderControl sliderControl;
+        [MyCmpGet]
+        protected ISliderControl sliderControl;
 
-        new private void Start()
+        public override string GetSetting() => sliderControl.GetSliderValue(0) + sliderControl.SliderUnits;
+
+        [HarmonyPatch]
+        private class Add
         {
-            base.Start();
-            sliderControl = gameObject.GetComponent<ISliderControl>();
+            static IEnumerable<MethodBase> TargetMethods()
+            {
+                yield return AccessTools.Method(typeof(LogicGateBufferConfig), nameof(LogicGateBufferConfig.DoPostConfigureComplete));
+                yield return AccessTools.Method(typeof(LogicGateFilterConfig), nameof(LogicGateFilterConfig.DoPostConfigureComplete));
+            }
+
+            public static void Postfix(GameObject go) => go.AddComponent<SliderControlSetting>();
         }
-
-        public override string GetSetting()
-        {
-            return sliderControl.GetSliderValue(0) + sliderControl.SliderUnits;
-        }
-
-        [HarmonyPatch(typeof(LogicGateBufferConfig), nameof(LogicGateBufferConfig.DoPostConfigureComplete))]
-        private class AddToBuffer { static void Postfix(GameObject go) => go.AddComponent<SliderControlSetting>(); }
-
-        [HarmonyPatch(typeof(LogicGateFilterConfig), nameof(LogicGateFilterConfig.DoPostConfigureComplete))]
-        private class AddToFilter { static void Postfix(GameObject go) => go.AddComponent<SliderControlSetting>(); }
     }
 }

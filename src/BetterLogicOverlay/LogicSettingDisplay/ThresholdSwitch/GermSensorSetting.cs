@@ -11,8 +11,6 @@ namespace BetterLogicOverlay.LogicSettingDisplay
     {
         public override string GetSetting()
         {
-            string aboveOrBelow = thresholdSwitch.ActivateAboveThreshold ? ">" : "<";
-
             float threshold = thresholdSwitch.Threshold;
             string modifier = string.Empty;
 
@@ -24,7 +22,7 @@ namespace BetterLogicOverlay.LogicSettingDisplay
 
             threshold = Mathf.Round(threshold);
                 
-            return aboveOrBelow + threshold + modifier + " " +  UI.UNITSUFFIXES.DISEASE.UNITS;
+            return GetAboveOrBelow() + threshold + modifier + " " +  UI.UNITSUFFIXES.DISEASE.UNITS;
         }
 
         [HarmonyPatch]

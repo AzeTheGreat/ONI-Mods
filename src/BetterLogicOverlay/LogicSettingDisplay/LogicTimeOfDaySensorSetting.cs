@@ -5,13 +5,8 @@ namespace BetterLogicOverlay.LogicSettingDisplay
 {
     class LogicTimeOfDaySensorSetting : LogicSettingDispComp
     {
+        [MyCmpGet]
         private LogicTimeOfDaySensor logicTimeOfDaySensor;
-
-        new private void Start()
-        {
-            base.Start();
-            logicTimeOfDaySensor = gameObject.GetComponent<LogicTimeOfDaySensor>();
-        }
 
         public override string GetSetting()
         {

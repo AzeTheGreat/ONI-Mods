@@ -23,4 +23,20 @@ namespace BetterLogicOverlay.LogicSettingDisplay.RanchingSensors
             static void Postfix(GameObject go) => go.AddComponent<CrittersSensorSetting>();
         }
     }
+
+    class EggsSensorSetting : ThresholdSwitchSetting
+    {
+        public override string GetSetting() => GetAboveOrBelow() + thresholdSwitch.Format(thresholdSwitch.Threshold, false) + " eggs";
+
+        private class Add : PostLoad
+        {
+            protected override IEnumerable<MethodBase> PostLoadTargetMethods()
+            {
+                var eggsSensor = AccessTools.Method("EggsSensorConfig:DoPostConfigureComplete");
+                if (eggsSensor != null) yield return eggsSensor;
+            }
+
+            static void Postfix(GameObject go) => go.AddComponent<EggsSensorSetting>();
+        }
+    }
 }

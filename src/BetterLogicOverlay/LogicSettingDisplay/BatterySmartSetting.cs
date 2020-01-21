@@ -5,15 +5,10 @@ namespace BetterLogicOverlay.LogicSettingDisplay
 {
     class BatterySmartSetting : LogicSettingDispComp
     {
+        [MyCmpGet]
         private BatterySmart batterySmart;
+        [MyCmpGet]
         private LogicPorts logicPorts;
-
-        new private void Start()
-        {
-            base.Start();
-            batterySmart = gameObject.GetComponent<BatterySmart>();
-            logicPorts = gameObject.GetComponent<LogicPorts>();
-        }
 
         public override string GetSetting()
         {

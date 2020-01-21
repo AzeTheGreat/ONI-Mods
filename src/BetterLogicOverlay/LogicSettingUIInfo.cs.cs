@@ -1,26 +1,23 @@
 ﻿using TMPro;
 using UnityEngine;
 using BetterLogicOverlay.LogicSettingDisplay;
+using AzeLib.Extensions;
 
 namespace BetterLogicOverlay
 {
     class LogicSettingUIInfo
     {
+        public GameObject sourceGO;
         private GameObject uiGO;
         private TextMeshPro cachedTMP;
         private LogicSettingDispComp logicSettingDisplay;
 
-        public LogicSettingUIInfo(ILogicUIElement logicPortUI, GameObject prefab)
+        public LogicSettingUIInfo(GameObject sourceGO, GameObject prefab)
         {
-            GameObject sourceGO = Grid.Objects[logicPortUI.GetLogicUICell(), (int)ObjectLayer.LogicGates];
-            if (sourceGO == null)
-                sourceGO = Grid.Objects[logicPortUI.GetLogicUICell(), (int)ObjectLayer.Building];
-            if (sourceGO == null)
-                sourceGO = Grid.Objects[logicPortUI.GetLogicUICell(), (int)ObjectLayer.FoundationTile];
-                
             if (sourceGO == null)
                 return;
 
+            this.sourceGO = sourceGO;
             LogicSettingDispComp logicSettingDisplay = sourceGO.GetComponent<LogicSettingDispComp>();
             if (logicSettingDisplay == null)
                 return;
