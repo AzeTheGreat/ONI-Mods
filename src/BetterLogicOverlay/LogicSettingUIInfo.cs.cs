@@ -15,6 +15,8 @@ namespace BetterLogicOverlay
             GameObject sourceGO = Grid.Objects[logicPortUI.GetLogicUICell(), (int)ObjectLayer.LogicGates];
             if (sourceGO == null)
                 sourceGO = Grid.Objects[logicPortUI.GetLogicUICell(), (int)ObjectLayer.Building];
+            if (sourceGO == null)
+                sourceGO = Grid.Objects[logicPortUI.GetLogicUICell(), (int)ObjectLayer.FoundationTile];
                 
             if (sourceGO == null)
                 return;

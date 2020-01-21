@@ -1,10 +1,10 @@
-﻿using AzeLib;
-using Harmony;
+﻿using Harmony;
 using Newtonsoft.Json;
 using PeterHan.PLib;
 using PeterHan.PLib.Datafiles;
 using System.IO;
 using System.Reflection;
+using AzeLib;
 
 namespace BetterLogicOverlay
 {
