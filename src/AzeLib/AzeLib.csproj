@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net35</TargetFramework>
+    <AssemblyTitle>AzeLib</AssemblyTitle>
+    <Version>1.0.0</Version>
+	<UsesAzeLib>false</UsesAzeLib>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Previews\**" />
+    <EmbeddedResource Remove="Previews\**" />
+    <None Remove="Previews\**" />
+  </ItemGroup>
+</Project>
