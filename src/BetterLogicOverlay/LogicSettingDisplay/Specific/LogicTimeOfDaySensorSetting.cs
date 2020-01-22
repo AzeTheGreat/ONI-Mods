@@ -5,8 +5,7 @@ namespace BetterLogicOverlay.LogicSettingDisplay
 {
     class LogicTimeOfDaySensorSetting : LogicSettingDispComp
     {
-        [MyCmpGet]
-        private LogicTimeOfDaySensor logicTimeOfDaySensor;
+        [MyCmpGet] private LogicTimeOfDaySensor logicTimeOfDaySensor;
 
         public override string GetSetting()
         {

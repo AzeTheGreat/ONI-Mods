@@ -8,34 +8,6 @@ using UnityEngine;
 
 namespace BetterLogicOverlay.LogicSettingDisplay.ModCompatability
 {
-    class SolidTemp : ThresholdSwitchSetting
-    {
-        private class Add : PostLoad
-        {
-            protected override IEnumerable<MethodBase> PostLoadTargetMethods()
-            {
-                var solidTemp = AccessTools.Method("SolidConduitTemperatureSensorConfig:DoPostConfigureComplete");
-                if (solidTemp != null) yield return solidTemp;
-            }
-
-            static void Postfix(GameObject go) => go.AddComponent<SolidTemp>();
-        }
-    }
-
-    class SolidDisease : GermSensorSetting
-    {
-        private class Add : PostLoad
-        {
-            protected override IEnumerable<MethodBase> PostLoadTargetMethods()
-            {
-                var solidDisease = AccessTools.Method("SolidConduitDiseaseSensorConfig:DoPostConfigureComplete");
-                if (solidDisease != null) yield return solidDisease;
-            }
-
-            static void Postfix(GameObject go) => go.AddComponent<SolidDisease>();
-        }
-    }
-
     class SolidElement : LogicSettingDispComp
     {
         [MyCmpGet]
@@ -64,7 +36,7 @@ namespace BetterLogicOverlay.LogicSettingDisplay.ModCompatability
         {
             protected override IEnumerable<MethodBase> PostLoadTargetMethods()
             {
-                var solidElement = AccessTools.Method("SolidConduitElementSensorConfig:DoPostConfigureComplete");
+                var solidElement = AccessTools.Method("SolidSensors.SolidConduitElementSensorConfig:DoPostConfigureComplete");
                 if (solidElement != null) yield return solidElement;
             }
 
