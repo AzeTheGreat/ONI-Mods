@@ -6,7 +6,10 @@ namespace BetterLogicOverlay.LogicSettingDisplay
 {
     class ThresholdSwitchSetting : LogicSettingDispComp
     {
-        [MyCmpGet] protected IThresholdSwitch thresholdSwitch;
+        protected IThresholdSwitch thresholdSwitch;
+
+        new public void Start() => thresholdSwitch = gameObject.GetComponent<IThresholdSwitch>();
+
         [SerializeField] private string units = string.Empty;
 
         protected virtual string GetValue() => thresholdSwitch.Format(thresholdSwitch.Threshold, false);

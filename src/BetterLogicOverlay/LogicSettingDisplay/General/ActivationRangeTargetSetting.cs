@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace BetterLogicOverlay.LogicSettingDisplay
+﻿namespace BetterLogicOverlay.LogicSettingDisplay
 {
     class ActivationRangeTargetSetting : LogicSettingDispComp
     {
-        [MyCmpGet] protected IActivationRangeTarget activationTarget;
+        protected IActivationRangeTarget activationTarget;
+
+        new public void Start() => activationTarget = gameObject.GetComponent<IActivationRangeTarget>();
 
         public override string GetSetting()
         {

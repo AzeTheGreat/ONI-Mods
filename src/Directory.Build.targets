@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
-
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <InstallFolder>..\..\Release\$(ProjectName)</InstallFolder>
     <DistributeFolder>..\..\Distribute\</DistributeFolder>
@@ -15,7 +14,7 @@
     </ItemGroup>
   </Target>
 
-  <Target Name="ILRepack" AfterTargets="Build">
+  <Target Name="ILRepack" AfterTargets="Build" Condition=" '$(AssemblyName)' != 'AzeLib'">
     <ItemGroup>
       <InputAssemblies Include="$(TargetDir)\*.dll"
         Exclude="**\0Harmony.dll" />
@@ -31,7 +30,7 @@
         WorkingDirectory="$(GameFolder)" />
   </Target>
 
-  <Target Name="CopyArtifactsToInstallFolder" AfterTargets="ILRepack" Condition=" '$(AssemblyName)' != 'PLib' ">
+  <Target Name="CopyArtifactsToInstallFolder" AfterTargets="ILRepack" Condition=" '$(AssemblyName)' != 'AzeLib' ">
 
     <ItemGroup>
       <AnimFiles Include="$(ProjectDir)\anim\**\*.*" />

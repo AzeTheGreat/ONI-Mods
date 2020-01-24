@@ -21,12 +21,13 @@ namespace NoPointlessScrollbars
         }
     }
 
-    [HarmonyPatch(typeof(PlanScreen), MethodType.Constructor)]
+    [HarmonyPatch(typeof(PlanScreen), "OnSpawn")]
     class FixHeight_Patch
     {
         private static void Postfix(ref float ___buildGrid_bg_borderHeight)
         {
             // I have no idea why * 1.5 looks right, logically it should be * 2...
+            // Unless the very top header is included, then it makes sense...
             ___buildGrid_bg_borderHeight *= 1.5f;
         }
     }

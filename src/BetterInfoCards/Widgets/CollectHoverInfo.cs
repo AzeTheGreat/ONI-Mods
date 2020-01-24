@@ -39,7 +39,7 @@ namespace BetterInfoCards
                         isFirst = false;
                         afterTarget = true;
 
-                        yield return new CodeInstruction(OpCodes.Ldloc_S, 72);
+                        yield return new CodeInstruction(OpCodes.Ldloc_S, 121);
                         yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.ExportSelectable)));
                     }
 
@@ -64,14 +64,14 @@ namespace BetterInfoCards
                         // Status items
                         else if (hitsAfter == 3)
                         {
-                            yield return new CodeInstruction(OpCodes.Ldloc_S, 84);
+                            yield return new CodeInstruction(OpCodes.Ldloc_S, 149);
                             yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.ExportStatus)));
                         }
 
                         // Status items 2
                         else if (hitsAfter == 4)
                         {
-                            yield return new CodeInstruction(OpCodes.Ldloc_S, 89);
+                            yield return new CodeInstruction(OpCodes.Ldloc_S, 158);
                             yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.ExportStatus)));
                         }
 
@@ -113,7 +113,7 @@ namespace BetterInfoCards
         private class GetWidget_Patch
         {
             // HoverTextDrawer.Pool.Draw
-            static MethodBase TargetMethod() => AccessTools.FirstInner(typeof(HoverTextDrawer), x => x.IsGenericType).MakeGenericType(typeof(object)).GetMethod("Draw");
+            static MethodBase TargetMethod() => AccessTools.FirstInner(typeof(HoverTextDrawer), x => x.IsGenericType).MakeGenericType(typeof(MonoBehaviour)).GetMethod("Draw");
 
             static void Postfix(Entry __result, GameObject ___prefab)
             {

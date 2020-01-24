@@ -1,14 +1,14 @@
-﻿using Harmony;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using AzeLib.Extensions;
 using UnityEngine;
-using AzeLib.Extensions;
 
 namespace BetterLogicOverlay.LogicSettingDisplay
 {
     class SliderControlSetting : LogicSettingDispComp
     {
-        [MyCmpGet] protected ISliderControl sliderControl;
+        protected ISliderControl sliderControl;
+
+        new public void Start() => sliderControl = gameObject.GetComponent<ISliderControl>();
+
         [SerializeField] private string prefix = string.Empty;
 
         private string GetUnits() => sliderControl.SliderUnits;
