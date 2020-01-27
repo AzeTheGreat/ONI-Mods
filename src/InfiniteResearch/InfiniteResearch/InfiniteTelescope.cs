@@ -31,7 +31,7 @@ namespace InfiniteResearch
         }
 
         [HarmonyPatch(typeof(Telescope), "OnWorkableEvent")]
-        static class NoProgressBar_Patch
+        static class ProgressBar_Patch
         {
             static void Postfix(Telescope __instance, ProgressBar ___progressBar)
             {

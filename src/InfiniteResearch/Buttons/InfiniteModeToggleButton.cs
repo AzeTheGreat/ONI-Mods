@@ -19,7 +19,7 @@ namespace InfiniteResearch
                 void on_click()
                 {
                     isInfiniteMode = false;
-                    UpdateWorkingState();
+                    UpdateState();
                 }
                 string tooltipText = "Stop dupes from training their Science Attribute here.";
 
@@ -33,7 +33,7 @@ namespace InfiniteResearch
                 void on_click()
                 {
                     isInfiniteMode = true;
-                    UpdateWorkingState();
+                    UpdateState();
                 }
                 string tooltipText = "Allow dupes to train their Science Attribute here.";
 
@@ -42,7 +42,7 @@ namespace InfiniteResearch
             }
         }
 
-        protected abstract void UpdateWorkingState();
+        protected abstract void UpdateState();
 
         private static readonly EventSystem.IntraObjectHandler<InfiniteModeToggleButton> OnRefreshUserMenuDelegate =
             new EventSystem.IntraObjectHandler<InfiniteModeToggleButton>(Handler);

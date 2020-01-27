@@ -1,4 +1,5 @@
-﻿using Harmony;
+﻿using Database;
+using Harmony;
 using Klei.AI;
 using System.Collections.Generic;
 using System.Reflection.Emit;
@@ -31,7 +32,7 @@ namespace InfiniteResearch
         }
 
         [HarmonyPatch(typeof(ResearchCenter), nameof(ResearchCenter.GetPercentComplete))]
-        static class NoProgressBar_Patch
+        static class ProgressBar_Patch
         {
             static bool Prefix(ResearchCenter __instance, ref float __result)
             {
@@ -43,6 +44,31 @@ namespace InfiniteResearch
                 return true;
             }
         }
+
+        [HarmonyPatch(typeof(DuplicantStatusItems), "CreateStatusItems")]
+        static class LearningStatusItem_Patch
+        {
+            static void Postfix(StatusItem ___Researching)
+            {
+                ___Researching.resolveStringCallback = (string str, object data) => getString(str, data, DUPLICANTS.STATUSITEMS.LEARNING.NAME);
+                ___Researching.resolveTooltipCallback = (string str, object data) => getString(str, data, DUPLICANTS.STATUSITEMS.LEARNING.TOOLTIP);
+
+                string getString(string str, object data, string nameOrTooltip)
+                {
+                    TechInstance tech_instance = Research.Instance.GetActiveResearch();
+                    string result;
+                    if (tech_instance != null)
+                        result = str.Replace("{Tech}", tech_instance.tech.Name);
+                    else
+                        result = nameOrTooltip;
+                    return result;
+                }
+            }
+        }
+
+        // Not necessary for functionality, but prevents the log from spamming warnings about adding research points with no target.
+        [HarmonyPatch(typeof(ResearchCenter), "ConvertMassToResearchPoints")]
+        static class PreventResearchPoints_Patch { static bool Prefix(ResearchCenter __instance) => !IsEndlessWorking(__instance); }
 
         [HarmonyPatch(typeof(ResearchCenter), nameof(ResearchCenter.Sim200ms))]
         static class Sim_Patch { static void Postfix(ResearchCenter __instance, Chore ___chore) => RemoveDupe(__instance, ___chore, IsEndlessWorking); }

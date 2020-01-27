@@ -1,8 +1,10 @@
 ﻿using Harmony;
 using Klei.AI;
+using PeterHan.PLib;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using TUNING;
 using UnityEngine;
 
 namespace InfiniteResearch
@@ -30,35 +32,26 @@ namespace InfiniteResearch
             switch (chore.target.gameObject.name)
             {
                 case "ResearchCenterComplete":
-                    return (0, 4);
+                    return (Options.Opts.ResearchCenterMin, Options.Opts.ResearchCenterMax);
                 case "AdvancedResearchCenterComplete":
-                    return (5, 9);
+                    return (Options.Opts.AdvancedResearchCenterMin, Options.Opts.AdvancedResearchCenterMax);
                 case "TelescopeComplete":
-                    return (10, 14);
+                    return (Options.Opts.TelescopeMin, Options.Opts.TelescopeMax);
                 case "CosmicResearchCenterComplete":
-                    return (15, 19);
+                    return (Options.Opts.CosmicResearchCenterMin, Options.Opts.CosmicResearchCenterMax);
                 default:
                     return (0, 0);
             }
         }
 
-        private static void AddPrecondition(Chore chore)
+        protected static void ModifyChore(Workable instance, Chore chore, Func<Workable, bool> isEndlessWorking)
         {
             var precondition = new Chore.Precondition()
             {
                 id = "RequireSkillLevel",
-                fn = delegate (ref Chore.Precondition.Context context, object data)
-                {
-                    return ShouldChoreBeWorked(context);
-                }
+                fn = delegate (ref Chore.Precondition.Context context, object data) { return !isEndlessWorking(instance) || ShouldChoreBeWorked(context); }
             };
             chore.AddPrecondition(precondition, null);
-        }
-
-        protected static void ModifyChore(Workable instance, Chore chore, Func<Workable, bool> isEndlessWorking)
-        {
-            if (isEndlessWorking(instance))
-                AddPrecondition(chore);
         }
 
         protected static void RemoveDupe(Workable instance, Chore chore, Func<Workable, bool> isEndlessWorking)
@@ -89,7 +82,7 @@ namespace InfiniteResearch
                 yield return AccessTools.Method(typeof(ResearchCenter), "OnSpawn");
             }
 
-            static void Postfix()
+            static void Postfix(Workable __instance)
             {
                 requiresAttributeRange = new StatusItem("RequiresAttributeRange", "BUILDING", "", StatusItem.IconType.Info, NotificationType.Neutral, false, OverlayModes.None.ID)
                 {
@@ -99,6 +92,25 @@ namespace InfiniteResearch
                         return str.Replace("{Attributes}", minMax.Item1 + " - " + minMax.Item2);
                     }
                 };
+                float multiplier = GetMultiplier(__instance.gameObject);
+                Traverse.Create(__instance).SetField("attributeExperienceMultiplier", multiplier);
+            }
+
+            private static float GetMultiplier(GameObject go)
+            {
+                switch (go.name)
+                {
+                    case "ResearchCenterComplete":
+                        return Options.Opts.ResearchCenterExpRate;
+                    case "AdvancedResearchCenterComplete":
+                        return Options.Opts.AdvancedResearchCenterExpRate;
+                    case "TelescopeComplete":
+                        return Options.Opts.TelescopeExpRate;
+                    case "CosmicResearchCenterComplete":
+                        return Options.Opts.CosmicResearchCenterExpRate;
+                    default:
+                        return TUNING.SKILLS.ALL_DAY_EXPERIENCE;
+                }
             }
         }
     }

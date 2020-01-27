@@ -7,10 +7,7 @@ namespace InfiniteResearch
     {
         [MyCmpGet] Telescope telescope;
 
-        protected override void UpdateWorkingState()
-        {
-            Traverse.Create(telescope).Method("UpdateWorkingState", new object[] { null }).GetValue(new object[] { null });
-        }
+        protected override void UpdateState() => Traverse.Create(telescope).Method("UpdateWorkingState", new object[] { null }).GetValue(new object[] { null });
     }
 
     [HarmonyPatch(typeof(TelescopeConfig), nameof(TelescopeConfig.ConfigureBuildingTemplate))]
