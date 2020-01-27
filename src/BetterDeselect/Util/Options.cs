@@ -12,7 +12,7 @@ namespace BetterDeselect
         [JsonProperty]
         public bool ImplementOverlay { get; set; }
 
-        [Option("Separate Build Menu", "Requires a separate right click to close the build menu. Requires Restart.")]
+        [Option("Separate Build Menu", "Requires a separate right click to close the build menu.")]
         [JsonProperty]
         public bool ImplementBuildMenu { get; set; }
 
@@ -22,9 +22,9 @@ namespace BetterDeselect
 
         public enum FixMode
         {
-            [Option("Hold Selected", "Continue holding the same tool. Reqiores Restart.")]
+            [Option("Hold Selected", "Continue holding the same tool.")]
             Hold,
-            [Option("Deselect Selected", "Deselect the tool.  Closest to vanilla behavior. Requires Restart.")]
+            [Option("Deselect Selected", "Deselect the tool.  Closest to vanilla behavior.")]
             Close
         }
 
