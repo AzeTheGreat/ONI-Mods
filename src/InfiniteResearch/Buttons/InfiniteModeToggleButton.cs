@@ -1,5 +1,4 @@
-﻿using Harmony;
-using KSerialization;
+﻿using KSerialization;
 
 namespace InfiniteResearch
 {
@@ -15,29 +14,29 @@ namespace InfiniteResearch
             if (isInfiniteMode)
             {
                 string iconName = "action_building_disabled";
-                string text = "Disable Learning";
+                string text = BUTTONS.DISABLELEARN.NAME;
                 void on_click()
                 {
                     isInfiniteMode = false;
                     UpdateState();
                 }
-                string tooltipText = "Stop dupes from training their Science Attribute here.";
+                string tooltipText = BUTTONS.DISABLELEARN.TOOLTIP;
 
-                Game.Instance.userMenu.AddButton(base.gameObject, new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText));
+                Game.Instance.userMenu.AddButton(gameObject, new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText));
                 return;
             }
             else
             {
-                string iconName = "action_building_enabled";
-                string text = "Enable Learning";
+                string iconName = "action_building_disabled";
+                string text = BUTTONS.ENABLELEARN.NAME;
                 void on_click()
                 {
                     isInfiniteMode = true;
                     UpdateState();
                 }
-                string tooltipText = "Allow dupes to train their Science Attribute here.";
+                string tooltipText = BUTTONS.ENABLELEARN.TOOLTIP;
 
-                Game.Instance.userMenu.AddButton(base.gameObject, new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText));
+                Game.Instance.userMenu.AddButton(base.gameObject, new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText), 0f);
                 return;
             }
         }
