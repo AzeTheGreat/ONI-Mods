@@ -1,4 +1,5 @@
-﻿using Harmony;
+﻿using AzeLib.Extensions;
+using Harmony;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,73 +25,99 @@ namespace BetterInfoCards
         {
             static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
             {
-                MethodInfo targetMethod = AccessTools.Method(typeof(UnityEngine.Component), "GetComponent").MakeGenericMethod(typeof(PrimaryElement));
-                MethodInfo targetMethod2 = AccessTools.Method(typeof(HoverTextDrawer), "DrawText", new Type[] { typeof(string), typeof(TextStyleSetting) });
-                MethodInfo targetMethod3 = AccessTools.Method(typeof(HoverTextDrawer), "EndShadowBar");
+                var titleTarget = AccessTools.Method(typeof(GameUtil), nameof(GameUtil.GetUnitFormattedName), new Type[] { typeof(GameObject), typeof(bool) });
+                var germTarget = AccessTools.Method(typeof(string), nameof(string.Format), new Type[] { typeof(string), typeof(object), typeof(object) });
+                var tempTarget = AccessTools.Method(typeof(GameUtil), nameof(GameUtil.GetFormattedTemperature));
+                var statusTarget = AccessTools.Method(typeof(StatusItemGroup.Entry), nameof(StatusItemGroup.Entry.GetName));
+
+                var targetGetCompPrimaryElement = AccessTools.Method(typeof(UnityEngine.Component), "GetComponent").MakeGenericMethod(typeof(PrimaryElement));
+                var targetDrawText = AccessTools.Method(typeof(HoverTextDrawer), "DrawText", new Type[] { typeof(string), typeof(TextStyleSetting) });
+                var targetEndShadowBar = AccessTools.Method(typeof(HoverTextDrawer), "EndShadowBar");
+                var targetElement = AccessTools.Method(typeof(WorldInspector), nameof(WorldInspector.MassStringsReadOnly));
+
+                LocalBuilder titleLocal = null;
+                LocalBuilder germLocal = null;
 
                 bool isFirst = true;
                 bool afterTarget = false;
-                int hitsAfter = 0;
+
                 foreach (CodeInstruction i in instructions)
                 {
-                    // For each selectable shown in current hover
-                    if (isFirst && i.opcode == OpCodes.Callvirt && i.operand == targetMethod)
+                    yield return i;
+
+                    if (isFirst && i.opcode == OpCodes.Callvirt && i.operand == targetGetCompPrimaryElement)
                     {
                         isFirst = false;
                         afterTarget = true;
 
-                        yield return new CodeInstruction(OpCodes.Ldloc_S, 121);
+                        var lastLocalSelectable = instructions.FindPrior(i, x => x.IsLocalOfType(typeof(KSelectable))).operand;
+                        yield return new CodeInstruction(OpCodes.Ldloc_S, lastLocalSelectable);
                         yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.ExportSelectable)));
                     }
 
-                    else if (afterTarget && i.opcode == OpCodes.Callvirt && i.operand == targetMethod2)
+                    else if (afterTarget)
                     {
-                        hitsAfter++;
+                        if (i.operand == titleTarget)
+                            titleLocal = instructions.FindNext(i, x => x.opcode == OpCodes.Stloc_S).operand as LocalBuilder;
 
-                        // Title
-                        if (hitsAfter == 1)
+                        else if (i.operand == germTarget)
+                            germLocal = instructions.FindNext(i, x => x.opcode == OpCodes.Stloc_S).operand as LocalBuilder;
+
+
+                        else if (i.opcode == OpCodes.Callvirt && i.operand == targetDrawText)
                         {
-                            yield return new CodeInstruction(OpCodes.Ldstr, StatusDataManager.title);
-                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.Export)));
+                            var lastStringPush = instructions.FindPrior(i, x => DoesPushString(x));
+
+                            // Title
+                            if (lastStringPush.operand == titleLocal)
+                            {
+                                yield return new CodeInstruction(OpCodes.Ldstr, StatusDataManager.title);
+                                yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.Export)));
+                            }
+
+                            // Germs
+                            else if (lastStringPush.operand == germLocal)
+                            {
+                                yield return new CodeInstruction(OpCodes.Ldstr, StatusDataManager.germs);
+                                yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.Export)));
+                            }
+
+                            // Status items
+                            else if (lastStringPush.operand == statusTarget)
+                            {
+                                var lastLocalEntry = instructions.FindPrior(i, x => x.IsLocalOfType(typeof(StatusItemGroup.Entry))).operand;
+                                yield return new CodeInstruction(OpCodes.Ldloc_S, lastLocalEntry);
+                                yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.ExportStatus)));
+                            }
+
+                            // Temps
+                            else if (lastStringPush.operand == tempTarget)
+                            {
+                                yield return new CodeInstruction(OpCodes.Ldstr, StatusDataManager.temp);
+                                yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.Export)));
+                            }
                         }
 
-                        // Germs
-                        else if (hitsAfter == 2)
+                        else if (i.opcode == OpCodes.Call && i.operand == targetElement)
                         {
-                            yield return new CodeInstruction(OpCodes.Ldstr, StatusDataManager.germs);
-                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.Export)));
-                        }
-
-                        // Status items
-                        else if (hitsAfter == 3)
-                        {
-                            yield return new CodeInstruction(OpCodes.Ldloc_S, 149);
-                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.ExportStatus)));
-                        }
-
-                        // Status items 2
-                        else if (hitsAfter == 4)
-                        {
-                            yield return new CodeInstruction(OpCodes.Ldloc_S, 158);
-                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.ExportStatus)));
-                        }
-
-                        // Temps
-                        else if (hitsAfter == 5)
-                        {
-                            yield return new CodeInstruction(OpCodes.Ldstr, StatusDataManager.temp);
-                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.Export)));
+                            yield return new CodeInstruction(OpCodes.Ldarg_1);
+                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.Helper)));
                         }
                     }
-
-                    else if (i.opcode == OpCodes.Call && i.operand == AccessTools.Method(typeof(WorldInspector), nameof(WorldInspector.MassStringsReadOnly)))
-                    {
-                        yield return new CodeInstruction(OpCodes.Ldarg_1);
-                        yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.Helper)));
-                    }
-
-                    yield return i;
                 }
+            }
+
+            private static bool DoesPushString(CodeInstruction i)
+            {
+                var push = i.opcode.StackBehaviourPush;
+                var op = i.operand;
+                if ((push == StackBehaviour.Varpush || 
+                    push == StackBehaviour.Push1) 
+                    &&
+                    ((op as MethodInfo)?.ReturnType == typeof(string) || 
+                    (op as LocalBuilder)?.LocalType == typeof(string)))
+                    return true;
+                return false;
             }
 
             private static void Helper(List<KSelectable> selectables) => Instance.intermediateSelectable = selectables.LastOrDefault();
