@@ -16,9 +16,13 @@ namespace BetterInfoCards
         private List<InfoCard> infoCards = new List<InfoCard>();
         private DisplayCards displayCardManager = new DisplayCards();
 
-        private TextInfo intermediateTextInfo = null;
-        private KSelectable intermediateSelectable = null;
-        private List<TextInfo> intermediateStatuses = new List<TextInfo>();
+        private KSelectable intermediateSelectable;
+
+        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginShadowBar))]
+        private class BeginShadowBar_Patch
+        {
+            static void Postfix() => Instance.infoCards.Add(new InfoCard());
+        }
 
         [HarmonyPatch(typeof(SelectToolHoverTextCard), nameof(SelectToolHoverTextCard.UpdateHoverElements))]
         private class GetSelectInfo_Patch
@@ -101,7 +105,7 @@ namespace BetterInfoCards
                         else if (i.opcode == OpCodes.Call && i.operand == targetElement)
                         {
                             yield return new CodeInstruction(OpCodes.Ldarg_1);
-                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.Helper)));
+                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.ExportSelectableFromList)));
                         }
                     }
                 }
@@ -120,20 +124,10 @@ namespace BetterInfoCards
                 return false;
             }
 
-            private static void Helper(List<KSelectable> selectables) => Instance.intermediateSelectable = selectables.LastOrDefault();
+            private static void ExportSelectableFromList(List<KSelectable> selectables) => ExportSelectable(selectables.LastOrDefault());
             private static void ExportSelectable(KSelectable selectable) => Instance.intermediateSelectable = selectable;
-            private static void Export(string name) => Instance.intermediateTextInfo = new TextInfo() { name = name, data = Instance.intermediateSelectable.gameObject };
-            private static void ExportStatus(StatusItemGroup.Entry entry) => Instance.intermediateTextInfo = new TextInfo() { name = entry.item.Name, data = entry.data };
-        }
-
-        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.DrawText), new Type[] { typeof(string), typeof(TextStyleSetting), typeof(Color), typeof(bool) })]
-        private class TrackTexts_Patch
-        {
-            static void Postfix()
-            {
-                Instance.intermediateStatuses.Add(Instance.intermediateTextInfo);
-                Instance.intermediateTextInfo = null;
-            }
+            private static void Export(string name) => Instance.infoCards.Last().AddTextInfoData(name, null);
+            private static void ExportStatus(StatusItemGroup.Entry entry) => Instance.infoCards.Last().AddTextInfoData(entry.item.Name, entry.data);
         }
 
         [HarmonyPatch]
@@ -149,24 +143,13 @@ namespace BetterInfoCards
             }
         }
 
-        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginShadowBar))]
-        private class BeginShadowBar_Patch
-        {
-            static void Postfix()
-            {
-                Instance.infoCards.Add(new InfoCard());
-            }
-        }
-
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.EndShadowBar))]
         private class EndShadowBar_Patch
         {
             static void Postfix()
             {
-                InfoCard card = Instance.infoCards.Last();
-                card.AddData(new List<TextInfo>(Instance.intermediateStatuses), Instance.intermediateSelectable);
+                Instance.infoCards.Last().AddSelectable(Instance.intermediateSelectable);
                 Instance.intermediateSelectable = null;
-                Instance.intermediateStatuses.Clear();
             }
         }
 

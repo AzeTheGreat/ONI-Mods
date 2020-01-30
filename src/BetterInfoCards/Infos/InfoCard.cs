@@ -10,10 +10,8 @@ namespace BetterInfoCards
 
         private Entry shadowBar;
         private List<Entry> iconWidgets = new List<Entry>();
-        private List<Entry> textWidgets = new List<Entry>();
+        private List<TextInfo> textInfos = new List<TextInfo>();
         public Entry selectBorder;
-
-        private List<TextInfo> statusDatas = new List<TextInfo>();
 
         public Dictionary<string, object> textValues = new Dictionary<string, object>();
 
@@ -22,10 +20,14 @@ namespace BetterInfoCards
         public float YMax { get { return shadowBar.rect.anchoredPosition.y; } }
         public float YMin { get { return YMax - shadowBar.rect.rect.height; } }
 
-        public void AddData(List<TextInfo> statusDatas, KSelectable selectable)
+        public void AddSelectable(KSelectable selectable)
         {
-            this.statusDatas = statusDatas;
             this.selectable = selectable;
+        }
+
+        public void AddTextInfoData(string name, object data)
+        {
+            textInfos.Last().AddData(name, data);
         }
 
         public void AddWidget(Entry entry, GameObject prefab)
@@ -37,7 +39,7 @@ namespace BetterInfoCards
             else if (prefab == skin.iconWidget.gameObject)
                 iconWidgets.Add(entry);
             else if (prefab == skin.textWidget.gameObject)
-                textWidgets.Add(entry);
+                textInfos.Add(new TextInfo(entry));
             else if (prefab == skin.selectBorderWidget.gameObject)
                 selectBorder = entry;
         }
@@ -51,9 +53,9 @@ namespace BetterInfoCards
             {
                 icon.rect.anchoredPosition = new Vector2(icon.rect.anchoredPosition.x + x, icon.rect.anchoredPosition.y + y);
             }
-            foreach (var text in textWidgets)
+            foreach (var text in textInfos)
             {
-                text.rect.anchoredPosition = new Vector2(text.rect.anchoredPosition.x + x, text.rect.anchoredPosition.y + y);
+                text.textEntry.rect.anchoredPosition = new Vector2(text.textEntry.rect.anchoredPosition.x + x, text.textEntry.rect.anchoredPosition.y + y);
             }
         }
 
@@ -68,19 +70,19 @@ namespace BetterInfoCards
 
         public string GetTitleKey()
         {
-            return ((LocText)textWidgets[0].widget).text.RemoveCountSuffix();
+            return ((LocText)textInfos[0].textEntry.widget).text.RemoveCountSuffix();
         }
 
         public string GetTextKey()
         {
             var texts = new List<string>();
-            for (int i = 0; i < textWidgets.Count; i++)
+            for (int i = 0; i < this.textInfos.Count; i++)
             {
-                TextInfo status = statusDatas[i];
+                TextInfo status = textInfos[i];
                 if (status != null && StatusDataManager.statusConverter.ContainsKey(status.name))
                     texts.Add(status.name);
                 else
-                    texts.Add(((LocText)textWidgets[i].widget).text);
+                    texts.Add(((LocText)this.textInfos[i].textEntry.widget).text);
             }
 
             texts.Sort();
@@ -90,13 +92,13 @@ namespace BetterInfoCards
         public void FormTextValues()
         {
             textValues.Clear();
-            foreach (TextInfo status in statusDatas)
+            foreach (TextInfo textInfo in textInfos)
             {
-                if(status != null)
+                if(textInfo != null)
                 {
-                    string name = status.name;
+                    string name = textInfo.name;
                     if (StatusDataManager.statusConverter.TryGetValue(name, out var statusData))
-                        textValues[status.name] = statusData.GetTextValue(status.data);
+                        textValues[textInfo.name] = statusData.GetTextValue(textInfo.data);
                 }
             }
         }
@@ -105,13 +107,13 @@ namespace BetterInfoCards
         {
             var overrides = new List<string>();
 
-            for (int i = 0; i < textWidgets.Count; i++)
+            for (int i = 0; i < textInfos.Count; i++)
             {
-                string original = ((LocText)textWidgets[i].widget).text;
+                string original = ((LocText)textInfos[i].textEntry.widget).text;
                 string name = string.Empty;
 
-                if(statusDatas[i] != null)
-                    name = statusDatas[i].name;
+                if(textInfos[i] != null)
+                    name = textInfos[i].name;
 
                 if (StatusDataManager.statusConverter.TryGetValue(name, out var statusData))
                     overrides.Add(statusData.GetTextOverride(original, cards.Select(x => x.textValues[name]).ToList()));
@@ -124,9 +126,9 @@ namespace BetterInfoCards
 
         public void Rename(List<string> overrides, bool forceUpdate = false)
         { 
-            for (int i = 0; i < textWidgets.Count; i++)
+            for (int i = 0; i < textInfos.Count; i++)
             {
-                var widget = textWidgets[i].widget as LocText;
+                var widget = textInfos[i].textEntry.widget as LocText;
                 widget.text = overrides[i];
 
                 if(forceUpdate)
@@ -141,13 +143,13 @@ namespace BetterInfoCards
             float largestWdith = 0f;
             float indentWidth = 0f;
 
-            for (int i = 0; i < textWidgets.Count; i++)
+            for (int i = 0; i < textInfos.Count; i++)
             {
-                var widget = textWidgets[i].widget as LocText;
+                var widget = textInfos[i].textEntry.widget as LocText;
 
                 float width = 0f;
                 if (i > 0)
-                    indentWidth = widget.rectTransform.anchoredPosition.x - ((LocText)textWidgets[0].widget).rectTransform.anchoredPosition.x;
+                    indentWidth = widget.rectTransform.anchoredPosition.x - ((LocText)textInfos[0].textEntry.widget).rectTransform.anchoredPosition.x;
                 width = widget.renderedWidth + indentWidth;
 
                 if (width > largestWdith)
