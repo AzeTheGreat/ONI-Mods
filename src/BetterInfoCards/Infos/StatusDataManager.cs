@@ -27,7 +27,7 @@ namespace BetterInfoCards
                     return 1;
                 },
                 (original, counts) => original.RemoveCountSuffix() + " x " + counts.Sum(),
-                infoCards => new List<List<InfoCard>>() { infoCards });
+                (infoCards, i) => new List<List<InfoCard>>() { infoCards });
 
         private static readonly Status<DiseasePair> germStatus = new Status<DiseasePair>(
                 germs,
@@ -42,8 +42,8 @@ namespace BetterInfoCards
                         text = GameUtil.GetFormattedDisease(pairs[0].diseaseIdx, pairs.Sum(x => x.diseaseCount), true) + sumSuffix;
                     return text;
                 },
-                infoCards => {
-                    List<DiseasePair> pairs = infoCards.Select(x => (DiseasePair)x.textValues[germs]).ToList();
+                (infoCards, i) => {
+                    List<DiseasePair> pairs = infoCards.Select(x => (DiseasePair)x.textInfos[i].result).ToList();
                     var splits = GetSplitLists(infoCards, pairs.Select(x => (float)x.diseaseIdx).ToList(), 1f);
                     return splits;
                 });
@@ -52,19 +52,19 @@ namespace BetterInfoCards
                 temp,
                 data => ((GameObject)data).GetComponent<PrimaryElement>().Temperature,
                 (original, temps) => GameUtil.GetFormattedTemperature(temps.Average()) + avgSuffix,
-                infoCards => GetSplitLists(infoCards, infoCards.Select(x => (float)x.textValues[temp]).ToList(), 10f));
+                (infoCards, i) => GetSplitLists(infoCards, infoCards.Select(x => (float)x.textInfos[i].result).ToList(), 10f));
 
         private static readonly Status<float> oreTempStatus = new Status<float>(
                 oreTemp,
                 data => ((GameObject)data).GetComponent<PrimaryElement>().Temperature,
                 (original, temps) => oreTemp.Replace("{Temp}", GameUtil.GetFormattedTemperature(temps.Average())) + avgSuffix,
-                infoCards => GetSplitLists(infoCards, infoCards.Select(x => (float)x.textValues[oreTemp]).ToList(), 10f));
+                (infoCards, i) => GetSplitLists(infoCards, infoCards.Select(x => (float)x.textInfos[i].result).ToList(), 10f));
 
         private static readonly Status<float> massStatus = new Status<float>(
                 oreMass,
                 data => ((GameObject)data).GetComponent<PrimaryElement>().Mass,
                 (original, masses) => oreMass.Replace("{Mass}", GameUtil.GetFormattedMass(masses.Sum())) + sumSuffix,
-                infoCards => new List<List<InfoCard>>() { infoCards });
+                (infoCards, i) => new List<List<InfoCard>>() { infoCards });
 
         public static readonly Dictionary<string, ITextDataConverter> statusConverter = new Dictionary<string, ITextDataConverter>()
         {

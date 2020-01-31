@@ -47,6 +47,9 @@ namespace BetterInfoCards
 
                 foreach (CodeInstruction i in instructions)
                 {
+                    // Insert new instructions just after the target
+                    // This is more robust because it keeps stuff pushed onto the stack closer to the consumer
+                    // Also it's necessary so that Pool.Draw completes first, and there is a valid TextInfo to export to.
                     yield return i;
 
                     if (isFirst && i.opcode == OpCodes.Callvirt && i.operand == targetGetCompPrimaryElement)
@@ -126,7 +129,7 @@ namespace BetterInfoCards
 
             private static void ExportSelectableFromList(List<KSelectable> selectables) => ExportSelectable(selectables.LastOrDefault());
             private static void ExportSelectable(KSelectable selectable) => Instance.intermediateSelectable = selectable;
-            private static void Export(string name) => Instance.infoCards.Last().AddTextInfoData(name, null);
+            private static void Export(string name) => Instance.infoCards.Last().AddTextInfoData(name, Instance.intermediateSelectable.gameObject);
             private static void ExportStatus(StatusItemGroup.Entry entry) => Instance.infoCards.Last().AddTextInfoData(entry.item.Name, entry.data);
         }
 

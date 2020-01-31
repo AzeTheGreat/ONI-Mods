@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace BetterInfoCards
 {
@@ -52,20 +53,24 @@ namespace BetterInfoCards
                     };
 
                     // Split into the fewest display cards possible while preserving information
-                    foreach (var textValue in kvp.Value[0].textValues)
+                    for (int i = 0; i < kvp.Value[0].textInfos.Count; i++)
                     {
-                        string name = textValue.Key;
-                        var converter = StatusDataManager.statusConverter[name];
-
-                        var newSplits = new List<List<InfoCard>>();
-
-                        foreach (List<InfoCard> split in splits)
+                        var textInfo = kvp.Value[0].textInfos[i];
+                        if(textInfo.result != null)
                         {
-                            newSplits.AddRange(converter.GetSplitLists(split));
-                        }
+                            var converter = StatusDataManager.statusConverter[textInfo.name];
 
-                        splits = newSplits;
+                            var newSplits = new List<List<InfoCard>>();
+
+                            foreach (List<InfoCard> split in splits)
+                            {
+                                newSplits.AddRange(converter.GetSplitLists(split, i));
+                            }
+
+                            splits = newSplits;
+                        }
                     }
+
                     displaySplit.AddRange(splits);
                 }
                 else

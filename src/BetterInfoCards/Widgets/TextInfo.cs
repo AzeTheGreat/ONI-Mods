@@ -11,35 +11,63 @@ namespace BetterInfoCards
             this.textEntry = textEntry;
         }
 
+        public void AddData(string name, object data)
+        {
+            this.name = name;
+            this.data = data;
+
+            if(StatusDataManager.statusConverter.TryGetValue(name, out var statusData))
+            {
+                isStatus = true;
+                resultFromData = statusData.GetTextValue;
+                getSplitsFromResults = statusData.GetSplitLists;
+                getTextOverrideFromResults = statusData.GetTextOverride;
+            }
+        }
+
         public string name;
 
         public object data;
         public object result;
         public Entry textEntry;
+        private bool isStatus;
 
         public Func<object, object> resultFromData;
-        public Func<List<object>, List<List<object>>> getSplitsFromResults;
-        public Func<List<object>, string> getTextOverrideFromResults;
+        public Func<List<InfoCard>, int, List<List<InfoCard>>> getSplitsFromResults;
+        public Func<string, List<object>, string> getTextOverrideFromResults;
 
-        public void FormTextResults()
+        public string GetKey()
         {
-
+            if (isStatus)
+                return name;
+            else
+                return (textEntry.widget as LocText).text;
         }
 
-        public List<List<object>> GetSplitLists(List<object> objects)
+        public void FormTextResult()
         {
-            return null;
+            if (isStatus)
+                result = resultFromData(data);
         }
 
-        public void SetTextOverride(List<object> objects)
-        {
+        //public List<List<object>> GetSplitLists(List<object> objects)
+        //{
 
-        }
+        //}
 
-        public void AddData(string name, object data)
+        //public void SetTextOverride(List<object> objects)
+        //{
+
+        //}
+
+        public string GetTextOverride(List<object> results)
         {
-            this.name = name;
-            this.data = data;
+            string original = ((LocText)textEntry.widget).text;
+
+            if (isStatus)
+                return getTextOverrideFromResults(original, results);
+            else
+                return original;
         }
     }
 }

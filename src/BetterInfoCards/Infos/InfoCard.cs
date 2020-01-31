@@ -10,10 +10,10 @@ namespace BetterInfoCards
 
         private Entry shadowBar;
         private List<Entry> iconWidgets = new List<Entry>();
-        private List<TextInfo> textInfos = new List<TextInfo>();
+        public List<TextInfo> textInfos = new List<TextInfo>();
         public Entry selectBorder;
 
-        public Dictionary<string, object> textValues = new Dictionary<string, object>();
+        //public Dictionary<string, object> valueTextKeys = new Dictionary<string, object>();
 
         public float Width { get { return shadowBar.rect.rect.width; } }
         public float Height { get { return shadowBar.rect.rect.height; } }
@@ -76,13 +76,9 @@ namespace BetterInfoCards
         public string GetTextKey()
         {
             var texts = new List<string>();
-            for (int i = 0; i < this.textInfos.Count; i++)
+            for (int i = 1; i < textInfos.Count; i++)
             {
-                TextInfo status = textInfos[i];
-                if (status != null && StatusDataManager.statusConverter.ContainsKey(status.name))
-                    texts.Add(status.name);
-                else
-                    texts.Add(((LocText)this.textInfos[i].textEntry.widget).text);
+                texts.Add(textInfos[i].GetKey());
             }
 
             texts.Sort();
@@ -91,15 +87,9 @@ namespace BetterInfoCards
 
         public void FormTextValues()
         {
-            textValues.Clear();
             foreach (TextInfo textInfo in textInfos)
             {
-                if(textInfo != null)
-                {
-                    string name = textInfo.name;
-                    if (StatusDataManager.statusConverter.TryGetValue(name, out var statusData))
-                        textValues[textInfo.name] = statusData.GetTextValue(textInfo.data);
-                }
+                textInfo.FormTextResult();
             }
         }
 
@@ -109,16 +99,8 @@ namespace BetterInfoCards
 
             for (int i = 0; i < textInfos.Count; i++)
             {
-                string original = ((LocText)textInfos[i].textEntry.widget).text;
-                string name = string.Empty;
-
-                if(textInfos[i] != null)
-                    name = textInfos[i].name;
-
-                if (StatusDataManager.statusConverter.TryGetValue(name, out var statusData))
-                    overrides.Add(statusData.GetTextOverride(original, cards.Select(x => x.textValues[name]).ToList()));
-                else
-                    overrides.Add(original);
+                var textInfo = textInfos[i];
+                overrides.Add(textInfo.GetTextOverride(cards.Select(x => x.textInfos[i].result).ToList()));
             }
 
             return overrides;
