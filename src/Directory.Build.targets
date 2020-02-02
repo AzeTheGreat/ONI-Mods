@@ -36,11 +36,13 @@
       <AnimFiles Include="$(ProjectDir)\anim\**\*.*" />
       <WorldGenFiles Include="$(ProjectDir)\worldgen\**\*.*" />
       <YamlFiles Include="$(ProjectDir)\*.yaml" />
+      <SpriteFiles Include="$(ProjectDir)\*.dds" />
     </ItemGroup>
 
     <Copy SourceFiles="@(AnimFiles)" DestinationFiles="@(AnimFiles->'$(InstallFolder)\anim\%(RecursiveDir)%(Filename)%(Extension)')" />
     <Copy SourceFiles="@(WorldGenFiles)" DestinationFiles="@(WorldGenFiles->'$(InstallFolder)\worldgen\%(RecursiveDir)%(Filename)%(Extension)')" />
     <Copy SourceFiles="@(YamlFiles)" DestinationFolder="$(InstallFolder)" />
+    <Copy SourceFiles="@(SpriteFiles)" DestinationFolder="$(InstallFolder)" />
     <Copy SourceFiles="$(TargetPath)" DestinationFiles="$(InstallFolder)\$(TargetFileName)" />
   </Target>
 
