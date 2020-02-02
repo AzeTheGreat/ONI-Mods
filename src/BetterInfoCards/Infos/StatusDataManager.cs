@@ -66,7 +66,7 @@ namespace BetterInfoCards
                 (original, masses) => oreMass.Replace("{Mass}", GameUtil.GetFormattedMass(masses.Sum())) + sumSuffix,
                 (infoCards, i) => new List<List<InfoCard>>() { infoCards });
 
-        public static readonly Dictionary<string, ITextDataConverter> statusConverter = new Dictionary<string, ITextDataConverter>()
+        public static Dictionary<string, ITextDataConverter> statusConverter = new Dictionary<string, ITextDataConverter>()
         {
             { title, titleStatus },
             { germs, germStatus },
