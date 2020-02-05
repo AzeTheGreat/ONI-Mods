@@ -21,7 +21,6 @@ namespace AzeLib
                 HarmonyInstance harmonyInstance = HarmonyInstance.Create("AzePostLoad");
 
                 var instances = ReflectionHelpers.GetChildInstanceForType<PostLoad>();
-                Debug.Log("Aze Instances: " + instances.Count() + ", from: " + Assembly.GetExecutingAssembly().GetName());
 
                 foreach (var instance in instances)
                 {
@@ -39,7 +38,6 @@ namespace AzeLib
                         if (AccessTools.Method(instance.GetType(), "Transpiler") != null)
                             harmonyTranspiler = new HarmonyMethod(instance.GetType(), "Transpiler");
 
-                        Debug.Log("METHOD: " + method + "; patched with: (" + harmonyPrefix + ", " + harmonyPostfix + ", " + harmonyTranspiler + ")");
                         harmonyInstance.Patch(method, harmonyPrefix, harmonyPostfix, harmonyTranspiler);
                     }
                 }

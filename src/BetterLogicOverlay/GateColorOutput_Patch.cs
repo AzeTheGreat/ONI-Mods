@@ -9,67 +9,47 @@ namespace BetterLogicOverlay
     {
         static bool Prepare() => Options.Opts.FixWireOverwrite;
 
+        // TODO: Robustify or use reflection
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator ilg)
         {
-            bool flag1 = false;
-
             foreach (CodeInstruction i in instructions)
             {
-                if (i.opcode == OpCodes.Cgt)
-                    flag1 = true;
-
-                if (i.opcode == OpCodes.Stloc_S && flag1)
+                if (i.opcode == OpCodes.Ldc_I4_0)
                 {
-                    flag1 = false;
-                    yield return i;
-
-                    // Get jump and the local flag variables
-                    var localFlag = i.operand;
-                    Label jump = ilg.DefineLabel();
-
-                    // If flag is true
-                    yield return new CodeInstruction(OpCodes.Ldloc_S, localFlag);
-                    yield return new CodeInstruction(OpCodes.Brfalse, jump);
-
                     // Call Helper()
-                    yield return new CodeInstruction(OpCodes.Ldloc_S, (byte)4);
+                    yield return new CodeInstruction(OpCodes.Ldloc_S, 5);
                     yield return new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(
+                        AccessTools.TypeByName("OverlayModes+Logic+UIInfo"),
+                        "cell"));
+                    Debug.Log("AZE CI: " + AccessTools.Field(
                         AccessTools.TypeByName("OverlayModes+Logic+UIInfo"),
                         "cell"));
                     yield return new CodeInstruction(OpCodes.Ldloc_S, 6);
                     yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(
                         typeof(GateOutputColor_Patch),
                         nameof(GateOutputColor_Patch.Helper)));
-
-                    // Set flag
-                    yield return new CodeInstruction(OpCodes.Stloc, localFlag);
-
-                    // End if
-                    yield return new CodeInstruction(OpCodes.Nop) { labels = new List<Label> { jump } };
                 }
                 else
                     yield return i;
             }
         }
 
-        static bool Helper(int cell, LogicCircuitNetwork networkForCell)
+        static int Helper(int cell, LogicCircuitNetwork networkForCell)
         {
             // If there's only 1 sender on the network then it's impossible for another to be overwriting it
             if (networkForCell.Senders.Count <= 1)
-                return true;
+                return 0;
 
             foreach (var sender in networkForCell.Senders)
             {
                 if (sender.GetLogicCell() == cell)
                 {
                     if (sender.GetLogicValue() <= 0)
-                        return false;
-
-                    return true;
+                        return int.MaxValue;
+                    return 0;
                 }
             }
-
-            return true;
+            return 0;
         }
 
         // Failed alternate reflection attempt.  Issues:
