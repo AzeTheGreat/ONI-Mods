@@ -16,7 +16,11 @@ namespace BetterInfoCards
             get
             {
                 if (_minY == float.MaxValue)
-                    _minY = -CameraController.Instance?.uiCamera.pixelRect.height ?? float.MaxValue;
+                {
+                    var canvas = HoverTextScreen.Instance.gameObject.GetComponentInParent<Canvas>();
+                    _minY = -canvas.pixelRect.height / canvas.scaleFactor;
+                }
+                   
                 return _minY;
             }
         }
@@ -26,7 +30,7 @@ namespace BetterInfoCards
             if (displayCards.Count == 0)
                 return;
 
-            Vector2 offset = new Vector2(0f, topY);
+            var offset = new Vector2(0f, topY);
 
             columnInfos.Clear();
             var colInfo = new ColumnInfo();
