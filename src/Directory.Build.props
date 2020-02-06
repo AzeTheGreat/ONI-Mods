@@ -5,9 +5,9 @@
 
   <PropertyGroup>
     <Version>
+      $([System.DateTime]::Now.Year).
       $([System.DateTime]::Now.Month).
       $([System.DateTime]::Now.Day).
-      $([System.DateTime]::Now.Year).
       $([System.Convert]::ToUInt16(
           $([MSBuild]::Divide(
               $([System.DateTime]::Now.TimeOfDay.TotalSeconds),

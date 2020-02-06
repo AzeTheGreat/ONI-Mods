@@ -48,7 +48,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DefaultBuildingSettings", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "oniModTemplate", "oniModTemplate\oniModTemplate.csproj", "{8559FA4E-0E2E-4E6E-B9AB-2045EC431788}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RebalancedWildlife", "RebalancedWildlife\RebalancedWildlife.csproj", "{598FE79C-7540-4F80-812D-FA6C84BBA5FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RebalancedWildlife", "RebalancedWildlife\RebalancedWildlife.csproj", "{598FE79C-7540-4F80-812D-FA6C84BBA5FA}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
