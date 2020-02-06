@@ -3,6 +3,20 @@
   <Import Condition=" !Exists('Directory.Build.props.user') " Project="Directory.Build.props.default" />
   <Import Condition=" Exists('Directory.Build.props.user') " Project="Directory.Build.props.user" />
 
+  <PropertyGroup>
+    <Version>
+      $([System.DateTime]::Now.Month).
+      $([System.DateTime]::Now.Day).
+      $([System.DateTime]::Now.Year).
+      $([System.Convert]::ToUInt16(
+          $([MSBuild]::Divide(
+              $([System.DateTime]::Now.TimeOfDay.TotalSeconds),
+              1.32
+          ))
+      ))
+    </Version>
+  </PropertyGroup>
+
   <ItemDefinitionGroup>
     <Reference>
       <Private>False</Private>

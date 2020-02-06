@@ -7,7 +7,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Previews\**" />
+    <Compile Remove="Util\**" />
     <EmbeddedResource Remove="Previews\**" />
+    <EmbeddedResource Remove="Util\**" />
     <None Remove="Previews\**" />
+    <None Remove="Util\**" />
   </ItemGroup>
 </Project>

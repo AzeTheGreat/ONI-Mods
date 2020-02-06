@@ -10,10 +10,5 @@ namespace NoNotificationSounds
         {
             return false;
         }
-
-        public static void OnLoad()
-        {
-            PUtil.LogModInit();
-        }
     }
 }

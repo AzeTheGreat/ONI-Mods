@@ -21,7 +21,7 @@ namespace AzeLib
 
         static protected void Load()
         {
-            PUtil.InitLibrary(true);
+            PUtil.InitLibrary(false);
             POptions.RegisterOptions(typeof(T));
         }
     }
