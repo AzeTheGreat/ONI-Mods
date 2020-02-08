@@ -1,6 +1,6 @@
 # Aze's Mods for Oxygen Not Included</p>
 
-### [Steam Workshop](https://steamcommunity.com/profiles/76561198044590606/myworkshopfiles/?appid=457140)
+## [Steam Workshop](https://steamcommunity.com/profiles/76561198044590606/myworkshopfiles/?appid=457140)
 
 If you can't download through the Steam Workshop, zipped releases are available in the [Distribute](https://github.com/AzeTheGreat/ONI-Mods/tree/master/Distribute) folder.  Simply download, unzip, and place in the mods folder.  The file structure should appear as: `...Documents\Klei\Oxygen Not Included\mods\local\UnzippedModFolder`.
 
