@@ -1,6 +1,6 @@
 # Aze's Mods for Oxygen Not Included</p>
 
-[Steam Workshop](https://steamcommunity.com/profiles/76561198044590606/myworkshopfiles/?appid=457140)
+### [Steam Workshop](https://steamcommunity.com/profiles/76561198044590606/myworkshopfiles/?appid=457140)
 
 If you can't download through the Steam Workshop, zipped releases are available in the [Distribute](https://github.com/AzeTheGreat/ONI-Mods/tree/master/Distribute) folder.  Simply download, unzip, and place in the mods folder.  The file structure should appear as: `...Documents\Klei\Oxygen Not Included\mods\local\UnzippedModFolder`.
 
@@ -20,7 +20,7 @@ If you can't download through the Steam Workshop, zipped releases are available 
 |[Sufficient Oxygen Generation](https://steamcommunity.com/sharedfiles/filedetails/?id=1887869179)|Allows the oxygen generation warning to be configured to be less sensitive.|
 |[Suppress Notifications](https://steamcommunity.com/sharedfiles/filedetails/?id=1832319118)|Suppresses notifications and status items from individual buildings/critters/crops.|
 
-### Simple Mods
+## Simple Mods
 
 These mods are all very simple mods that I made for requests that I don't personally use or see the appeal of.  They're separated from my "main" mods for organizational purposes, but I support and maintain them at the same level.
 
