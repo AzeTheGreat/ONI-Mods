@@ -13,7 +13,7 @@ If you can't download through the Steam Workshop, zipped releases are available 
 |[Default Building Settings](https://steamcommunity.com/sharedfiles/filedetails/?id=1989737447)|Provides config options to change the default settings many buildings spawn with.|
 |[Drink Tea Not Coffee](https://steamcommunity.com/sharedfiles/filedetails/?id=1969458444)|A silly mod that changes references to espresso to tea.|
 |[Fixed Camera Pan](https://steamcommunity.com/sharedfiles/filedetails/?id=1845747605)|Makes camera pan speed independent of frame rate and configurable.|
-|[Endless Science](https://steamcommunity.com/sharedfiles/filedetails/?id=1964613307)|Allows dupes to train science through the telescope.|
+|[Endless Science](https://steamcommunity.com/sharedfiles/filedetails/?id=1964613307)|Allows dupes to train science even after research is complete.|
 |[No Build Watermark](https://steamcommunity.com/sharedfiles/filedetails/?id=1909037839)|Removes the watermark showing the build version.|
 |[No Meteors](https://steamcommunity.com/sharedfiles/filedetails/?id=1962090267)|Stops the game from spawning meteors.|
 |[No Notification Sounds](https://steamcommunity.com/sharedfiles/filedetails/?id=1882035088)|Removes sounds from notifications for those who just hate noise.|
