@@ -11,14 +11,21 @@ If you can't download through the Steam Workshop, zipped releases are available 
 |[Better Automation Overlay](https://steamcommunity.com/sharedfiles/filedetails/?id=1878896484)|Improves the automation overlay.|
 |[Clean Floors](https://steamcommunity.com/sharedfiles/filedetails/?id=1937854017)|Removes the largest decor pieces from tiles to give a smoother look.|
 |[Default Building Settings](https://steamcommunity.com/sharedfiles/filedetails/?id=1989737447)|Provides config options to change the default settings many buildings spawn with.|
-|[Drink Tea Not Coffee](https://steamcommunity.com/sharedfiles/filedetails/?id=1969458444)|A silly mod that changes references to espresso to tea.|
 |[Fixed Camera Pan](https://steamcommunity.com/sharedfiles/filedetails/?id=1845747605)|Makes camera pan speed independent of frame rate and configurable.|
 |[Endless Science](https://steamcommunity.com/sharedfiles/filedetails/?id=1964613307)|Allows dupes to train science even after research is complete.|
 |[No Build Watermark](https://steamcommunity.com/sharedfiles/filedetails/?id=1909037839)|Removes the watermark showing the build version.|
-|[No Meteors](https://steamcommunity.com/sharedfiles/filedetails/?id=1962090267)|Stops the game from spawning meteors.|
-|[No Notification Sounds](https://steamcommunity.com/sharedfiles/filedetails/?id=1882035088)|Removes sounds from notifications for those who just hate noise.|
 |[No Pointless Scrollbars](https://steamcommunity.com/sharedfiles/filedetails/?id=1959130035)|Removes scrollbars from plan screen windows that don't need them.|
 |[No Research Alerts](https://steamcommunity.com/sharedfiles/filedetails/?id=1872885565)|Prevents notification icons from showing newly unlocked buildings.|
 |[Rebalanced Tiles](https://steamcommunity.com/sharedfiles/filedetails/?id=1906094571)|Tweaks and adds new features to tiles to encourage variety, and allow full configuration.|
 |[Sufficient Oxygen Generation](https://steamcommunity.com/sharedfiles/filedetails/?id=1887869179)|Allows the oxygen generation warning to be configured to be less sensitive.|
 |[Suppress Notifications](https://steamcommunity.com/sharedfiles/filedetails/?id=1832319118)|Suppresses notifications and status items from individual buildings/critters/crops.|
+
+### Simple Mods
+
+These mods are all very simple mods that I made for requests that I don't personally use or see the appeal of.  They're separated from my "main" mods for organizational purposes, but I support and maintain them at the same level.
+
+|**Name**|**Description**|
+|---|---|
+|[Drink Tea Not Coffee](https://steamcommunity.com/sharedfiles/filedetails/?id=1969458444)|A silly mod that changes references to espresso to tea.|
+|[No Meteors](https://steamcommunity.com/sharedfiles/filedetails/?id=1962090267)|Stops the game from spawning meteors.|
+|[No Notification Sounds](https://steamcommunity.com/sharedfiles/filedetails/?id=1882035088)|Removes sounds from notifications for those who just hate noise.|
