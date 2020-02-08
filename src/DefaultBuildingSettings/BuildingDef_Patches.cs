@@ -17,11 +17,26 @@ namespace DefaultBuildingSettings
                     Traverse.Create(suitMarker).Field("onlyTraverseIfUnequipAvailable").SetValue(true);
             }
 
-            if (Options.Opts.SweepOnly)
+            if (Options.Opts.OpenDoors)
             {
-                var storage = __result.GetComponent<Storage>();
-                if (storage)
-                    Traverse.Create(storage).Field("onlyFetchMarkedItems").SetValue(true);
+                var door = __result.GetComponent<Door>();
+                if (door)
+                {
+                    bool doesDisplaceGas = (bool)AccessTools.Method(typeof(Door), "DisplacesGas").Invoke(null, new object[] { door.doorType });
+                    if (!doesDisplaceGas)
+                        Schedule();
+                }
+                    
+                void OpenDoor(object comp)
+                {
+                    var d = comp as Door;
+                    if (d.isSpawned)
+                        d.QueueStateChange(Door.ControlState.Opened);
+                    else
+                        Schedule();
+                }
+
+                void Schedule() => GameScheduler.Instance.Schedule("OpenDoorAfterOnSpawn", 0f, OpenDoor, door);
             }
         }
     }

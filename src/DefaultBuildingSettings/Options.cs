@@ -20,11 +20,16 @@ namespace DefaultBuildingSettings
         [JsonProperty]
         public bool AutoRepairOff { get; set; }
 
+        [Option("Open Doors", "If checked, Doors that allow airflow will immediately be opened after being built.")]
+        [JsonProperty]
+        public bool OpenDoors { get; set; }
+
         public Options()
         {
             VacancyOnly = true;
             SweepOnly = true;
             AutoRepairOff = false;
+            OpenDoors = true;
         }
 
         public static void OnLoad()
