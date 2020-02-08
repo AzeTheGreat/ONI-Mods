@@ -21,9 +21,6 @@ namespace BetterLogicOverlay
                     yield return new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(
                         AccessTools.TypeByName("OverlayModes+Logic+UIInfo"),
                         "cell"));
-                    Debug.Log("AZE CI: " + AccessTools.Field(
-                        AccessTools.TypeByName("OverlayModes+Logic+UIInfo"),
-                        "cell"));
                     yield return new CodeInstruction(OpCodes.Ldloc_S, 6);
                     yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(
                         typeof(GateOutputColor_Patch),
