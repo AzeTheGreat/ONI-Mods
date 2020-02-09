@@ -17,6 +17,7 @@ namespace DefaultBuildingSettings
                     Traverse.Create(suitMarker).Field("onlyTraverseIfUnequipAvailable").SetValue(true);
             }
 
+            // Can technically fail if a save/load occurs after .Build is called, before the Door.isSpawned.
             if (Options.Opts.OpenDoors)
             {
                 var door = __result.GetComponent<Door>();
@@ -26,7 +27,7 @@ namespace DefaultBuildingSettings
                     if (!doesDisplaceGas)
                         Schedule();
                 }
-                    
+    
                 void OpenDoor(object comp)
                 {
                     var d = comp as Door;

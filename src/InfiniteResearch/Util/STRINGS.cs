@@ -31,13 +31,13 @@ namespace InfiniteResearch
 
     public class BUTTONS
     {
-        public class ENABLELEARN
+        public class DISABLELEARN
         {
             public static LocString NAME = "Disable Learning";
             public static LocString TOOLTIP = "Stop dupes from training their Science Attribute here.";
         }
 
-        public class DISABLELEARN
+        public class ENABLELEARN
         {
             public static LocString NAME = "Enable Learning";
             public static LocString TOOLTIP = "Allow dupes to train their Science Attribute here.";
