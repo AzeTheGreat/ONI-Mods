@@ -10,6 +10,12 @@ namespace NoPointlessScrollbars
         private static void Postfix(PlanScreen __instance, int ___buildGrid_maxRowsBeforeScroll)
         {
             int buttons = __instance.GroupsTransform.childCount;
+            for (int i = 0; i < __instance.GroupsTransform.childCount; i++)
+            {
+                if (!__instance.GroupsTransform.GetChild(i).gameObject.activeSelf)
+                    buttons--;
+            }
+
             int rows = Mathf.CeilToInt(buttons / 3f);
             bool shouldShowScroll = rows >= ___buildGrid_maxRowsBeforeScroll + 1;
 
