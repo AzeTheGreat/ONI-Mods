@@ -1,4 +1,7 @@
 ﻿using Harmony;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,16 +10,22 @@ namespace NoPointlessScrollbars
     [HarmonyPatch(typeof(PlanScreen), "ConfigurePanelSize")]
     class DisableScrollbar_Patch
     {
-        private static void Postfix(PlanScreen __instance, int ___buildGrid_maxRowsBeforeScroll)
-        {
-            int buttons = __instance.GroupsTransform.childCount;
-            for (int i = 0; i < __instance.GroupsTransform.childCount; i++)
-            {
-                if (!__instance.GroupsTransform.GetChild(i).gameObject.activeSelf)
-                    buttons--;
-            }
+        private static int rows;
 
-            int rows = Mathf.CeilToInt(buttons / 3f);
+        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var ceilMethod = AccessTools.Method(typeof(Mathf), nameof(Mathf.CeilToInt));
+
+            foreach (var i in instructions)
+            {
+                yield return i;
+                if (i.opcode == OpCodes.Call && (MethodInfo)i.operand == ceilMethod)
+                    yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(DisableScrollbar_Patch), nameof(DisableScrollbar_Patch.Patch)));    
+            }
+        }
+
+        static void Postfix(PlanScreen __instance, int ___buildGrid_maxRowsBeforeScroll)
+        {
             bool shouldShowScroll = rows >= ___buildGrid_maxRowsBeforeScroll + 1;
 
             __instance.BuildingGroupContentsRect.GetComponent<ScrollRect>().vertical = shouldShowScroll;
@@ -25,6 +34,8 @@ namespace NoPointlessScrollbars
                 // Couldn't find any relevant numbers in the source so I guess I too get to use magic numbers...
                 __instance.buildingGroupsRoot.sizeDelta += new Vector2(-13f, 0f);
         }
+
+        private static int Patch(int rowCount) => rows = rowCount;
     }
 
     [HarmonyPatch(typeof(PlanScreen), "OnSpawn")]
