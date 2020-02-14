@@ -8,7 +8,8 @@ namespace DefaultBuildingSettings
         static bool Prepare() => Options.Opts.SweepOnly;
         static void Postfix(Storage ___storage)
         {
-            ___storage.SetOnlyFetchMarkedItems(true);
+            if (___storage.allowSettingOnlyFetchMarkedItems)
+                ___storage.SetOnlyFetchMarkedItems(true);
         }
     }
 }
