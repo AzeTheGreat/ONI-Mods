@@ -30,7 +30,7 @@
         WorkingDirectory="$(GameFolder)" />
   </Target>
 
-  <Target Name="CopyArtifactsToInstallFolder" AfterTargets="ILRepack" Condition=" '$(AssemblyName)' != 'AzeLib' ">
+  <Target Name="CopyArtifactsToInstallFolder" AfterTargets="ILRepack" Condition=" '$(ShouldDistribute)' != 'false' ">
 
     <ItemGroup>
       <AnimFiles Include="$(ProjectDir)\anim\**\*.*" />
@@ -46,7 +46,7 @@
     <Copy SourceFiles="$(TargetPath)" DestinationFiles="$(InstallFolder)\$(TargetFileName)" />
   </Target>
 
-  <Target Name="Zip" AfterTargets="CopyArtifactsToInstallFolder" Condition=" '$(Configuration)' == 'Release' ">
+  <Target Name="Zip" AfterTargets="CopyArtifactsToInstallFolder" Condition=" '$(Configuration)' == 'Release' And '$(ShouldDistribute)' != 'false' ">
     <CreateItem Include="$(InstallFolder)\*.*" Exclude="$(InstallFolder)\*.zip">
       <Output ItemName="ZipFiles" TaskParameter="Include"/>
     </CreateItem>

@@ -4,7 +4,8 @@
     <TargetFramework>net40</TargetFramework>
     <AssemblyTitle>AzeLib</AssemblyTitle>
     <Version>1.0.0</Version>
-	<UsesAzeLib>false</UsesAzeLib>
+	  <UsesAzeLib>false</UsesAzeLib>
+    <ShouldDistribute>false</ShouldDistribute>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Previews\**" />

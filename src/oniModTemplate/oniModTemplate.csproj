@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net40</TargetFramework>
     <AssemblyTitle>$safeprojectname$</AssemblyTitle>
+    <ShouldDistribute>false</ShouldDistribute>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Previews\**" />
