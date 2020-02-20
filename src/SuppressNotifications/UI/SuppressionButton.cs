@@ -17,42 +17,44 @@ namespace SuppressNotifications
 
         private void OnRefreshUserMenu()
         {
-            List<StatusItem> suppressableStatusItems = statusItemsSuppressedComp.GetSuppressableStatusItems();
-            List<Notification> suppressableNotifications = notificationsSuppressedComp.GetSuppressableNotifications();
-
-            if (suppressableStatusItems.Any() || suppressableNotifications.Any())
-            {
-                string iconName = "action_building_disabled";
-                string text = "Suppress Current";
-                System.Action on_click = new System.Action(OnSuppressClick);
-                string tooltipText = "Suppress the following status items and notifications:\n"
-                    + GetStatusItemListText(suppressableStatusItems)
-                    + GetNotificationListText(suppressableNotifications);
-
-                Game.Instance.userMenu.AddButton(base.gameObject, new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText));
-                return;
-            }
-            if (statusItemsSuppressedComp.suppressedStatusItemTitles.Any() || notificationsSuppressedComp.suppressedNotifications.Any())
-            {
-                string iconName = "action_building_disabled";
-                string text = "Clear Suppressed";
-                System.Action on_click = new System.Action(OnClearClick);
-                string tooltipText = "Stop the following status items and notifications from being suppressed:\n"
-                    + GetStatusItemListText(statusItemsSuppressedComp.suppressedStatusItemTitles)
-                    + GetNotificationListText(notificationsSuppressedComp.suppressedNotifications);
-
-                Game.Instance.userMenu.AddButton(base.gameObject, new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText));
-            }
+            if (AreSuppressable())
+                Game.Instance.userMenu.AddButton(gameObject, new KIconButtonMenu.ButtonInfo("action_building_disabled", "Suppress Current", new System.Action(OnSuppressClick), tooltipText: GetSuppressableString()));
+            else if (AreSuppressed())
+                Game.Instance.userMenu.AddButton(gameObject, new KIconButtonMenu.ButtonInfo("action_building_disabled", "Clear Suppressed", new System.Action(OnClearClick), tooltipText: GetSuppressedString()));
         }
 
-        private void OnSuppressClick()
+        internal virtual bool AreSuppressable()
+        {
+            return statusItemsSuppressedComp.GetSuppressableStatusItems().Any() || notificationsSuppressedComp.GetSuppressableNotifications().Any();
+        }
+
+        internal virtual bool AreSuppressed()
+        {
+            return statusItemsSuppressedComp.suppressedStatusItemTitles.Any() || notificationsSuppressedComp.suppressedNotifications.Any();
+        }
+
+        internal virtual string GetSuppressableString()
+        {
+            return "Suppress the following status items and notifications:\n"
+                    + GetStatusItemListText(statusItemsSuppressedComp.GetSuppressableStatusItems())
+                    + GetNotificationListText(notificationsSuppressedComp.GetSuppressableNotifications());
+        }
+
+        internal virtual string GetSuppressedString()
+        {
+            return "Stop the following status items and notifications from being suppressed:\n"
+                    + GetStatusItemListText(statusItemsSuppressedComp.suppressedStatusItemTitles)
+                    + GetNotificationListText(notificationsSuppressedComp.suppressedNotifications);
+        }
+
+        internal virtual void OnSuppressClick()
         {
             notificationsSuppressedComp.SuppressNotifications();
             statusItemsSuppressedComp.SuppressStatusItems();
             Game.Instance.userMenu.Refresh(base.gameObject);
         }
 
-        private void OnClearClick()
+        internal virtual void OnClearClick()
         {
             notificationsSuppressedComp.UnsupressNotifications();
             statusItemsSuppressedComp.UnsuppressStatusItems();
