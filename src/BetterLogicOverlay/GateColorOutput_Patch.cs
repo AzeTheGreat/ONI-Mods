@@ -14,7 +14,7 @@ namespace BetterLogicOverlay
         {
             foreach (CodeInstruction i in instructions)
             {
-                if (i.opcode == OpCodes.Ldc_I4_0)
+                if (i..OpCodeIs(OpCodes.Ldc_I4_0))
                 {
                     // Call Helper()
                     yield return new CodeInstruction(OpCodes.Ldloc_S, 5);

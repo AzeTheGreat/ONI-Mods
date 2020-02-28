@@ -1,4 +1,5 @@
-﻿using Harmony;
+﻿using AzeLib.Extensions;
+using Harmony;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -16,7 +17,7 @@ namespace SuppressNotifications
 
             foreach (CodeInstruction i in instructions)
             {
-                if (i.opcode == OpCodes.Callvirt && i.operand == targetMethodIcon)
+                if (i.Is(OpCodes.Callvirt, targetMethodIcon))
                 {
                     // Load gameObject onto stack
                     yield return new CodeInstruction(OpCodes.Ldarg_0);

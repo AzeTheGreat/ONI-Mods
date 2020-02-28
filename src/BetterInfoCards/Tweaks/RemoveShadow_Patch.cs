@@ -1,4 +1,5 @@
-﻿using Harmony;
+﻿using AzeLib.Extensions;
+using Harmony;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -18,13 +19,13 @@ namespace BetterInfoCards
 
             foreach (CodeInstruction i in instructions)
             {
-                if (firstTarget && i.opcode == OpCodes.Call && i.operand == target)
+                if (firstTarget && i.Is(OpCodes.Call, target))
                 {
                     inNopRegion = true;
                     firstTarget = false;
                     yield return i;
                 }
-                else if (inNopRegion && i.opcode == OpCodes.Callvirt && i.operand == target2)
+                else if (inNopRegion && i.Is(OpCodes.Callvirt, target2))
                 {
                     inNopRegion = false;
                     yield return new CodeInstruction(OpCodes.Nop);

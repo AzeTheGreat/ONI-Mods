@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Linq;
+using AzeLib.Extensions;
 
 namespace BetterInfoCards
 {
@@ -27,10 +28,10 @@ namespace BetterInfoCards
 
             foreach (CodeInstruction i in instructions)
             {
-                if (i.opcode == OpCodes.Callvirt && i.operand == targetMethod)
+                if (i.Is(OpCodes.Callvirt, targetMethod))
                     afterTarget = true;
 
-                if (afterTarget && i.opcode == OpCodes.Ldc_I4_0)
+                if (afterTarget && i.OpCodeIs(OpCodes.Ldc_I4_0))
                 {
                     yield return new CodeInstruction(OpCodes.Ldarg_0) { labels = new List<Label>(i.labels) };
                     i.labels.Clear();

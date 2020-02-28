@@ -1,4 +1,5 @@
-﻿using Harmony;
+﻿using AzeLib.Extensions;
+using Harmony;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -35,7 +36,7 @@ namespace BetterDeselect.Deselect
 
             foreach (CodeInstruction i in instructions)
             {
-                if (i.opcode == OpCodes.Call && i.operand == targetMethodInfo)
+                if (i.Is(OpCodes.Call, targetMethodInfo))
                 {
                     yield return new CodeInstruction(OpCodes.Pop);
                     yield return new CodeInstruction(OpCodes.Pop);

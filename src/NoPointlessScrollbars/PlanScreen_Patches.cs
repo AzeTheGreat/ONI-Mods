@@ -1,4 +1,5 @@
-﻿using Harmony;
+﻿using AzeLib.Extensions;
+using Harmony;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -19,7 +20,7 @@ namespace NoPointlessScrollbars
             foreach (var i in instructions)
             {
                 yield return i;
-                if (i.opcode == OpCodes.Call && (MethodInfo)i.operand == ceilMethod)
+                if (i.Is(OpCodes.Call, ceilMethod))
                     yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(DisableScrollbar_Patch), nameof(DisableScrollbar_Patch.Patch)));    
             }
         }

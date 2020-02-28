@@ -1,4 +1,5 @@
-﻿using Harmony;
+﻿using AzeLib.Extensions;
+using Harmony;
 using Klei.AI;
 using System.Collections.Generic;
 using System.Reflection.Emit;
@@ -18,7 +19,7 @@ namespace InfiniteResearch
 
                 foreach (CodeInstruction i in instructions)
                 {
-                    if (first && i.opcode == OpCodes.Ldc_I4_0)
+                    if (first && i.OpCodeIs(OpCodes.Ldc_I4_0))
                     {
                         first = false;
                         yield return new CodeInstruction(OpCodes.Ldarg_0);

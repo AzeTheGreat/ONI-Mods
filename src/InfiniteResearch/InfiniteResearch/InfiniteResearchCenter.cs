@@ -1,4 +1,5 @@
-﻿using Database;
+﻿using AzeLib.Extensions;
+using Database;
 using Harmony;
 using Klei.AI;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace InfiniteResearch
 
                 foreach (CodeInstruction i in instructions)
                 {
-                    if (counter <= 2 && i.opcode == OpCodes.Ldc_I4_0)
+                    if (counter <= 2 && i.OpCodeIs(OpCodes.Ldc_I4_0))
                     {
                         counter++;
                         yield return new CodeInstruction(OpCodes.Ldarg_0);

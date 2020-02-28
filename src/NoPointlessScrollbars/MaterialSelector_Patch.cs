@@ -1,4 +1,5 @@
-﻿using Harmony;
+﻿using AzeLib.Extensions;
+using Harmony;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -17,7 +18,7 @@ namespace NoPointlessScrollbars
 
             foreach (var i in instructions)
             {
-                if (i.opcode == OpCodes.Callvirt && (MethodInfo)i.operand == setActiveMethod)
+                if (i.Is(OpCodes.Callvirt, setActiveMethod))
                     yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(MaterialSelector_Patch), nameof(MaterialSelector_Patch.Patch)));
                 yield return i;
             }

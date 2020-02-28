@@ -52,7 +52,7 @@ namespace BetterInfoCards
                     // Also it's necessary so that Pool.Draw completes first, and there is a valid TextInfo to export to.
                     yield return i;
 
-                    if (isFirst && i.opcode == OpCodes.Callvirt && i.operand == targetGetCompPrimaryElement)
+                    if (isFirst && i.Is(OpCodes.Callvirt, targetGetCompPrimaryElement))
                     {
                         isFirst = false;
                         afterTarget = true;
@@ -64,33 +64,33 @@ namespace BetterInfoCards
 
                     else if (afterTarget)
                     {
-                        if (i.operand == titleTarget)
-                            titleLocal = instructions.FindNext(i, x => x.opcode == OpCodes.Stloc_S).operand as LocalBuilder;
+                        if (i.OperandIs(titleTarget))
+                            titleLocal = instructions.FindNext(i, x => x.OpCodeIs(OpCodes.Stloc_S)).operand as LocalBuilder;
 
-                        else if (i.operand == germTarget)
-                            germLocal = instructions.FindNext(i, x => x.opcode == OpCodes.Stloc_S).operand as LocalBuilder;
+                        else if (i.OperandIs(germTarget))
+                            germLocal = instructions.FindNext(i, x => x.OpCodeIs(OpCodes.Stloc_S)).operand as LocalBuilder;
 
 
-                        else if (i.opcode == OpCodes.Callvirt && i.operand == targetDrawText)
+                        else if (i.Is(OpCodes.Callvirt, targetDrawText))
                         {
                             var lastStringPush = instructions.FindPrior(i, x => DoesPushString(x));
 
                             // Title
-                            if (lastStringPush.operand == titleLocal)
+                            if (lastStringPush.OperandIs(titleLocal))
                             {
                                 yield return new CodeInstruction(OpCodes.Ldstr, StatusDataManager.title);
                                 yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.Export)));
                             }
 
                             // Germs
-                            else if (lastStringPush.operand == germLocal)
+                            else if (lastStringPush.OperandIs(germLocal))
                             {
                                 yield return new CodeInstruction(OpCodes.Ldstr, StatusDataManager.germs);
                                 yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.Export)));
                             }
 
                             // Status items
-                            else if (lastStringPush.operand == statusTarget)
+                            else if (lastStringPush.OperandIs(statusTarget))
                             {
                                 var lastLocalEntry = instructions.FindPrior(i, x => x.IsLocalOfType(typeof(StatusItemGroup.Entry))).operand;
                                 yield return new CodeInstruction(OpCodes.Ldloc_S, lastLocalEntry);
@@ -98,14 +98,14 @@ namespace BetterInfoCards
                             }
 
                             // Temps
-                            else if (lastStringPush.operand == tempTarget)
+                            else if (lastStringPush.OperandIs(tempTarget))
                             {
                                 yield return new CodeInstruction(OpCodes.Ldstr, StatusDataManager.temp);
                                 yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.Export)));
                             }
                         }
 
-                        else if (i.opcode == OpCodes.Call && i.operand == targetElement)
+                        else if (i.Is(OpCodes.Call, targetElement))
                         {
                             yield return new CodeInstruction(OpCodes.Ldarg_1);
                             yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.ExportSelectableFromList)));

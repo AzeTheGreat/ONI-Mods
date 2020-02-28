@@ -1,4 +1,5 @@
-﻿using Harmony;
+﻿using AzeLib.Extensions;
+using Harmony;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -22,7 +23,7 @@ namespace FixedCameraPan
 
             foreach (CodeInstruction i in instructions)
             {
-                if (i.opcode == OpCodes.Ldfld && i.operand == targetFieldInfo)
+                if (i.Is(OpCodes.Ldfld, targetFieldInfo))
                 {
                     yield return i;
                     yield return new CodeInstruction(OpCodes.Ldloc_0);
