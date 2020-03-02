@@ -9,7 +9,7 @@ namespace BetterDeselect.Deselect
     [HarmonyPatch(typeof(PlanScreen), "OnActiveToolChanged")]
     public class DeselectBuildMenu_Patch
     {
-        static bool Prepre() => Options.Opts.ImplementBuildMenu;
+        static bool Prepare() => Options.Opts.ImplementBuildMenu;
 
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {

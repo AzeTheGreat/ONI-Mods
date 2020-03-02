@@ -5,7 +5,7 @@ namespace BetterDeselect.Deselect
     [HarmonyPatch(typeof(BaseUtilityBuildTool), "OnDeactivateTool")]
     public class BaseUtilityBuildToolFix_Patch
     {
-        static void Prefix(InterfaceTool new_tool)
+        static void Prefix()
         {
             SelectTool.Instance.Activate();
         }

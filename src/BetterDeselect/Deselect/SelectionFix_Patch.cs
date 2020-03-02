@@ -8,42 +8,32 @@ namespace BetterDeselect.Deselect
 {
     static class SelectionFix
     {
-        [HarmonyPatch(typeof(PlanScreen), nameof(PlanScreen.OnSelectBuilding))]
+        [HarmonyPatch]
         private class ReselectionFix_Patch
         {
-            static bool Prepre() => Options.Opts.Mode == Options.FixMode.Hold;
+            static IEnumerable<MethodBase> TargetMethods()
+            {
+                yield return AccessTools.Method(typeof(PlanScreen), nameof(PlanScreen.OnSelectBuilding));
+                yield return AccessTools.Method(typeof(PlanScreen), "OnClickCategory");
+            }
+
+            static bool Prepare() => Options.Opts.Mode == Options.FixMode.Hold;
 
             static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
             {
-                return ProcessCodeInstructions(instructions);
-            }
-        }
+                MethodInfo targetMethodInfo = AccessTools.Method(typeof(PlanScreen), "CloseRecipe");
 
-        [HarmonyPatch(typeof(PlanScreen), "OnClickCategory")]
-        private class CategoryFix_Patch
-        {
-            static bool Prepre() => Options.Opts.Mode == Options.FixMode.Hold;
-
-            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-            {
-                return ProcessCodeInstructions(instructions);
-            }
-        }
-
-        private static IEnumerable<CodeInstruction> ProcessCodeInstructions(IEnumerable<CodeInstruction> instructions)
-        {
-            MethodInfo targetMethodInfo = AccessTools.Method(typeof(PlanScreen), "CloseRecipe");
-
-            foreach (CodeInstruction i in instructions)
-            {
-                if (i.Is(OpCodes.Call, targetMethodInfo))
+                foreach (CodeInstruction i in instructions)
                 {
-                    yield return new CodeInstruction(OpCodes.Pop);
-                    yield return new CodeInstruction(OpCodes.Pop);
-                    yield return new CodeInstruction(OpCodes.Nop);
+                    if (i.Is(OpCodes.Call, targetMethodInfo))
+                    {
+                        yield return new CodeInstruction(OpCodes.Pop);
+                        yield return new CodeInstruction(OpCodes.Pop);
+                        yield return new CodeInstruction(OpCodes.Nop);
+                    }
+                    else
+                        yield return i;
                 }
-                else
-                    yield return i;
             }
         }
     }

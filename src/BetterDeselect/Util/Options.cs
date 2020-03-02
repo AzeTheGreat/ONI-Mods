@@ -31,7 +31,7 @@ namespace BetterDeselect
         public Options()
         {
             ImplementOverlay = true;
-            ImplementBuildMenu = true;
+            ImplementBuildMenu = false;
             Mode = FixMode.Hold;
         }
 
