@@ -63,13 +63,6 @@ namespace SuppressNotifications
                 if(ShouldShowIcon(item))
                     Game.Instance.AddStatusItem(statusItemGroup.gameObject.transform, item);
             }
-
-            // Refresh the HP progress bar suppression.
-            var comp = gameObject.GetComponent<BuildingHP>();
-            if (comp)
-            {
-                comp.ShowProgressBar(comp.IsBroken);
-            }
         }
 
         public List<StatusItem> GetSuppressedStatusItems()

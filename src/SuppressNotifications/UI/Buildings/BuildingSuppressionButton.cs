@@ -11,19 +11,19 @@
 
         internal override bool AreSuppressable()
         {
-            return base.AreSuppressable() || (buildingHP.NeedsRepairs && !buildingHealthSuppressedComp.hideDmgBar);
+            return base.AreSuppressable() || (buildingHP.NeedsRepairs && !buildingHealthSuppressedComp.HideDmgBar);
         }
 
         internal override bool AreSuppressed()
         {
-            return base.AreSuppressed() || buildingHealthSuppressedComp.hideDmgBar;
+            return base.AreSuppressed() || buildingHealthSuppressedComp.HideDmgBar;
         }
 
         internal override string GetSuppressableString()
         {
             string suppressable = base.GetSuppressableString();
 
-            if (buildingHP.NeedsRepairs && !buildingHealthSuppressedComp.hideDmgBar)
+            if (buildingHP.NeedsRepairs && !buildingHealthSuppressedComp.HideDmgBar)
                 suppressable += "Damage Bar";
             return suppressable;
         }
@@ -32,7 +32,7 @@
         {
             string suppressed = base.GetSuppressedString();
 
-            if(buildingHealthSuppressedComp.hideDmgBar)
+            if(buildingHealthSuppressedComp.HideDmgBar)
                 suppressed += "Damage Bar";
             return suppressed;
         }
@@ -40,14 +40,14 @@
         internal override void OnClearClick()
         {
             base.OnClearClick();
-            buildingHealthSuppressedComp.hideDmgBar = false;
+            buildingHealthSuppressedComp.SetDamageBar(false);
         }
 
         internal override void OnSuppressClick()
         {
             base.OnSuppressClick();
             if (buildingHP.NeedsRepairs)
-                buildingHealthSuppressedComp.hideDmgBar = true;
+                buildingHealthSuppressedComp.SetDamageBar(true);
         }
     }
 }

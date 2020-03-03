@@ -1,6 +1,5 @@
-﻿using Harmony;
-using System.Collections.Generic;
-using System.Linq;
+﻿using AzeLib.Extensions;
+using Harmony;
 
 namespace SuppressNotifications.Suppression.Misc
 {
@@ -15,7 +14,7 @@ namespace SuppressNotifications.Suppression.Misc
 
                 // Grabbing the progress bar this way avoids reflection on all but user interaction refreshes.
                 if (dmgSuppressionComp)
-                    ___progressBar.gameObject.SetActive(!dmgSuppressionComp.hideDmgBar);
+                    ___progressBar.ToggleVisibility(dmgSuppressionComp.HideDmgBar);
             }
         }
     }
