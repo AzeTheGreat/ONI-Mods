@@ -46,7 +46,7 @@ namespace BetterLogicOverlay
 
         private GameObject GetGOForLogicPort(ILogicUIElement logicPortUI)
         {
-            GameObject sourceGO = Grid.Objects[logicPortUI.GetLogicUICell(), (int)ObjectLayer.LogicGates];
+            GameObject sourceGO = Grid.Objects[logicPortUI.GetLogicUICell(), (int)ObjectLayer.LogicGate];
             if (sourceGO == null)
                 sourceGO = Grid.Objects[logicPortUI.GetLogicUICell(), (int)ObjectLayer.Building];
             if (sourceGO == null)

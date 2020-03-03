@@ -7,7 +7,7 @@ namespace InfiniteResearch
     {
         [Serialize] public bool isInfiniteMode = false;
 
-        protected override void OnPrefabInit() => Subscribe((int)GameHashes.RefreshUserMenu, OnRefreshUserMenuDelegate);
+        protected override void OnPrefabInit() => Subscribe((int)GameHashes.RefreshUserMenu, (object data) => OnRefreshUserMenu());
 
         private void OnRefreshUserMenu()
         {
@@ -42,10 +42,5 @@ namespace InfiniteResearch
         }
 
         protected abstract void UpdateState();
-
-        private static readonly EventSystem.IntraObjectHandler<InfiniteModeToggleButton> OnRefreshUserMenuDelegate =
-            new EventSystem.IntraObjectHandler<InfiniteModeToggleButton>(Handler);
-
-        private static void Handler(InfiniteModeToggleButton component, object data) => component.OnRefreshUserMenu();
     }
 }

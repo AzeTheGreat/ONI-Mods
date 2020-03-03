@@ -15,7 +15,7 @@ namespace SuppressNotifications
         protected override void OnPrefabInit()
         {
             Init();
-            Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
+            Subscribe((int)GameHashes.CopySettings, (object data) => OnCopySettings(data));
         }
 
         internal void Init()
@@ -93,14 +93,6 @@ namespace SuppressNotifications
                 suppressedNotifications = new List<string>(comp.suppressedNotifications);
                 RefreshNotifications();
             }
-        }
-
-        private static readonly EventSystem.IntraObjectHandler<NotificationsSuppressedComp> OnCopySettingsDelegate = 
-            new EventSystem.IntraObjectHandler<NotificationsSuppressedComp>(Handler);
-
-        private static void Handler(NotificationsSuppressedComp comp, object data)
-        {
-            comp.OnCopySettings(data);
         }
     }
 }

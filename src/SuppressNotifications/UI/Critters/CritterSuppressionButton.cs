@@ -11,30 +11,24 @@ namespace SuppressNotifications
         {
             base.OnPrefabInit();
 
-            Subscribe((int)GameHashes.SpawnedFrom, OnSpawnedFromDelegate);
-            Subscribe((int)GameHashes.LayEgg, OnLayEggDelegate);
+            Subscribe((int)GameHashes.SpawnedFrom, (object data) => OnSpawnedFrom(data));
+            Subscribe((int)GameHashes.LayEgg, (object data) => OnLayEgg(data));
         }
 
-        private static void OnSpawnedFrom(CritterSuppressionButton adult, object baby)
+        private void OnSpawnedFrom(object baby)
         {
-            adult.gameObject.Trigger((int)GameHashes.CopySettings, baby);
+            gameObject.Trigger((int)GameHashes.CopySettings, baby);
         }
 
-        private static void OnLayEgg(CritterSuppressionButton critter, object egg)
+        private void OnLayEgg(object egg)
         {
             var noteComp = (egg as GameObject).AddOrGet<NotificationsSuppressedComp>();
             var statComp = (egg as GameObject).AddOrGet<StatusItemsSuppressedComp>();
 
             noteComp.Init();
             statComp.Init();
-            noteComp.OnCopySettings(critter.gameObject);
-            statComp.OnCopySettings(critter.gameObject);
+            noteComp.OnCopySettings(gameObject);
+            statComp.OnCopySettings(gameObject);
         }
-
-        private static readonly EventSystem.IntraObjectHandler<CritterSuppressionButton> OnSpawnedFromDelegate =
-            new EventSystem.IntraObjectHandler<CritterSuppressionButton>(OnSpawnedFrom);
-
-        private static readonly EventSystem.IntraObjectHandler<CritterSuppressionButton> OnLayEggDelegate =
-            new EventSystem.IntraObjectHandler<CritterSuppressionButton>(OnLayEgg);
     }
 }

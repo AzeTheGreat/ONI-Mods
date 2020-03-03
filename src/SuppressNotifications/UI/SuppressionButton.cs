@@ -12,7 +12,7 @@ namespace SuppressNotifications
 
         protected override void OnPrefabInit()
         {
-            Subscribe((int)GameHashes.RefreshUserMenu, OnRefreshUserMenuDelegate);
+            Subscribe((int)GameHashes.RefreshUserMenu, (object data) => OnRefreshUserMenu());
         }
 
         private void OnRefreshUserMenu()
@@ -107,14 +107,6 @@ namespace SuppressNotifications
             }
 
             return text;
-        }
-
-        private static readonly EventSystem.IntraObjectHandler<SuppressionButton> OnRefreshUserMenuDelegate = 
-            new EventSystem.IntraObjectHandler<SuppressionButton>(Handler);
-
-        private static void Handler(SuppressionButton component, object data)
-        {
-            component.OnRefreshUserMenu();
         }
     }
 }
