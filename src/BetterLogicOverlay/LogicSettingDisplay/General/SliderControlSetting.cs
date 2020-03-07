@@ -1,13 +1,14 @@
-﻿using AzeLib.Extensions;
+﻿using AzeLib.Attributes;
+using AzeLib.Extensions;
+using System.Linq;
 using UnityEngine;
 
 namespace BetterLogicOverlay.LogicSettingDisplay
 {
     class SliderControlSetting : LogicSettingDispComp
     {
-        protected ISliderControl sliderControl;
-
-        new public void Start() => sliderControl = gameObject.GetComponent<ISliderControl>();
+        [MyCmpGet] protected LogicPorts logicPorts;
+        [MyIntGet] protected ISliderControl sliderControl;
 
         [SerializeField] private string prefix = string.Empty;
 
@@ -24,6 +25,14 @@ namespace BetterLogicOverlay.LogicSettingDisplay
                 component.prefix = "I: ";
             else if (go.GetReflectionComp("WirelessSignalEmitter"))
                 component.prefix = "O: ";
+        }
+
+        public override Vector2 GetPosition()
+        {
+            if (logicPorts)
+                return Grid.CellToPosCCC(logicPorts.GetLogicCells().First(), Grid.SceneLayer.Front);
+            else
+                return base.GetPosition();
         }
     }
 }

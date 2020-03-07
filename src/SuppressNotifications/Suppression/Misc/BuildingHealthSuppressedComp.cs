@@ -35,7 +35,6 @@ namespace SuppressNotifications
 
         private void OnCopySettings(object data)
         {
-            Debug.Log("Saved?");
             var comp = (data as GameObject).GetComponent<BuildingHealthSuppressedComp>();
             if (comp != null)
                 SetDamageBar(comp.HideDmgBar);

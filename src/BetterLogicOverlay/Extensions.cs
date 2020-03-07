@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace BetterLogicOverlay
+﻿namespace BetterLogicOverlay
 {
     static class Extensions
     {
@@ -9,7 +7,7 @@ namespace BetterLogicOverlay
             string abbreviation = ElementAbbreviation.abbreviations[element.id];
 
             if (abbreviation == string.Empty || !Options.Opts.isTranslated)
-                abbreviation = element.name;
+                abbreviation = element?.name;
                 
             return abbreviation;
         }

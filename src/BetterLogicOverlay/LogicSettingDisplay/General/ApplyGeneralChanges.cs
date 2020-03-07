@@ -17,6 +17,8 @@ namespace BetterLogicOverlay.LogicSettingDisplay
                     SliderControlSetting.AddToDef(def);
                 else if (go.GetComponent<IActivationRangeTarget>() != null)
                     ActivationRangeTargetSetting.AddToDef(def);
+                else if (go.GetComponent<ILogicRibbonBitSelector>() != null)
+                    LogicRibbonBitSelectorSetting.AddToDef(def);
             }
         }
     }

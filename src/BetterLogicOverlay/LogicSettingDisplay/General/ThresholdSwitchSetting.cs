@@ -1,14 +1,11 @@
-﻿using AzeLib.Extensions;
-using STRINGS;
+﻿using AzeLib.Attributes;
 using UnityEngine;
 
 namespace BetterLogicOverlay.LogicSettingDisplay
 {
     class ThresholdSwitchSetting : LogicSettingDispComp
     {
-        protected IThresholdSwitch thresholdSwitch;
-
-        new public void Start() => thresholdSwitch = gameObject.GetComponent<IThresholdSwitch>();
+        [MyIntGet] protected IThresholdSwitch thresholdSwitch;
 
         [SerializeField] private string units = string.Empty;
 
@@ -22,23 +19,14 @@ namespace BetterLogicOverlay.LogicSettingDisplay
         {
             var go = def.BuildingComplete;
 
-            ThresholdSwitchSetting component = null;
             if (go.GetComponent<ConduitTemperatureSensor>())
                 go.AddComponent<ConduitTemp>();
             else if (go.GetComponent<LogicDiseaseSensor>() || go.GetComponent<ConduitDiseaseSensor>())
                 go.AddComponent<Germs>();
-            else
-                component = go.AddComponent<ThresholdSwitchSetting>();
-
-            if (!component)
-                return;
-
-            if (go.GetReflectionComp("CrittersSensor") != null)
-                component.units = " " + UI.UNITSUFFIXES.CRITTERS;
-            else if (go.GetReflectionComp("EggsSensor") != null)
-                component.units = " eggs";
             else if (go.GetComponent<LogicCritterCountSensor>())
-                component.units = " C/E";
+                go.AddComponent<CritterCount>();
+            else
+                go.AddComponent<ThresholdSwitchSetting>();
         }
 
         private class ConduitTemp : ThresholdSwitchSetting
@@ -62,6 +50,23 @@ namespace BetterLogicOverlay.LogicSettingDisplay
                 }
 
                 return Mathf.Round(threshold) + modifier;
+            }
+        }
+
+        private class CritterCount : ThresholdSwitchSetting
+        {
+            [MyCmpGet] private LogicCritterCountSensor logicCritterCountSensor;
+
+            protected override string GetUnits()
+            {
+                if (logicCritterCountSensor.countCritters && logicCritterCountSensor.countEggs)
+                    return " c/e";
+                else if (logicCritterCountSensor.countCritters)
+                    return " c";
+                else if (logicCritterCountSensor.countEggs)
+                    return " e";
+                else
+                    return string.Empty;
             }
         }
     }

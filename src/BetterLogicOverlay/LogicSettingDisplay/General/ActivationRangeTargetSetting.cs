@@ -1,10 +1,10 @@
-﻿namespace BetterLogicOverlay.LogicSettingDisplay
+﻿using AzeLib.Attributes;
+
+namespace BetterLogicOverlay.LogicSettingDisplay
 {
     class ActivationRangeTargetSetting : LogicSettingDispComp
     {
-        protected IActivationRangeTarget activationTarget;
-
-        new public void Start() => activationTarget = gameObject.GetComponent<IActivationRangeTarget>();
+        [MyIntGet] protected IActivationRangeTarget activationTarget;
 
         public override string GetSetting()
         {
@@ -15,7 +15,7 @@
         public static void AddToDef(BuildingDef def)
         {
             var go = def.BuildingComplete;
-            var component = go.AddComponent<ActivationRangeTargetSetting>();
+            go.AddComponent<ActivationRangeTargetSetting>();
         }
     }
 }
