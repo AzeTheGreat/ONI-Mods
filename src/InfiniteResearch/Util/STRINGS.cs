@@ -27,6 +27,17 @@ namespace InfiniteResearch
                 public static LocString TOOLTIP = "This Duplicant is intently studying to improve their Science Attribute.";
             }
         }
+
+        public class CHORES
+        {
+            public class PRECONDITIONS
+            {
+                public class REQUIRES_ATTRIBUTE_RANGE
+                {
+                    public static LocString DESCRIPTION = "Science outside range.";
+                }
+            }
+        }
     }
 
     public class BUTTONS

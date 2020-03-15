@@ -48,8 +48,9 @@ namespace InfiniteResearch
         {
             var precondition = new Chore.Precondition()
             {
-                id = "RequireSkillLevel",
-                fn = delegate (ref Chore.Precondition.Context context, object data) { return !isEndlessWorking(instance) || ShouldChoreBeWorked(context); }
+                id = "RequireAttributeRange",
+                fn = delegate (ref Chore.Precondition.Context context, object data) { return !isEndlessWorking(instance) || ShouldChoreBeWorked(context); },
+                description = DUPLICANTS.CHORES.PRECONDITIONS.REQUIRES_ATTRIBUTE_RANGE.DESCRIPTION
             };
             chore.AddPrecondition(precondition, null);
         }
