@@ -34,7 +34,7 @@ namespace InfiniteResearch
             {
                 public class REQUIRES_ATTRIBUTE_RANGE
                 {
-                    public static LocString DESCRIPTION = "Science outside range.";
+                    public static LocString DESCRIPTION = "Science outside range";
                 }
             }
         }
