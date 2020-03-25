@@ -13,8 +13,6 @@ namespace BetterInfoCards
         public List<TextInfo> textInfos = new List<TextInfo>();
         public Entry selectBorder;
 
-        //public Dictionary<string, object> valueTextKeys = new Dictionary<string, object>();
-
         public float Width { get { return shadowBar.rect.rect.width; } }
         public float Height { get { return shadowBar.rect.rect.height; } }
         public float YMax { get { return shadowBar.rect.anchoredPosition.y; } }

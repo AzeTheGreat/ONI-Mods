@@ -79,14 +79,14 @@ namespace BetterInfoCards
                             if (lastStringPush.OperandIs(titleLocal))
                             {
                                 yield return new CodeInstruction(OpCodes.Ldstr, StatusDataManager.title);
-                                yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.Export)));
+                                yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.ExportGO)));
                             }
 
                             // Germs
                             else if (lastStringPush.OperandIs(germLocal))
                             {
                                 yield return new CodeInstruction(OpCodes.Ldstr, StatusDataManager.germs);
-                                yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.Export)));
+                                yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.ExportGO)));
                             }
 
                             // Status items
@@ -101,7 +101,7 @@ namespace BetterInfoCards
                             else if (lastStringPush.OperandIs(tempTarget))
                             {
                                 yield return new CodeInstruction(OpCodes.Ldstr, StatusDataManager.temp);
-                                yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.Export)));
+                                yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.ExportGO)));
                             }
                         }
 
@@ -129,8 +129,9 @@ namespace BetterInfoCards
 
             private static void ExportSelectableFromList(List<KSelectable> selectables) => ExportSelectable(selectables.LastOrDefault());
             private static void ExportSelectable(KSelectable selectable) => Instance.intermediateSelectable = selectable;
-            private static void Export(string name) => Instance.infoCards.Last().AddTextInfoData(name, Instance.intermediateSelectable.gameObject);
-            private static void ExportStatus(StatusItemGroup.Entry entry) => Instance.infoCards.Last().AddTextInfoData(entry.item.Name, entry.data);
+            private static void Export(string name, object data) => Instance.infoCards.Last().AddTextInfoData(name, data);
+            private static void ExportGO(string name) => Export(name, Instance.intermediateSelectable.gameObject);
+            private static void ExportStatus(StatusItemGroup.Entry entry) => Export(entry.item.Name, entry.data);
         }
 
         [HarmonyPatch]

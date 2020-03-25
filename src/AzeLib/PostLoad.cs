@@ -1,4 +1,5 @@
 ﻿using Harmony;
+using HarmonyAnalyzers.Interface;
 using KMod;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Reflection;
 
 namespace AzeLib
 {
+    [HarmonyPatchMock]
     public abstract class PostLoad
     {
         protected abstract IEnumerable<MethodBase> PostLoadTargetMethods();
