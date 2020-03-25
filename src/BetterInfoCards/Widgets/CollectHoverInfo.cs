@@ -78,14 +78,14 @@ namespace BetterInfoCards
                             // Title
                             if (lastStringPush.OperandIs(titleLocal))
                             {
-                                yield return new CodeInstruction(OpCodes.Ldstr, StatusDataManager.title);
+                                yield return new CodeInstruction(OpCodes.Ldstr, ConverterManager.title);
                                 yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.ExportGO)));
                             }
 
                             // Germs
                             else if (lastStringPush.OperandIs(germLocal))
                             {
-                                yield return new CodeInstruction(OpCodes.Ldstr, StatusDataManager.germs);
+                                yield return new CodeInstruction(OpCodes.Ldstr, ConverterManager.germs);
                                 yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.ExportGO)));
                             }
 
@@ -100,7 +100,7 @@ namespace BetterInfoCards
                             // Temps
                             else if (lastStringPush.OperandIs(tempTarget))
                             {
-                                yield return new CodeInstruction(OpCodes.Ldstr, StatusDataManager.temp);
+                                yield return new CodeInstruction(OpCodes.Ldstr, ConverterManager.temp);
                                 yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.ExportGO)));
                             }
                         }

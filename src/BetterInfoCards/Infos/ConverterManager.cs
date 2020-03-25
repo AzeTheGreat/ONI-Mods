@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace BetterInfoCards
 {
-    public static class StatusDataManager
+    public static class ConverterManager
     {
         public const string title = "Title";
         public const string germs = "Germs";
@@ -18,9 +18,9 @@ namespace BetterInfoCards
         private static readonly string oreMass = Db.Get().MiscStatusItems.OreMass.Name;
         private static readonly string oreTemp = Db.Get().MiscStatusItems.OreTemp.Name;
 
-        public static Dictionary<string, ITextDataConverter> statusConverter = new Dictionary<string, ITextDataConverter>();
+        public static Dictionary<string, ITextDataConverter> converters = new Dictionary<string, ITextDataConverter>();
 
-        static StatusDataManager()
+        static ConverterManager()
         {
             // TITLE
             AddConverter(
@@ -73,10 +73,10 @@ namespace BetterInfoCards
 
         public static void AddConverter<T>(string name, Func<object, T> getValue, Func<string, List<T>, string> getTextOverride, List<(Func<T, float>, float)> splitListDefs = null)
         {
-            if (statusConverter.ContainsKey(name))
+            if (converters.ContainsKey(name))
                 throw new Exception("Attempted to add converter with name: " + name + ", but converter with name is already present.");
 
-            statusConverter.Add(name, new Status<T>(getValue, getTextOverride, splitListDefs));
+            converters.Add(name, new Converter<T>(getValue, getTextOverride, splitListDefs));
         }
     }
 }

@@ -9,4 +9,7 @@
     <EmbeddedResource Remove="Previews\**" />
     <None Remove="Previews\**" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Widgets\README.md" />
+  </ItemGroup>
 </Project>

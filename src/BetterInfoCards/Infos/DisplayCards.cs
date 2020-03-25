@@ -56,16 +56,15 @@ namespace BetterInfoCards
                     for (int i = 0; i < kvp.Value[0].textInfos.Count; i++)
                     {
                         var textInfo = kvp.Value[0].textInfos[i];
+
+                        // TODO: This pattern can be abstracted out
+                        // why null check here?
                         if(textInfo.result != null)
                         {
-                            var converter = StatusDataManager.statusConverter[textInfo.name];
-
                             var newSplits = new List<List<InfoCard>>();
 
                             foreach (List<InfoCard> split in splits)
-                            {
-                                newSplits.AddRange(converter.GetSplitLists(split, i));
-                            }
+                                newSplits.AddRange(textInfo.GetSplitLists(split, i));
 
                             splits = newSplits;
                         }

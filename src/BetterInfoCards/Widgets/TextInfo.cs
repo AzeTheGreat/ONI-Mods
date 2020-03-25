@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace BetterInfoCards
 {
@@ -16,12 +15,10 @@ namespace BetterInfoCards
             this.name = name;
             this.data = data;
 
-            if(StatusDataManager.statusConverter.TryGetValue(name, out var statusData))
+            if(ConverterManager.converters.TryGetValue(name, out var converter))
             {
-                isStatus = true;
-                resultFromData = statusData.GetTextValue;
-                getSplitsFromResults = statusData.GetSplitLists;
-                getTextOverrideFromResults = statusData.GetTextOverride;
+                isConvertable = true;
+                this.converter = converter;
             }
         }
 
@@ -30,15 +27,13 @@ namespace BetterInfoCards
         public object data;
         public object result;
         public Entry textEntry;
-        private bool isStatus;
 
-        public Func<object, object> resultFromData;
-        public Func<List<InfoCard>, int, List<List<InfoCard>>> getSplitsFromResults;
-        public Func<string, List<object>, string> getTextOverrideFromResults;
+        private bool isConvertable;
+        private ITextDataConverter converter;
 
         public string GetKey()
         {
-            if (isStatus)
+            if (isConvertable)
                 return name;
             else
                 return (textEntry.widget as LocText).text;
@@ -46,14 +41,14 @@ namespace BetterInfoCards
 
         public void FormTextResult()
         {
-            if (isStatus)
-                result = resultFromData(data);
+            if (isConvertable)
+                result = converter.GetTextValue(data);
         }
 
-        //public List<List<object>> GetSplitLists(List<object> objects)
-        //{
-
-        //}
+        public List<List<InfoCard>> GetSplitLists(List<InfoCard> cards, int index)
+        {
+            return converter.GetSplitLists(cards, index);
+        }
 
         //public void SetTextOverride(List<object> objects)
         //{
@@ -64,8 +59,8 @@ namespace BetterInfoCards
         {
             string original = ((LocText)textEntry.widget).text;
 
-            if (isStatus)
-                return getTextOverrideFromResults(original, results);
+            if (isConvertable)
+                return converter.GetTextOverride(original, results);
             else
                 return original;
         }

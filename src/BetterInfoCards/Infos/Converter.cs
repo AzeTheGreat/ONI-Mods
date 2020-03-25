@@ -12,9 +12,9 @@ namespace BetterInfoCards
         List<List<InfoCard>> GetSplitLists(List<InfoCard> cards, int index);
     }
 
-    public class Status<T> : ITextDataConverter
+    public class Converter<T> : ITextDataConverter
     {
-        public Status(Func<object, T> getValue, Func<string, List<T>, string> getTextOverride, List<(Func<T, float>, float)> splitListDefs = null)
+        public Converter(Func<object, T> getValue, Func<string, List<T>, string> getTextOverride, List<(Func<T, float>, float)> splitListDefs = null)
         {
             this.getValue = getValue;
             this.getTextOverride = getTextOverride;
