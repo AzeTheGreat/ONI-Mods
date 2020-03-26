@@ -1,6 +1,7 @@
-﻿using AzeLib.Extensions;
+﻿ using AzeLib.Extensions;
 using Harmony;
 using Klei.AI;
+using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 
@@ -34,15 +35,25 @@ namespace InfiniteResearch
         [HarmonyPatch(typeof(Telescope), "OnWorkableEvent")]
         static class ProgressBar_Patch
         {
-            static void Postfix(Telescope __instance, ProgressBar ___progressBar)
+            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
             {
-                if (IsEndlessWorking(__instance))
+                foreach (var i in instructions)
                 {
-                    ___progressBar.SetUpdateFunc(delegate
+                    if (i.OpCodeIs(OpCodes.Stsfld))
                     {
-                        return __instance.worker.GetComponent<AttributeLevels>().GetPercentComplete("Learning");
-                    });
+                        yield return new CodeInstruction(OpCodes.Ldarg_0);
+                        yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(ProgressBar_Patch), nameof(ProgressBar_Patch.AlterProgBar)));
+                    }
+                        
+                    yield return i;
                 }
+            }
+
+            private static Func<float> AlterProgBar(Func<float> originalFunc, Telescope instance)
+            {
+                if (IsEndlessWorking(instance))
+                    return () => instance.worker.GetComponent<AttributeLevels>().GetPercentComplete("Learning");
+                return originalFunc;
             }
         }
 
