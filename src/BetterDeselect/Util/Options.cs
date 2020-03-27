@@ -34,10 +34,5 @@ namespace BetterDeselect
             ImplementBuildMenu = false;
             Mode = FixMode.Hold;
         }
-
-        public static void OnLoad()
-        {
-            Load();
-        }
     }
 }

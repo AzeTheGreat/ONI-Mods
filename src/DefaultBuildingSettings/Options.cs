@@ -31,10 +31,5 @@ namespace DefaultBuildingSettings
             AutoRepairOff = false;
             OpenDoors = true;
         }
-
-        public static void OnLoad()
-        {
-            Load();
-        }
     }
 }

@@ -40,10 +40,5 @@ namespace SufficientOxygenGeneration
             RatioThreshold = 0.9f;
             TimeDelay = 30f;
         }
-
-        public static void OnLoad()
-        {
-            Load();
-        }
     }
 }

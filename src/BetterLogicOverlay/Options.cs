@@ -44,7 +44,6 @@ namespace BetterLogicOverlay
 
         public static void OnLoad()
         {
-            Load();
             PLocalization.Register();
         }
 

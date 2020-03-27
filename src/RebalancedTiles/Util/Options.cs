@@ -148,10 +148,5 @@ namespace RebalancedTiles
 
             DoMeshedTilesReduceSunlight = true;
         }
-
-        public static void OnLoad()
-        {
-            Load();
-        }
     }
 }

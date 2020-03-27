@@ -28,10 +28,5 @@ namespace DefaultSaveSettings
             AutoSaveInterval = 6;
             TimelapseResolution = 3;
         }
-
-        public static void OnLoad()
-        {
-            Load();
-        }
     }
 }

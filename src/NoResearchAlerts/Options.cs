@@ -29,10 +29,5 @@ namespace NoResearchAlerts
             AlertMode = Mode.None;
             SuppressMessage = false;
         }
-
-        public static void OnLoad()
-        {
-            Load();
-        }
     }
 }

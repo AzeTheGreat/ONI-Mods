@@ -78,10 +78,10 @@ namespace BetterInfoCards
             };
         }
 
-        public static void OnLoad()
-        {
-            Load();
-        }
+        //public static void OnLoad()
+        //{
+        //    Load();
+        //}
 
         public class CardSize
         {

@@ -16,10 +16,5 @@ namespace FixedCameraPan
         {
             PanSpeed = 80f;
         }
-
-        public static void OnLoad()
-        {
-            Load();
-        }
     }
 }

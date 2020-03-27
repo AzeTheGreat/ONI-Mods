@@ -63,7 +63,6 @@ namespace InfiniteResearch
         public static void OnLoad()
         {
             PLocalization.Register();
-            Load();
         }
     }
 }
