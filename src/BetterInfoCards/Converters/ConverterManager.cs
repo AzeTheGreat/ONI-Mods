@@ -12,16 +12,19 @@ namespace BetterInfoCards
         public const string germs = "Germs";
         public const string temp = "Temp";
 
-        private const string sumSuffix = " (Σ)";
-        private const string avgSuffix = " (μ)";
+        public const string sumSuffix = " (Σ)";
+        public const string avgSuffix = " (μ)";
 
-        private static readonly string oreMass = Db.Get().MiscStatusItems.OreMass.Name;
-        private static readonly string oreTemp = Db.Get().MiscStatusItems.OreTemp.Name;
-
-        public static Dictionary<string, ITextDataConverter> converters = new Dictionary<string, ITextDataConverter>();
+        private static Dictionary<string, Func<Entry, string, object, TextInfo>> converters = new Dictionary<string, Func<Entry, string, object, TextInfo>>();
 
         static ConverterManager()
         {
+            // DEFAULT
+            AddConverter<object>(
+                string.Empty,
+                data => null,
+                (original, o) => original);
+
             // TITLE
             AddConverter(
                 title,
@@ -56,19 +59,6 @@ namespace BetterInfoCards
                 data => ((GameObject)data).GetComponent<PrimaryElement>().Temperature,
                 (original, temps) => GameUtil.GetFormattedTemperature(temps.Average()) + avgSuffix,
                 new List<(Func<float, float>, float)>() { ((float x) => x, 10f) });
-
-            // ORE MASS
-            AddConverter(
-                oreMass,
-                data => ((GameObject)data).GetComponent<PrimaryElement>().Mass,
-                (original, masses) => oreMass.Replace("{Mass}", GameUtil.GetFormattedMass(masses.Sum())) + sumSuffix);
-
-            // ORE TEMP
-            AddConverter(
-                oreTemp,
-                data => ((GameObject)data).GetComponent<PrimaryElement>().Temperature,
-                (original, temps) => oreTemp.Replace("{Temp}", GameUtil.GetFormattedTemperature(temps.Average())) + avgSuffix,
-                new List<(Func<float, float>, float)>() { ((float x) => x, 10f) });
         }
 
         public static void AddConverter<T>(string name, Func<object, T> getValue, Func<string, List<T>, string> getTextOverride, List<(Func<T, float>, float)> splitListDefs = null)
@@ -76,7 +66,26 @@ namespace BetterInfoCards
             if (converters.ContainsKey(name))
                 throw new Exception("Attempted to add converter with name: " + name + ", but converter with name is already present.");
 
-            converters.Add(name, new Converter<T>(getValue, getTextOverride, splitListDefs));
+            converters.Add(name, (Entry e, string n, object d) => new TextInfo<T>(e, n, d, getValue, getTextOverride, splitListDefs));
+        }
+
+        // This is not to be used internally - for reflection from external mods only.
+        private static void AddConverterReflect(string name, object getValue, object getTextOverride, object splitListDefs)
+        {
+            var type = getValue.GetType().GetGenericArguments()[1];
+            var method = typeof(ConverterManager).GetMethod(nameof(ConverterManager.AddConverter)).MakeGenericMethod(type);
+            method.Invoke(null, new object[] { name, getValue, getTextOverride, splitListDefs });
+        }
+
+        public static Func<Entry, string, object, TextInfo> GetConverter(string name)
+        {
+            if (converters.TryGetValue(name, out var converter))
+                return converter;
+
+            else if (converters.TryGetValue(string.Empty, out var defaultConv))
+                return defaultConv;
+
+            throw new Exception("Somehow name: `" + name + "` wasn't in the dict, and the fallback `string.Empty` wasn't either...");
         }
     }
 }

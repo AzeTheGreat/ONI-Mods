@@ -2,7 +2,6 @@
 using HarmonyAnalyzers.Interface;
 using KMod;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace AzeLib
@@ -26,7 +25,7 @@ namespace AzeLib
 
                 foreach (var instance in instances)
                 {
-                    foreach (var method in instance.PostLoadTargetMethods())
+                    foreach (var targetMethod in instance.PostLoadTargetMethods())
                     {
                         HarmonyMethod harmonyPrefix = null;
                         HarmonyMethod harmonyPostfix = null;
@@ -40,7 +39,7 @@ namespace AzeLib
                         if (AccessTools.Method(instance.GetType(), "Transpiler") != null)
                             harmonyTranspiler = new HarmonyMethod(instance.GetType(), "Transpiler");
 
-                        harmonyInstance.Patch(method, harmonyPrefix, harmonyPostfix, harmonyTranspiler);
+                        harmonyInstance.Patch(targetMethod, harmonyPrefix, harmonyPostfix, harmonyTranspiler);
                     }
                 }
             }

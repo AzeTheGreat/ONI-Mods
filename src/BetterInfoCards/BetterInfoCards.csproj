@@ -10,6 +10,6 @@
     <None Remove="Previews\**" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Widgets\README.md" />
+    <None Remove="Export\README.md" />
   </ItemGroup>
 </Project>

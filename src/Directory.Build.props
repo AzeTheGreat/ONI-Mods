@@ -18,12 +18,15 @@
   </PropertyGroup>
 
   <ItemDefinitionGroup>
-    <Reference>
-      <Private>False</Private>
-    </Reference>
-    <ProjectReference>
-      <Private>False</Private>
-    </ProjectReference>
+	  <Reference>
+		  <Private>False</Private>
+	  </Reference>
+	  <ProjectReference>
+		  <Private>False</Private>
+	  </ProjectReference>
+	  <PackageReference>
+		  <Private>False</Private>
+	  </PackageReference>
   </ItemDefinitionGroup>
 
   <ItemGroup>

@@ -11,11 +11,11 @@ namespace FixedCameraPan
     [HarmonyPatch(typeof(CameraController), "NormalCamUpdate")]
     public static class ConstantSpeed_Patch
     {
-        private static float spikeThreshold = 0.01f;
+        //private static float spikeThreshold = 0.01f;
 
-        private static float lastFrameDT = 0.05f;
-        private static float lastLastFrameDT = 0.05f;
-        private static float lastGoodDT = 0.05f;
+        //private static float lastFrameDT = 0.05f;
+        //private static float lastLastFrameDT = 0.05f;
+        //private static float lastGoodDT = 0.05f;
 
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {

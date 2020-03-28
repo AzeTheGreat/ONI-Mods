@@ -36,10 +36,12 @@ If you transpile to add additional entries to info cards, you will need to provi
 
 To do this, you must export a unique string `name`, describing the type of your entry, and an object `data` to be used in processing.  For example, if your mod showed the heat capacity of an element, the name might be `MyNamespaceHeatCapacity`, and the data could be the `GameObject` of the selectable, or a specific `Component`.
 
-To accomplish this, you must push a string, and then an object onto the stack, and then call `GetSelectInfo_Patch.Export`.  This should be done right after the `DrawText` call you insert.  Since mods cannot be used as references, this method must be called through reflection, and should handle BIC not being present.
+To accomplish this, you must push a string, and then an object onto the stack, and then call `GetSelectInfo_Patch.Export`.  This should be done right after the `DrawText` call you insert.  
+
+Since mods cannot safely be used as references, this method must be called through reflection, and should handle BIC not being present.  Additionally, to be load order agnostic, you reference BIC after all mods have loaded.  This is usually done by manually patching later in the load process.
 
 ```
-if(AccessTools.Method("GetSelectInfo_Patch", "ExportGO") is MethodInfo export)
+if(AccessTools.Method("GetSelectInfo_Patch:ExportGO") is MethodInfo export)
 {
 	yield return new CodeInstruction(OpCodes.Ldstr, "MyNamespaceHeatCapacity"); // Push your string onto the stack.
 	yield return new CodeInstruction(); // Push your object onto the stack however you want.
@@ -62,4 +64,15 @@ This consists of four things:
 	* `Func<T, float>` defines a function that process your result into the value to use for splitting.
 	* `float` defines the band size to split with.
 	
-Adding a Data Converter should be done by invoking `StatusDataManager.AddConverter<T>` through reflection and providing the above parameters.
+Adding a Data Converter should be done by invoking `ConverterManager.AddConverterReflect` through reflection and providing the above parameters.
+
+```
+if (AccessTools.Method("ConverterManager:AddConverterReflect") is MethodInfo addConverter)
+{
+	addConverter.Invoke(null, new object[] {
+		oreMass,
+		new Func<object, float>((data) => ((GameObject)data).GetComponent<PrimaryElement>().Mass),
+		new Func<string, List<float>, string>((original, masses) => oreMass.Replace("{Mass}", GameUtil.GetFormattedMass(masses.Sum())) + ConverterManager.sumSuffix),
+		null });
+	}
+```			

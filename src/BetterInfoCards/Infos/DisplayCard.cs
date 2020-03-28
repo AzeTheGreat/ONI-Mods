@@ -57,7 +57,6 @@ namespace BetterInfoCards
             {
                 if(card != VisCard)
                 {
-                    // TODO: See if it's more performant to not check and just shift
                     if (card.YMax > MinY)
                         card.Translate(0f, MinY - card.YMax);
                 }
