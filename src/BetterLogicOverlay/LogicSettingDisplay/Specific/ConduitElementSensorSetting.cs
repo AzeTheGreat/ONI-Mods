@@ -11,8 +11,7 @@ namespace BetterLogicOverlay.LogicSettingDisplay
 
         public override string GetSetting()
         {
-            Element element = ElementLoader.FindElementByHash((SimHashes)filterable.SelectedTag.GetHash());
-            return element.GetAbbreviation();
+            return filterable.SelectedTag.GetAbbreviation();
         }
 
         [HarmonyPatch]

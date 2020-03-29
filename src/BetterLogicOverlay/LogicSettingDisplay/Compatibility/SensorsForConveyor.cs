@@ -17,19 +17,11 @@ namespace BetterLogicOverlay.LogicSettingDisplay.ModCompatability
         {
             Tag tag = treeFilterable.AcceptedTags.FirstOrDefault();
 
-            if (tag == null)
-                return STRINGS.ELEMENTS.VOID.NAME;
-
             string additionalTags = string.Empty;
             if (treeFilterable.AcceptedTags.Count > 1)
                 additionalTags = " +" + (treeFilterable.AcceptedTags.Count - 1);
 
-            Element element = ElementLoader.FindElementByHash((SimHashes)tag.GetHash());
-
-            if (element == null)
-                return STRINGS.UI.StripLinkFormatting(TagManager.GetProperName(tag)).Truncate(5) + additionalTags;
-
-            return element.GetAbbreviation() + additionalTags;
+            return tag.GetAbbreviation() + additionalTags;
         }
 
         private class Add : PostLoad
