@@ -1,25 +1,11 @@
-﻿using System.Collections.Generic;
-
-namespace BetterInfoCards
+﻿namespace BetterInfoCards
 {
     public static class Extensions
     {
-        public static string RemoveCountSuffix(this string text)
+        public static string RemoveCountSuffix(this string s)
         {
-            int i;
-            bool wasDigit = false;
-            for (i = text.Length - 1; i >= 0; i--)
-            {
-                if (char.IsDigit(text[i]))
-                    wasDigit = true;
-                else
-                    break;
-            }
-
-            if (wasDigit)
-                text = text.Remove(i - 2, text.Length - i + 2);
-
-            return text;
+            var i = s.IndexOf(" x ");
+            return s.Substring(0, i != -1 ? i : s.Length);
         }
     }
 }
