@@ -1,57 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
-  <Import Condition=" !Exists('Directory.Build.props.user') " Project="Directory.Build.props.default" />
-  <Import Condition=" Exists('Directory.Build.props.user') " Project="Directory.Build.props.user" />
+	<Import Condition=" !Exists('Directory.Build.props.user') " Project="Directory.Build.props.default" />
+	<Import Condition=" Exists('Directory.Build.props.user') " Project="Directory.Build.props.user" />
 
-  <PropertyGroup>
-    <Version>
-      $([System.DateTime]::Now.Year).
-      $([System.DateTime]::Now.Month).
-      $([System.DateTime]::Now.Day).
-      $([System.Convert]::ToUInt16(
-          $([MSBuild]::Divide(
-              $([System.DateTime]::Now.TimeOfDay.TotalSeconds),
-              1.32
-          ))
-      ))
-    </Version>
-  </PropertyGroup>
+	<ItemDefinitionGroup>
+		<Reference>
+			<Private>False</Private>
+		</Reference>
+		<ProjectReference>
+			<Private>False</Private>
+		</ProjectReference>
+		<PackageReference>
+			<Private>False</Private>
+		</PackageReference>
+	</ItemDefinitionGroup>
 
-  <ItemDefinitionGroup>
-	  <Reference>
-		  <Private>False</Private>
-	  </Reference>
-	  <ProjectReference>
-		  <Private>False</Private>
-	  </ProjectReference>
-	  <PackageReference>
-		  <Private>False</Private>
-	  </PackageReference>
-  </ItemDefinitionGroup>
+	<ItemGroup>
+		<PackageReference Include="ILRepack.MSBuild.Task" Version="2.0.13" />
+		<PackageReference Include="HarmonyAnalyzers" Version="1.0.0" />
+		<PackageReference Include="OniAnalyzers" Version="1.0.0" />
+		<PackageReference Include="PLib" Version="3.5.1" Private="true" />
+		<PackageReference Include="SuppressionAttributes" Version="1.0.0" />
+		<PackageReference Include ="MSBuildTasks" Version="1.5.0.235"/>
+		<PackageReference Include ="System.ValueTuple" Version="4.5.0"/>
+		<Reference Include="0Harmony" HintPath="$(GameFolder)/0Harmony.dll" />
+		<Reference Include="Assembly-CSharp" HintPath="$(GameFolder)/Assembly-CSharp.dll"  />
+		<Reference Include="Assembly-CSharp-firstpass" HintPath="$(GameFolder)/Assembly-CSharp-firstpass.dll" />
+		<Reference Include="Newtonsoft.Json" HintPath="$(GameFolder)/Newtonsoft.Json.dll" />
+		<Reference Include="UnityEngine" HintPath="$(GameFolder)/UnityEngine.dll" />
+		<Reference Include="UnityEngine.CoreModule" HintPath="$(GameFolder)/UnityEngine.CoreModule.dll" />
+		<Reference Include="UnityEngine.ImageConversionModule" HintPath="$(GameFolder)/UnityEngine.ImageConversionModule.dll" />
+		<Reference Include="Unity.TextMeshPro" HintPath="$(GameFolder)/Unity.TextMeshPro.dll" />
+		<Reference Include="UnityEngine.TextRenderingModule" HintPath="$(GameFolder)/UnityEngine.TextRenderingModule.dll" />
+		<Reference Include="UnityEngine.UI" HintPath="$(GameFolder)/UnityEngine.UI.dll" />
+		<Reference Include="UnityEngine.UIModule" HintPath="$(GameFolder)/UnityEngine.UIModule.dll" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="ILRepack.MSBuild.Task" Version="2.0.13" />
-    <PackageReference Include="HarmonyAnalyzers" Version="1.0.0" />
-    <PackageReference Include="OniAnalyzers" Version="1.0.0" />
-    <PackageReference Include="PLib" Version="3.5.1" Private="true" />
-    <PackageReference Include="SuppressionAttributes" Version="1.0.0" />
-    <PackageReference Include ="MSBuildTasks" Version="1.5.0.235"/>
-    <PackageReference Include ="System.ValueTuple" Version="4.5.0"/>
-    <Reference Include="0Harmony" HintPath="$(GameFolder)/0Harmony.dll" />
-    <Reference Include="Assembly-CSharp" HintPath="$(GameFolder)/Assembly-CSharp.dll"  />
-    <Reference Include="Assembly-CSharp-firstpass" HintPath="$(GameFolder)/Assembly-CSharp-firstpass.dll" />
-    <Reference Include="Newtonsoft.Json" HintPath="$(GameFolder)/Newtonsoft.Json.dll" />
-    <Reference Include="UnityEngine" HintPath="$(GameFolder)/UnityEngine.dll" />
-    <Reference Include="UnityEngine.CoreModule" HintPath="$(GameFolder)/UnityEngine.CoreModule.dll" />
-    <Reference Include="UnityEngine.ImageConversionModule" HintPath="$(GameFolder)/UnityEngine.ImageConversionModule.dll" />
-    <Reference Include="Unity.TextMeshPro" HintPath="$(GameFolder)/Unity.TextMeshPro.dll" />
-    <Reference Include="UnityEngine.TextRenderingModule" HintPath="$(GameFolder)/UnityEngine.TextRenderingModule.dll" />
-    <Reference Include="UnityEngine.UI" HintPath="$(GameFolder)/UnityEngine.UI.dll" />
-    <Reference Include="UnityEngine.UIModule" HintPath="$(GameFolder)/UnityEngine.UIModule.dll" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(UsesAzeLib)' != 'false' ">
-    <ProjectReference Include ="../AzeLib/AzeLib.csproj" Private ="true" />
-  </ItemGroup>
+	<ItemGroup Condition=" '$(UsesAzeLib)' != 'false' ">
+		<ProjectReference Include ="../AzeLib/AzeLib.csproj" Private ="true" />
+	</ItemGroup>
 
 </Project>

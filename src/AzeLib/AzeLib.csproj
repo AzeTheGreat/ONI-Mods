@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net40</TargetFramework>
-    <AssemblyTitle>AzeLib</AssemblyTitle>
-    <Version>1.0.0</Version>
-	  <UsesAzeLib>false</UsesAzeLib>
-    <ShouldDistribute>false</ShouldDistribute>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Previews\**" />
-    <EmbeddedResource Remove="Previews\**" />
-    <None Remove="Previews\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Update="../lib/PLib.dll">
-      <Private>true</Private>
-    </Reference>
-  </ItemGroup>
+
+	<PropertyGroup>
+		<TargetFramework>net40</TargetFramework>
+		<AssemblyTitle>AzeLib</AssemblyTitle>
+		<UsesAzeLib>false</UsesAzeLib>
+		<ShouldDistribute>false</ShouldDistribute>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="Previews\**" />
+		<EmbeddedResource Remove="Previews\**" />
+		<None Remove="Previews\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Update="../lib/PLib.dll">
+			<Private>true</Private>
+		</Reference>
+	</ItemGroup>
+
 </Project>

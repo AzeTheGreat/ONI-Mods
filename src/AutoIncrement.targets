@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+
+	<!--TODO: Figure out why "RoslynCodeTaskFactory" can't find the reference (sometimes)...and then use new c# features to make this cleaner.-->
+	<UsingTask
+	  TaskName="AutoIncrement"
+	  TaskFactory="CodeTaskFactory"
+	  AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll" >
+
+		<ParameterGroup>
+			<Path ParameterType="System.String" Required="true" />
+			<Revision ParameterType="System.UInt16" Output="true" />
+		</ParameterGroup>
+
+		<Task>
+			<Reference Include="$(GameFolder)/Newtonsoft.Json.dll" />
+			<Code Type="Class" Language="cs">
+				<![CDATA[
+using Microsoft.Build.Utilities;
+using Newtonsoft.Json;
+using System.IO;
+
+public class AutoIncrement : Task
+{
+    public string Path { get; set; }
+    public ushort Revision { get; set; }
+
+    public override bool Execute()
+    {
+        var version = LoadVersion();
+        if (version.IsCurrentDate())
+            version.revision += 1;
+        else
+            version = new Version();
+
+        WriteVersion(version);
+        Revision = version.revision;
+        Log.LogWarning("REVISION: " + Revision);
+        return true;
+    }
+
+    private Version LoadVersion()
+    {
+        if (!File.Exists(Path + "version.json"))
+            return new Version() { major = 0 };
+        using (StreamReader sr = new StreamReader(Path + "version.json")) { return JsonConvert.DeserializeObject<Version>(sr.ReadToEnd()); }
+    }
+
+    private void WriteVersion(Version version)
+    {
+        using (StreamWriter sw = new StreamWriter(Path + "version.json")) { sw.Write(JsonConvert.SerializeObject(version)); }
+    }
+
+    private class Version
+    {
+        public int major = System.DateTime.Now.Year;
+        public int minor = System.DateTime.Now.Month;
+        public int build = System.DateTime.Now.Day;
+        public ushort revision;
+
+        public bool IsCurrentDate()
+        {
+            return major == System.DateTime.Now.Year && minor == System.DateTime.Now.Month && build == System.DateTime.Now.Day;
+        }
+    }
+}
+]]>
+			</Code>
+		</Task>
+	</UsingTask>
+
+</Project>
