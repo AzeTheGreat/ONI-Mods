@@ -5,7 +5,7 @@ using UnityEngine;
 namespace BetterInfoCards
 {
     [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.DrawText), new Type[] { typeof(string), typeof(TextStyleSetting), typeof(Color), typeof(bool) })]
-    class CompactCards
+    class FontSizeDecrease_Patch
     {
         private static readonly int fontSizeDecrease = Options.Opts.InfoCardSize.fontSizeDecrease;
 
@@ -13,19 +13,19 @@ namespace BetterInfoCards
 
         static void Prefix(ref TextStyleSetting style)
         {
-            if (style != null)
+            if (style)
                 style.fontSize -= fontSizeDecrease;
         }
 
         static void Postfix(ref TextStyleSetting style)
         {
-            if (style != null)
+            if (style)
                 style.fontSize += fontSizeDecrease;
         }
     }
 
     [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.NewLine))]
-    class CompactCards2
+    class NewLineHeight_Patch
     {
         private static readonly int minHeight = Options.Opts.InfoCardSize.minHeight;
 
@@ -38,7 +38,7 @@ namespace BetterInfoCards
     }
 
     [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.DrawIcon), new Type[] { typeof(Sprite), typeof(Color), typeof(int), typeof(int)})]
-    class CompactCards4
+    class MaxImageSize_Patch
     {
         private static readonly int maxImageSize = Options.Opts.InfoCardSize.maxImageSize;
 
@@ -52,16 +52,18 @@ namespace BetterInfoCards
     }
 
     [HarmonyPatch(typeof(HoverTextDrawer), MethodType.Constructor, new Type[] { typeof(HoverTextDrawer.Skin), typeof(RectTransform)})]
-    class CompactCards3
+    class Opacity_Patch
     {
-        private static readonly Vector2 border = Options.Opts.InfoCardSize.shadowBarBorder;
+        private static readonly Vector2 border = Options.Opts.InfoCardSize.ShadowBarBorder;
         private static readonly float opacity = Options.Opts.InfoCardOpacity;
 
         static void Prefix(ref HoverTextDrawer.Skin skin)
         {
             if(Options.Opts.Compactness != Options.CompactMode.Default)
                 skin.shadowBarBorder = border;
-            skin.shadowImageColor.a = opacity;
+
+            var c = skin.shadowBarWidget.color;
+            skin.shadowBarWidget.color = new Color(c.r, c.g, c.b, opacity);
         }
     }
 }

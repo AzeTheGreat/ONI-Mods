@@ -1,4 +1,5 @@
 ﻿using AzeLib;
+using Harmony;
 using Newtonsoft.Json;
 using PeterHan.PLib;
 using UnityEngine;
@@ -10,8 +11,7 @@ namespace BetterInfoCards
     public class Options : BaseOptions<Options>
     {
         [Option("Info Card Compactness", "How compact the info cards should be.")]
-        [JsonProperty]
-        public CompactMode Compactness { get; set; }
+        [JsonProperty] public CompactMode Compactness { get; set; }
         public enum CompactMode
         {
             [Option("Default", "The game's default sizing")]
@@ -24,8 +24,10 @@ namespace BetterInfoCards
             Custom
         }
         
-        public CardSize InfoCardSize {
-            get {
+        public CardSize InfoCardSize
+        {
+            get
+            {
                 switch (Compactness)
                 {
                     case CompactMode.Default:
@@ -42,27 +44,26 @@ namespace BetterInfoCards
             }
         }
 
-        [JsonProperty]
-        private CardSize CustomCardSize { get; set; }
+        [JsonProperty] private CardSize CustomCardSize { get; set; }
+
         private static readonly CardSize defaultCardSize = new CardSize();
         private static readonly CardSize smallCardSize = new CardSize
         {
             fontSizeDecrease = 2,
             minHeight = 16,
             maxImageSize = 16,
-            shadowBarBorder = new Vector2(10f, 6f)
+            ShadowBarBorder = new Vector2(10f, 6f)
         };
         private static readonly CardSize tinyCardSize = new CardSize
         {
             fontSizeDecrease = 3,
             minHeight = 14,
             maxImageSize = 12,
-            shadowBarBorder = new Vector2(5f, 3f)
+            ShadowBarBorder = new Vector2(5f, 3f)
         };
 
-        [Option("Info Card Opacity", "Game default is x.")]
-        [JsonProperty]
-        public float InfoCardOpacity { get; set; }
+        [Option("Info Card Opacity", "Game default is 0.9.")]
+        [JsonProperty] public float InfoCardOpacity { get; set; }
 
         public Options()
         {
@@ -74,21 +75,23 @@ namespace BetterInfoCards
                 fontSizeDecrease = smallCardSize.fontSizeDecrease,
                 minHeight = smallCardSize.minHeight,
                 maxImageSize = smallCardSize.maxImageSize,
-                shadowBarBorder = smallCardSize.shadowBarBorder
+                ShadowBarBorder = smallCardSize.ShadowBarBorder
             };
         }
 
-        //public static void OnLoad()
-        //{
-        //    Load();
-        //}
-
+        [JsonObject(MemberSerialization.OptIn)]
         public class CardSize
         {
-            public int fontSizeDecrease = 0;
-            public int minHeight = 0;
-            public int maxImageSize = 0;
-            public Vector2 shadowBarBorder = Vector2.zero;
+            public Vector2 ShadowBarBorder
+            { 
+                get => new Vector2(shadowBarBorder.x, shadowBarBorder.y);
+                set => shadowBarBorder = (value.x, value.y); 
+            }
+
+            [JsonProperty] public int fontSizeDecrease = 0;
+            [JsonProperty] public int minHeight = 0;
+            [JsonProperty] public int maxImageSize = 0;
+            [JsonProperty] private (float x, float y) shadowBarBorder = (0, 0);
         }
     }
 }
