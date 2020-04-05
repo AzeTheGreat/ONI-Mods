@@ -26,6 +26,18 @@ namespace DefaultSaveSettings
                 public static LocString NAME = "Default Timelapse Resolution";
                 public static LocString TOOLTIP = "Controls the default timelapse resolution. Corresponds to the same values in the normal UI's sliders (sorry about the lack of clarity right now).";
             }
+
+            public class ENABLEAUTODISINFECT
+            {
+                public static LocString NAME = "Enable Auto Disinfect Default";
+                public static LocString TOOLTIP = "If checked, the 'Disinfect At' option will default to true for new games.";
+            }
+
+            public class DISINFECTMINGERMCOUNT
+            {
+                public static LocString NAME = "Default Germ Count for Disinfect";
+                public static LocString TOOLTIP = "Controls the default minimum germ count for auto disinfection.";
+            }
         }
     }
 }
