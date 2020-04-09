@@ -2,7 +2,6 @@
 using PeterHan.PLib;
 using PeterHan.PLib.Options;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -45,16 +44,10 @@ namespace AzeLib
         private static MethodInfo readSettings;
         private static Type optionType;
 
-        // Can't just put OnLoad inside BaseOptions because it's generic.
-        public static void OnLoad()
-        {
-            if(optionType != null)
-                AccessTools.Method(optionType, "Load").Invoke(null, null);    
-        }
-
         static bool Prepare()
         {
-            var inheritingTypes = typeof(BaseOptions<>).Assembly.GetTypes().Where(t => ReflectionHelpers.IsSubclassOfRawGeneric(typeof(BaseOptions<>), t));
+            var inheritingTypes = ReflectionHelpers.GetChildTypesOfGenericType(typeof(BaseOptions<>));
+
             // Assume only one Options per assembly
             optionType = inheritingTypes.FirstOrDefault();
 
@@ -64,6 +57,13 @@ namespace AzeLib
 
             readSettings = AccessTools.Method(optionType, "ReadSettings").MakeGenericMethod(optionType);
             return true;
+        }
+
+        // Can't just put OnLoad inside BaseOptions because it's generic.
+        public static void OnLoad()
+        {
+            if (optionType != null)
+                AccessTools.Method(optionType, "Load").Invoke(null, null);
         }
 
         static void Postfix() => readSettings.Invoke(null, null);

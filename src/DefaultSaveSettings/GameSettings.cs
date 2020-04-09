@@ -7,7 +7,7 @@ namespace DefaultSaveSettings
     {
         static void Postfix(Game __instance)
         {
-            __instance.advancedPersonalPriorities = Options.Opts.EnableProximityDefault;
+            __instance.advancedPersonalPriorities = Options.Opts.EnableProximity;
         }
     }
 }

@@ -28,6 +28,7 @@ public class AutoIncrement : Task
     public override bool Execute()
     {
         var version = LoadVersion();
+
         if (version.IsCurrentDate())
             version.revision += 1;
         else
@@ -35,7 +36,6 @@ public class AutoIncrement : Task
 
         WriteVersion(version);
         Revision = version.revision;
-        Log.LogWarning("REVISION: " + Revision);
         return true;
     }
 
