@@ -1,28 +1,43 @@
 ﻿using AzeLib;
-using Newtonsoft.Json;
 using PeterHan.PLib;
+using static DefaultBuildingSettings.STRINGS.DEFAULTBUILDINGSETTINGS.OPTIONS;
 
 namespace DefaultBuildingSettings
 {
-    [JsonObject(MemberSerialization.OptIn)]
-    [PeterHan.PLib.Options.RestartRequired]
     public class Options : BaseOptions<Options>
     {
-        [Option("Vacancy Only", "If checked, atmo and jet suit checkpoint are set to Vacancy Only by default.")]
-        [JsonProperty]
+        [Option(VACANCYONLY.nameKey, VACANCYONLY.tooltipKey)]
         public bool VacancyOnly { get; set; }
 
-        [Option("Sweep Only", "If checked, storage receptacles are set to sweep only by default.")]
-        [JsonProperty]
+        [Option(SWEEPONLY.nameKey, SWEEPONLY.tooltipKey)]
         public bool SweepOnly { get; set; }
 
-        [Option("Auto Repair Off", "If checked, buildings will not allow repairs by default.")]
-        [JsonProperty]
+        [Option(AUTOREPAIROFF.nameKey, AUTOREPAIROFF.tooltipKey)]
         public bool AutoRepairOff { get; set; }
 
-        [Option("Open Doors", "If checked, Doors that allow airflow will immediately be opened after being built.")]
-        [JsonProperty]
+        [Option(OPENDOOR.nameKey, OPENDOOR.tooltipKey)]
         public bool OpenDoors { get; set; }
+
+        [Option(ACTIVATIONRANGE.ACTIVATEVALUE.nameKey, ACTIVATIONRANGE.ACTIVATEVALUE.tooltipKey, ACTIVATIONRANGE.batteryCatKey)]
+        [Limit(0, 100)]
+        public int SmartBatteryActivateValue { get; set; }
+        [Option(ACTIVATIONRANGE.DEACTIVATEVALUE.nameKey, ACTIVATIONRANGE.DEACTIVATEVALUE.tooltipKey, ACTIVATIONRANGE.batteryCatKey)]
+        [Limit(0, 100)]
+        public int SmartBatteryDeactivateValue { get; set; }
+
+        [Option(ACTIVATIONRANGE.ACTIVATEVALUE.nameKey, ACTIVATIONRANGE.ACTIVATEVALUE.tooltipKey, ACTIVATIONRANGE.reservoirCatKey)]
+        [Limit(0, 100)]
+        public int ReservoirActivateValue { get; set; }
+        [Option(ACTIVATIONRANGE.DEACTIVATEVALUE.nameKey, ACTIVATIONRANGE.DEACTIVATEVALUE.tooltipKey, ACTIVATIONRANGE.reservoirCatKey)]
+        [Limit(0, 100)]
+        public int ReservoirDeactivateValue { get; set; }
+
+        [Option(GENERATORS.DELIVERGENVALUE.nameKey, GENERATORS.DELIVERGENVALUE.tooltipKey, GENERATORS.categoryKey)]
+        [Limit(0, 100)]
+        public int DeliverGenValue { get; set; }
+        [Option(GENERATORS.MANUALGENVALUE.nameKey, GENERATORS.MANUALGENVALUE.tooltipKey, GENERATORS.categoryKey)]
+        [Limit(0, 100)]
+        public int ManualGenValue { get; set; }
 
         public Options()
         {
@@ -30,6 +45,15 @@ namespace DefaultBuildingSettings
             SweepOnly = true;
             AutoRepairOff = false;
             OpenDoors = true;
+
+            SmartBatteryActivateValue = 5;
+            SmartBatteryDeactivateValue = 95;
+
+            ReservoirActivateValue = 5;
+            ReservoirDeactivateValue = 95;
+
+            DeliverGenValue = 25;
+            ManualGenValue = 25;
         }
     }
 }
