@@ -1,5 +1,4 @@
 ﻿using AzeLib;
-using Harmony;
 using Newtonsoft.Json;
 using PeterHan.PLib;
 using UnityEngine;
@@ -16,7 +15,7 @@ namespace BetterInfoCards
         {
             [Option("Default", "The game's default sizing")]
             Default,
-            [Option("Small", "Recommended: small but easily readbale.")]
+            [Option("Small", "Recommended: small but easily readable.")]
             Small,
             [Option("Tiny", "Hard to read, but very compact.")]
             Tiny,

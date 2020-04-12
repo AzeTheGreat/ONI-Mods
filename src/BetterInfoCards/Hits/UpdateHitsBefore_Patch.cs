@@ -1,6 +1,7 @@
 ﻿using AzeLib.Extensions;
 using Harmony;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -13,7 +14,7 @@ namespace BetterInfoCards
 
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            var codes = new List<CodeInstruction>(instructions);
+            var codes = instructions.ToList();
 
             MethodInfo updateTarget = AccessTools.Method(typeof(InterfaceTool), "UpdateHoverElements");
             MethodInfo insertTarget = AccessTools.Method(typeof(InterfaceTool), "GetSelectablesUnderCursor");
