@@ -24,19 +24,11 @@ namespace DefaultSaveSettings
 
                 public class AUTOSAVEINTERVAL
                 {
-                    private const string t = options + nameof(AUTOSAVEINTERVAL) + d;
-                    internal const string nameKey = t + nameof(NAME);
-                    internal const string tooltipKey = t + nameof(TOOLTIP);
+                    private const string saveInterval = options + nameof(AUTOSAVEINTERVAL) + d;
+                    internal const string nameKey = saveInterval + nameof(NAME);
+                    internal const string tooltipKey = saveInterval + nameof(TOOLTIP);
                     public static LocString NAME = "Default Auto Save Interval";
-                    public static LocString TOOLTIP = "Controls the default auto save interval." + Environment.NewLine +
-                        "0 = Never" + Environment.NewLine +
-                        "1 = Every 50 Cycles" + Environment.NewLine +
-                        "2 = Every 20 Cycles" + Environment.NewLine +
-                        "3 = Every 10 Cycles" + Environment.NewLine +
-                        "4 = Every 5 Cycles" + Environment.NewLine +
-                        "5 = Every 2 Cycles" + Environment.NewLine +
-                        "6 = Every Cycle (Default)";
-
+                    public static LocString TOOLTIP = "Controls the default auto save interval.";
                 }
 
                 public class TIMELAPSERESOLUTION
@@ -45,14 +37,7 @@ namespace DefaultSaveSettings
                     internal const string nameKey = t + nameof(NAME);
                     internal const string tooltipKey = t + nameof(TOOLTIP);
                     public static LocString NAME = "Default Timelapse Resolution";
-                    public static LocString TOOLTIP = "Controls the default timelapse resolution." + Environment.NewLine +   
-                        "0 = Disabled" + Environment.NewLine +
-                        "1 = 256 x 358" + Environment.NewLine +
-                        "2 = 512 x 768 (Default)" + Environment.NewLine +
-                        "3 = 1024 x 1536" + Environment.NewLine +
-                        "4 = 2048 x 3072" + Environment.NewLine +
-                        "5 = 4096 x 6144" + Environment.NewLine +
-                        "6 = 8192 x 12288";
+                    public static LocString TOOLTIP = "Controls the default timelapse resolution.";
                 }
 
                 public class GERMS

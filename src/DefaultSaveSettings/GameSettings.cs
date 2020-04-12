@@ -2,12 +2,13 @@
 
 namespace DefaultSaveSettings
 {
-    [HarmonyPatch(typeof(Game), "OnPrefabInit")]
+    // This must be in Immigration and not Game because it is used to set default priorities.
+    [HarmonyPatch(typeof(Immigration), "OnPrefabInit")]
     public class GameSettings
     {
-        static void Postfix(Game __instance)
+        static void Postfix()
         {
-            __instance.advancedPersonalPriorities = Options.Opts.EnableProximity;
+            Game.Instance.advancedPersonalPriorities = Options.Opts.EnableProximity;
         }
     }
 }
