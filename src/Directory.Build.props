@@ -3,6 +3,11 @@
 	<Import Condition=" !Exists('Directory.Build.props.user') " Project="Directory.Build.props.default" />
 	<Import Condition=" Exists('Directory.Build.props.user') " Project="Directory.Build.props.user" />
 
+	<PropertyGroup>
+		<TargetFramework>net40</TargetFramework>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+
 	<ItemDefinitionGroup>
 		<Reference>
 			<Private>False</Private>

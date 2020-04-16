@@ -15,19 +15,12 @@ namespace AzeLib
         private static T _opts;
         public static T Opts
         {
-            get
-            {
-                if (_opts == null)
-                    _opts = POptions.ReadSettings<T>() ?? new T();
-
-                return _opts;
-            }
+            get => _opts ??= POptions.ReadSettings<T>() ?? new T();
             set { _opts = value; }
         }
 
         private static void ReadSettings<T2>() where T2: class, new()
         {
-            Debug.Log("Settings read");
             Opts = POptions.ReadSettings<T2>() as T;
         }
 
@@ -51,7 +44,7 @@ namespace AzeLib
             // Assume only one Options per assembly
             optionType = inheritingTypes.FirstOrDefault();
 
-            // If a restart is required, there's no need to reread the settings on save load.
+            // If a restart is required, there's no need to reread the settings on screen close.
             if (optionType == null || optionType.IsDefined(typeof(RestartRequiredAttribute), true))
                 return false;
 

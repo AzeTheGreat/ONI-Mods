@@ -7,7 +7,7 @@ namespace AzeLib
         protected const string d = ".";
         protected const string parentPath = "STRINGS.AZE.";
 
-        [HarmonyPatch(typeof(GlobalAssets), "Awake")]
+        [HarmonyPatch(typeof(SetDefaults), nameof(SetDefaults.Initialize))]
         private class Patch
         {
             static void Postfix()
