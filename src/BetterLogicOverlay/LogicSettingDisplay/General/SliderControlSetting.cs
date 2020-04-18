@@ -12,13 +12,16 @@ namespace BetterLogicOverlay.LogicSettingDisplay
 
         [SerializeField] private string prefix = string.Empty;
 
-        private string GetUnits() => sliderControl.SliderUnits;
-
-        public override string GetSetting() => prefix + sliderControl.GetSliderValue(0) + GetUnits();
+        public override string GetSetting() => prefix + sliderControl.GetSliderValue(0) + sliderControl.SliderUnits;
 
         public static void AddToDef(BuildingDef def)
         {
             var go = def.BuildingComplete;
+
+            // Generators that ignore battery refill percent can't have it adjusted, so don't display it.
+            if (go.GetComponent<EnergyGenerator>()?.ignoreBatteryRefillPercent ?? false)
+                return;
+
             var component = go.AddComponent<SliderControlSetting>();
 
             if (go.GetReflectionComp("WirelessSignalReceiver"))
