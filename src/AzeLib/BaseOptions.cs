@@ -7,22 +7,34 @@ using System.Reflection;
 
 namespace AzeLib
 {
-    [ConfigFile("config.json", true)]
-    public abstract class BaseOptions<T> where T : class, new() 
+    public interface IOption
     {
-        protected BaseOptions() { }
+        bool ValidateSettings();
+    }
 
+    [ConfigFile("config.json", true)]
+    public abstract class BaseOptions<T> : IOption where T : class, IOption, new()
+    {
         private static T _opts;
         public static T Opts
         {
-            get => _opts ??= POptions.ReadSettings<T>() ?? new T();
+            get => _opts ??= ReadAndValidateSettings() ?? new T();
             set { _opts = value; }
         }
 
-        private static void ReadSettings<T2>() where T2: class, new()
+        public virtual bool ValidateSettings() => true;
+
+        private static T ReadAndValidateSettings()
         {
-            Opts = POptions.ReadSettings<T2>() as T;
+            T settings = POptions.ReadSettings<T>();
+            if(!settings?.ValidateSettings() ?? false)
+                POptions.WriteSettings(settings);
+
+            return settings;
         }
+
+        // Must re-read to update anything that was changed by the GUI
+        private static void UpdateSettings() => Opts = ReadAndValidateSettings();
 
         private static void Load()
         {
@@ -31,7 +43,7 @@ namespace AzeLib
         }
     }
 
-    [HarmonyPatch(typeof(ModsScreen), "Exit")]
+    [HarmonyPatch(typeof(ModsScreen), "OnDeactivate")]
     class ReadSettings
     {
         private static MethodInfo readSettings;
@@ -39,16 +51,14 @@ namespace AzeLib
 
         static bool Prepare()
         {
-            var inheritingTypes = ReflectionHelpers.GetChildTypesOfGenericType(typeof(BaseOptions<>));
-
             // Assume only one Options per assembly
-            optionType = inheritingTypes.FirstOrDefault();
+            optionType = ReflectionHelpers.GetChildTypesOfGenericType(typeof(BaseOptions<>)).FirstOrDefault();
 
             // If a restart is required, there's no need to reread the settings on screen close.
             if (optionType == null || optionType.IsDefined(typeof(RestartRequiredAttribute), true))
                 return false;
 
-            readSettings = AccessTools.Method(optionType, "ReadSettings").MakeGenericMethod(optionType);
+            readSettings = AccessTools.Method(optionType, "UpdateSettings");
             return true;
         }
 
