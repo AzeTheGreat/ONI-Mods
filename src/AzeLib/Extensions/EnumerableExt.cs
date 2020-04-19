@@ -48,5 +48,11 @@ namespace AzeLib.Extensions
                 yield return Enumerable.Range(first, last - first + 1);
             }
         }
+
+        public static IEnumerable<Tout> LinqByValue<Tsrc, Tcomp, Tout>(this IEnumerable<Tsrc> source, Func<IEnumerable<Tsrc>, Tcomp, IEnumerable<Tout>> linqFunction, Func<IEnumerable<Tsrc>, Tcomp> getValue)
+        {
+            var compararer = getValue(source);
+            return linqFunction(source, compararer);
+        }
     }
 }

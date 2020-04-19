@@ -1,24 +1,34 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace AzeLib.Extensions
 {
     public static class LogicPortsExt
     {
-        public static List<int> GetLogicCells(this LogicPorts logicPorts)
+        public static IEnumerable<int> GetLogicCells(this LogicPorts logicPorts)
         {
-            var cells = new List<int>();
+            return (logicPorts.inputPorts ?? new List<ILogicUIElement>())
+                .Concat(logicPorts.outputPorts ?? new List<ILogicUIElement>())
+                .Select(x => x.GetLogicUICell());
+        }
 
-            foreach (var iPort in logicPorts.inputPorts)
+        public static IEnumerable<int> GetLogicCells(this LogicGateBase logicGateBase)
+        {
+            int cell = Grid.PosToCell(logicGateBase);
+            var rotatable = logicGateBase.GetComponent<Rotatable>();
+
+            return (logicGateBase.inputPortOffsets ?? new CellOffset[0])
+                .Concat(logicGateBase.outputPortOffsets ?? new CellOffset[0])
+                .Concat(logicGateBase.controlPortOffsets ?? new CellOffset[0])
+                .Select(x => GetActualCell(x));
+
+            int GetActualCell(CellOffset offset)
             {
-                cells.Add(iPort.GetLogicUICell());
+                if (rotatable)
+                    offset = rotatable.GetRotatedCellOffset(offset);
+                
+                return Grid.OffsetCell(cell, offset);
             }
-
-            foreach (var oPort in logicPorts.outputPorts)
-            {
-                cells.Add(oPort.GetLogicUICell());
-            }
-
-            return cells;
         }
     }
 }
