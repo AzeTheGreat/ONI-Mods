@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AzeLib.Extensions
 {
@@ -33,6 +34,19 @@ namespace AzeLib.Extensions
             }
 
             return null;
+        }
+
+        // https://stackoverflow.com/questions/48387544/split-a-listint-into-groups-of-consecutive-numbers
+        public static IEnumerable<IEnumerable<int>> GroupConsecutive(this IEnumerable<int> source)
+        {
+            using var e = source.GetEnumerator();
+            for (bool more = e.MoveNext(); more;)
+            {
+                int first = e.Current, last = first, next;
+                while ((more = e.MoveNext()) && (next = e.Current) > last && next - last == 1)
+                    last = next;
+                yield return Enumerable.Range(first, last - first + 1);
+            }
         }
     }
 }

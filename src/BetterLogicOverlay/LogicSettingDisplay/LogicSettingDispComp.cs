@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using AzeLib.Attributes;
+using AzeLib.Extensions;
+using System.Linq;
+using LibNoiseDotNet.Graphics.Tools.Noise.Renderer;
 
 namespace BetterLogicOverlay.LogicSettingDisplay
 {
@@ -9,16 +12,30 @@ namespace BetterLogicOverlay.LogicSettingDisplay
 
         [MyCmpGet] protected Building building;
 
-        public virtual Vector2 GetPosition()
-        {
-            var extents = building.GetExtents();
-            return Grid.CellToPosCCC(Grid.XYToCell(extents.x, extents.y + extents.height - 1), Grid.SceneLayer.Front) + new Vector3((extents.width - 1) * Grid.CellSizeInMeters / 2, 0f, 0f);
-        }
+        internal Vector2 position;
+        internal Vector2 sizeDelta;
 
-        public virtual Vector2 GetSizeDelta()
+        protected override void OnSpawn()
         {
-            var extents = building.GetExtents();
-            return new Vector2(Grid.CellSizeInMeters * extents.width, Grid.CellSizeInMeters);
+            float cellSize = Grid.CellSizeInMeters;
+            float portSize = Assets.instance.logicModeUIData.prefab.GetComponent<RectTransform>().sizeDelta.y;
+
+            var longestPorts = GetComponent<LogicPorts>()
+                .GetLogicCells()
+                .GroupBy(x => Grid.CellToXY(x).y)
+                //.SelectMany(x => x.GroupConsecutive()) only necessary if a mod adds a building with non adjacent ports in a row.
+                .OrderBy(x => x.Count())
+                .FirstOrDefault();
+
+            var firstCell = longestPorts.First();
+            var lastCell = longestPorts.Last();
+            float width = (lastCell - firstCell + 1) * cellSize;
+
+            position = Grid.CellToPosCTC(firstCell, Grid.SceneLayer.Front)
+                + new Vector3((width - cellSize) * cellSize / 2f, 0.01f, 0f);
+            sizeDelta = new Vector2(width, cellSize - portSize);
+
+            base.OnSpawn();
         }
     }
 }

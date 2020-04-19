@@ -1,4 +1,5 @@
-﻿using Harmony;
+﻿using FMOD;
+using Harmony;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -92,11 +93,6 @@ namespace BetterLogicOverlay
             tmp.raycastTarget = false;
 
             logicSettingUIPrefab = settingPrefab;
-        }
-
-        private static void UpdateBuffer(GameObject uiText, LogicGateBuffer buffer)
-        {
-            uiText.GetComponent<TextMeshPro>().text = buffer.DelayAmount.ToString();
         }
 
         public static void OnLoad()

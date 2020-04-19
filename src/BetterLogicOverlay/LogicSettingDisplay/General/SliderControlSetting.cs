@@ -1,6 +1,5 @@
 ﻿using AzeLib.Attributes;
 using AzeLib.Extensions;
-using System.Linq;
 using UnityEngine;
 
 namespace BetterLogicOverlay.LogicSettingDisplay
@@ -18,8 +17,8 @@ namespace BetterLogicOverlay.LogicSettingDisplay
         {
             var go = def.BuildingComplete;
 
-            // Generators that ignore battery refill percent can't have it adjusted, so don't display it.
-            if (go.GetComponent<EnergyGenerator>()?.ignoreBatteryRefillPercent ?? false)
+            // Generator settings aren't relevant to automation.
+            if (go.GetComponent<Generator>())
                 return;
 
             var component = go.AddComponent<SliderControlSetting>();
@@ -28,14 +27,6 @@ namespace BetterLogicOverlay.LogicSettingDisplay
                 component.prefix = "I: ";
             else if (go.GetReflectionComp("WirelessSignalEmitter"))
                 component.prefix = "O: ";
-        }
-
-        public override Vector2 GetPosition()
-        {
-            if (logicPorts)
-                return Grid.CellToPosCCC(logicPorts.GetLogicCells().First(), Grid.SceneLayer.Front);
-            else
-                return base.GetPosition();
         }
     }
 }

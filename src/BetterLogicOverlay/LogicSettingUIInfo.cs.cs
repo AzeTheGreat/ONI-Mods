@@ -24,11 +24,9 @@ namespace BetterLogicOverlay
 
             this.logicSettingDisplay = logicSettingDisplay;
 
-            Vector3 position = logicSettingDisplay.GetPosition();
-            var offset = new Vector3(0f, (Grid.CellSizeInMeters * 2 / 3) + 0.05f, 0f);
-            Vector2 sizeDelta = logicSettingDisplay.GetSizeDelta() * prefab.GetComponent<RectTransform>().InverseLocalScale();
+            Vector2 sizeDelta = logicSettingDisplay.sizeDelta * prefab.GetComponent<RectTransform>().InverseLocalScale();
 
-            uiGO = DrawSetting(prefab, position + offset, sizeDelta);
+            uiGO = DrawSetting(prefab, logicSettingDisplay.position, sizeDelta);
             cachedTMP = uiGO.GetComponent<TextMeshPro>();
         }
 
