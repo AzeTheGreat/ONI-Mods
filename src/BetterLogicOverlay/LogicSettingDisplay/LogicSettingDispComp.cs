@@ -1,5 +1,6 @@
 ﻿using AzeLib.Attributes;
 using AzeLib.Extensions;
+using KSerialization;
 using System.Linq;
 using UnityEngine;
 
@@ -9,18 +10,23 @@ namespace BetterLogicOverlay.LogicSettingDisplay
     {
         public abstract string GetSetting();
 
-        [MyCmpGet] protected Building building;
-
-        internal Vector2 position;
-        internal Vector2 sizeDelta;
+        [Serialize] public Vector2 position;
+        [Serialize] public Vector2 sizeDelta;
 
         protected override void OnSpawn()
         {
             base.OnSpawn();
 
+            // The fields are serialized, so early out if they're already set to reduce computation on load.
+            if (sizeDelta != Vector2.zero)
+                return;
+
+            Debug.Log("Determine display position!");
+
             float cellSize = Grid.CellSizeInMeters;
             float portSize = Assets.instance.logicModeUIData.prefab.GetComponent<RectTransform>().sizeDelta.y;
 
+            // Could be optimized if it causes performance issues.
             var longestPorts = (GetComponent<LogicPorts>()?.GetLogicCells() ?? GetComponent<LogicGateBase>()?.GetLogicCells())
                 .GroupBy(x => Grid.CellToXY(x).y)
                 //.SelectMany(x => x.GroupConsecutive()) only necessary if a mod adds a building with non adjacent ports in a row.

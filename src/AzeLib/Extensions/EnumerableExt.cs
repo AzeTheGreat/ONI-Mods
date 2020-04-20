@@ -49,10 +49,8 @@ namespace AzeLib.Extensions
             }
         }
 
-        public static IEnumerable<Tout> LinqByValue<Tsrc, Tcomp, Tout>(this IEnumerable<Tsrc> source, Func<IEnumerable<Tsrc>, Tcomp, IEnumerable<Tout>> linqFunction, Func<IEnumerable<Tsrc>, Tcomp> getValue)
-        {
-            var compararer = getValue(source);
-            return linqFunction(source, compararer);
-        }
+        public static IEnumerable<Tout> LinqByValue<Tsrc, Tcomp, Tout>(this IEnumerable<Tsrc> source, 
+            Func<IEnumerable<Tsrc>, Tcomp, IEnumerable<Tout>> linqFunction, 
+            Func<IEnumerable<Tsrc>, Tcomp> getValue) => linqFunction(source, getValue(source));
     }
 }
