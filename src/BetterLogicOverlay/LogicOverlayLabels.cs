@@ -6,26 +6,20 @@ using UnityEngine;
 
 namespace BetterLogicOverlay
 {
-    class GateSettingDisplay
+    class LogicOverlayLabels
     {
-        private static GateSettingDisplay instance;
-        private GameObject logicSettingUIPrefab;
+        private static LogicOverlayLabels instance;
         private Dictionary<ILogicUIElement, LogicSettingUIInfo> logicSettingUIs = new Dictionary<ILogicUIElement, LogicSettingUIInfo>();
         private HashSet<GameObject> existingGOs = new HashSet<GameObject>();
-        private UIGameObjectPool uiPool;
-        private GameObject powerCanvas;
+        private UIPool<LocText> uiGOPool;
 
-        private void OnEnable()
-        {
-            CreateUIPrefab();
-            uiPool = new UIGameObjectPool(logicSettingUIPrefab);
-            powerCanvas = Traverse.Create(OverlayScreen.Instance).GetField<Canvas>("powerLabelParent").gameObject;
-        }
+        public static void OnLoad() => instance = new LogicOverlayLabels();
+        private void OnEnable() => uiGOPool = new UIPool<LocText>(CreateUIPrefab());
 
         private void OnDisable()
         {
             logicSettingUIs.Clear();
-            uiPool.ClearAll();
+            uiGOPool.ClearAll();
             existingGOs.Clear();
         }
 
@@ -36,8 +30,7 @@ namespace BetterLogicOverlay
 
             existingGOs.Add(go);
             if (go.GetComponent<LogicSettingDispComp>() is LogicSettingDispComp dispComp)
-                logicSettingUIs.Add(logicPortUI, new LogicSettingUIInfo(go, uiPool.GetFreeElement(powerCanvas), dispComp));
-            //GameScreenManager.Instance.worldSpaceCanvas
+                logicSettingUIs.Add(logicPortUI, new LogicSettingUIInfo(go, uiGOPool.GetFreeElement(GameScreenManager.Instance.worldSpaceCanvas), dispComp));
         }
 
         private void OnFreeUI(ILogicUIElement logicPortUI)
@@ -49,7 +42,7 @@ namespace BetterLogicOverlay
             {
                 logicSettingUIs.Remove(logicPortUI);
                 existingGOs.Remove(logicSettingUIInfo.sourceGO);
-                uiPool.ClearElement(logicSettingUIInfo.uiGO);
+                uiGOPool.ClearElement(logicSettingUIInfo.cachedLocText);
             }
         }
 
@@ -67,7 +60,7 @@ namespace BetterLogicOverlay
                 logicSettingUI.UpdateText();
         }
 
-        private void CreateUIPrefab()
+        private LocText CreateUIPrefab()
         {
             //var settingPrefab = new GameObject("LogicSettingPrefab");
             //settingPrefab.transform.SetParent(GameScreenManager.Instance.worldSpaceCanvas.transform, false);
@@ -101,12 +94,7 @@ namespace BetterLogicOverlay
 
             //logicSettingUIPrefab = settingPrefab;
 
-            logicSettingUIPrefab = Traverse.Create(OverlayScreen.Instance).GetField<LocText>("powerLabelPrefab").gameObject;
-        }
-
-        public static void OnLoad()
-        {
-            instance = new GateSettingDisplay();
+            return Traverse.Create(OverlayScreen.Instance).GetField<LocText>("powerLabelPrefab");
         }
 
         [HarmonyPatch(typeof(OverlayModes.Logic), nameof(OverlayModes.Logic.Enable))]
@@ -116,15 +104,18 @@ namespace BetterLogicOverlay
         private class Disable { static void Postfix() => instance.OnDisable(); }
 
         [HarmonyPatch(typeof(OverlayModes.Logic), "AddUI")]
-        private class AddUI { static void Postfix(ILogicUIElement ui_elem) => instance.OnAddUI(ui_elem);
-            static bool Prepare() => Options.Opts.DisplayLogicSettings; }
+        private class AddUI {
+            static bool Prepare() => Options.Opts.DisplayLogicSettings;
+            static void Postfix(ILogicUIElement ui_elem) => instance.OnAddUI(ui_elem); }
 
         [HarmonyPatch(typeof(OverlayModes.Logic), "FreeUI")]
-        private class FreeUI { static void Postfix(ILogicUIElement item) => instance.OnFreeUI(item);
-            static bool Prepare() => Options.Opts.DisplayLogicSettings; }
+        private class FreeUI {
+            static bool Prepare() => Options.Opts.DisplayLogicSettings;
+            static void Postfix(ILogicUIElement item) => instance.OnFreeUI(item); }
 
         [HarmonyPatch(typeof(OverlayModes.Logic), "UpdateUI")]
-        private class UpdateUI { static void Postfix() => instance.OnUpdateUI();
-            static bool Prepare() => Options.Opts.DisplayLogicSettings; }
+        private class UpdateUI {
+            static bool Prepare() => Options.Opts.DisplayLogicSettings;
+            static void Postfix() => instance.OnUpdateUI(); }
     }
 }

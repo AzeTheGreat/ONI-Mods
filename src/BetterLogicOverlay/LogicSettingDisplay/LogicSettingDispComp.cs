@@ -21,8 +21,6 @@ namespace BetterLogicOverlay.LogicSettingDisplay
             if (sizeDelta != Vector2.zero)
                 return;
 
-            Debug.Log("Determine display position!");
-
             float cellSize = Grid.CellSizeInMeters;
             float portSize = Assets.instance.logicModeUIData.prefab.GetComponent<RectTransform>().sizeDelta.y;
 
