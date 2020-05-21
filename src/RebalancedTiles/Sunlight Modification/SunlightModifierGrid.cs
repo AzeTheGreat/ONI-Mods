@@ -11,28 +11,32 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
         private static byte meshSunlightReduction;
         private static byte airflowSunlightReduction;
 
-        public static void Initialize()
+        private static void Initialize()
         {
             isInit = true;
             meshSunlightReduction = Convert.ToByte(Options.Opts.MeshTile.LightAbsorptionFactor * byte.MaxValue);
             airflowSunlightReduction = Convert.ToByte(Options.Opts.GasPermeableMembrane.LightAbsorptionFactor * byte.MaxValue);
 
             for (int i = 0; i < Grid.WidthInCells; i++)
-            {
-                CalculateSunMod(i, Grid.HeightInCells-1);
-            }
+                CalculateSunMod(i, Grid.HeightInCells - 1);
         }
 
-        public static void Update(GameObject go)
+        private static void Update(GameObject go)
         {
-            if (!isInit)
+            if (!isInit || GetSunModForGO(go) == 0)
                 return;
 
-            if (go.name == "MeshTileComplete" || go.name == "GasPermeableMembraneComplete")
-            {
-                Grid.CellToXY(Grid.PosToCell(go), out int x, out int y);
-                CalculateSunMod(x, y);
-            }
+            Grid.CellToXY(Grid.PosToCell(go), out int x, out int y);
+            CalculateSunMod(x, y);
+        }
+
+        private static byte GetSunModForGO(GameObject go)
+        {
+            if (go?.name == "MeshTileComplete")
+                return meshSunlightReduction;
+            if (go?.name == "GasPermeableMembraneComplete")
+                return airflowSunlightReduction;
+            return 0;
         }
 
         private static void CalculateSunMod(int column, int row)
@@ -42,47 +46,41 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
             for (int y = row; y >= 0; y--)
             {
                 int cell = Grid.XYToCell(column, y);
-                GameObject go = Grid.Objects[cell, (int)ObjectLayer.FoundationTile];
+
+                // Early out if at max sunlight reduction and full column below is already maxed.
+                if (currentMod == byte.MaxValue && sunlightModifiers[cell] == byte.MaxValue)
+                    return;
+
                 sunlightModifiers[cell] = currentMod;
 
-                if (go?.name == "MeshTileComplete")
-                    currentMod = (byte)Math.Min(currentMod + meshSunlightReduction, byte.MaxValue);
-                if (go?.name == "GasPermeableMembraneComplete")
-                    currentMod = (byte)Math.Min(currentMod + airflowSunlightReduction, byte.MaxValue);
+                // The sunlight reduction can't increase any more if it's already maxed.
+                if(currentMod < byte.MaxValue)
+                {
+                    GameObject go = Grid.Objects[cell, (int)ObjectLayer.FoundationTile];
+                    currentMod = (byte)Math.Min(currentMod + GetSunModForGO(go), byte.MaxValue);
+                }
             }
         }
-    }
 
-    [HarmonyPatch(typeof(CameraController), "OnSpawn")]
-    class SunlightModifierGridInit_Patch
-    {
-        static bool Prepare() => Options.Opts.DoMeshedTilesReduceSunlight;
-
-        static void Postfix()
+        [HarmonyPatch(typeof(CameraController), "OnSpawn")]
+        private class Init_Patch
         {
-            SunlightModifierGrid.Initialize();
+            static bool Prepare() => Options.Opts.DoMeshedTilesReduceSunlight;
+            static void Postfix() => Initialize();
         }
-    }
 
-    [HarmonyPatch(typeof(BuildingComplete), "OnSpawn")]
-    class SpawnTracker_Patch
-    {
-        static bool Prepare() => Options.Opts.DoMeshedTilesReduceSunlight;
-
-        static void Postfix(BuildingComplete __instance)
+        [HarmonyPatch(typeof(BuildingComplete), "OnSpawn")]
+        private class SpawnTracker_Patch
         {
-            SunlightModifierGrid.Update(__instance.gameObject);
+            static bool Prepare() => Options.Opts.DoMeshedTilesReduceSunlight;
+            static void Postfix(BuildingComplete __instance) => Update(__instance.gameObject);
         }
-    }
 
-    [HarmonyPatch(typeof(Deconstructable), "OnCompleteWork")]
-    class RemovalTracker_Patch
-    {
-        static bool Prepare() => Options.Opts.DoMeshedTilesReduceSunlight;
-
-        static void Postfix(Deconstructable __instance)
+        [HarmonyPatch(typeof(Deconstructable), "OnCompleteWork")]
+        private class RemovalTracker_Patch
         {
-            SunlightModifierGrid.Update(__instance.gameObject);
+            static bool Prepare() => Options.Opts.DoMeshedTilesReduceSunlight;
+            static void Postfix(Deconstructable __instance) => Update(__instance.gameObject);
         }
     }
 }
