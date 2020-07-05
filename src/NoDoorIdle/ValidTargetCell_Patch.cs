@@ -8,11 +8,10 @@ namespace NoDoorIdle
     {
         static bool Prepare() => !Options.Opts.CanIdleInDoors;
      
-        static void Postfix(IdleCellQuery __instance)
+        static void Postfix(ref int ___targetCell)
         {
-            var targetCell = __instance.GetResultCell();
-            if (targetCell != Grid.InvalidCell && Grid.HasDoor[targetCell])
-                Traverse.Create(__instance).SetField("targetCell", Grid.InvalidCell);
+            if (___targetCell != Grid.InvalidCell && Grid.HasDoor[___targetCell])
+                ___targetCell = Grid.InvalidCell;
         }
     }
 }
