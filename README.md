@@ -12,6 +12,7 @@ If you can't download through the Steam Workshop, zipped releases are available 
 |[Clean Floors](https://steamcommunity.com/sharedfiles/filedetails/?id=1937854017)|Removes the largest decor pieces from tiles to give a smoother look.|
 |[Default Building Settings](https://steamcommunity.com/sharedfiles/filedetails/?id=1989737447)|Provides config options to change the default settings many buildings spawn with.|
 |[Default Save Settings](https://steamcommunity.com/sharedfiles/filedetails/?id=2033314981)|Provides config options to change the default settings new saves start with.|
+|[Don't Idle in Doors](https://steamcommunity.com/sharedfiles/filedetails/?id=2154537340)|Provides options to prevent idle dupes from standing in / crossing through doors.|
 |[Fixed Camera Pan](https://steamcommunity.com/sharedfiles/filedetails/?id=1845747605)|Makes camera pan speed independent of frame rate and configurable.|
 |[Endless Science](https://steamcommunity.com/sharedfiles/filedetails/?id=1964613307)|Allows dupes to train science even after research is complete.|
 |[No Build Watermark](https://steamcommunity.com/sharedfiles/filedetails/?id=1909037839)|Removes the watermark showing the build version.|
