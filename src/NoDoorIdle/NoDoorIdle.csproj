@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyTitle>NoDoorIdle</AssemblyTitle>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Previews\**" />
+    <EmbeddedResource Remove="Previews\**" />
+    <None Remove="Previews\**" />
+  </ItemGroup>
+</Project>
