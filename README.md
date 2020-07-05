@@ -10,15 +10,14 @@ If you can't download through the Steam Workshop, zipped releases are available 
 |[Better Info Cards](https://steamcommunity.com/sharedfiles/filedetails/?id=1960947963)|Overhauls info cards to be more powerful and user friendly.|
 |[Better Automation Overlay](https://steamcommunity.com/sharedfiles/filedetails/?id=1878896484)|Improves the automation overlay.|
 |[Clean Floors](https://steamcommunity.com/sharedfiles/filedetails/?id=1937854017)|Removes the largest decor pieces from tiles to give a smoother look.|
+|[Clean HUD](https://steamcommunity.com/sharedfiles/filedetails/?id=1909037839)|Provides multiple options to simplify the main HUD.|
 |[Default Building Settings](https://steamcommunity.com/sharedfiles/filedetails/?id=1989737447)|Provides config options to change the default settings many buildings spawn with.|
 |[Default Save Settings](https://steamcommunity.com/sharedfiles/filedetails/?id=2033314981)|Provides config options to change the default settings new saves start with.|
 |[Don't Idle in Doors](https://steamcommunity.com/sharedfiles/filedetails/?id=2154537340)|Provides options to prevent idle dupes from standing in / crossing through doors.|
 |[Fixed Camera Pan](https://steamcommunity.com/sharedfiles/filedetails/?id=1845747605)|Makes camera pan speed independent of frame rate and configurable.|
 |[Endless Science](https://steamcommunity.com/sharedfiles/filedetails/?id=1964613307)|Allows dupes to train science even after research is complete.|
-|[No Build Watermark](https://steamcommunity.com/sharedfiles/filedetails/?id=1909037839)|Removes the watermark showing the build version.|
 |[No Pointless Scrollbars](https://steamcommunity.com/sharedfiles/filedetails/?id=1959130035)|Removes scrollbars from plan screen windows that don't need them.|
 |[No Research Alerts](https://steamcommunity.com/sharedfiles/filedetails/?id=1872885565)|Prevents notification icons from showing newly unlocked buildings.|
-|[No Vignette](https://steamcommunity.com/sharedfiles/filedetails/?id=2155350018)|Removes the vignette from the screen.|
 |[Rebalanced Tiles](https://steamcommunity.com/sharedfiles/filedetails/?id=1906094571)|Tweaks and adds new features to tiles to encourage variety, and allow full configuration.|
 |[Sufficient Oxygen Generation](https://steamcommunity.com/sharedfiles/filedetails/?id=1887869179)|Allows the oxygen generation warning to be configured to be less sensitive.|
 |[Suppress Notifications](https://steamcommunity.com/sharedfiles/filedetails/?id=1832319118)|Suppresses notifications and status items from individual buildings/critters/crops.|
