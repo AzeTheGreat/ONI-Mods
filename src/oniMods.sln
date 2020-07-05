@@ -49,7 +49,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "oniModTemplate", "oniModTem
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DefaultSaveSettings", "DefaultSaveSettings\DefaultSaveSettings.csproj", "{A6528EE1-43F8-4BBF-8CBD-EF3DDDE0B9CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoDoorIdle", "NoDoorIdle\NoDoorIdle.csproj", "{B18C6516-3EBF-4BC0-A8BF-A51B7887F50D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoDoorIdle", "NoDoorIdle\NoDoorIdle.csproj", "{B18C6516-3EBF-4BC0-A8BF-A51B7887F50D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoVignette", "NoVignette\NoVignette.csproj", "{3B19A1D3-37AF-4A32-87D7-427D74D5740B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -137,6 +139,10 @@ Global
 		{B18C6516-3EBF-4BC0-A8BF-A51B7887F50D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B18C6516-3EBF-4BC0-A8BF-A51B7887F50D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B18C6516-3EBF-4BC0-A8BF-A51B7887F50D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B19A1D3-37AF-4A32-87D7-427D74D5740B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B19A1D3-37AF-4A32-87D7-427D74D5740B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B19A1D3-37AF-4A32-87D7-427D74D5740B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B19A1D3-37AF-4A32-87D7-427D74D5740B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
