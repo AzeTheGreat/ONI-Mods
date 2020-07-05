@@ -18,11 +18,12 @@ If you can't download through the Steam Workshop, zipped releases are available 
 |[No Build Watermark](https://steamcommunity.com/sharedfiles/filedetails/?id=1909037839)|Removes the watermark showing the build version.|
 |[No Pointless Scrollbars](https://steamcommunity.com/sharedfiles/filedetails/?id=1959130035)|Removes scrollbars from plan screen windows that don't need them.|
 |[No Research Alerts](https://steamcommunity.com/sharedfiles/filedetails/?id=1872885565)|Prevents notification icons from showing newly unlocked buildings.|
+|[No Vignette](https://steamcommunity.com/sharedfiles/filedetails/?id=2155350018)|Removes the vignette from the screen.|
 |[Rebalanced Tiles](https://steamcommunity.com/sharedfiles/filedetails/?id=1906094571)|Tweaks and adds new features to tiles to encourage variety, and allow full configuration.|
 |[Sufficient Oxygen Generation](https://steamcommunity.com/sharedfiles/filedetails/?id=1887869179)|Allows the oxygen generation warning to be configured to be less sensitive.|
 |[Suppress Notifications](https://steamcommunity.com/sharedfiles/filedetails/?id=1832319118)|Suppresses notifications and status items from individual buildings/critters/crops.|
 
-## Simple Mods
+## Request Mods
 
 These mods are all very simple mods that I made for requests that I don't personally use or see the appeal of.  They're separated from my "main" mods for organizational purposes, but I support and maintain them at the same level.
 
