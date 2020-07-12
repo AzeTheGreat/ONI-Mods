@@ -62,7 +62,6 @@ namespace BetterLogicOverlay
                 logicSettingUI.UpdateText();
         }
 
-        // Klei Styled
         private LocText CreateUIPrefab()
         {
             var powerLabelPrefab = Traverse.Create(OverlayScreen.Instance).GetField<LocText>("powerLabelPrefab");
@@ -82,7 +81,7 @@ namespace BetterLogicOverlay
             // Adjust font sizing.
             prefab.fontSize -= 1f;
             prefab.characterSpacing = -3f;
-            prefab.lineSpacing = -10f;
+            prefab.lineSpacing = -15f;
 
             return prefab;
         }
