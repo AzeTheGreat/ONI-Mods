@@ -16,21 +16,12 @@ namespace AzeLib
 
         public virtual bool ValidateSettings() => true;
         public IEnumerable CreateOptions() => null;
-        public void OnOptionsChanged()
-        {
-            Opts = ReadAndValidateSettings();
-        }
+        public void OnOptionsChanged() => Opts = ReadAndValidateSettings();
 
         private static void OnOnLoad()
         {
             PUtil.InitLibrary(false);
             POptions.RegisterOptions(typeof(T));
-        }
-
-        private void Validate()
-        {
-            if (!ValidateSettings())
-                POptions.WriteSettings(this);
         }
 
         private static T ReadAndValidateSettings()

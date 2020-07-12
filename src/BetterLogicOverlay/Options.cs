@@ -22,24 +22,10 @@ namespace BetterLogicOverlay
         [JsonProperty]
         public bool DisplayLogicSettings { get; set; }
 
-        [Option("Font Size", "Sets the font size for the automation overlay.  Default of 9")]
-        [JsonProperty]
-        [Limit(3, 9)]
-        public float FontSize { get; set; }
-
-        public enum FixMode
-        {
-            [Option("Hold Selected", "Continue holding the same tool. Reqiores Restart.")]
-            Hold,
-            [Option("Deselect Selected", "Deselect the tool.  Closest to vanilla behavior. Requires Restart.")]
-            Close
-        }
-
         public Options()
         {
             FixWireOverwrite = true;
             DisplayLogicSettings = true;
-            FontSize = 9;
         }
 
         public static void OnLoad()
