@@ -18,7 +18,8 @@ namespace BetterLogicOverlay.LogicSettingDisplay
             var go = def.BuildingComplete;
 
             // Generator settings aren't relevant to automation.
-            if (go.GetComponent<Generator>())
+            // If there are no logic ports (medical cot), don't add.
+            if (go.GetComponent<Generator>() || !go.GetComponent<LogicPorts>())
                 return;
 
             var component = go.AddComponent<SliderControlSetting>();
