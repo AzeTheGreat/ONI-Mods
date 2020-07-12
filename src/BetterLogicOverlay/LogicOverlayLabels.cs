@@ -2,7 +2,9 @@
 using Harmony;
 using PeterHan.PLib;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace BetterLogicOverlay
 {
@@ -60,41 +62,29 @@ namespace BetterLogicOverlay
                 logicSettingUI.UpdateText();
         }
 
+        // Klei Styled
         private LocText CreateUIPrefab()
         {
-            //var settingPrefab = new GameObject("LogicSettingPrefab");
-            //settingPrefab.transform.SetParent(GameScreenManager.Instance.worldSpaceCanvas.transform, false);
-            //settingPrefab.layer = 5;
+            var powerLabelPrefab = Traverse.Create(OverlayScreen.Instance).GetField<LocText>("powerLabelPrefab");
 
-            //var rectTransform = settingPrefab.AddComponent<RectTransform>();
-            //rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
-            //rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            //rectTransform.pivot = new Vector2(0.5f, 0.5f);
-            //rectTransform.localScale = Vector2.one / 3f;
+            // Create custom prefab, using the power label prefab as the base.
+            var prefab = Object.Instantiate(powerLabelPrefab);
+            prefab.name = "LogicSettingLabel";
 
-            //var tmp = settingPrefab.AddComponent<TextMeshPro>();
-            //tmp.fontSize = Options.Opts.FontSize;
-            //tmp.characterSpacing = -4f;
-            //tmp.lineSpacing = -30f;
-            //tmp.fontStyle = FontStyles.Bold;
-            //tmp.enableKerning = true;
+            Object.Destroy(prefab.GetComponent<ContentSizeFitter>());   // Remove fitter so that the rect doesn't expand (it needs to be limited to a cell).
+            Object.Destroy(prefab.GetComponent<ToolTip>());             // Unnecessary for this label.
+            Object.Destroy(prefab.transform.GetChild(0).gameObject);    // Remove child because a separate GO doesn't work well for limiting bounds.
 
-            ////tmp.fontSharedMaterial.EnableKeyword(ShaderUtilities.Keyword_Underlay);
-            ////tmp.fontSharedMaterial.SetFloat(ShaderUtilities.ID_UnderlayDilate, 0.4f);
-            ////tmp.fontSharedMaterial.SetFloat(ShaderUtilities.ID_UnderlaySoftness, 0.35f);
-            //tmp.UpdateMeshPadding();
+            prefab.alignment = TextAlignmentOptions.Bottom;
+            prefab.enableWordWrapping = true;
+            prefab.raycastTarget = false;
 
-            //tmp.alignment = TMPro.TextAlignmentOptions.Bottom;
-            //tmp.enableWordWrapping = true;
-            //tmp.overflowMode = TMPro.TextOverflowModes.Truncate;
-            //tmp.raycastTarget = false;
+            // Adjust font sizing.
+            prefab.fontSize -= 1f;
+            prefab.characterSpacing = -3f;
+            prefab.lineSpacing = -10f;
 
-            ////var panel = settingPrefab.AddComponent<Image>();
-            ////panel.color = new Color(0f, 0f, 0f, 100f);
-
-            //logicSettingUIPrefab = settingPrefab;
-
-            return Traverse.Create(OverlayScreen.Instance).GetField<LocText>("powerLabelPrefab");
+            return prefab;
         }
 
         [HarmonyPatch(typeof(OverlayModes.Logic), nameof(OverlayModes.Logic.Enable))]

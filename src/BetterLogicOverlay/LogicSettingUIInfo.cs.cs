@@ -1,4 +1,5 @@
-﻿using BetterLogicOverlay.LogicSettingDisplay;
+﻿using AzeLib.Extensions;
+using BetterLogicOverlay.LogicSettingDisplay;
 using UnityEngine;
 
 namespace BetterLogicOverlay
@@ -16,8 +17,8 @@ namespace BetterLogicOverlay
             cachedLocText = prefab;
 
             prefab.gameObject.transform.position = logicSettingDisplay.position;
-            // No clue why I have to set this again
-            //uiGO.GetComponent<RectTransform>().sizeDelta = logicSettingDisplay.sizeDelta * prefab.GetComponent<RectTransform>().InverseLocalScale();
+            var rectTransform = prefab.GetComponent<RectTransform>();
+            rectTransform.sizeDelta = logicSettingDisplay.sizeDelta * rectTransform.InverseLocalScale();
             prefab.gameObject.SetActive(true);
         }
 

@@ -1,6 +1,5 @@
 ﻿using AzeLib.Attributes;
 using AzeLib.Extensions;
-using KSerialization;
 using System.Linq;
 using UnityEngine;
 
@@ -10,16 +9,12 @@ namespace BetterLogicOverlay.LogicSettingDisplay
     {
         public abstract string GetSetting();
 
-        [Serialize] public Vector2 position;
-        [Serialize] public Vector2 sizeDelta;
+        public Vector2 position;
+        public Vector2 sizeDelta;
 
         protected override void OnSpawn()
         {
             base.OnSpawn();
-
-            // The fields are serialized, so early out if they're already set to reduce computation on load.
-            if (sizeDelta != Vector2.zero)
-                return;
 
             float cellSize = Grid.CellSizeInMeters;
             float portSize = Assets.instance.logicModeUIData.prefab.GetComponent<RectTransform>().sizeDelta.y;
@@ -36,8 +31,8 @@ namespace BetterLogicOverlay.LogicSettingDisplay
             var lastCell = longestPorts.Last();
             float width = (lastCell - firstCell + 1) * cellSize;
 
-            position = Grid.CellToPosCTC(firstCell, Grid.SceneLayer.Front)
-                + new Vector3((width - cellSize) * cellSize / 2f, 0.01f, 0f);
+            position = Grid.CellToPosCTC(firstCell, Grid.SceneLayer.Front)              // First cell to pos.
+                + new Vector3((width - cellSize) * cellSize / 2f, portSize / 2f, 0f);   // Offset pos to center of span, just above the port.    
             sizeDelta = new Vector2(width, cellSize - portSize);
         }
     }
