@@ -31,7 +31,7 @@ namespace DefaultBuildingSettings
             if (!Options.Opts.VacancyOnly || !(go.GetComponent<SuitMarker>() is SuitMarker suitMarker))
                 return false;
 
-            Traverse.Create(suitMarker).Field("onlyTraverseIfUnequipAvailable").SetValue(true);
+            suitMarker.onlyTraverseIfUnequipAvailable = true;
             return true;
         }
 

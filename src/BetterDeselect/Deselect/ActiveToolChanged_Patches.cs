@@ -1,5 +1,4 @@
 ﻿using Harmony;
-using PeterHan.PLib;
 using System.Collections.Generic;
 
 namespace BetterDeselect
@@ -15,8 +14,8 @@ namespace BetterDeselect
 
         private static void CloseCategoryPanelWrapper(PlanScreen instance, bool playSound)
         {
-            if(Options.Opts.BuildMenu == Options.ClickNum.One)
-                Traverse.Create(instance).CallMethod("CloseCategoryPanel", playSound);
+            if (Options.Opts.BuildMenu == Options.ClickNum.One)
+                instance.CloseCategoryPanel(playSound);
         }
     }
 

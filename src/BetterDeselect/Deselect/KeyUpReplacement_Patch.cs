@@ -34,7 +34,7 @@ namespace BetterDeselect
             return false;
 
             bool TryConsumeRightClick() => PlayerController.Instance.ConsumeIfNotDragging(e, Action.MouseRight);
-            void CloseMenu() => Traverse.Create(__instance).CallMethod("OnClickCategory", ___activeCategoryInfo);
+            void CloseMenu() => __instance.OnClickCategory(___activeCategoryInfo);
             void CloseOverlay() => OverlayScreen.Instance.ToggleOverlay(OverlayModes.None.ID, true);
         }
     }

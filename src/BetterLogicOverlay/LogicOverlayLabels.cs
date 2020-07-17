@@ -64,10 +64,8 @@ namespace BetterLogicOverlay
 
         private LocText CreateUIPrefab()
         {
-            var powerLabelPrefab = Traverse.Create(OverlayScreen.Instance).GetField<LocText>("powerLabelPrefab");
-
             // Create custom prefab, using the power label prefab as the base.
-            var prefab = Object.Instantiate(powerLabelPrefab);
+            var prefab = Object.Instantiate(OverlayScreen.Instance.powerLabelPrefab);
             prefab.name = "LogicSettingLabel";
 
             Object.Destroy(prefab.GetComponent<ContentSizeFitter>());   // Remove fitter so that the rect doesn't expand (it needs to be limited to a cell).

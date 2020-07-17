@@ -35,7 +35,7 @@ namespace BetterInfoCards
                 var tempTarget = AccessTools.Method(typeof(GameUtil), nameof(GameUtil.GetFormattedTemperature));
                 var statusTarget = AccessTools.Method(typeof(StatusItemGroup.Entry), nameof(StatusItemGroup.Entry.GetName));
 
-                var targetGetCompPrimaryElement = AccessTools.Method(typeof(UnityEngine.Component), "GetComponent").MakeGenericMethod(typeof(PrimaryElement));
+                var targetGetCompPrimaryElement = AccessTools.Method(typeof(Component), "GetComponent").MakeGenericMethod(typeof(PrimaryElement));
                 var targetDrawText = AccessTools.Method(typeof(HoverTextDrawer), "DrawText", new Type[] { typeof(string), typeof(TextStyleSetting) });
                 var targetEndShadowBar = AccessTools.Method(typeof(HoverTextDrawer), "EndShadowBar");
                 var targetElement = AccessTools.Method(typeof(WorldInspector), nameof(WorldInspector.MassStringsReadOnly));

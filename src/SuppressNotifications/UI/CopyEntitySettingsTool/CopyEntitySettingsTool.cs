@@ -1,9 +1,7 @@
-﻿using Harmony;
+﻿using STRINGS;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using STRINGS;
-using PeterHan.PLib;
 
 
 namespace SuppressNotifications
@@ -22,20 +20,17 @@ namespace SuppressNotifications
             instance = this;
 
             // Set the cursor
-            var thisTool = Traverse.Create(this);
-            var templateTool = Traverse.Create(CopySettingsTool.Instance);
-            thisTool.SetField("boxCursor", templateTool.GetField<Texture2D>("boxCursor"));
+            boxCursor = CopySettingsTool.Instance.boxCursor;
 
             // Set the area visualizer
-            var avTemplate = templateTool.GetField<GameObject>("areaVisualizer");
+            var avTemplate = CopySettingsTool.Instance.areaVisualizer;
             var areaVisualizer = Util.KInstantiate(avTemplate, gameObject,
                 typeof(CopyEntitySettingsTool).Name + "AreaVisualizer");
             areaVisualizer.SetActive(false);
             areaVisualizerSpriteRenderer = areaVisualizer.GetComponent<SpriteRenderer>();
 
-            thisTool.SetField("areaVisualizer", areaVisualizer);
-            thisTool.SetField("areaVisualizerTextPrefab", templateTool.GetField<GameObject>(
-                "areaVisualizerTextPrefab"));
+            this.areaVisualizer = areaVisualizer;
+            areaVisualizerTextPrefab = CopySettingsTool.Instance.areaVisualizerTextPrefab;
 
             // Set the visualizer
             visualizer = CopySettingsTool.Instance.visualizer;
@@ -52,13 +47,10 @@ namespace SuppressNotifications
         public override void OnDragTool(int cell, int distFromOrigin)
         {
             if (sourceGameObject == null)
-            {
                 return;
-            }
+
             if (Grid.IsValidCell(cell) && !cells.Contains(cell))
-            {
                 cells.Add(cell);
-            }
         }
 
         public override void OnDragComplete(Vector3 cursorDown, Vector3 cursorUp)

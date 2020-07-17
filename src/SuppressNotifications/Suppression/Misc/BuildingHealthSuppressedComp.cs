@@ -1,5 +1,4 @@
 ﻿using AzeLib.Extensions;
-using Harmony;
 using KSerialization;
 using UnityEngine;
 
@@ -10,13 +9,14 @@ namespace SuppressNotifications
         [Serialize] private bool _hideDMGBar;
         public bool HideDmgBar { get => _hideDMGBar; }
 
-        private Traverse progBarTrav;
+        private BuildingHP.SMInstance smi;
+
         private ProgressBar ProgressBar { get
             {
                 // SMI is set in OnSpawn, so this can't be cached in OnPrefabInit or OnSpawn (can't gaurantee script execution order)
-                if (progBarTrav == null)
-                    progBarTrav = Traverse.Create(gameObject.GetComponent<BuildingHP>().GetSMI<BuildingHP.SMInstance>()).Field("progressBar");
-                return progBarTrav.GetValue<ProgressBar>();
+                if (smi == null)
+                    smi = gameObject.GetComponent<BuildingHP>().GetSMI<BuildingHP.SMInstance>();
+                return smi.progressBar;
             }
         }
 

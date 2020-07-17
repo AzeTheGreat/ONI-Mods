@@ -9,7 +9,7 @@ namespace InfiniteResearch
     {
         [MyCmpGet] ResearchCenter researchCenter;
 
-        protected override void UpdateState() => Traverse.Create(researchCenter).Method("UpdateWorkingState", new object[] { null }).GetValue(new object[] { null });
+        protected override void UpdateState() => researchCenter.UpdateWorkingState(null);
     }
 
     [HarmonyPatch]

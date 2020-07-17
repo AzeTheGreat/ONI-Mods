@@ -1,4 +1,5 @@
-﻿using Harmony;
+﻿using FMOD;
+using Harmony;
 using Klei.AI;
 using PeterHan.PLib;
 using System;
@@ -93,8 +94,8 @@ namespace InfiniteResearch
                         return str.Replace("{Attributes}", minMax.Item1 + " - " + minMax.Item2);
                     }
                 };
-                float multiplier = GetMultiplier(__instance.gameObject);
-                Traverse.Create(__instance).SetField("attributeExperienceMultiplier", multiplier);
+
+                __instance.attributeExperienceMultiplier = GetMultiplier(__instance.gameObject);
             }
 
             private static float GetMultiplier(GameObject go)

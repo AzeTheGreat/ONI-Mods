@@ -1,6 +1,5 @@
 ﻿using AzeLib.Extensions;
 using Harmony;
-using PeterHan.PLib;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 
@@ -23,10 +22,7 @@ namespace BetterDeselect.Deselect
         private static void CloseOverlayAndMenu()
         {
             OverlayScreen.Instance.ToggleOverlay(OverlayModes.None.ID, true);
-
-            var planScreen = Traverse.Create(PlanScreen.Instance);
-            if(planScreen.GetField<KIconToggleMenu.ToggleInfo>("activeCategoryInfo") is KIconToggleMenu.ToggleInfo activeCategory)
-                planScreen.CallMethod("OnClickCategory", activeCategory);
+            PlanScreen.Instance.OnClickCategory(PlanScreen.Instance.activeCategoryInfo);
         }
     }
 

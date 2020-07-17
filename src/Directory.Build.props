@@ -6,6 +6,7 @@
 	<PropertyGroup>
 		<TargetFramework>net40</TargetFramework>
 		<LangVersion>latest</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 	<ItemDefinitionGroup>

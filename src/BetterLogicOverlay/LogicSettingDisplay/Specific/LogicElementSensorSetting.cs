@@ -5,17 +5,11 @@ namespace BetterLogicOverlay.LogicSettingDisplay
 {
     class LogicElementSensorSetting : LogicSettingDispComp
     {
-        private Traverse desiredElementIdx;
-
-        public override void OnSpawn()
-        {
-            base.OnSpawn();
-            desiredElementIdx = Traverse.Create(gameObject.GetComponent<LogicElementSensor>()).Field("desiredElementIdx");
-        }
+        [MyCmpGet] LogicElementSensor logicElementSensor;
 
         public override string GetSetting()
         {
-            Element element = ElementLoader.elements[desiredElementIdx.GetValue<byte>()];
+            var element = ElementLoader.elements[logicElementSensor.desiredElementIdx];
             return element.GetAbbreviation();
         }
 

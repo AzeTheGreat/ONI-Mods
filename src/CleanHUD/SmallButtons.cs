@@ -18,9 +18,8 @@ namespace CleanHUD
         {
             if (Options.Opts.UseSmallButtons)
             {
-                var smallPrefab = Traverse.Create(ManagementMenu.Instance).GetField<KToggle>("smallPrefab");
                 foreach (var toggle in toggleInfo)
-                    toggle.prefabOverride = smallPrefab;
+                    toggle.prefabOverride = ManagementMenu.Instance.smallPrefab;
             }
 
             ManagementMenu.Instance.Setup(toggleInfo);

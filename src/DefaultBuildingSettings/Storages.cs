@@ -20,9 +20,8 @@ namespace DefaultBuildingSettings
             if (!(go.GetComponent<SmartReservoir>() is SmartReservoir smartReservoir))
                 return false;
 
-            var trav = Traverse.Create(smartReservoir);
-            trav.Field("activateValue").SetValue(Options.Opts.ReservoirActivateValue);
-            trav.Field("deactivateValue").SetValue(Options.Opts.ReservoirDeactivateValue);
+            smartReservoir.activateValue = Options.Opts.ReservoirActivateValue;
+            smartReservoir.deactivateValue = Options.Opts.ReservoirDeactivateValue;
             return true;
         }
     }
