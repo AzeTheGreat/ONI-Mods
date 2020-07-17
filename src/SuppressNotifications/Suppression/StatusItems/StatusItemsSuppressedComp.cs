@@ -13,7 +13,7 @@ namespace SuppressNotifications
 
         private StatusItemGroup statusItemGroup;
 
-        protected override void OnPrefabInit()
+        public override void OnPrefabInit()
         {
             Init();
             Subscribe((int)GameHashes.CopySettings, (object data) => OnCopySettings(data));

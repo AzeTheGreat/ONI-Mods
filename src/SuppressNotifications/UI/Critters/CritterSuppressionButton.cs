@@ -7,7 +7,7 @@ namespace SuppressNotifications
         [MyCmpAdd]
         private CopyEntitySettings copyCritterSettings;
 
-        protected override void OnPrefabInit()
+        public override void OnPrefabInit()
         {
             base.OnPrefabInit();
 

@@ -7,7 +7,7 @@ namespace BetterLogicOverlay.LogicSettingDisplay
     {
         private Traverse desiredElementIdx;
 
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn();
             desiredElementIdx = Traverse.Create(gameObject.GetComponent<LogicElementSensor>()).Field("desiredElementIdx");

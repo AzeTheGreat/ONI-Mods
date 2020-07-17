@@ -12,7 +12,7 @@ namespace BetterLogicOverlay.LogicSettingDisplay
         public Vector2 position;
         public Vector2 sizeDelta;
 
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn();
 

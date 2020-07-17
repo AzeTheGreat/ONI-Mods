@@ -15,7 +15,7 @@ namespace SuppressNotifications
         private List<int> cells;
         private GameObject sourceGameObject;
 
-        protected override void OnPrefabInit()
+        public override void OnPrefabInit()
         {
             // Initialize
             base.OnPrefabInit();
@@ -49,7 +49,7 @@ namespace SuppressNotifications
             hoverConfig.ToolName = hoverTemplate.ToolName;
         }
 
-        protected override void OnDragTool(int cell, int distFromOrigin)
+        public override void OnDragTool(int cell, int distFromOrigin)
         {
             if (sourceGameObject == null)
             {
@@ -61,7 +61,7 @@ namespace SuppressNotifications
             }
         }
 
-        protected override void OnDragComplete(Vector3 cursorDown, Vector3 cursorUp)
+        public override void OnDragComplete(Vector3 cursorDown, Vector3 cursorUp)
         {
             if(sourceGameObject.GetComponent<CritterSuppressionButton>() != null)
                 CopyCritterSettings();
@@ -118,13 +118,13 @@ namespace SuppressNotifications
             PlayerController.Instance.ActivateTool(this);
         }
 
-        protected override void OnActivateTool()
+        public override void OnActivateTool()
         {
             base.OnActivateTool();
             cells = new List<int>();
         }
 
-        protected override void OnDeactivateTool(InterfaceTool new_tool)
+        public override void OnDeactivateTool(InterfaceTool new_tool)
         {
             base.OnDeactivateTool(new_tool);
             sourceGameObject = null;

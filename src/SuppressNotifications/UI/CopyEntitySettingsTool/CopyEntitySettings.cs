@@ -5,7 +5,7 @@ namespace SuppressNotifications
 {
     class CopyEntitySettings : KMonoBehaviour
     {
-        protected override void OnPrefabInit()
+        public override void OnPrefabInit()
         {
             base.OnPrefabInit();
             Subscribe((int)GameHashes.RefreshUserMenu, (object data) => OnRefreshUserMenu(data));

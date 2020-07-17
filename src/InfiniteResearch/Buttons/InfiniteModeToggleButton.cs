@@ -7,7 +7,7 @@ namespace InfiniteResearch
     {
         [Serialize] public bool isInfiniteMode = false;
 
-        protected override void OnPrefabInit() => Subscribe((int)GameHashes.RefreshUserMenu, (object data) => OnRefreshUserMenu());
+        public override void OnPrefabInit() => Subscribe((int)GameHashes.RefreshUserMenu, (object data) => OnRefreshUserMenu());
 
         private void OnRefreshUserMenu()
         {

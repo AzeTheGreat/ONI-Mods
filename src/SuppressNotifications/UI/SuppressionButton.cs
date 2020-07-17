@@ -10,7 +10,7 @@ namespace SuppressNotifications
         [MyCmpAdd]
         internal NotificationsSuppressedComp notificationsSuppressedComp;
 
-        protected override void OnPrefabInit()
+        public override void OnPrefabInit()
         {
             Subscribe((int)GameHashes.RefreshUserMenu, (object data) => OnRefreshUserMenu());
         }

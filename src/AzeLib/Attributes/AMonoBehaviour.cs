@@ -5,7 +5,7 @@ namespace AzeLib.Attributes
     public class AMonoBehaviour : KMonoBehaviour
     {
         //TODO: Optimize this similarily to the base game
-        protected override void OnSpawn()
+        public override void OnSpawn()
         {
             base.OnSpawn();
 

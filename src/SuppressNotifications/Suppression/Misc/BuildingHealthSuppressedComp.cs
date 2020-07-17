@@ -20,7 +20,7 @@ namespace SuppressNotifications
             }
         }
 
-        protected override void OnPrefabInit()
+        public override void OnPrefabInit()
         {
             Subscribe((int)GameHashes.CopySettings, (object data) => OnCopySettings(data));
         }
