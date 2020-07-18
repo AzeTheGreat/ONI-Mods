@@ -15,7 +15,7 @@ namespace NoResearchAlerts
         }
     }
 
-    [HarmonyPatch(typeof(PlanScreen), "ClearButtons")]
+    [HarmonyPatch(typeof(PlanScreen), nameof(PlanScreen.ClearButtons))]
     public class FastClearAlerts_Patch
     {
         static bool Prepare() => Options.Opts.AlertMode == Options.Mode.FastClear;
@@ -27,16 +27,11 @@ namespace NoResearchAlerts
 
             var item = ___ActiveToggles.First();
             HashedString category = ___tagCategoryMap[item.Key.Tag];
-            object[] parameters = new object[] { category, null };
 
-            AccessTools.Method(typeof(PlanScreen), "GetToggleEntryForCategory").Invoke(PlanScreen.Instance, parameters);
-            object toggleEntry = parameters[1];
+            PlanScreen.Instance.GetToggleEntryForCategory(category, out PlanScreen.ToggleEntry toggleEntry);
 
-            List<Tag> pendingResearchAttentions = toggleEntry.GetType().GetField("pendingResearchAttentions").GetValue(toggleEntry) as List<Tag>;
-            KIconToggleMenu.ToggleInfo toggleInfo = toggleEntry.GetType().GetField("toggleInfo").GetValue(toggleEntry) as KIconToggleMenu.ToggleInfo;
-
-            pendingResearchAttentions.Clear();
-            toggleInfo.toggle.GetComponent<PlanCategoryNotifications>().ToggleAttention(false);
+            toggleEntry.pendingResearchAttentions.Clear();
+            toggleEntry.toggleInfo.toggle.GetComponent<PlanCategoryNotifications>().ToggleAttention(false);
         }
     }
 }

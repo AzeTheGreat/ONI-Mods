@@ -132,12 +132,9 @@ namespace BetterInfoCards
             private static void ExportStatus(StatusItemGroup.Entry entry) => Export(entry.item.Name, entry.data);
         }
 
-        [HarmonyPatch]
+        [HarmonyPatch(typeof(HoverTextDrawer.Pool<MonoBehaviour>), nameof(HoverTextDrawer.Pool<MonoBehaviour>.Draw))]
         private class GetWidget_Patch
         {
-            // HoverTextDrawer.Pool.Draw
-            static MethodBase TargetMethod() => AccessTools.FirstInner(typeof(HoverTextDrawer), x => x.IsGenericType).MakeGenericType(typeof(MonoBehaviour)).GetMethod("Draw");
-
             static void Postfix(Entry __result, GameObject ___prefab)
             {
                 InfoCard card = Instance.infoCards.Last();
