@@ -1,10 +1,18 @@
 ﻿using Harmony;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace CleanHUD
 {
-    [HarmonyPatch(typeof(BuildWatermark), nameof(BuildWatermark.RefreshText))]
+    [HarmonyPatch]
     public class Watermark_Patch
     {
+        static IEnumerable<MethodBase> TargetMethods()
+        {
+            yield return AccessTools.Method(typeof(BuildWatermark), nameof(BuildWatermark.RefreshText));
+            yield return AccessTools.Method(typeof(BuildWatermark), nameof(BuildWatermark.OnPrefabInit));
+        }
+
         static void Postfix(BuildWatermark __instance)
         {
             // Hide only if in game so that it still shows on the main menu.
