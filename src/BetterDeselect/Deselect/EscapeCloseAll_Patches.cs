@@ -22,7 +22,8 @@ namespace BetterDeselect.Deselect
         private static void CloseOverlayAndMenu()
         {
             OverlayScreen.Instance.ToggleOverlay(OverlayModes.None.ID, true);
-            PlanScreen.Instance.OnClickCategory(PlanScreen.Instance.activeCategoryInfo);
+            if(PlanScreen.Instance.activeCategoryInfo != null)
+                PlanScreen.Instance.OnClickCategory(PlanScreen.Instance.activeCategoryInfo);
         }
     }
 
