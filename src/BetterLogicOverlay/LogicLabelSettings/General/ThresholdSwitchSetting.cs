@@ -3,39 +3,23 @@ using UnityEngine;
 
 namespace BetterLogicOverlay.LogicSettingDisplay
 {
-    class ThresholdSwitchSetting : LogicSettingDispComp
+    class ThresholdSwitchSetting : LogicLabelSetting
     {
         [MyIntGet] protected IThresholdSwitch thresholdSwitch;
 
-        [SerializeField] private string units = string.Empty;
-
         protected virtual string GetValue() => thresholdSwitch.Format(thresholdSwitch.Threshold, false);
-        protected virtual string GetUnits() => units == string.Empty ? (string)thresholdSwitch.ThresholdValueUnits() : units;
+        protected virtual string GetUnits() => thresholdSwitch.ThresholdValueUnits();
         private string GetAboveOrBelow() => thresholdSwitch.ActivateAboveThreshold ? ">" : "<";
 
         public override string GetSetting() => GetAboveOrBelow() + GetValue() + GetUnits();
-            
-        public static void AddToDef(BuildingDef def)
-        {
-            var go = def.BuildingComplete;
 
-            if (go.GetComponent<ConduitTemperatureSensor>())
-                go.AddComponent<ConduitTemp>();
-            else if (go.GetComponent<LogicDiseaseSensor>() || go.GetComponent<ConduitDiseaseSensor>())
-                go.AddComponent<Germs>();
-            else if (go.GetComponent<LogicCritterCountSensor>())
-                go.AddComponent<CritterCount>();
-            else
-                go.AddComponent<ThresholdSwitchSetting>();
-        }
-
-        private class ConduitTemp : ThresholdSwitchSetting
+        public class ConduitTemp : ThresholdSwitchSetting
         {
             protected override string GetUnits() => string.Empty;
             protected override string GetValue() => GameUtil.GetFormattedTemperature(thresholdSwitch.Threshold, GameUtil.TimeSlice.None, GameUtil.TemperatureInterpretation.Absolute, true, true);
         }
 
-        private class Germs : ThresholdSwitchSetting
+        public class Germs : ThresholdSwitchSetting
         {
             protected override string GetUnits() => " " + thresholdSwitch.ThresholdValueUnits();
             protected override string GetValue()
@@ -53,7 +37,7 @@ namespace BetterLogicOverlay.LogicSettingDisplay
             }
         }
 
-        private class CritterCount : ThresholdSwitchSetting
+        public class CritterCount : ThresholdSwitchSetting
         {
             [MyCmpGet] private LogicCritterCountSensor logicCritterCountSensor;
 

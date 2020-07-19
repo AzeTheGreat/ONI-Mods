@@ -2,7 +2,7 @@
 
 namespace BetterLogicOverlay.LogicSettingDisplay
 {
-    class ActivationRangeTargetSetting : LogicSettingDispComp
+    class ActivationRangeTargetSetting : LogicLabelSetting
     {
         [MyIntGet] protected IActivationRangeTarget activationTarget;
 
@@ -10,12 +10,6 @@ namespace BetterLogicOverlay.LogicSettingDisplay
         {
             string unit = STRINGS.UI.UNITSUFFIXES.PERCENT;
             return activationTarget.DeactivateValue + unit + " - " + activationTarget.ActivateValue + unit;
-        }
-
-        public static void AddToDef(BuildingDef def)
-        {
-            var go = def.BuildingComplete;
-            go.AddComponent<ActivationRangeTargetSetting>();
         }
     }
 }

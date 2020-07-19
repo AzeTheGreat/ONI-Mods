@@ -5,85 +5,51 @@ using System.Reflection.Emit;
 
 namespace BetterLogicOverlay
 {
-    [HarmonyPatch(typeof(OverlayModes.Logic), "UpdateUI")]
+    [HarmonyPatch(typeof(OverlayModes.Logic), nameof(OverlayModes.Logic.UpdateUI))]
     class GateOutputColor_Patch
     {
         static bool Prepare() => Options.Opts.FixWireOverwrite;
 
-        // TODO: Robustify or use reflection
-        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator ilg)
+        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            foreach (CodeInstruction i in instructions)
+            return instructions.Manipulator(
+                AccessTools.Method(typeof(LogicCircuitNetwork), nameof(LogicCircuitNetwork.IsBitActive), new[] { typeof(int) }),
+                ReplaceWithWrapper);
+
+            IEnumerable<CodeInstruction> ReplaceWithWrapper(CodeInstruction i)
             {
-                if (i.OpCodeIs(OpCodes.Ldc_I4_0))
-                {
-                    // Call Helper()
-                    yield return new CodeInstruction(OpCodes.Ldloc_S, 5);
-                    yield return new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(
-                        AccessTools.TypeByName("OverlayModes+Logic+UIInfo"),
-                        "cell"));
-                    yield return new CodeInstruction(OpCodes.Ldloc_S, 6);
-                    yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(
-                        typeof(GateOutputColor_Patch),
-                        nameof(GateOutputColor_Patch.Helper)));
-                }
-                else
-                    yield return i;
+                // Locate the uiInfo local var
+                var uiInfoLocal = instructions.FindPrior(
+                    instructions.FindPrior(i, x => x.OperandIs(AccessTools.Field(typeof(OverlayModes.Logic.UIInfo), "bitDepth"))),
+                    x => x.OpCodeIs(OpCodes.Ldloc_S)).operand;
+
+                // Load cell parameter.
+                yield return new CodeInstruction(OpCodes.Ldloc_S, uiInfoLocal);
+                yield return new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(OverlayModes.Logic.UIInfo), "cell"));
+                
+                yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GateOutputColor_Patch), nameof(GateOutputColor_Patch.IsBitActiveWrapper)));
             }
         }
 
-        static int Helper(int cell, LogicCircuitNetwork networkForCell)
+        static bool IsBitActiveWrapper(LogicCircuitNetwork networkForCell, int bit, int cell) => networkForCell.IsBitActive(bit) && IsLogicCellActive(cell, networkForCell);
+
+        static bool IsLogicCellActive(int cell, LogicCircuitNetwork networkForCell)
         {
             // If there's only 1 sender on the network then it's impossible for another to be overwriting it
             if (networkForCell.Senders.Count <= 1)
-                return 0;
+                return true;
 
             foreach (var sender in networkForCell.Senders)
             {
                 if (sender.GetLogicCell() == cell)
                 {
                     if (sender.GetLogicValue() <= 0)
-                        return int.MaxValue;
-                    return 0;
+                        return false;
+                    return true;
                 }
             }
-            return 0;
+            return true;
         }
-
-        // Failed alternate reflection attempt.  Issues:
-        // Color not getting set on the actual image, probably some ref issue
-        // Sensors don't have ILogicSender components.  Not sure how when they work in the transpiler...
-        // Looks like on spawn it creates LogicPorts and adds them to the LogicCircuitNetworkManager...
-
-        //static void Postfix(OverlayModes.Logic __instance)
-        //{
-        //    var uiInfoField = Traverse.Create(__instance).GetField<object>("uiInfo");
-        //    var uiInfos = Traverse.Create(uiInfoField).Method("GetDataList").GetValue();
-
-        //    foreach (var info in ((IEnumerable)uiInfos))
-        //    {
-        //        Debug.Log(1);
-        //        var infoTrav = Traverse.Create(info);
-        //        int cell = infoTrav.GetField<int>("cell");
-
-        //        GameObject sourceGO = Grid.Objects[cell, (int)ObjectLayer.LogicGates];
-        //        if(sourceGO == null)
-        //            sourceGO = Grid.Objects[cell, (int)ObjectLayer.Building];
-        //        Debug.Log("Source GO: " + sourceGO);
-        //        Debug.Log("Test value: " + (sourceGO?.GetComponent<ILogicEventSender>()?.GetLogicValue() ?? 1));
-        //        if((sourceGO?.GetComponent<ILogicEventSender>()?.GetLogicValue() ?? 1) <= 0)
-        //        {
-        //            Debug.Log(2);
-        //            Image image = infoTrav.GetField<Image>("image");
-        //            LogicModeUI logicModeUI = Assets.instance.logicModeUIData;
-        //            if (image.color == logicModeUI.colourOn)
-        //            {
-        //                Traverse.Create(image).SetField("color", logicModeUI.colourOff);
-        //                Debug.Log("Color overriden");
-        //            }       
-        //        }
-        //    }
-        //}
     }
 }
 

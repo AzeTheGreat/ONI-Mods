@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BetterLogicOverlay
 {
-    [HarmonyPatch(typeof(ElementLoader), "CopyEntryToElement")]
+    [HarmonyPatch(typeof(ElementLoader), nameof(ElementLoader.CopyEntryToElement))]
     public static class ElementAbbreviation
     {
         public static Dictionary<SimHashes, LocString> abbreviations = new Dictionary<SimHashes, LocString>();

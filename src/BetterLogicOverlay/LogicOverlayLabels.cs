@@ -1,6 +1,5 @@
 ﻿using BetterLogicOverlay.LogicSettingDisplay;
 using Harmony;
-using PeterHan.PLib;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -31,7 +30,7 @@ namespace BetterLogicOverlay
                 return;
 
             existingGOs.Add(go);
-            if (go.GetComponent<LogicSettingDispComp>() is LogicSettingDispComp dispComp)
+            if (go.GetComponent<LogicLabelSetting>() is LogicLabelSetting dispComp)
                 logicSettingUIs.Add(logicPortUI, new LogicSettingUIInfo(go, uiGOPool.GetFreeElement(GameScreenManager.Instance.worldSpaceCanvas), dispComp));
         }
 
@@ -90,17 +89,17 @@ namespace BetterLogicOverlay
         [HarmonyPatch(typeof(OverlayModes.Logic), nameof(OverlayModes.Logic.Disable))]
         private class Disable { static void Postfix() => instance.OnDisable(); }
 
-        [HarmonyPatch(typeof(OverlayModes.Logic), "AddUI")]
+        [HarmonyPatch(typeof(OverlayModes.Logic), nameof(OverlayModes.Logic.AddUI))]
         private class AddUI {
             static bool Prepare() => Options.Opts.DisplayLogicSettings;
             static void Postfix(ILogicUIElement ui_elem) => instance.OnAddUI(ui_elem); }
 
-        [HarmonyPatch(typeof(OverlayModes.Logic), "FreeUI")]
+        [HarmonyPatch(typeof(OverlayModes.Logic), nameof(OverlayModes.Logic.FreeUI))]
         private class FreeUI {
             static bool Prepare() => Options.Opts.DisplayLogicSettings;
             static void Postfix(ILogicUIElement item) => instance.OnFreeUI(item); }
 
-        [HarmonyPatch(typeof(OverlayModes.Logic), "UpdateUI")]
+        [HarmonyPatch(typeof(OverlayModes.Logic), nameof(OverlayModes.Logic.UpdateUI))]
         private class UpdateUI {
             static bool Prepare() => Options.Opts.DisplayLogicSettings;
             static void Postfix() => instance.OnUpdateUI(); }

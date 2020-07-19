@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BetterLogicOverlay.LogicSettingDisplay
 {
-    abstract class LogicSettingDispComp : AMonoBehaviour
+    abstract class LogicLabelSetting : AMonoBehaviour
     {
         public abstract string GetSetting();
 

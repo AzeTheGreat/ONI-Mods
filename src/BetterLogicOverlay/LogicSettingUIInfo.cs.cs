@@ -8,9 +8,9 @@ namespace BetterLogicOverlay
     {
         public GameObject sourceGO;
         public LocText cachedLocText;
-        private LogicSettingDispComp logicSettingDisplay;
+        private LogicLabelSetting logicSettingDisplay;
 
-        public LogicSettingUIInfo(GameObject sourceGO, LocText prefab, LogicSettingDispComp logicSettingDispComp)
+        public LogicSettingUIInfo(GameObject sourceGO, LocText prefab, LogicLabelSetting logicSettingDispComp)
         {
             this.sourceGO = sourceGO;
             logicSettingDisplay = logicSettingDispComp;

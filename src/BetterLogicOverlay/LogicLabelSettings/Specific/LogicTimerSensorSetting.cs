@@ -1,11 +1,6 @@
-﻿using Harmony;
-using STRINGS;
-using System;
-using UnityEngine;
-
-namespace BetterLogicOverlay.LogicSettingDisplay
+﻿namespace BetterLogicOverlay.LogicSettingDisplay
 {
-    class LogicTimerSensorSetting : LogicSettingDispComp
+    class LogicTimerSensorSetting : LogicLabelSetting
     {
         [MyCmpGet] private LogicTimerSensor logicTimerSensor;
 
@@ -27,8 +22,5 @@ namespace BetterLogicOverlay.LogicSettingDisplay
                 return GameUtil.GetFormattedTime(duration, "F0");
             }
         }
-
-        [HarmonyPatch(typeof(LogicTimerSensorConfig), nameof(LogicTimerSensorConfig.DoPostConfigureComplete))]
-        private class AddToClock { static void Postfix(GameObject go) => go.AddComponent<LogicTimerSensorSetting>(); }
     }
 }
