@@ -28,8 +28,11 @@ namespace ClarifiedMaxDecor
     {
         static void Postfix(ref string __result, AmountInstance instance)
         {
-            var format = instance.gameObject.GetSMI<DecorMonitor.Instance>().GetYesterdaysAverageDecor() > DecorMonitor.MAXIMUM_DECOR_VALUE ? UI.OVERLAYS.DECOR.MAXIMUM_DECOR : UI.OVERLAYS.DECOR.VALUE;
-            __result = string.Format(STRINGS.DUPLICANTS.ATTRIBUTES.QUALITYOFLIFE.DESC_FORMAT, __result, string.Format(format, "", DecorMonitor.MAXIMUM_DECOR_VALUE));
+            if(instance.gameObject.GetSMI<DecorMonitor.Instance>() is DecorMonitor.Instance smi)
+            {
+                var format = smi.GetYesterdaysAverageDecor() > DecorMonitor.MAXIMUM_DECOR_VALUE ? UI.OVERLAYS.DECOR.MAXIMUM_DECOR : UI.OVERLAYS.DECOR.VALUE;
+                __result = string.Format(STRINGS.DUPLICANTS.ATTRIBUTES.QUALITYOFLIFE.DESC_FORMAT, __result, string.Format(format, "", DecorMonitor.MAXIMUM_DECOR_VALUE));
+            }
         }
     }
 }
