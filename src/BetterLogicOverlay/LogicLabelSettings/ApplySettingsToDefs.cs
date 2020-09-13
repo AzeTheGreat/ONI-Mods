@@ -1,5 +1,4 @@
-﻿using BetterLogicOverlay.LogicSettingDisplay.Specific;
-using Harmony;
+﻿using Harmony;
 using System;
 using System.Collections.Generic;
 
@@ -53,7 +52,6 @@ namespace BetterLogicOverlay.LogicSettingDisplay
             // Specific buildings
             (typeof(Filterable), typeof(ConduitElementSensorSetting)),
             (typeof(LogicElementSensor), typeof(LogicElementSensorSetting)),
-            (typeof(LogicAlarm), typeof(LogicAlarmSetting)),
             (typeof(LogicCounter), typeof(LogicCounterSetting)),
             (typeof(LogicTimerSensor), typeof(LogicTimerSensorSetting)),
             (typeof(LogicTimeOfDaySensor), typeof(LogicTimeOfDaySensorSetting)),

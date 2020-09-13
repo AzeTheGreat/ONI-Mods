@@ -6,17 +6,15 @@ namespace BetterLogicOverlay
 {
     struct LogicSettingUIInfo
     {
-        public GameObject sourceGO;
         public LocText cachedLocText;
         private LogicLabelSetting logicSettingDisplay;
 
-        public LogicSettingUIInfo(GameObject sourceGO, LocText prefab, LogicLabelSetting logicSettingDispComp)
+        public LogicSettingUIInfo(LocText prefab, LogicLabelSetting logicSettingDispComp)
         {
-            this.sourceGO = sourceGO;
             logicSettingDisplay = logicSettingDispComp;
             cachedLocText = prefab;
 
-            prefab.gameObject.transform.position = logicSettingDisplay.position;
+            prefab.transform.position = logicSettingDisplay.position + LabelPrefab.offset;
             var rectTransform = prefab.GetComponent<RectTransform>();
             rectTransform.sizeDelta = logicSettingDisplay.sizeDelta * rectTransform.InverseLocalScale();
             prefab.gameObject.SetActive(true);
