@@ -15,7 +15,7 @@ namespace AzeLib
         }
 
         public virtual bool ValidateSettings() => true;
-        public IEnumerable CreateOptions() => null;
+        public virtual IEnumerable CreateOptions() => null;
         public void OnOptionsChanged() => Opts = ReadAndValidateSettings();
 
         private static void OnOnLoad()
