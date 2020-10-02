@@ -10,53 +10,41 @@ namespace RebalancedTilesTesting
 {
     [JsonObject(MemberSerialization.OptIn)]
     [ModInfo("TEST", null, null, true)]
+    [RestartRequired]
     public class Options : BaseOptions<Options>
     {
-        [JsonProperty] Dictionary<string, TileOptions> genericOptions = new Dictionary<string, TileOptions>();
+        // Needs to be static so that it is serialized correctly by POptions.
+        // If instanced, the instance modified through Opts is different than the instance serialized by POptions.
+        [JsonProperty] public static Dictionary<string, Dictionary<string, object>> serializedValues;
+
+        // Needs to be static to persist as Options are created since it's only built once.
+        private static Dictionary<string, Dictionary<string, DefaultIntOptionsEntry>> tileOptions;
 
         public override IEnumerable CreateOptions()
         {
-            foreach (var def in Assets.BuildingDefs)
-            {
-                if (!def.name.Contains("Tile") || !def.ShowInBuildMenu || def.Deprecated || !TUNING.BUILDINGS.PLANORDER.Any(x => ((List<string>)x.data).Contains(def.PrefabID)))
-                    continue;
-
-                if(!genericOptions.TryGetValue(def.PrefabID, out var tileOptions))
-                    genericOptions.Add(def.PrefabID, tileOptions = new TileOptions());
-
-                foreach (var option in tileOptions.RebuildOptions(def))
-                    yield return option;
-            }
-        }
-    }
-
-    [JsonObject(MemberSerialization.OptIn)]
-    public class TileOptions
-    {
-        [JsonProperty] public DefaultIntOptionsEntry decor;
-        [JsonProperty] public DefaultIntOptionsEntry decorRadius;
-        [JsonProperty] public DefaultIntOptionsEntry strengthMult;
-        [JsonProperty] public DefaultIntOptionsEntry moveSpeedMult;
-
-        public IEnumerable RebuildOptions(BuildingDef def)
-        {
-            yield return decor = new DefaultIntOptionsEntry("Decor", "t", (int)def.BaseDecor, def.Name, decor);
-            yield return decorRadius = new DefaultIntOptionsEntry("Decor Radius", "t", (int)def.BaseDecorRadius, def.Name, decorRadius);
-
-            var simCell = def.BuildingComplete.GetComponent<SimCellOccupier>();
-
-            yield return strengthMult = new DefaultIntOptionsEntry("Tile Strength", "t", (int)simCell.strengthMultiplier, def.Name, strengthMult);
-            yield return moveSpeedMult = new DefaultIntOptionsEntry("Movement Speed", "t", (int)simCell.movementSpeedMultiplier, def.Name, moveSpeedMult);
-
-            yield return new ButtonTest("Reset", "T", def.Name)
-            {
-                Value = (System.Action)(() => decor.Value = decorRadius.Value = strengthMult.Value = moveSpeedMult.Value = null)
-            };
+            foreach (var tileOptions in tileOptions)
+                foreach (var option in tileOptions.Value)
+                    yield return option.Value;
         }
 
-        private class ButtonTest : ButtonOptionsEntry
+        public Dictionary<string, DefaultIntOptionsEntry> RebuildAndGetOptions(BuildingDef def)
         {
-            public ButtonTest(string title, string tooltip, string category = "") : base(title, tooltip, category) { }
+            if (!def.name.Contains("Tile") || !def.ShowInBuildMenu || def.Deprecated || !TUNING.BUILDINGS.PLANORDER.Any(x => ((List<string>)x.data).Contains(def.PrefabID)))
+                return null;
+
+            if (!tileOptions.TryGetValue(def.PrefabID, out var options))
+                tileOptions.Add(def.PrefabID, options = new Dictionary<string, DefaultIntOptionsEntry>());
+
+            options.Add("BaseDecor", new DefaultIntOptionsEntry("Decor", string.Empty, (int)def.BaseDecor, def.PrefabID, "BaseDecor", def.Name));
+            options.Add("BaseDecorRadius", new DefaultIntOptionsEntry("Decor Radius", string.Empty, (int)def.BaseDecorRadius, def.PrefabID, "BaseDecorRadius", def.Name));
+
+            return options;
+        }
+
+        public Options()
+        {
+            tileOptions ??= new Dictionary<string, Dictionary<string, DefaultIntOptionsEntry>>();
+            serializedValues ??= new Dictionary<string, Dictionary<string, object>>();
         }
     }
 }

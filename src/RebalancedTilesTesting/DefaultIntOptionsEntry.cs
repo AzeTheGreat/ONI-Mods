@@ -2,40 +2,47 @@
 using PeterHan.PLib;
 using PeterHan.PLib.Options;
 using PeterHan.PLib.UI;
+using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 namespace RebalancedTilesTesting
 {
     // Largely taken from Peter's IntOptionsEntry - modified to suit these specific needs.
-    [JsonObject(MemberSerialization.OptIn)]
     public class DefaultIntOptionsEntry : SlidingBaseOptionsEntry
     {
 		public override object Value
-		{
-			get => savedValue == null ? defaultValue : savedValue;
-			set
-			{
-				if (value is int newValue)
-				{
-					savedValue = newValue;
-					if (savedValue == defaultValue)
-						savedValue = null;
-				}
+        {
+            get
+            {
+				if (Options.serializedValues.TryGetValue(defId, out var values) && values.TryGetValue(propertyId, out var savedVal) && savedVal != null)
+					return Convert.ToInt32(savedVal);
+				return defaultValue;
+            }
+
+            set
+            {
+				Options.serializedValues.TryGetValue(defId, out var values);
+				Options.serializedValues[defId] = values ??= new Dictionary<string, object>();
+
+				values[propertyId] = (int)value == defaultValue ? null : value;
+
 				Update();
 			}
-		}
+        }
 
-		[JsonProperty] public int? savedValue;
 		private readonly int defaultValue;
-
+		private readonly string defId;
+		private readonly string propertyId;
 		private GameObject textField;
 
-		public DefaultIntOptionsEntry(string title, string tooltip, int defaultValue, string category = "", DefaultIntOptionsEntry lastOption = null, LimitAttribute limits = null) : base(title, tooltip, category, limits)
+		public DefaultIntOptionsEntry(string title, string tooltip, int defaultValue, string defId, string propertyId, string category = "", LimitAttribute limits = null) : base(title, tooltip, category, limits)
 		{
 			textField = null;
 			this.defaultValue = defaultValue;
-			Value = lastOption?.savedValue;
+			this.defId = defId;
+			this.propertyId = propertyId;
 		}
 
 		protected override PSliderSingle GetSlider()
@@ -93,7 +100,7 @@ namespace RebalancedTilesTesting
 			if (field != null)
             {
 				field.text = ((int)Value).ToString(Format ?? "D");
-				field.textComponent.color = savedValue == null ? Color.gray : Color.black;
+				field.textComponent.color = (int)Value == defaultValue ? Color.gray : Color.black;
             }
 			if (slider != null)
 				PSliderSingle.SetCurrentValue(slider, (float)Value);
