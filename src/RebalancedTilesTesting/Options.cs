@@ -17,33 +17,33 @@ namespace RebalancedTilesTesting
         // If instanced, the instance modified through Opts is different than the instance serialized by POptions.
         [JsonProperty] public static Dictionary<string, Dictionary<string, object>> serializedValues;
 
-        // Needs to be static to persist as Options are created since it's only built once.
-        private static Dictionary<string, Dictionary<string, DefaultIntOptionsEntry>> tileOptions;
+        // Needs to be static to persist though Options re-creation since it's only built once.
+        private static Dictionary<string, ConfigOptions> tileOptions;
 
         public override IEnumerable CreateOptions()
         {
             foreach (var tileOptions in tileOptions)
-                foreach (var option in tileOptions.Value)
-                    yield return option.Value;
+                foreach (var option in tileOptions.Value.GetOptions())
+                    yield return option; 
         }
 
-        public Dictionary<string, DefaultIntOptionsEntry> RebuildAndGetOptions(BuildingDef def)
+        public ConfigOptions RebuildAndGetOptions(BuildingDef def)
         {
             if (!def.name.Contains("Tile") || !def.ShowInBuildMenu || def.Deprecated || !TUNING.BUILDINGS.PLANORDER.Any(x => ((List<string>)x.data).Contains(def.PrefabID)))
                 return null;
 
             if (!tileOptions.TryGetValue(def.PrefabID, out var options))
-                tileOptions.Add(def.PrefabID, options = new Dictionary<string, DefaultIntOptionsEntry>());
+                tileOptions.Add(def.PrefabID, options = new ConfigOptions());
 
-            options.Add("BaseDecor", new DefaultIntOptionsEntry("Decor", string.Empty, (int)def.BaseDecor, def.PrefabID, "BaseDecor", def.Name));
-            options.Add("BaseDecorRadius", new DefaultIntOptionsEntry("Decor Radius", string.Empty, (int)def.BaseDecorRadius, def.PrefabID, "BaseDecorRadius", def.Name));
+            options.AddOption(def, "BaseDecor", "Decor");
+            options.AddOption(def, "BaseDecorRadius", "Decor Radius");
 
             return options;
         }
 
         public Options()
         {
-            tileOptions ??= new Dictionary<string, Dictionary<string, DefaultIntOptionsEntry>>();
+            tileOptions ??= new Dictionary<string, ConfigOptions>();
             serializedValues ??= new Dictionary<string, Dictionary<string, object>>();
         }
     }
