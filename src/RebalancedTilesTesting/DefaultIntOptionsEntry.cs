@@ -14,25 +14,16 @@ namespace RebalancedTilesTesting
     {
 		public override object Value
         {
-            get
-            {
-				if (Options.serializedValues.TryGetValue(defId, out var values) && values.TryGetValue(propertyId, out var savedVal) && savedVal != null)
-					return Convert.ToInt32(savedVal);
-				return defaultValue;
-            }
-
+			// TODO: convert just when used?  Add secondary getter to prevent needing to?
+            get => Options.serializedValues.TryGetValue(defId, propertyId, out var value) ? Convert.ToInt32(value) : defaultValue;
             set
             {
-				Options.serializedValues.TryGetValue(defId, out var values);
-				Options.serializedValues[defId] = values ??= new Dictionary<string, object>();
-
-				values[propertyId] = (int)value == defaultValue ? null : value;
-
-				Update();
-			}
+                Options.serializedValues.SetValue(defId, propertyId, (int)value == defaultValue ? null : value);
+                Update();
+            }
         }
 
-		private readonly int defaultValue;
+        private readonly int defaultValue;
 		private readonly string defId;
 		private readonly string propertyId;
 		private GameObject textField;
