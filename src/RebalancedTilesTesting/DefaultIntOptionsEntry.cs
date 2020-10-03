@@ -15,10 +15,10 @@ namespace RebalancedTilesTesting
 		public override object Value
         {
 			// TODO: convert just when used?  Add secondary getter to prevent needing to?
-            get => Options.serializedValues.TryGetValue(defId, propertyId, out var value) ? Convert.ToInt32(value) : defaultValue;
+            get => Options.Opts.ConfigOptions.TryGetValue(defId, propertyId, out var value) ? Convert.ToInt32(value) : defaultValue;
             set
             {
-                Options.serializedValues.SetValue(defId, propertyId, (int)value == defaultValue ? null : value);
+                Options.Opts.ConfigOptions.SetValue(defId, propertyId, (int)value == defaultValue ? null : value);
                 Update();
             }
         }

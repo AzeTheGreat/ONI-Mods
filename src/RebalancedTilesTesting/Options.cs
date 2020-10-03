@@ -17,39 +17,29 @@ namespace RebalancedTilesTesting
     {
         // Needs to be static so that it is serialized correctly by POptions.
         // If instanced, the instance modified through Opts is different than the instance serialized by POptions.
-        [JsonProperty] public static SerializedConfigs serializedValues;
+        [JsonProperty] private static ConfigOptions configOptions;
 
         // Needs to be static to persist though Options re-creation since it's only built once.
-        private static Dictionary<string, ConfigOptions> tileOptions;
+        private static Dictionary<string, UIConfigOptions> uiConfigOptions;
+
+        // Force accessing static members through the instance so that proper BaseOptions initialization occurs.
+        public ConfigOptions ConfigOptions => configOptions;
+        public Dictionary<string, UIConfigOptions> UIConfigOptions => uiConfigOptions;
 
         public override IEnumerable CreateOptions()
         {
-            foreach (var tileOptions in tileOptions)
+            foreach (var tileOptions in uiConfigOptions)
                 foreach (var option in tileOptions.Value.GetOptions())
                     yield return option; 
         }
 
-        public ConfigOptions RebuildAndGetOptions(BuildingDef def)
-        {
-            if (!def.name.Contains("Tile") || !def.ShowInBuildMenu || def.Deprecated || !TUNING.BUILDINGS.PLANORDER.Any(x => ((List<string>)x.data).Contains(def.PrefabID)))
-                return null;
-
-            if (!tileOptions.TryGetValue(def.PrefabID, out var options))
-                tileOptions.Add(def.PrefabID, options = new ConfigOptions());
-
-            options.AddOption(def, "BaseDecor", "Decor");
-            options.AddOption(def, "BaseDecorRadius", "Decor Radius");
-
-            return options;
-        }
-
         // TODO: Only rewrite if something changed.
-        public override bool ValidateSettings() => serializedValues.CleanUp();
+        public override bool ValidateSettings() => configOptions.CleanUp();
 
         public Options()
         {
-            tileOptions ??= new Dictionary<string, ConfigOptions>();
-            serializedValues ??= new SerializedConfigs();
+            uiConfigOptions ??= new Dictionary<string, UIConfigOptions>();
+            configOptions ??= new ConfigOptions();
         }
     }
 }

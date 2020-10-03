@@ -28,12 +28,7 @@ namespace RebalancedTilesTesting
 
         private static BuildingDef PostCreateBuildingDef(BuildingDef def)
         {
-            if (Options.Opts.RebuildAndGetOptions(def) is ConfigOptions options)
-            {
-                def.BaseDecor = options.GetValue<float>("BaseDecor");
-                def.BaseDecorRadius = options.GetValue<float>("BaseDecorRadius");
-            }
-
+            Filter.SetDef(def);
             return def;
         }
     }

@@ -1,30 +1,37 @@
-﻿using Harmony;
-using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RebalancedTilesTesting
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class ConfigOptions
     {
-        private Dictionary<string, DefaultIntOptionsEntry> propertyOptions = new Dictionary<string, DefaultIntOptionsEntry>();
+        [JsonProperty] private Dictionary<string, Dictionary<string, object>> options = new Dictionary<string, Dictionary<string, object>>();
 
-        public IEnumerable<DefaultIntOptionsEntry> GetOptions()
+        public bool CleanUp()
         {
-            foreach (var option in propertyOptions)
-                yield return option.Value;
+            options = options
+                .Select(x => new KeyValuePair<string, Dictionary<string, object>>(x.Key, 
+                    x.Value.Where(x => x.Value != null)
+                    .ToDictionary(x => x.Key, x => x.Value)))
+                .Where(x => x.Value.Count() > 0)
+                .ToDictionary(x => x.Key, x => x.Value);
+            return false;
         }
 
-        public void AddOption(BuildingDef def, string property, string displayName)
+        public bool TryGetValue(string defId, string propertyId, out object value)
         {
-            if(Traverse.Create(def).Field(property).GetValue() is object defaultValue)
-                propertyOptions.Add(property, new DefaultIntOptionsEntry(displayName, string.Empty, Convert.ToInt32(defaultValue), def.PrefabID, property, def.Name));    
+            value = null;
+            return options.TryGetValue(defId, out var option) && option.TryGetValue(propertyId, out value) && value != null;
         }
 
-        public T GetValue<T>(string property)
+        public void SetValue(string defId, string propertyId, object newValue)
         {
-            if (!propertyOptions.TryGetValue(property, out var value))
-                Debug.Log("No option was created for: " + property + ", it will not be modified");
-            return (T)Convert.ChangeType(value.Value, typeof(T));
+            options.TryGetValue(defId, out var values);
+            options[defId] = values ??= new Dictionary<string, object>();
+            values[propertyId] = newValue;
         }
     }
 }
