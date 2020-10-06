@@ -23,13 +23,20 @@ namespace RebalancedTilesTesting
             foreach (var property in buildingDefProperties)
             {
                 var trav = Traverse.Create(def);
-                if ((trav.Field(property.propertyId) ?? trav.Property(property.propertyId)) is Traverse propertyTrav)
+                Traverse propTrav = null;
+
+                if (trav.Field(property.propertyId).FieldExists())
+                    propTrav = trav.Field(property.propertyId);
+                if (trav.Property(property.propertyId).FieldExists())
+                    propTrav = trav.Property(property.propertyId);
+
+                if (propTrav != null)
                 {
                     options.AddOption(def, property.propertyId, property.displayName);
-                    propertyTrav.SetValue(options.GetValue(property.propertyId));
+                    propTrav.SetValue(options.GetValue(property.propertyId));
                 }
-
-                Debug.Log("Property: " + property + " not found on: " + def.GetType() + "; not set.");
+                else
+                    Debug.Log("Property: '" + property.propertyId + "' not found on: '" + def.GetType() + "'; not set.");
             }
         }
 

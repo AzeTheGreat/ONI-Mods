@@ -38,15 +38,7 @@ namespace RebalancedTilesTesting
 
 		protected override PSliderSingle GetSlider()
 		{
-			return new PSliderSingle()
-			{
-				OnValueChanged = OnSliderChanged,
-				ToolTip = ToolTip,
-				MinValue = (float)limits.Minimum,
-				MaxValue = (float)limits.Maximum,
-				InitialValue = (float)Value,
-				IntegersOnly = true
-			};
+			return null;
 		}
 
 		public override GameObject GetUIComponent()
@@ -60,9 +52,15 @@ namespace RebalancedTilesTesting
 				MaxLength = 10,
 				Type = PTextField.FieldType.Integer
 			}.Build();
+
 			Update();
 			return textField;
 		}
+
+		public void EnableOption(bool enable)
+        {
+			textField.GetParent().SetActive(enable);
+        }
 
 		private void OnSliderChanged(GameObject _, float newValue)
 		{

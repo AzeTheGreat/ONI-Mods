@@ -28,9 +28,10 @@ namespace RebalancedTilesTesting
 
         public override IEnumerable CreateOptions()
         {
-            foreach (var tileOptions in uiConfigOptions)
-                foreach (var option in tileOptions.Value.GetOptions())
-                    yield return option; 
+            //foreach (var tileOptions in uiConfigOptions)
+            //    foreach (var option in tileOptions.Value.GetOptions())
+            //        yield return option;
+            yield return new EmbeddedOptions();
         }
 
         // TODO: Only rewrite if something changed.
