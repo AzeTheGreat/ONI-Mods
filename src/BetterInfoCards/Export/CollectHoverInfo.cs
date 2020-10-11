@@ -25,10 +25,9 @@ namespace BetterInfoCards
             static void Postfix() => Instance.infoCards.Add(new InfoCard());
         }
 
-        [HarmonyPatch(typeof(SelectToolHoverTextCard), nameof(SelectToolHoverTextCard.UpdateHoverElements))]
-        private class GetSelectInfo_Patch
+        public class GetSelectInfo_Patch
         {
-            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+            public static IEnumerable<CodeInstruction> ChildTranspiler(IEnumerable<CodeInstruction> instructions)
             {
                 var titleTarget = AccessTools.Method(typeof(GameUtil), nameof(GameUtil.GetUnitFormattedName), new Type[] { typeof(GameObject), typeof(bool) });
                 var germTarget = AccessTools.Method(typeof(string), nameof(string.Format), new Type[] { typeof(string), typeof(object), typeof(object) });
