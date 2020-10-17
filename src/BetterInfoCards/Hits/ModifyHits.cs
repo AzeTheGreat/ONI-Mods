@@ -31,10 +31,11 @@ namespace BetterInfoCards
                 if(___intersections.Count >= 2)
                     ___intersections.RemoveAt(___intersections.Count - 2);
 
-                var selectableGroups = Instance.displayCards.Select(x => x.GetAllSelectables())     // Each group of selectables in display cards
-                    .Concat(___intersections.Select(x => x.component as KSelectable)                // Combined with undisplayed selectables
-                        .Except(Instance.displayCards.SelectMany(x => x.GetAllSelectables()))       // Selectables not already in display cards
-                        .Select(x => new List<KSelectable> { x }))                                  // In list form (for selecting within a group)
+                var selectableGroups = Instance.displayCards.Where(x => x.GetTopSelectable() != null)   // Ignore null selectables (unreachable card)
+                    .Select(x => x.GetAllSelectables())                                                 // Each group of selectables in display cards
+                    .Concat(___intersections.Select(x => x.component as KSelectable)                    // Combined with undisplayed selectables
+                        .Except(Instance.displayCards.SelectMany(x => x.GetAllSelectables()))           // Selectables not already in display cards
+                        .Select(x => new List<KSelectable> { x }))                                      // In list form (for selecting within a group)
                     .ToList();
 
                 Instance.localIndex = Instance.GetNewIndex(Instance.priorSelected, selectableGroups);
@@ -62,9 +63,8 @@ namespace BetterInfoCards
                 return null;
             }
 
-            var selected = potentialSelectables[localIndex].FirstOrDefault();
-            priorSelected = localIndex < displayCards.Count ? displayCards[localIndex].GetAllSelectables() : new List<KSelectable> { selected };   
-            return selected;
+            priorSelected = potentialSelectables[localIndex];   
+            return priorSelected.FirstOrDefault();
         }
 
         private KSelectable SelectNextValidSelectable(List<List<KSelectable>> selectableGroups)
@@ -73,9 +73,9 @@ namespace BetterInfoCards
                 return null;
 
             var selectedGroup = selectableGroups[localIndex];
+            
             var i = selectedGroup.IndexOf(selected);
-
-            if (++i > selectedGroup.Count - 1)
+            if (++i >= selectedGroup.Count)
                 i = 0;
             
             return selectedGroup[i];
