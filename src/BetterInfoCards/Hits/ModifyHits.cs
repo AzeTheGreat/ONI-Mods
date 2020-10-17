@@ -27,7 +27,9 @@ namespace BetterInfoCards
 
                 // Remove semi-duplicate WorldSelectionCollider from end of hits
                 // Must remove the second to last since it is displayed, and thus doesn't get re-added as an undisplayed selectable
-                ___intersections.RemoveAt(___intersections.Count - 2);
+                // Not sure what causes the duplicate, but it seems to only be missing if only an element is selectable
+                if(___intersections.Count >= 2)
+                    ___intersections.RemoveAt(___intersections.Count - 2);
 
                 var selectableGroups = Instance.displayCards.Select(x => x.GetAllSelectables())     // Each group of selectables in display cards
                     .Concat(___intersections.Select(x => x.component as KSelectable)                // Combined with undisplayed selectables
