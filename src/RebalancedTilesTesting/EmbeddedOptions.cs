@@ -1,7 +1,6 @@
-﻿using PeterHan.PLib;
-using PeterHan.PLib.Options;
+﻿using PeterHan.PLib.Options;
 using PeterHan.PLib.UI;
-using System.Reflection;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RebalancedTilesTesting
@@ -49,27 +48,45 @@ namespace RebalancedTilesTesting
                 BackColor = Color.clear
             };
 
-            var searchResultsPanel = new PPanel()
+            var test2 = new PLabel()
             {
-                Alignment = TextAnchor.MiddleLeft,
-                BackColor = Color.clear,
-                Spacing = 5,
-                Margin = margins
-            }
-            .AddChild(test).AddChild(test).AddChild(test).AddChild(test).AddChild(test).AddChild(test)
-            .AddChild(test).AddChild(test).AddChild(test).AddChild(test).AddChild(test).AddChild(test)
-            .AddChild(test).AddChild(test).AddChild(test).AddChild(test).AddChild(test).AddChild(test)
-            .AddChild(test).AddChild(test).AddChild(test).AddChild(test).AddChild(test).AddChild(test);
+                Text = "Other Building",
+                TextAlignment = TextAnchor.LowerLeft,
+                BackColor = Color.clear
+            };
 
-            var searchResults = new PScrollPane()
+            var searchResultsPanel = new VirtualScrollPanel()
+            {
+                Alignment = TextAnchor.UpperLeft,
+                BackColor = Color.magenta,
+                Spacing = 5,
+                Margin = margins,
+                Children = new List<IUIComponent>() { test, test2, test, test2, test, test2, test, test2, test, test2, test, test2,
+                test, test, test, test, test, test, test, test, test, test, test, test,
+                test, test, test, test, test, test, test, test, test, test, test, test,
+                test, test, test, test, test, test, test, test, test, test, test, test,
+                test, test, test, test, test, test, test, test, test, test, test, test,
+                test, test, test, test, test, test, test, test, test2, test, test2, test2,}
+            };
+
+            var searchResultsPane = new PScrollPane()
             {
                 Child = searchResultsPanel,
                 ScrollHorizontal = false,
                 ScrollVertical = true,
                 BackColor = Color.green,
-                FlexSize = Vector2.zero,
+                FlexSize = Vector2.one,
                 TrackSize = 8f
             };
+
+            var searchResults = new PGridPanel()
+            {
+                FlexSize = Vector2.right,
+                DynamicSize = true
+            }
+            .AddColumn(new GridColumnSpec(0f, float.MaxValue))
+            .AddRow(new GridRowSpec(100f, 0f))
+            .AddChild(searchResultsPane, new GridComponentSpec(0, 0));
 
             // SELECTED
             var selectedLabel = new PLabel()
@@ -88,12 +105,21 @@ namespace RebalancedTilesTesting
                 Margin = margins
             };
 
-            var modifications = new PScrollPane()
+            var modificationsPanel = new PScrollPane()
             {
                 Child = modificationPanel,
                 BackColor = Color.green,
                 FlexSize = Vector2.right
             };
+
+            var modifications = new PGridPanel()
+            {
+                FlexSize = Vector2.right,
+                DynamicSize = true
+            }
+            .AddColumn(new GridColumnSpec(0f, float.MaxValue))
+            .AddRow(new GridRowSpec(100f, 0f))
+            .AddChild(modificationsPanel, new GridComponentSpec(0, 0));
 
             // MAIN PANEL
             var mainPanel = new PPanel()
