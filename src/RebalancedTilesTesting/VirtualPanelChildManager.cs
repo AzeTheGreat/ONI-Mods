@@ -22,11 +22,15 @@ namespace RebalancedTilesTesting
         public override void OnSpawn()
         {
             base.OnSpawn();
-
             scrollRect = GetComponentInParent<KScrollRect>();
             scrollRect.onValueChanged.AddListener(OnScrollValueChanged);
 
-            rowHeight = BuildChild(children.First()).GetComponent<ILayoutElement>().minHeight + boxLayoutGroup.Params.Spacing;
+            // Row height is the largest preferred or min height of all layout elements, plus layout spacing.
+            var layoutElements = BuildChild(children.First()).GetComponentsInChildren<ILayoutElement>();
+            foreach (var le in layoutElements)
+                rowHeight = Mathf.Max(rowHeight, le.minHeight, le.preferredHeight);
+            rowHeight += boxLayoutGroup.Params.Spacing;
+
             gameObject.SetMinUISize(new Vector2(0f, children.Count() * rowHeight));
             UpdateChildren();
         }
@@ -48,6 +52,7 @@ namespace RebalancedTilesTesting
                 return;
             lastFirstActiveIndex = firstActiveIndex;
 
+            // Clear all active children - terrible for performance, but good enough.
             activeChildren.ForEach(x => Destroy(x));
             activeChildren.Clear();
 
@@ -59,10 +64,8 @@ namespace RebalancedTilesTesting
 
             // Build visible + buffer children.
             for (int i = firstActiveIndex; i <= lastActiveIndex; i++)
-            {
                 if (i >= 0 && i < children.Count())
                     BuildChild(children[i]);
-            }
         }
 
         private GameObject BuildChild(IUIComponent child)

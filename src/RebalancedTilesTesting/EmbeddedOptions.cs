@@ -41,19 +41,13 @@ namespace RebalancedTilesTesting
             .AddChild(clearSearchButton);
 
             // SEARCH RESULTS
-            var test = new PLabel()
-            {
-                Text = "Building",
-                TextAlignment = TextAnchor.LowerLeft,
-                BackColor = Color.clear
-            };
-
-            var test2 = new PLabel()
-            {
-                Text = "Other Building",
-                TextAlignment = TextAnchor.LowerLeft,
-                BackColor = Color.clear
-            };
+            var searchableDefs = new List<IUIComponent>();
+            foreach (var kvp in Options.Opts.UIConfigOptions)
+                searchableDefs.Add(new PButton()
+                {
+                    Text = kvp.Key,
+                    DynamicSize = false
+                });
 
             var searchResultsPanel = new VirtualScrollPanel()
             {
@@ -61,12 +55,7 @@ namespace RebalancedTilesTesting
                 BackColor = Color.magenta,
                 Spacing = 5,
                 Margin = margins,
-                Children = new List<IUIComponent>() { test, test2, test, test2, test, test2, test, test2, test, test2, test, test2,
-                test, test, test, test, test, test, test, test, test, test, test, test,
-                test, test, test, test, test, test, test, test, test, test, test, test,
-                test, test, test, test, test, test, test, test, test, test, test, test,
-                test, test, test, test, test, test, test, test, test, test, test, test,
-                test, test, test, test, test, test, test, test, test2, test, test2, test2,}
+                Children = searchableDefs
             };
 
             var searchResultsPane = new PScrollPane()
@@ -81,11 +70,11 @@ namespace RebalancedTilesTesting
 
             var searchResults = new PGridPanel()
             {
-                FlexSize = Vector2.right,
+                FlexSize = Vector2.one,
                 DynamicSize = true
             }
             .AddColumn(new GridColumnSpec(0f, float.MaxValue))
-            .AddRow(new GridRowSpec(100f, 0f))
+            .AddRow(new GridRowSpec(300f, 0f)) // For some reason this doesn't flex down and must be hardcoded.
             .AddChild(searchResultsPane, new GridComponentSpec(0, 0));
 
             // SELECTED
@@ -135,8 +124,8 @@ namespace RebalancedTilesTesting
             return mainPanel
                 .AddChild(searchPanel)
                 .AddChild(searchResults)
-                .AddChild(selectedLabel)
-                .AddChild(modifications)
+                //.AddChild(selectedLabel)
+                //.AddChild(modifications)
                 .Build();
         }
     }
