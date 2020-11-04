@@ -10,108 +10,23 @@ namespace RebalancedTilesTesting
         private object ignore;
         public override object Value { get => ignore; set => ignore = value; }
 
+        private readonly RectOffset margins = new RectOffset(5, 5, 5, 5);
+
+        private const string SEARCH_HEADER = "Search Header";
+        private const string SEARCH_BODY = "Search Body";
+        private const string EDIT_HEADER = "Edit Header";
+        private const string EDIT_BODY = "Edit Body";
+
+        private GameObject searchHeaderGO;
+        private GameObject searchBodyGO;
+        private GameObject editHeaderGO;
+        private GameObject editBodyGO;
+
         public EmbeddedOptions() : base(string.Empty, string.Empty, string.Empty) { }
 
         public override GameObject GetUIComponent()
         {
-            // CONSTANTS
-            var margins = new RectOffset(5, 5, 5, 5);
-
-            // SEARCH FIELD
-            var searchField = new PTextField()
-            {
-                Text = "Search...",
-                MinWidth = 300,
-                TextAlignment = TMPro.TextAlignmentOptions.Left
-            };
-
-            var clearSearchButton = new PButton()
-            {
-                Text = "Clear"
-            };
-            
-            var searchPanel = new PPanel()
-            {
-                BackColor = Color.green,
-                Direction = PanelDirection.Horizontal,
-                Spacing = 10,
-                Margin = margins
-            }
-            .AddChild(searchField)
-            .AddChild(clearSearchButton);
-
-            // SEARCH RESULTS
-            var searchableDefs = new List<IUIComponent>();
-            foreach (var kvp in Options.Opts.UIConfigOptions)
-                searchableDefs.Add(new PButton()
-                {
-                    Text = kvp.Key,
-                    DynamicSize = false
-                });
-
-            var searchResultsPanel = new VirtualScrollPanel()
-            {
-                Alignment = TextAnchor.UpperLeft,
-                BackColor = Color.magenta,
-                Spacing = 5,
-                Margin = margins,
-                Children = searchableDefs
-            };
-
-            var searchResultsPane = new PScrollPane()
-            {
-                Child = searchResultsPanel,
-                ScrollHorizontal = false,
-                ScrollVertical = true,
-                BackColor = Color.green,
-                FlexSize = Vector2.one,
-                TrackSize = 8f
-            };
-
-            var searchResults = new PGridPanel()
-            {
-                FlexSize = Vector2.one,
-                DynamicSize = true
-            }
-            .AddColumn(new GridColumnSpec(0f, float.MaxValue))
-            .AddRow(new GridRowSpec(300f, 0f)) // For some reason this doesn't flex down and must be hardcoded.
-            .AddChild(searchResultsPane, new GridComponentSpec(0, 0));
-
-            // SELECTED
-            var selectedLabel = new PLabel()
-            {
-                Text = "Currently Selected: ",
-                BackColor = Color.green,
-                FlexSize = Vector2.right,
-                Margin = margins
-            };
-
-            // MODIFY SELECTED
-            var modificationPanel = new PPanel()
-            {
-                BackColor = Color.clear,
-                Spacing = 5,
-                Margin = margins
-            };
-
-            var modificationsPanel = new PScrollPane()
-            {
-                Child = modificationPanel,
-                BackColor = Color.green,
-                FlexSize = Vector2.right
-            };
-
-            var modifications = new PGridPanel()
-            {
-                FlexSize = Vector2.right,
-                DynamicSize = true
-            }
-            .AddColumn(new GridColumnSpec(0f, float.MaxValue))
-            .AddRow(new GridRowSpec(100f, 0f))
-            .AddChild(modificationsPanel, new GridComponentSpec(0, 0));
-
-            // MAIN PANEL
-            var mainPanel = new PPanel()
+            var panel = new PPanel("Main")
             {
                 BackColor = Color.blue,
                 DynamicSize = true,
@@ -121,12 +36,133 @@ namespace RebalancedTilesTesting
                 Margin = margins
             };
 
-            return mainPanel
-                .AddChild(searchPanel)
-                .AddChild(searchResults)
-                //.AddChild(selectedLabel)
-                //.AddChild(modifications)
+            var builtUI = panel
+                .AddChild(GetSearchHeader())
+                .AddChild(GetSearchBody())
+                .AddChild(GetEditHeader())
+                .AddChild(GetEditBody())
                 .Build();
+
+            foreach (Transform child in builtUI.transform)
+            {
+                if (child.name == SEARCH_HEADER)
+                    searchHeaderGO = child.gameObject;
+                if (child.name == SEARCH_BODY)
+                    searchBodyGO = child.gameObject;
+                if (child.name == EDIT_HEADER)
+                    editHeaderGO = child.gameObject;
+                if (child.name == EDIT_BODY)
+                    editBodyGO = child.gameObject;
+            }
+
+            EnableSearchUI();
+            return builtUI;
+        }
+
+        private void EnableSearchUI()
+        {
+            searchHeaderGO.SetActive(true);
+            searchBodyGO.SetActive(true);
+            editHeaderGO.SetActive(false);
+            editBodyGO.SetActive(false);
+        }
+
+        private void EnableEditUI()
+        {
+            searchHeaderGO.SetActive(false);
+            searchBodyGO.SetActive(false);
+            editHeaderGO.SetActive(true);
+            editBodyGO.SetActive(true);
+        }
+
+        private IUIComponent GetSearchHeader()
+        {
+            var searchField = new PTextField()
+            {
+                Text = "Search...",
+                FlexSize = Vector2.right,
+                TextAlignment = TMPro.TextAlignmentOptions.Left
+            };
+
+            var clearSearchButton = new PButton()
+            {
+                Text = "Clear"
+            };
+
+            return new PPanel(SEARCH_HEADER)
+            {
+                BackColor = Color.green,
+                Direction = PanelDirection.Horizontal,
+                Spacing = 10,
+                Margin = margins,
+                FlexSize = Vector2.right
+            }
+            .AddChild(searchField)
+            .AddChild(clearSearchButton);
+        }
+
+        private IUIComponent GetSearchBody()
+        {
+            var searchableDefs = new List<IUIComponent>();
+            foreach (var kvp in Options.Opts.UIConfigOptions)
+                searchableDefs.Add(new PButton()
+                {
+                    Text = kvp.Key,
+                    DynamicSize = false,
+                    OnClick = (GameObject src) => EnableEditUI()
+                });
+
+            return GetScrollPaneLayout(SEARCH_BODY, new VirtualScrollPanel()
+            {
+                Alignment = TextAnchor.UpperLeft,
+                BackColor = Color.magenta,
+                Spacing = 5,
+                Margin = margins,
+                Children = searchableDefs
+            });
+        }
+
+        private IUIComponent GetEditHeader()
+        {
+            return new PButton(EDIT_HEADER)
+            {
+                Text = "Currently Selected: ",
+                FlexSize = Vector2.right,
+                Margin = margins,
+                OnClick = (GameObject src) => EnableSearchUI()
+            };
+        }
+
+        private IUIComponent GetEditBody()
+        {
+            return GetScrollPaneLayout(EDIT_BODY, new PPanel()
+                {
+                    BackColor = Color.clear,
+                    Spacing = 5,
+                    Margin = margins
+                });
+        }
+
+        private IUIComponent GetScrollPaneLayout(string name, IUIComponent child)
+        {
+            var panel = new PScrollPane()
+            {
+                Child = child,
+                ScrollHorizontal = false,
+                ScrollVertical = true,
+                BackColor = Color.green,
+                FlexSize = Vector2.one,
+                TrackSize = 8f
+            };
+
+            return new PGridPanel(name)
+            {
+                FlexSize = Vector2.one,
+                DynamicSize = true
+            }
+            .AddColumn(new GridColumnSpec(350f, float.MaxValue)) // Must set a min width somewhere, might as well be here.
+            .AddRow(new GridRowSpec(300f, 0f)) // For some reason this doesn't flex down and must be hardcoded.
+            .AddChild(panel, new GridComponentSpec(0, 0));
         }
     }
 }
