@@ -14,9 +14,10 @@ namespace RebalancedTilesTesting
         [MyCmpGet] protected BoxLayoutGroup boxLayoutGroup;
 
         protected List<object> children;
+        protected List<object> newChildren;
         protected Func<object, IUIComponent> childFactory;
-
         protected List<GameObject> activeChildren = new List<GameObject>();
+
         protected GameObject spacer;
         protected float rowHeight;
         protected int lastFirstActiveIndex = 0;
@@ -34,13 +35,28 @@ namespace RebalancedTilesTesting
             rowHeight += boxLayoutGroup.Params.Spacing;
 
             gameObject.SetMinUISize(new Vector2(0f, children.Count() * rowHeight));
-            UpdateChildren();
+            RefreshChildren();
         }
 
-        public void OnScrollValueChanged(Vector2 pos) => UpdateChildren();
+        public void SetChildren(IEnumerable<object> children, Func<object, IUIComponent> childFactory)
+        {
+            this.children = children.ToList();
+            this.childFactory = childFactory;
+        }
+
+        public void OnScrollValueChanged(Vector2 pos) => RefreshChildren();
+
+        public void UpdateChildren(List<object> children)
+        {
+            this.children = children;
+            gameObject.SetMinUISize(new Vector2(0f, children.Count() * rowHeight));
+            scrollRect.verticalNormalizedPosition = 1;
+            lastFirstActiveIndex = int.MaxValue;
+            RefreshChildren();
+        }
 
         // Insanely naive - lots of room for optimization of performance if it becomes an issue.
-        private void UpdateChildren()
+        private void RefreshChildren()
         {
             var ymin = scrollRect.content.localPosition.y;
             var rowsDisplayed = Math.Ceiling(scrollRect.viewport.rect.height / rowHeight);
@@ -90,12 +106,6 @@ namespace RebalancedTilesTesting
         {
             var spacer = new PPanel() { BackColor = Color.clear };
             return spacer.Build().SetParent(gameObject);
-        }
-
-        public void SetChildren(IEnumerable<object> children, Func<object, IUIComponent> childFactory)
-        {
-            this.children = children.ToList();
-            this.childFactory = childFactory;
         }
     }
 }
