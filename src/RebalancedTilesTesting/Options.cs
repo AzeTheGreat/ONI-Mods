@@ -1,17 +1,13 @@
 ﻿using AzeLib;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using PeterHan.PLib;
 using PeterHan.PLib.Options;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace RebalancedTilesTesting
 {
     [JsonObject(MemberSerialization.OptIn)]
-    [ModInfo("TEST", null, null, true)]
     [RestartRequired]
     public class Options : BaseOptions<Options>
     {

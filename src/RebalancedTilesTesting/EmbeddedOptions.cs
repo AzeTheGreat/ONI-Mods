@@ -1,6 +1,7 @@
 ﻿using PeterHan.PLib.Options;
 using PeterHan.PLib.UI;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace RebalancedTilesTesting
@@ -103,22 +104,19 @@ namespace RebalancedTilesTesting
 
         private IUIComponent GetSearchBody()
         {
-            var searchableDefs = new List<IUIComponent>();
-            foreach (var kvp in Options.Opts.UIConfigOptions)
-                searchableDefs.Add(new PButton()
-                {
-                    Text = kvp.Key,
-                    DynamicSize = false,
-                    OnClick = (GameObject src) => EnableEditUI()
-                });
-
-            return GetScrollPaneLayout(SEARCH_BODY, new VirtualScrollPanel()
+            return GetScrollPaneLayout(SEARCH_BODY, new VirtualScrollPanel<KeyValuePair<string, UIConfigOptions>>()
             {
                 Alignment = TextAnchor.UpperLeft,
                 BackColor = Color.magenta,
                 Spacing = 5,
                 Margin = margins,
-                Children = searchableDefs
+                Children = Options.Opts.UIConfigOptions,
+                ChildFactory = (KeyValuePair<string, UIConfigOptions> kvp) => new PButton()
+                {
+                    Text = kvp.Key,
+                    DynamicSize = false,
+                    OnClick = (GameObject src) => EnableEditUI()
+                }
             });
         }
 
@@ -160,8 +158,8 @@ namespace RebalancedTilesTesting
                 FlexSize = Vector2.one,
                 DynamicSize = true
             }
-            .AddColumn(new GridColumnSpec(350f, float.MaxValue)) // Must set a min width somewhere, might as well be here.
-            .AddRow(new GridRowSpec(300f, 0f)) // For some reason this doesn't flex down and must be hardcoded.
+            .AddColumn(new GridColumnSpec(300f, float.MaxValue)) // Must set a min width somewhere, might as well be here.
+            .AddRow(new GridRowSpec(270f, 0f)) // For some reason this doesn't flex down and must be hardcoded.
             .AddChild(panel, new GridComponentSpec(0, 0));
         }
     }

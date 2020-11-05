@@ -13,7 +13,9 @@ namespace RebalancedTilesTesting
         protected KScrollRect scrollRect; // Parent component
         [MyCmpGet] protected BoxLayoutGroup boxLayoutGroup;
 
-        protected List<IUIComponent> children;
+        protected List<object> children;
+        protected Func<object, IUIComponent> childFactory;
+
         protected List<GameObject> activeChildren = new List<GameObject>();
         protected GameObject spacer;
         protected float rowHeight;
@@ -68,9 +70,9 @@ namespace RebalancedTilesTesting
                     BuildChild(children[i]);
         }
 
-        private GameObject BuildChild(IUIComponent child)
+        private GameObject BuildChild(object child)
         {
-            var go = child.Build();
+            var go = childFactory(child).Build();
             go.SetParent(gameObject);
             activeChildren.Add(go);
             PUIElements.SetAnchors(go, PUIAnchoring.Stretch, PUIAnchoring.Stretch);
@@ -90,6 +92,10 @@ namespace RebalancedTilesTesting
             return spacer.Build().SetParent(gameObject);
         }
 
-        public void SetChildren(IEnumerable<IUIComponent> children) => this.children = children.ToList();
+        public void SetChildren(IEnumerable<object> children, Func<object, IUIComponent> childFactory)
+        {
+            this.children = children.ToList();
+            this.childFactory = childFactory;
+        }
     }
 }
