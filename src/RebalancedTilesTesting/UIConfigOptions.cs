@@ -6,7 +6,13 @@ namespace RebalancedTilesTesting
 {
     public class UIConfigOptions
     {
+        private BuildingDef def;
         private Dictionary<string, DefaultIntOptionsEntry> propertyOptions = new Dictionary<string, DefaultIntOptionsEntry>();
+
+        public UIConfigOptions(BuildingDef def)
+        {
+            this.def = def;
+        }
 
         public IEnumerable<DefaultIntOptionsEntry> GetOptions()
         {
@@ -26,6 +32,8 @@ namespace RebalancedTilesTesting
                 Debug.Log("No option was created for: " + property + ", it will not be modified");
             return value.Value;
         }
+
+        public string GetName() => STRINGS.UI.StripLinkFormatting(def.Name);
     }
 }
 

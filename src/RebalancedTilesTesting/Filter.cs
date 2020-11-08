@@ -17,8 +17,8 @@ namespace RebalancedTilesTesting
             if (!def.ShowInBuildMenu || def.Deprecated || !TUNING.BUILDINGS.PLANORDER.Any(x => ((List<string>)x.data).Contains(def.PrefabID)))
                 return;
 
-            if (!Options.Opts.UIConfigOptions.TryGetValue(def.Name, out var options))
-                Options.Opts.UIConfigOptions.Add(def.Name, options = new UIConfigOptions());
+            if (!Options.Opts.UIConfigOptions.TryGetValue(def.PrefabID, out var options))
+                Options.Opts.UIConfigOptions.Add(def.PrefabID, options = new UIConfigOptions(def));
 
             foreach (var property in buildingDefProperties)
             {

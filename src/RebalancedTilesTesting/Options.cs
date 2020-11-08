@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using PeterHan.PLib.Options;
+using Steamworks;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -9,8 +10,15 @@ namespace RebalancedTilesTesting
 {
     [JsonObject(MemberSerialization.OptIn)]
     [RestartRequired]
-    public class Options : BaseOptions<Options>
+    public class Options
     {
+        private static Options _opts;
+        public static Options Opts
+        {
+            get => _opts ??= new Options();
+            set => _opts = value;
+        }
+
         // Needs to be static so that it is serialized correctly by POptions.
         // If instanced, the instance modified through Opts is different than the instance serialized by POptions.
         [JsonProperty] private static ConfigOptions configOptions;
@@ -22,16 +30,13 @@ namespace RebalancedTilesTesting
         public ConfigOptions ConfigOptions => configOptions;
         public Dictionary<string, UIConfigOptions> UIConfigOptions => uiConfigOptions;
 
-        public override IEnumerable CreateOptions()
-        {
-            //foreach (var tileOptions in uiConfigOptions)
-            //    foreach (var option in tileOptions.Value.GetOptions())
-            //        yield return option;
-            yield return new EmbeddedOptions();
-        }
+        //public override IEnumerable CreateOptions()
+        //{
+        //    yield return new EmbeddedOptions();1
+        //}
 
         // TODO: Only rewrite if something changed.
-        public override bool ValidateSettings() => configOptions.CleanUp();
+        //public override bool ValidateSettings() => configOptions.CleanUp();
 
         public Options()
         {

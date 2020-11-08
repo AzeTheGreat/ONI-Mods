@@ -11,7 +11,7 @@ namespace AzeLib
         public static T Opts
         {
             get => _opts ??= ReadAndValidateSettings() ?? new T();
-            set { _opts = value; }
+            set => _opts = value;
         }
 
         public virtual bool ValidateSettings() => true;

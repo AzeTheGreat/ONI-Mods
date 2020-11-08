@@ -1,67 +1,46 @@
 ﻿using AzeLib.Extensions;
+using PeterHan.PLib;
 using PeterHan.PLib.Options;
 using PeterHan.PLib.UI;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace RebalancedTilesTesting
 {
-    public class EmbeddedOptions : OptionsEntry
+    public class EmbeddedOptions
     {
-        private object ignore;
-        public override object Value { get => ignore; set => ignore = value; }
-
         private readonly RectOffset margins = new RectOffset(5, 5, 5, 5);
 
         // Components cached in OnRealize.
-        private GameObject searchHeaderGO;
-        private GameObject searchBodyGO;
-        private GameObject editHeaderGO;
-        private GameObject editBodyGO;
+        private GameObject editOptionsPanel;
         private VirtualPanelChildManager virtualPanelChildManager;
-        private TMP_InputField textField;
 
-        public EmbeddedOptions() : base(string.Empty, string.Empty, string.Empty) { }
-
-        public override GameObject GetUIComponent()
+        public KScreen GetDialog()
         {
-            var panel = new PPanel()
+            var dialog = new PDialog("ModOptions")
             {
-                BackColor = Color.blue,
-                DynamicSize = true,
-                Direction = PanelDirection.Vertical,
-                Alignment = TextAnchor.MiddleCenter,
-                Spacing = 10,
-                Margin = margins
+                Title = "Test",
+                SortKey = 150f,
+                DialogBackColor = PUITuning.Colors.OptionsBackground,
+                //DialogClosed = new PUIDelegates.OnDialogClosed(this.OnOptionsSelected),
+                RoundToNearestEven = true
             };
 
-            var builtUI = panel
-                .AddChild(GetSearchHeader())
-                .AddChild(GetSearchBody())
-                .AddChild(GetEditHeader())
-                .AddChild(GetEditBody())
-                .Build();
+            dialog.Body.AddChild(new PGridPanel()
+            .AddRow(new GridRowSpec())
+            .AddRow(new GridRowSpec(600f))
+            .AddColumn(new GridColumnSpec(300f))
+            .AddColumn(new GridColumnSpec(300f))
+            .AddChild(GetSearchHeader(), new GridComponentSpec(0, 0))
+            .AddChild(GetSearchBody(), new GridComponentSpec(1, 0))
+            .AddChild(GetEditHeader(), new GridComponentSpec(0, 1))
+            .AddChild(GetEditBody(), new GridComponentSpec(1, 1)))
+            .Margin = null;
 
-            EnableSearchUI();
-            return builtUI;
-        }
-
-        private void EnableSearchUI()
-        {
-            searchHeaderGO.SetActive(true);
-            searchBodyGO.SetActive(true);
-            editHeaderGO.SetActive(false);
-            editBodyGO.SetActive(false);
-        }
-
-        private void EnableEditUI()
-        {
-            searchHeaderGO.SetActive(false);
-            searchBodyGO.SetActive(false);
-            editHeaderGO.SetActive(true);
-            editBodyGO.SetActive(true);
+            return dialog.Build().GetComponent<KScreen>();
         }
 
         private IUIComponent GetSearchHeader()
@@ -69,15 +48,17 @@ namespace RebalancedTilesTesting
             var searchField = new PTextField()
             {
                 Text = "Search...",
-                OnTextChanged = UpdateSearchResults,
                 FlexSize = Vector2.right,
-                TextAlignment = TMPro.TextAlignmentOptions.Left
+                TextAlignment = TextAlignmentOptions.Left
             }
-            .AddOnRealize((GameObject realized) => textField = realized.GetComponent<TMP_InputField>());
-
-            var clearSearchButton = new PCheckBox()
+            .AddOnRealize((GameObject realized) =>
+                realized.GetComponent<TMP_InputField>().onValueChanged.AddListener(UpdateSearchResults));
+            
+            var filterCheckbox = new PCheckBox()
             {
-                OnChecked = (GameObject realized, int state) => PCheckBox.SetCheckState(realized, state == 0 ? 1 : 0)
+                OnChecked = (GameObject realized, int state) => {
+                    PCheckBox.SetCheckState(realized, state == 0 ? 1 : 0);
+                }
             };
 
             return new PPanel()
@@ -89,21 +70,13 @@ namespace RebalancedTilesTesting
                 FlexSize = Vector2.right
             }
             .AddChild(searchField)
-            .AddChild(clearSearchButton)
-            .AddOnRealize((GameObject realized) => searchHeaderGO = realized);
+            .AddChild(filterCheckbox);
 
-            void UpdateSearchResults(GameObject realized, string text)
+            void UpdateSearchResults(string text)
             {
                 var newResults = Options.Opts.UIConfigOptions
-                    .Where(x => x.Key.Contains(text))
+                    .Where(x => x.Value.GetName().Contains(text))
                     .Cast<object>().ToList();
-
-                Debug.Log("START: " + text);
-                foreach (var item in newResults)
-                {
-                    Debug.Log(item);
-                }
-
                 virtualPanelChildManager.UpdateChildren(newResults);
             }
         }
@@ -119,27 +92,28 @@ namespace RebalancedTilesTesting
                 Children = Options.Opts.UIConfigOptions,
                 ChildFactory = (KeyValuePair<string, UIConfigOptions> kvp) => new PButton()
                 {
-                    Text = kvp.Key,
+                    Text = kvp.Value.GetName(),
                     DynamicSize = false,
-                    OnClick = (GameObject src) => EnableEditUI()
+                    OnClick = (GameObject src) => Edit(kvp.Value)
                 }
             }
             .AddOnRealize((GameObject realized) => virtualPanelChildManager = realized.GetComponent<VirtualPanelChildManager>());
 
-            return GetScrollPaneLayout(scrollPanel)
-                .AddOnRealize((GameObject realized) => searchBodyGO = realized);
+            return GetScrollPaneLayout(scrollPanel);
+
+            void Edit(UIConfigOptions uiConfigOptions)
+            {
+                foreach (var option in uiConfigOptions.GetOptions())
+                    option.GetUIComponent().SetParent(editOptionsPanel);
+            }
         }
 
         private IUIComponent GetEditHeader()
         {
-            return new PButton()
+            return new PLabel()
             {
-                Text = "Currently Selected: ",
-                FlexSize = Vector2.right,
-                Margin = margins,
-                OnClick = (GameObject src) => EnableSearchUI()
-            }
-            .AddOnRealize((GameObject realized) => editHeaderGO = realized);
+                Text = "Currently Selected: "
+            };
         }
 
         private IUIComponent GetEditBody()
@@ -149,13 +123,13 @@ namespace RebalancedTilesTesting
                 BackColor = Color.clear,
                 Spacing = 5,
                 Margin = margins
-            })
-            .AddOnRealize((GameObject realized) => editBodyGO = realized);
+            }
+            .AddOnRealize((GameObject realized) => editOptionsPanel = realized));
         }
 
         private IUIComponent GetScrollPaneLayout(IUIComponent child)
         {
-            var panel = new PScrollPane()
+            return new PScrollPane()
             {
                 Child = child,
                 ScrollHorizontal = false,
@@ -164,15 +138,6 @@ namespace RebalancedTilesTesting
                 FlexSize = Vector2.one,
                 TrackSize = 8f
             };
-
-            return new PGridPanel()
-            {
-                FlexSize = Vector2.one,
-                DynamicSize = true
-            }
-            .AddColumn(new GridColumnSpec(300f, float.MaxValue)) // Must set a min width somewhere, might as well be here.
-            .AddRow(new GridRowSpec(270f, 0f)) // Must constrain to prevent the scroll pane from expanding to fit content, while still flexing.
-            .AddChild(panel, new GridComponentSpec(0, 0));
         }
     }
 }

@@ -14,7 +14,6 @@ namespace RebalancedTilesTesting
         [MyCmpGet] protected BoxLayoutGroup boxLayoutGroup;
 
         protected List<object> children;
-        protected List<object> newChildren;
         protected Func<object, IUIComponent> childFactory;
         protected List<GameObject> activeChildren = new List<GameObject>();
 
