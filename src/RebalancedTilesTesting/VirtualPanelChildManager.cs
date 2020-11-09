@@ -15,7 +15,7 @@ namespace RebalancedTilesTesting
 
         protected List<object> children;
         protected Func<object, IUIComponent> childFactory;
-        protected List<GameObject> activeChildren = new List<GameObject>();
+        protected Dictionary<int, GameObject> activeChildren = new();
 
         protected GameObject spacer;
         protected float rowHeight;
@@ -28,7 +28,7 @@ namespace RebalancedTilesTesting
             scrollRect.onValueChanged.AddListener(OnScrollValueChanged);
 
             // Row height is the largest preferred or min height of all layout elements, plus layout spacing.
-            var layoutElements = BuildChild(children.First()).GetComponentsInChildren<ILayoutElement>();
+            var layoutElements = BuildChild(children.First(), int.MaxValue).GetComponentsInChildren<ILayoutElement>();
             foreach (var le in layoutElements)
                 rowHeight = Mathf.Max(rowHeight, le.minHeight, le.preferredHeight);
             rowHeight += boxLayoutGroup.Params.Spacing;
@@ -54,7 +54,6 @@ namespace RebalancedTilesTesting
             RefreshChildren();
         }
 
-        // Insanely naive - lots of room for optimization of performance if it becomes an issue.
         private void RefreshChildren()
         {
             var ymin = scrollRect.content.localPosition.y;
@@ -64,14 +63,20 @@ namespace RebalancedTilesTesting
             var firstActiveIndex = (int)Math.Floor(ymin / rowHeight) - 1;
             var lastActiveIndex = firstActiveIndex + rowsDisplayed + 2;
 
-            // Don't fully rebuild if the active indices are the same
+            // Early out if the active indices are the same.
             if (firstActiveIndex == lastFirstActiveIndex)
                 return;
             lastFirstActiveIndex = firstActiveIndex;
 
-            // Clear all active children - terrible for performance, but good enough.
-            activeChildren.ForEach(x => Destroy(x));
-            activeChildren.Clear();
+            // Destroy active children outside the active index range.
+            foreach (var kvp in activeChildren.ToList())
+            {
+                if (kvp.Key < firstActiveIndex || kvp.Key > lastActiveIndex)
+                {
+                    activeChildren.Remove(kvp.Key);
+                    Destroy(kvp.Value);
+                }
+            }
 
             // Configure the spacer if there are hidden rows.
             if (firstActiveIndex >= 1)
@@ -79,17 +84,25 @@ namespace RebalancedTilesTesting
             else
                 spacer?.SetActive(false);
 
-            // Build visible + buffer children.
+            // Build visible + buffer children not already active.
+            var activeIndices = activeChildren.Select(x => x.Key);
             for (int i = firstActiveIndex; i <= lastActiveIndex; i++)
-                if (i >= 0 && i < children.Count())
-                    BuildChild(children[i]);
+                if (i >= 0 && i < children.Count() && !activeIndices.Contains(i))
+                    BuildChild(children[i], i);
+
+            // Sort active children in hierarchy.
+            spacer?.transform.SetAsLastSibling();
+            foreach (var kvp in activeChildren.OrderBy(x => x.Key))
+                kvp.Value.transform.SetAsLastSibling();
         }
 
-        private GameObject BuildChild(object child)
+        private GameObject BuildChild(object child, int index)
         {
-            var go = childFactory(child).Build();
-            go.SetParent(gameObject);
-            activeChildren.Add(go);
+            var go = childFactory(child)
+                .Build()
+                .SetParent(gameObject);
+
+            activeChildren.Add(index, go);
             PUIElements.SetAnchors(go, PUIAnchoring.Stretch, PUIAnchoring.Stretch);
             return go;
         }
@@ -103,8 +116,9 @@ namespace RebalancedTilesTesting
 
         private GameObject BuildSpacer()
         {
-            var spacer = new PPanel() { BackColor = Color.clear };
-            return spacer.Build().SetParent(gameObject);
+            return new PPanel() { BackColor = Color.clear }
+            .Build()
+            .SetParent(gameObject);
         }
     }
 }
