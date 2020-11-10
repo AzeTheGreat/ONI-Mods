@@ -6,9 +6,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace RebalancedTilesTesting
+namespace RebalancedTilesTesting.VirtualScroll
 {
-    class VirtualPanelChildManager : KMonoBehaviour
+    public class VirtualPanelChildManager : KMonoBehaviour
     {
         protected KScrollRect scrollRect; // Parent component
         [MyCmpGet] protected BoxLayoutGroup boxLayoutGroup;
@@ -47,10 +47,13 @@ namespace RebalancedTilesTesting
 
         public void UpdateChildren(List<object> children)
         {
+            DestroyChildren(activeChildren);
             this.children = children;
+
             gameObject.SetMinUISize(new Vector2(0f, children.Count() * rowHeight));
             scrollRect.verticalNormalizedPosition = 1;
             lastFirstActiveIndex = int.MaxValue;
+
             RefreshChildren();
         }
 
@@ -69,14 +72,8 @@ namespace RebalancedTilesTesting
             lastFirstActiveIndex = firstActiveIndex;
 
             // Destroy active children outside the active index range.
-            foreach (var kvp in activeChildren.ToList())
-            {
-                if (kvp.Key < firstActiveIndex || kvp.Key > lastActiveIndex)
-                {
-                    activeChildren.Remove(kvp.Key);
-                    Destroy(kvp.Value);
-                }
-            }
+            DestroyChildren(activeChildren
+                .Where(x => x.Key < firstActiveIndex || x.Key > lastActiveIndex));
 
             // Configure the spacer if there are hidden rows.
             if (firstActiveIndex >= 1)
@@ -119,6 +116,15 @@ namespace RebalancedTilesTesting
             return new PPanel() { BackColor = Color.clear }
             .Build()
             .SetParent(gameObject);
+        }
+
+        private void DestroyChildren(IEnumerable<KeyValuePair<int, GameObject>> toClear)
+        {
+            foreach (var kvp in toClear.ToList())
+            {
+                activeChildren.Remove(kvp.Key);
+                Destroy(kvp.Value);
+            }
         }
     }
 }

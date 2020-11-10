@@ -3,6 +3,7 @@ using KMod;
 using PeterHan.PLib;
 using PeterHan.PLib.Options;
 using PeterHan.PLib.UI;
+using RebalancedTilesTesting.OptionsUI;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -33,7 +34,7 @@ namespace RebalancedTilesTesting
             new PButton()
             {
                 FlexSize = Vector2.up,
-                OnClick = (GameObject realized) => new EmbeddedOptions().GetDialog().Activate(),
+                OnClick = (GameObject realized) => new OptionsScreen().GetDialog().Activate(),
                 ToolTip = PUIStrings.DIALOG_TITLE.text.F(new object[] { mod.title }),
                 Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(PUIStrings.BUTTON_OPTIONS.text.ToLower())
             }
