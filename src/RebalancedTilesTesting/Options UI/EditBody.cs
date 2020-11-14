@@ -24,6 +24,9 @@ namespace RebalancedTilesTesting.OptionsUI
 
         public void SetChildren(UIConfigOptions uiConfigOptions)
         {
+            foreach (Transform child in panel.transform)
+                Object.Destroy(child.gameObject);
+
             foreach (var option in uiConfigOptions.GetOptions())
                 option.GetUIComponent().SetParent(link.editBody.panel);
         }
