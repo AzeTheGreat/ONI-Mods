@@ -1,13 +1,11 @@
-﻿using Newtonsoft.Json;
-using PeterHan.PLib;
+﻿using PeterHan.PLib;
 using PeterHan.PLib.Options;
 using PeterHan.PLib.UI;
 using System;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-namespace RebalancedTilesTesting
+namespace RebalancedTilesTesting.CustomUIComponents
 {
     // Largely taken from Peter's IntOptionsEntry - modified to suit these specific needs.
     public class DefaultIntOptionsEntry : SlidingBaseOptionsEntry
@@ -15,10 +13,10 @@ namespace RebalancedTilesTesting
 		public override object Value
         {
 			// TODO: convert just when used?  Add secondary getter to prevent needing to?
-            get => Options.Opts.ConfigOptions.TryGetValue(defId, propertyId, out var value) ? Convert.ToInt32(value) : defaultValue;
+            get => Options.Opts.configOptions.TryGetValue(defId, propertyId, out var value) ? Convert.ToInt32(value) : defaultValue;
             set
             {
-                Options.Opts.ConfigOptions.SetValue(defId, propertyId, (int)value == defaultValue ? null : value);
+                Options.Opts.configOptions.SetValue(defId, propertyId, (int)value == defaultValue ? null : value);
                 Update();
             }
         }

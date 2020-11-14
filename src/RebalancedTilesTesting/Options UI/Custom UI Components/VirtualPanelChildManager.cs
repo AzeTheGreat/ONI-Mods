@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace RebalancedTilesTesting.VirtualScroll
+namespace RebalancedTilesTesting.CustomUIComponents
 {
     public class VirtualPanelChildManager : KMonoBehaviour
     {
@@ -28,7 +28,7 @@ namespace RebalancedTilesTesting.VirtualScroll
             scrollRect.onValueChanged.AddListener(OnScrollValueChanged);
 
             // Row height is the largest preferred or min height of all layout elements, plus layout spacing.
-            var layoutElements = BuildChild(children.First(), int.MaxValue).GetComponentsInChildren<ILayoutElement>();
+            var layoutElements = BuildChild(0).GetComponentsInChildren<ILayoutElement>();
             foreach (var le in layoutElements)
                 rowHeight = Mathf.Max(rowHeight, le.minHeight, le.preferredHeight);
             rowHeight += boxLayoutGroup.Params.Spacing;
@@ -85,7 +85,7 @@ namespace RebalancedTilesTesting.VirtualScroll
             var activeIndices = activeChildren.Select(x => x.Key);
             for (int i = firstActiveIndex; i <= lastActiveIndex; i++)
                 if (i >= 0 && i < children.Count() && !activeIndices.Contains(i))
-                    BuildChild(children[i], i);
+                    BuildChild(i);
 
             // Sort active children in hierarchy.
             spacer?.transform.SetAsLastSibling();
@@ -93,13 +93,16 @@ namespace RebalancedTilesTesting.VirtualScroll
                 kvp.Value.transform.SetAsLastSibling();
         }
 
-        private GameObject BuildChild(object child, int index)
+        private GameObject BuildChild(int i)
         {
+            if (!(children.ElementAtOrDefault(i) is var child))
+                return null;
+
             var go = childFactory(child)
                 .Build()
                 .SetParent(gameObject);
 
-            activeChildren.Add(index, go);
+            activeChildren.Add(i, go);
             PUIElements.SetAnchors(go, PUIAnchoring.Stretch, PUIAnchoring.Stretch);
             return go;
         }

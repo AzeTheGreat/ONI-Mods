@@ -14,12 +14,12 @@ namespace RebalancedTilesTesting.OptionsUI
 
         public KScreen GetDialog()
         {
-            var dialog = new PDialog("ModOptions")
+            var dialog = new PDialog(nameof(OptionsScreen))
             {
                 Title = "Test",
                 SortKey = 150f,
                 DialogBackColor = PUITuning.Colors.OptionsBackground,
-                //DialogClosed = new PUIDelegates.OnDialogClosed(this.OnOptionsSelected),
+                DialogClosed = OnDialogClosed,
                 RoundToNearestEven = true
             };
 
@@ -49,5 +49,7 @@ namespace RebalancedTilesTesting.OptionsUI
                 TrackSize = 8f
             };
         }
+
+        private void OnDialogClosed(string option) => Options.Opts.Serialize();
     }
 }

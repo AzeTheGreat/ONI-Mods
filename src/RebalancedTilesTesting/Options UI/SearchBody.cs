@@ -1,7 +1,7 @@
 ﻿using AzeLib.Extensions;
 using PeterHan.PLib;
 using PeterHan.PLib.UI;
-using RebalancedTilesTesting.VirtualScroll;
+using RebalancedTilesTesting.CustomUIComponents;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,7 +21,7 @@ namespace RebalancedTilesTesting.OptionsUI
                 BackColor = Color.magenta,
                 Spacing = 5,
                 Margin = new RectOffset(5, 5, 5, 5),
-                Children = Options.Opts.UIConfigOptions,
+                Children = Options.uiConfigOptions,
                 ChildFactory = CreateChild
             }
             .AddOnRealize((GameObject realized) => childManager = realized.GetComponent<VirtualPanelChildManager>());

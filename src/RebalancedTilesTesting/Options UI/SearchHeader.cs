@@ -42,7 +42,7 @@ namespace RebalancedTilesTesting.OptionsUI
 
         private void UpdateSearchResults(string text)
         {
-            var newResults = Options.Opts.UIConfigOptions
+            var newResults = Options.uiConfigOptions
                 .Where(x => x.Value.GetName().Contains(text))
                 .Cast<object>().ToList();
             link.searchBody.SetChildren(newResults);

@@ -23,7 +23,6 @@ namespace RebalancedTilesTesting
                 if (IsThisMod(mod))
                     AddButton(modEntry, mod);
             }
-                
         }
 
         private static bool IsThisMod(Mod mod) => Path.GetFileName(mod.file_source.GetRoot()) 
