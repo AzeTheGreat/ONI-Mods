@@ -1,6 +1,5 @@
 ﻿using AzeLib.Extensions;
 using Harmony;
-using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 
@@ -28,7 +27,7 @@ namespace RebalancedTilesTesting
 
         private static BuildingDef PostCreateBuildingDef(BuildingDef def)
         {
-            Filter.SetDef(def);
+            Options.Opts.configOptions.ApplyModifiersToDef(def);
             return def;
         }
     }

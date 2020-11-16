@@ -7,39 +7,36 @@ using UnityEngine;
 
 namespace RebalancedTilesTesting.CustomUIComponents
 {
-    // Largely taken from Peter's IntOptionsEntry - modified to suit these specific needs.
-    public class DefaultIntOptionsEntry : SlidingBaseOptionsEntry
+	// Largely taken from Peter's IntOptionsEntry - modified to suit these specific needs.
+	public class DefaultIntOptionsEntry : OptionsEntry
     {
 		public override object Value
         {
 			// TODO: convert just when used?  Add secondary getter to prevent needing to?
-            get => Options.Opts.configOptions.TryGetValue(defId, propertyId, out var value) ? Convert.ToInt32(value) : defaultValue;
+			get => Convert.ToInt32(Options.Opts.configOptions.GetModifierValue(defId, propertyId));
             set
             {
-                Options.Opts.configOptions.SetValue(defId, propertyId, (int)value == defaultValue ? null : value);
+                Options.Opts.configOptions.SetModifierValue(defId, propertyId, value);
                 Update();
             }
         }
 
+		private readonly LimitAttribute limits;
         private readonly int defaultValue;
 		private readonly string defId;
 		private readonly string propertyId;
 		private GameObject textField;
 
-		public DefaultIntOptionsEntry(string title, string tooltip, int defaultValue, string defId, string propertyId, string category = "", LimitAttribute limits = null) : base(title, tooltip, category, limits)
+		public DefaultIntOptionsEntry(string title, string tooltip, int defaultValue, string defId, string propertyId, string category = "", LimitAttribute limits = null) : base(title, tooltip, category)
 		{
 			textField = null;
 			this.defaultValue = defaultValue;
 			this.defId = defId;
 			this.propertyId = propertyId;
+			this.limits = limits;
 		}
 
-		protected override PSliderSingle GetSlider()
-		{
-			return null;
-		}
-
-		public override GameObject GetUIComponent()
+        public override GameObject GetUIComponent()
 		{
 			textField = new PTextField()
 			{
@@ -49,23 +46,11 @@ namespace RebalancedTilesTesting.CustomUIComponents
 				MinWidth = 64,
 				MaxLength = 10,
 				Type = PTextField.FieldType.Integer
-			}.Build();
+			}
+			.Build();
 
 			Update();
 			return textField;
-		}
-
-		public void EnableOption(bool enable)
-        {
-			textField.GetParent().SetActive(enable);
-        }
-
-		private void OnSliderChanged(GameObject _, float newValue)
-		{
-			int newIntValue = Mathf.RoundToInt(newValue);
-			if (limits != null)
-				newIntValue = limits.ClampToRange(newIntValue);
-			Value = newIntValue;
 		}
 
 		private void OnTextChanged(GameObject _, string text)
@@ -80,7 +65,7 @@ namespace RebalancedTilesTesting.CustomUIComponents
 				Update();
 		}
 
-		protected override void Update()
+		protected void Update()
 		{
 			var field = textField?.GetComponentInChildren<TMP_InputField>();
 
@@ -89,8 +74,6 @@ namespace RebalancedTilesTesting.CustomUIComponents
 				field.text = ((int)Value).ToString(Format ?? "D");
 				field.textComponent.color = (int)Value == defaultValue ? Color.gray : Color.black;
             }
-			if (slider != null)
-				PSliderSingle.SetCurrentValue(slider, (float)Value);
 		}
 	}
 }

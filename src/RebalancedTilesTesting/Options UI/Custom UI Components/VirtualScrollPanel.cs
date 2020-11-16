@@ -15,6 +15,8 @@ namespace RebalancedTilesTesting.CustomUIComponents
 		public IEnumerable<T> Children { get; set; }
 		public Func<T, IUIComponent> ChildFactory { get; set; }
 
+		private VirtualPanelChildManager manager;
+
 		public VirtualScrollPanel() : this(null) { }
 		public VirtualScrollPanel(string name) : base(name ?? nameof(VirtualScrollPanel<T>))
 		{
@@ -44,8 +46,8 @@ namespace RebalancedTilesTesting.CustomUIComponents
 			lg.flexibleWidth = FlexSize.x;
 			lg.flexibleHeight = FlexSize.y;
 
-            var refresher = panel.AddComponent<VirtualPanelChildManager>();
-			refresher.SetChildren(Children.Cast<object>(), (x) => ChildFactory(castFunc(x)));
+            manager = panel.AddComponent<VirtualPanelChildManager>();
+			manager.SetChildren(Children.Cast<object>(), (x) => ChildFactory(castFunc(x)));
 
 			InvokeRealize(panel);
 			return panel;
@@ -53,5 +55,7 @@ namespace RebalancedTilesTesting.CustomUIComponents
             // Can't have generic MonoBehaviours, so cast everything to object and back...
             static T castFunc(object x) => (T)x;
 		}
+
+		public void UpdateChildren(List<T> children) => manager.UpdateChildren(children.Cast<object>().ToList());
 	}
 }

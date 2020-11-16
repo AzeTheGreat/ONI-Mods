@@ -1,10 +1,11 @@
-﻿using Harmony;
+﻿using AzeLib.Extensions;
+using RebalancedTilesTesting.CustomUIComponents;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace RebalancedTilesTesting
 {
-    class Filter
+    static class Filter
     {
         private static readonly List<Property> buildingDefProperties = new List<Property>()
         {
@@ -12,31 +13,16 @@ namespace RebalancedTilesTesting
             new Property(nameof(BuildingDef.BaseDecorRadius), "Decor Radius")
         };
 
-        public static void SetDef(BuildingDef def)
+        public static IEnumerable<DefaultIntOptionsEntry> GetOptionsForDef(BuildingDef def)
         {
-            if (!def.ShowInBuildMenu || def.Deprecated || !TUNING.BUILDINGS.PLANORDER.Any(x => ((List<string>)x.data).Contains(def.PrefabID)))
-                return;
-
-            if (!Options.uiConfigOptions.TryGetValue(def.PrefabID, out var options))
-                Options.uiConfigOptions.Add(def.PrefabID, options = new UIConfigOptions(def));
-
-            foreach (var property in buildingDefProperties)
+            foreach (var prop in buildingDefProperties)
             {
-                var trav = Traverse.Create(def);
-                Traverse propTrav = null;
-
-                if (trav.Field(property.propertyId).FieldExists())
-                    propTrav = trav.Field(property.propertyId);
-                if (trav.Property(property.propertyId).FieldExists())
-                    propTrav = trav.Property(property.propertyId);
-
-                if (propTrav != null)
-                {
-                    options.AddOption(def, property.propertyId, property.displayName);
-                    propTrav.SetValue(options.GetValue(property.propertyId));
-                }
-                else
-                    Debug.Log("Property: '" + property.propertyId + "' not found on: '" + def.GetType() + "'; not set.");
+                yield return new DefaultIntOptionsEntry(prop.displayName,
+                    string.Empty,
+                    Convert.ToInt32(Options.Opts.configOptions.GetDefaultValue(def.PrefabID, prop.propertyId)),
+                    def.PrefabID,
+                    prop.propertyId,
+                    def.GetRawName());
             }
         }
 

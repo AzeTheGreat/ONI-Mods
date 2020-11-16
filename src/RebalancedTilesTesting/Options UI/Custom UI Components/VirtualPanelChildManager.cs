@@ -27,12 +27,7 @@ namespace RebalancedTilesTesting.CustomUIComponents
             scrollRect = GetComponentInParent<KScrollRect>();
             scrollRect.onValueChanged.AddListener(OnScrollValueChanged);
 
-            // Row height is the largest preferred or min height of all layout elements, plus layout spacing.
-            var layoutElements = BuildChild(0).GetComponentsInChildren<ILayoutElement>();
-            foreach (var le in layoutElements)
-                rowHeight = Mathf.Max(rowHeight, le.minHeight, le.preferredHeight);
-            rowHeight += boxLayoutGroup.Params.Spacing;
-
+            CacheRowHeight();
             gameObject.SetMinUISize(new Vector2(0f, children.Count() * rowHeight));
             RefreshChildren();
         }
@@ -50,6 +45,7 @@ namespace RebalancedTilesTesting.CustomUIComponents
             DestroyChildren(activeChildren);
             this.children = children;
 
+            CacheRowHeight();
             gameObject.SetMinUISize(new Vector2(0f, children.Count() * rowHeight));
             scrollRect.verticalNormalizedPosition = 1;
             lastFirstActiveIndex = int.MaxValue;
@@ -59,6 +55,9 @@ namespace RebalancedTilesTesting.CustomUIComponents
 
         private void RefreshChildren()
         {
+            if (rowHeight == default)
+                return;
+
             var ymin = scrollRect.content.localPosition.y;
             var rowsDisplayed = Math.Ceiling(scrollRect.viewport.rect.height / rowHeight);
 
@@ -95,7 +94,7 @@ namespace RebalancedTilesTesting.CustomUIComponents
 
         private GameObject BuildChild(int i)
         {
-            if (!(children.ElementAtOrDefault(i) is var child))
+            if (!(children.ElementAtOrDefault(i) is object child))
                 return null;
 
             var go = childFactory(child)
@@ -105,6 +104,20 @@ namespace RebalancedTilesTesting.CustomUIComponents
             activeChildren.Add(i, go);
             PUIElements.SetAnchors(go, PUIAnchoring.Stretch, PUIAnchoring.Stretch);
             return go;
+        }
+
+        private void CacheRowHeight()
+        {
+            if (rowHeight != default)
+                return;
+
+            if(BuildChild(0)?.GetComponentsInChildren<ILayoutElement>() is ILayoutElement[] layoutElements)
+            {
+                // Row height is the largest preferred or min height of all layout elements, plus layout spacing.
+                foreach (var le in layoutElements)
+                    rowHeight = Mathf.Max(rowHeight, le.minHeight, le.preferredHeight);
+                rowHeight += boxLayoutGroup.Params.Spacing;
+            }
         }
 
         private void SetSpacerHeight(float height)

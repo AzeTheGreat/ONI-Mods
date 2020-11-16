@@ -1,4 +1,5 @@
-﻿using PeterHan.PLib.UI;
+﻿using PeterHan.PLib.Options;
+using PeterHan.PLib.UI;
 using UnityEngine;
 
 namespace RebalancedTilesTesting.OptionsUI
@@ -50,6 +51,6 @@ namespace RebalancedTilesTesting.OptionsUI
             };
         }
 
-        private void OnDialogClosed(string option) => Options.Opts.Serialize();
+        private void OnDialogClosed(string option) => POptions.WriteSettingsForAssembly<Options>(Options.Opts);
     }
 }

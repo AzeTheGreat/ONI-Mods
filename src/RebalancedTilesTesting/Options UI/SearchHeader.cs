@@ -1,5 +1,6 @@
 ﻿using AzeLib.Extensions;
 using PeterHan.PLib.UI;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -42,9 +43,7 @@ namespace RebalancedTilesTesting.OptionsUI
 
         private void UpdateSearchResults(string text)
         {
-            var newResults = Options.uiConfigOptions
-                .Where(x => x.Value.GetName().Contains(text))
-                .Cast<object>().ToList();
+            var newResults = Assets.BuildingDefs.Where(x => x.GetRawName().Contains(text)).ToList();
             link.searchBody.SetChildren(newResults);
         }
     }

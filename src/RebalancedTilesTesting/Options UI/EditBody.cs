@@ -22,12 +22,12 @@ namespace RebalancedTilesTesting.OptionsUI
             .AddOnRealize((GameObject realized) => panel = realized));
         }
 
-        public void SetChildren(UIConfigOptions uiConfigOptions)
+        public void SetChildren(BuildingDef def)
         {
             foreach (Transform child in panel.transform)
                 Object.Destroy(child.gameObject);
 
-            foreach (var option in uiConfigOptions.GetOptions())
+            foreach (var option in Filter.GetOptionsForDef(def))
                 option.GetUIComponent().SetParent(link.editBody.panel);
         }
     }

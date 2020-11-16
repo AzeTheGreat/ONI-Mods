@@ -1,37 +1,40 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace RebalancedTilesTesting
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class ConfigOptions
     {
-        [JsonProperty] private Dictionary<string, Dictionary<string, object>> options = new Dictionary<string, Dictionary<string, object>>();
+        [JsonProperty] private readonly Dictionary<string, DefModifiers> modifiedDefs = new();
 
-        public bool CleanUp()
+        public object GetModifierValue(string defId, string propertyId) => GetModifier(defId, propertyId).Value;
+        public object GetDefaultValue(string defId, string propertyId) => GetModifier(defId, propertyId).GetDefaultValue();
+
+        public void SetModifierValue(string defId, string propertyId, object newValue)
         {
-            options = options
-                .Select(x => new KeyValuePair<string, Dictionary<string, object>>(x.Key, 
-                    x.Value.Where(x => x.Value != null)
-                    .ToDictionary(x => x.Key, x => x.Value)))
-                .Where(x => x.Value.Count() > 0)
-                .ToDictionary(x => x.Key, x => x.Value);
-            return false;
+            modifiedDefs.TryGetValue(defId, out var defModifiers);
+            modifiedDefs[defId] = defModifiers ??= new();
+
+            var mod = new Modifier(Assets.GetBuildingDef(defId), propertyId)
+            {
+                Value = newValue
+            };
+
+            defModifiers.SetModifier(propertyId, mod);
         }
 
-        public bool TryGetValue(string defId, string propertyId, out object value)
+        public void ApplyModifiersToDef(BuildingDef def)
         {
-            value = null;
-            return options.TryGetValue(defId, out var option) && option.TryGetValue(propertyId, out value) && value != null;
+            if (modifiedDefs.TryGetValue(def.PrefabID, out var defModifiers))
+                defModifiers.ApplyModifiers(def);
         }
 
-        public void SetValue(string defId, string propertyId, object newValue)
+        private Modifier GetModifier(string defId, string propertyId)
         {
-            options.TryGetValue(defId, out var values);
-            options[defId] = values ??= new Dictionary<string, object>();
-            values[propertyId] = newValue;
+            modifiedDefs.TryGetValue(defId, out var defMods);
+            return defMods?.GetModifier(propertyId) ?? new Modifier(Assets.GetBuildingDef(defId), propertyId);
         }
     }
 }

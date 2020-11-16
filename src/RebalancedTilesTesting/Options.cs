@@ -1,30 +1,20 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using PeterHan.PLib.Options;
-using System.Collections.Generic;
 
 namespace RebalancedTilesTesting
 {
     [JsonObject(MemberSerialization.OptIn)]
-    [RestartRequired]
-    public class Options : Serializable<Options>
+    [ConfigFile("config.json", true)]
+    public class Options
     {
         private static Options _opts;
         public static Options Opts
         {
-            get => _opts ??= Deserialize();
+            get => _opts ??= POptions.ReadSettingsForAssembly<Options>() ?? new();
             set => _opts = value;
         }
 
-        [JsonProperty] public ConfigOptions configOptions;
-        // Needs to be static to persist though Options re-creation since it's only built once.
-        public static Dictionary<string, UIConfigOptions> uiConfigOptions = new();
-
-        public Options()
-        {
-            configOptions ??= new ConfigOptions();
-        }
-
-        protected override void OnSerialize() => configOptions.CleanUp();
+        [JsonProperty] public ConfigOptions configOptions = new();
     }
 }

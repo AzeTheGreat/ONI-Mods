@@ -19,6 +19,6 @@ namespace RebalancedTilesTesting.OptionsUI
             .AddOnRealize((GameObject realized) => locText = realized.GetComponentInChildren<LocText>());
         }
 
-        public void SetTitle(UIConfigOptions uiConfigOptions) => locText.text = uiConfigOptions.GetName();
+        public void SetTitle(BuildingDef def) => locText.text = def.GetRawName();
     }
 }
