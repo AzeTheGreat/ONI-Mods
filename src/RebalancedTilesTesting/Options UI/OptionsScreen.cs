@@ -51,6 +51,6 @@ namespace RebalancedTilesTesting.OptionsUI
             };
         }
 
-        private void OnDialogClosed(string option) => POptions.WriteSettingsForAssembly<Options>(Options.Opts);
+        private void OnDialogClosed(string option) => POptions.WriteSettingsForAssembly(Options.Opts);
     }
 }

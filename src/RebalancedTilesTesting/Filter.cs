@@ -1,4 +1,5 @@
 ﻿using AzeLib.Extensions;
+using PeterHan.PLib.Options;
 using RebalancedTilesTesting.CustomUIComponents;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace RebalancedTilesTesting
             new Property(nameof(BuildingDef.BaseDecorRadius), "Decor Radius")
         };
 
-        public static IEnumerable<DefaultIntOptionsEntry> GetOptionsForDef(BuildingDef def)
+        public static IEnumerable<OptionsEntry> GetOptionsForDef(BuildingDef def)
         {
             foreach (var prop in buildingDefProperties)
             {
