@@ -25,9 +25,13 @@ namespace RebalancedTilesTesting.OptionsUI
 
         public void SetChildren(BuildingDef def)
         {
+            var childParent = panel.GetParent();
             Object.Destroy(panel);
+
             var options = Filter.GetOptionsForDef(def).ToList();
-            GetScrollPanel(options).Build().SetParent(scrollPane);
+            GetScrollPanel(options).Build().SetParent(childParent);
+
+            scrollPane.GetComponent<KScrollRect>().content = panel.rectTransform();
         }
 
         private IUIComponent GetScrollPanel(List<OptionsEntry> options)
