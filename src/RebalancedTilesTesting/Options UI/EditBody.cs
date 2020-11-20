@@ -19,8 +19,16 @@ namespace RebalancedTilesTesting.OptionsUI
 
         public override IUIComponent GetUIComponent()
         {
-            return OptionsScreen.GetScrollPaneLayout(GetScrollPanel(default))
-                .AddOnRealize((GameObject realized) => scrollPane = realized);
+            return new PScrollPane()
+            {
+                BackColor = PUITuning.Colors.BackgroundLight,
+                Child = GetScrollPanel(default),
+                ScrollHorizontal = false,
+                ScrollVertical = true,
+                FlexSize = Vector2.one,
+                TrackSize = 8f
+            }
+            .AddOnRealize((GameObject realized) => scrollPane = realized);
         }
 
         public void SetChildren(BuildingDef def)
@@ -32,6 +40,11 @@ namespace RebalancedTilesTesting.OptionsUI
             GetScrollPanel(options).Build().SetParent(childParent);
 
             scrollPane.GetComponent<KScrollRect>().content = panel.rectTransform();
+        }
+
+        public void ResetToDefault(GameObject _)
+        {
+
         }
 
         private IUIComponent GetScrollPanel(List<OptionsEntry> options)
@@ -53,7 +66,8 @@ namespace RebalancedTilesTesting.OptionsUI
                 var option = options[i];
                 var label = new PLabel()
                 {
-                    Text = option.Title
+                    Text = option.Title,
+                    TextStyle = PUITuning.Fonts.TextDarkStyle
                 };
 
                 panel.AddRow(new());

@@ -11,6 +11,7 @@ namespace RebalancedTilesTesting
 
         public object GetModifierValue(string defId, string propertyId) => GetModifier(defId, propertyId).Value;
         public object GetDefaultValue(string defId, string propertyId) => GetModifier(defId, propertyId).GetDefaultValue();
+        public bool DefIsModified(BuildingDef def) => modifiedDefs.ContainsKey(def.PrefabID);
 
         public void SetModifierValue(string defId, string propertyId, object newValue)
         {
