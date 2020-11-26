@@ -2,6 +2,7 @@
 using PeterHan.PLib.UI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace RebalancedTilesTesting.OptionsUI
 {
@@ -16,29 +17,43 @@ namespace RebalancedTilesTesting.OptionsUI
             var resetButton = new PButton()
             {
                 Text = "Reset",
-                OnClick = link.editBody.ResetToDefault()
+                OnClick = (GameObject src) => link.editBody.ResetToDefault(src)
             };
 
             var title = new PLabel()
             {
                 Text = " ",  // Must be something or the object isn't created.
                 TextStyle = PUITuning.Fonts.UIDarkStyle.DeriveStyle(25, null, FontStyles.Bold),
+                TextAlignment = TextAnchor.MiddleLeft,
+                FlexSize = Vector2.one,
                 DynamicSize = true
             }
-            .AddOnRealize((GameObject realized) => locText = realized.GetComponentInChildren<LocText>());
+            .AddOnRealize(OnRealized);
 
-            return new PGridPanel()
+            return new PPanel()
             {
+                Direction = PanelDirection.Horizontal,
+                Margin = new(5, 5, 5, 5),
                 BackColor = new Color32(245, 245, 245, 255),
-                Margin = new(5, 5, 5, 5)
+                FlexSize = Vector2.one,
+                Alignment = TextAnchor.LowerRight
             }
-            .AddColumn(new(0f, 0.5f))
-            .AddColumn(new(0f, 0.5f))
-            .AddRow(new(0f, 1f))
-            .AddChild(title, new(0, 0) { Alignment = TextAnchor.MiddleLeft })
-            .AddChild(resetButton, new(0, 1) { Alignment = TextAnchor.LowerRight });
+            .AddChild(title)
+            .AddChild(resetButton);
         }
 
         public void SetTitle(BuildingDef def) => locText.text = def.GetRawName();
+
+        private void OnRealized(GameObject realized)
+        {
+            locText = realized.GetComponentInChildren<LocText>();
+            locText.overflowMode = TextOverflowModes.Truncate;
+            locText.alignment = TextAlignmentOptions.Left; // Not sure why this has to be set here?
+
+            var le = locText.gameObject.AddComponent<LayoutElement>();
+            le.preferredWidth = le.minWidth = 300f;
+            le.layoutPriority = 5;
+            LayoutRebuilder.ForceRebuildLayoutImmediate(le.rectTransform());
+        }
     }
 }

@@ -52,9 +52,10 @@ namespace RebalancedTilesTesting.OptionsUI
             {
                 BackColor = new Color32(50, 50, 50, 255),
                 Direction = PanelDirection.Vertical,
-                Spacing = 10,
+                Spacing = 5,
                 Margin = new RectOffset(5, 5, 5, 5),
-                FlexSize = Vector2.right
+                FlexSize = Vector2.right,
+                Alignment = TextAnchor.MiddleLeft
             }
             .AddChild(label)
             .AddChild(searchPanel);

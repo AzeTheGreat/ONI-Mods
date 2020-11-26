@@ -25,11 +25,19 @@ namespace RebalancedTilesTesting.OptionsUI
                 RoundToNearestEven = true
             };
 
+            dialog.Body.DynamicSize = true;
+            dialog.Body.FlexSize = Vector2.one;
+
             dialog.Body.AddChild(new PGridPanel()
+            {
+                BackColor = Color.green,
+                DynamicSize = true,
+                FlexSize = Vector2.one
+            }
             .AddRow(new GridRowSpec())
             .AddRow(new GridRowSpec(600f))
-            .AddColumn(new GridColumnSpec(400f))
-            .AddColumn(new GridColumnSpec(200f))
+            .AddColumn(new GridColumnSpec())
+            .AddColumn(new GridColumnSpec())
             .AddChild(new SearchHeader(this).GetUIComponent(), new GridComponentSpec(0, 1) { Margin = margins } )
             .AddChild(new SearchBody(this).GetUIComponent(), new GridComponentSpec(1, 1) { Margin = margins } )
             .AddChild(new EditHeader(this).GetUIComponent(), new GridComponentSpec(0, 0) { Margin = margins } )

@@ -13,57 +13,57 @@ namespace RebalancedTilesTesting.CustomUIComponents
         protected KScrollRect scrollRect; // Parent component
         [MyCmpGet] protected BoxLayoutGroup boxLayoutGroup;
 
-        protected List<object> children;
-        protected Func<object, IUIComponent> childFactory;
+        protected List<IUISource> children;
         protected Dictionary<int, GameObject> activeChildren = new();
 
         protected GameObject spacer;
-        protected float rowHeight;
+        protected List<float> cachedHeights = new();
+        protected Dictionary<Type, float> rowHeights = new();
         protected int lastFirstActiveIndex = 0;
         
         public override void OnSpawn()
         {
+            Debug.Log("OnSpawn");
             base.OnSpawn();
             scrollRect = GetComponentInParent<KScrollRect>();
             scrollRect.onValueChanged.AddListener(OnScrollValueChanged);
 
-            CacheRowHeight();
-            gameObject.SetMinUISize(new Vector2(0f, children.Count() * rowHeight));
+            CacheRowHeights();
+            gameObject.SetMinUISize(GetUISize());
             RefreshChildren();
         }
 
-        public void SetChildren(IEnumerable<object> children, Func<object, IUIComponent> childFactory)
-        {
-            this.children = children.ToList();
-            this.childFactory = childFactory;
-        }
+        public void SetChildren(IEnumerable<IUISource> children) => this.children = children.ToList();
 
         public void OnScrollValueChanged(Vector2 pos) => RefreshChildren();
 
-        public void UpdateChildren(List<object> children)
+        public void UpdateChildren(IEnumerable<IUISource> children)
         {
+            Debug.Log(1);
             DestroyChildren(activeChildren);
-            this.children = children;
-
-            CacheRowHeight();
-            gameObject.SetMinUISize(new Vector2(0f, children.Count() * rowHeight));
+            this.children = children.ToList();
+            Debug.Log(2);
+            CacheRowHeights();
+            gameObject.SetMinUISize(GetUISize());
+            Debug.Log(5);
             scrollRect.verticalNormalizedPosition = 1;
+            Debug.Log(6);
             lastFirstActiveIndex = int.MaxValue;
-
+            Debug.Log(3);
             RefreshChildren();
         }
 
+        private Vector2 GetUISize() => new Vector2(0f, cachedHeights.LastOrDefault());
+
         private void RefreshChildren()
         {
-            if (rowHeight == default)
-                return;
-
             var ymin = scrollRect.content.localPosition.y;
-            var rowsDisplayed = Math.Ceiling(scrollRect.viewport.rect.height / rowHeight);
+            var ymax = ymin + scrollRect.viewport.rect.height;
 
             // Keep a buffer of one extra active child above and below.
-            var firstActiveIndex = (int)Math.Floor(ymin / rowHeight) - 1;
-            var lastActiveIndex = firstActiveIndex + rowsDisplayed + 2;
+            var firstActiveIndex = cachedHeights.FindIndex(x => x > ymin) - 2;
+            var endIndex = cachedHeights.FindIndex(x => x > ymax);
+            var lastActiveIndex = (endIndex == -1 ? cachedHeights.Count - 1 : endIndex) + 1;
 
             // Early out if the active indices are the same.
             if (firstActiveIndex == lastFirstActiveIndex)
@@ -76,7 +76,7 @@ namespace RebalancedTilesTesting.CustomUIComponents
 
             // Configure the spacer if there are hidden rows.
             if (firstActiveIndex >= 1)
-                SetSpacerHeight(firstActiveIndex * rowHeight);
+                SetSpacerHeight(cachedHeights[firstActiveIndex - 1]);
             else
                 spacer?.SetActive(false);
 
@@ -92,31 +92,44 @@ namespace RebalancedTilesTesting.CustomUIComponents
                 kvp.Value.transform.SetAsLastSibling();
         }
 
-        private GameObject BuildChild(int i)
+        private GameObject BuildChild(int i) => BuildChild(children.ElementAtOrDefault(i), i);
+        private GameObject BuildChild(IUISource child) => BuildChild(child, children.IndexOf(child));
+        private GameObject BuildChild(IUISource child, int i)
         {
-            if (!(children.ElementAtOrDefault(i) is object child))
+            if (child is null)
                 return null;
 
-            var go = childFactory(child)
-                .Build()
-                .SetParent(gameObject);
+            var go = child.GetUIComponent().Build().SetParent(gameObject);
 
             activeChildren.Add(i, go);
             PUIElements.SetAnchors(go, PUIAnchoring.Stretch, PUIAnchoring.Stretch);
             return go;
         }
 
-        private void CacheRowHeight()
+        private void CacheRowHeights()
         {
-            if (rowHeight != default)
-                return;
+            cachedHeights.Clear();
 
-            if(BuildChild(0)?.GetComponentsInChildren<ILayoutElement>() is ILayoutElement[] layoutElements)
+            foreach (var child in children)
             {
-                // Row height is the largest preferred or min height of all layout elements, plus layout spacing.
-                foreach (var le in layoutElements)
-                    rowHeight = Mathf.Max(rowHeight, le.minHeight, le.preferredHeight);
-                rowHeight += boxLayoutGroup.Params.Spacing;
+                var childType = child.GetType();
+                if (!rowHeights.TryGetValue(childType, out var height))
+                    rowHeights[childType] = height = GetRowHeight(child);
+
+                cachedHeights.Add(cachedHeights.LastOrDefault() + height);
+            }
+
+            float GetRowHeight(IUISource child)
+            {
+                float rowHeight = 0f;
+                if (BuildChild(child)?.GetComponentsInChildren<ILayoutElement>() is ILayoutElement[] layoutElements)
+                {
+                    // Row height is the largest preferred or min height of all layout elements, plus layout spacing.
+                    foreach (var le in layoutElements)
+                        rowHeight = Mathf.Max(rowHeight, le.minHeight, le.preferredHeight);
+                    rowHeight += boxLayoutGroup.Params.Spacing;
+                }
+                return rowHeight;
             }
         }
 
