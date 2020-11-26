@@ -9,7 +9,7 @@ namespace BetterLogicOverlay
     static class LogicOverlayLabels
     {
         private static Dictionary<GameObject, LogicSettingUIInfo> logicSettingUIs = new Dictionary<GameObject, LogicSettingUIInfo>();
-        private static UIPool<LocText> uiGOPool = new UIPool<LocText>(LabelPrefab.GetLabelPrefab());
+        private static UIPool<LocText> uiGOPool;
 
         [HarmonyPatch()]
         static class Remove
@@ -57,6 +57,16 @@ namespace BetterLogicOverlay
             {
                 logicSettingUIs.Clear();
                 uiGOPool.ClearAll();
+            }
+        }
+
+        [HarmonyPatch(typeof(OverlayModes.Logic), nameof(OverlayModes.Logic.Enable))]
+        static class Enable
+        {
+            // Must reinitialize or the game will crash after a load.
+            static void Postfix()
+            {
+                uiGOPool = new UIPool<LocText>(LabelPrefab.GetLabelPrefab());
             }
         }
     }

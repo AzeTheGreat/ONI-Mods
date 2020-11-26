@@ -5,7 +5,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net40</TargetFramework>
-		<LangVersion>preview</LangVersion>
+		<LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 
@@ -25,7 +25,7 @@
 		<PackageReference Include="ILRepack.MSBuild.Task" Version="2.0.13" />
 		<PackageReference Include="HarmonyAnalyzers" Version="1.0.0" />
 		<PackageReference Include="OniAnalyzers" Version="1.0.0" />
-		<PackageReference Include="PLib" Version="3.10" Private="true" />
+		<PackageReference Include="PLib" Version="3.12" Private="true" />
 		<PackageReference Include="SuppressionAttributes" Version="1.0.0" />
 		<PackageReference Include ="MSBuildTasks" Version="1.5.0.235"/>
 		<PackageReference Include ="System.ValueTuple" Version="4.5.0"/>
@@ -36,6 +36,7 @@
 		<Reference Include="UnityEngine" HintPath="$(GameFolder)/UnityEngine.dll" />
 		<Reference Include="UnityEngine.CoreModule" HintPath="$(GameFolder)/UnityEngine.CoreModule.dll" />
 		<Reference Include="UnityEngine.ImageConversionModule" HintPath="$(GameFolder)/UnityEngine.ImageConversionModule.dll" />
+		<Reference Include="UnityEngine.InputLegacyModule" HintPath="$(GameFolder)/UnityEngine.InputLegacyModule.dll" />
 		<Reference Include="Unity.TextMeshPro" HintPath="$(GameFolder)/Unity.TextMeshPro.dll" />
 		<Reference Include="UnityEngine.TextRenderingModule" HintPath="$(GameFolder)/UnityEngine.TextRenderingModule.dll" />
 		<Reference Include="UnityEngine.UI" HintPath="$(GameFolder)/UnityEngine.UI.dll" />
