@@ -100,7 +100,7 @@ namespace BetterInfoCards
             {
                 try
                 {
-                    return textInfos[i].Result;
+                    return card.textInfos[i].Result;
                 }
                 catch (System.Exception ex)
                 {

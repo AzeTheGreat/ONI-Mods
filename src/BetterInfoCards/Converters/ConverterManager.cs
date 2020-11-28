@@ -15,7 +15,7 @@ namespace BetterInfoCards
         public const string sumSuffix = " (Σ)";
         public const string avgSuffix = " (μ)";
 
-        private static Dictionary<string, Func<Entry, string, object, TextInfo>> converters = new Dictionary<string, Func<Entry, string, object, TextInfo>>();
+        private static readonly Dictionary<string, Func<Entry, string, object, TextInfo>> converters = new();
 
         static ConverterManager()
         {
@@ -51,14 +51,14 @@ namespace BetterInfoCards
                         text = GameUtil.GetFormattedDisease(pairs[0].idx, pairs.Sum(x => x.count), true) + sumSuffix;
                     return text;
                 },
-                new List<(Func<(byte, int), float>, float)>() { ( ((byte idx, int count) dP) => dP.idx, 1f) });
+                new() { ( ((byte idx, int count) dP) => dP.idx, 1f) });
 
             // TEMP
             AddConverter(
                 temp,
                 data => ((GameObject)data).GetComponent<PrimaryElement>().Temperature,
                 (original, temps) => GameUtil.GetFormattedTemperature(temps.Average()) + avgSuffix,
-                new List<(Func<float, float>, float)>() { ((float x) => x, 10f) });
+                new() { ((float x) => x, Options.Opts.TemperatureBandWidth) });
         }
 
         public static void AddConverter<T>(string name, Func<object, T> getValue, Func<string, List<T>, string> getTextOverride, List<(Func<T, float>, float)> splitListDefs = null)

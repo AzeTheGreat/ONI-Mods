@@ -1,9 +1,5 @@
 ﻿using Harmony;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using UnityEngine;
 
 namespace BetterInfoCards.Converters
@@ -28,7 +24,7 @@ namespace BetterInfoCards.Converters
                 oreTemp,
                 data => ((GameObject)data).GetComponent<PrimaryElement>().Temperature,
                 (original, temps) => oreTemp.Replace("{Temp}", GameUtil.GetFormattedTemperature(temps.Average())) + ConverterManager.avgSuffix,
-                new List<(Func<float, float>, float)>() { ((float x) => x, 10f) });
+                new() { ((float x) => x, Options.Opts.TemperatureBandWidth) });
         }
     }
 }
