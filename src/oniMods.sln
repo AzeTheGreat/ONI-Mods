@@ -55,6 +55,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClarifiedMaxDecor", "Clarif
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FullBaseRender", "FullBaseRender\FullBaseRender.csproj", "{09F37A1E-6E32-429A-BC0F-4A08F12BA276}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoStutter", "NoStutter\NoStutter.csproj", "{A6AE6BED-C4AC-428B-B804-749E691CEA2B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -149,6 +151,10 @@ Global
 		{09F37A1E-6E32-429A-BC0F-4A08F12BA276}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09F37A1E-6E32-429A-BC0F-4A08F12BA276}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09F37A1E-6E32-429A-BC0F-4A08F12BA276}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6AE6BED-C4AC-428B-B804-749E691CEA2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6AE6BED-C4AC-428B-B804-749E691CEA2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6AE6BED-C4AC-428B-B804-749E691CEA2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6AE6BED-C4AC-428B-B804-749E691CEA2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
