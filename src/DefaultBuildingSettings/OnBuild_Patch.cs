@@ -28,7 +28,7 @@ namespace DefaultBuildingSettings
 
         private static bool SetVacancyOnly(GameObject go)
         {
-            if (!Options.Opts.VacancyOnly || !(go.GetComponent<SuitMarker>() is SuitMarker suitMarker))
+            if (!Options.Opts.VacancyOnly || go.GetComponent<SuitMarker>() is not SuitMarker suitMarker)
                 return false;
 
             suitMarker.onlyTraverseIfUnequipAvailable = true;
@@ -38,22 +38,27 @@ namespace DefaultBuildingSettings
         private static bool OpenDoors(GameObject go)
         {
             // Can technically fail to open if a save/load occurs after .Build is called, before the Door.isSpawned.
-            if (!Options.Opts.OpenDoors || !(go.GetComponent<Door>() is Door door) || (bool)AccessTools.Method(typeof(Door), "DisplacesGas").Invoke(null, new object[] { door.doorType }))
+            if (!Options.Opts.OpenDoors || go.GetComponent<Door>() is not Door door || Door.DisplacesGas(door.doorType))
                 return false;
 
             Schedule();
             return true;
 
+            void Schedule() => GameScheduler.Instance.Schedule("OpenDoorAfterOnSpawn", 0f, OpenDoor, door);
+
             void OpenDoor(object comp)
             {
                 var d = comp as Door;
+
+                // Can't pattern match due to unity equality nonsense.
+                if (d == null)
+                    return;
+
                 if (d.isSpawned)
                     d.QueueStateChange(Door.ControlState.Opened);
                 else
                     Schedule();
             }
-
-            void Schedule() => GameScheduler.Instance.Schedule("OpenDoorAfterOnSpawn", 0f, OpenDoor, door);
         }
     }
 }
