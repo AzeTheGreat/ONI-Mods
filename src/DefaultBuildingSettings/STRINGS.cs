@@ -48,6 +48,16 @@ namespace DefaultBuildingSettings
                     public static LocString TOOLTIP = "If checked, Doors that allow airflow will immediately be opened after being built.";
                 }
 
+                public class SWITCHESOFF
+                {
+                    private const string t = options + nameof(SWITCHESOFF) + d;
+                    internal const string nameKey = t + nameof(NAME);
+                    internal const string tooltipKey = t + nameof(TOOLTIP);
+                    public static LocString NAME = "Switches Start Off";
+                    public static LocString TOOLTIP = "If checked, automation and power switches will initialize in the inactive state.";
+                
+                }
+
                 public class ACTIVATIONRANGE
                 {
                     private const string activationRange = options + nameof(ACTIVATIONRANGE) + d;

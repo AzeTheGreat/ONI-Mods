@@ -4,6 +4,7 @@ using static DefaultBuildingSettings.STRINGS.DEFAULTBUILDINGSETTINGS.OPTIONS;
 
 namespace DefaultBuildingSettings
 {
+    [PeterHan.PLib.Options.RestartRequired]
     public class Options : BaseOptions<Options>
     {
         [Option(VACANCYONLY.nameKey, VACANCYONLY.tooltipKey)]
@@ -17,6 +18,9 @@ namespace DefaultBuildingSettings
 
         [Option(OPENDOOR.nameKey, OPENDOOR.tooltipKey)]
         public bool OpenDoors { get; set; }
+
+        [Option(SWITCHESOFF.nameKey, SWITCHESOFF.tooltipKey)]
+        public bool SwitchesOff { get; set; }
 
         [Option(ACTIVATIONRANGE.ACTIVATEVALUE.nameKey, ACTIVATIONRANGE.ACTIVATEVALUE.tooltipKey, ACTIVATIONRANGE.batteryCatKey)]
         [Limit(0, 100)]
@@ -45,6 +49,7 @@ namespace DefaultBuildingSettings
             SweepOnly = true;
             AutoRepairOff = false;
             OpenDoors = true;
+            SwitchesOff = true;
 
             SmartBatteryActivateValue = 5;
             SmartBatteryDeactivateValue = 95;
