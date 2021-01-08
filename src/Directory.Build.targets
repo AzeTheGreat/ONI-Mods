@@ -1,17 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
-	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-		<InstallFolder>..\..\Release\$(ProjectName)</InstallFolder>
-		<DistributeFolder>..\..\Distribute\</DistributeFolder>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-		<InstallFolder>$(ModFolder)\DEV_$(ProjectName)</InstallFolder>
-	</PropertyGroup>
 
-	<Import Project="AutoIncrement.targets" />
-	<Target Name="AutoIncrement" BeforeTargets="PrepareForBuild">
+  <Target Name="Publicise" AfterTargets="Clean">
+    <Publicise
+      InputAssemblies="@(PubliciseInputAssemblies)"
+      OutputPath="../lib/"/>
+  </Target>
+  
+  <Import Project="AutoIncrement.targets" />
+	<Target Name="AutoIncrement" BeforeTargets="PrepareForBuild">   
 		<AutoIncrement Path="$(IntermediateOutputPath)">
-			<Output PropertyName="ProjectRevision" TaskParameter="Revision" />
+			<Output 
+        PropertyName="ProjectRevision" 
+        TaskParameter="Revision" />
 		</AutoIncrement>
 		<PropertyGroup>
 			<Version>
@@ -20,7 +21,7 @@
 		</PropertyGroup>
 	</Target>
 	
-	<Target Name="ClearGameFolderCopyLocal" AfterTargets="ResolveAssemblyReferences">
+	<Target Name="ClearGameFolderCopyLocal" AfterTargets="ResolveAssemblyReferences"> 
 		<ItemGroup>
 			<ReferenceCopyLocalPaths Remove="$(GameFolder)\*" />
 		</ItemGroup>
@@ -28,12 +29,12 @@
 
 	<Target Name="ILRepack" AfterTargets="Build" Condition=" '$(AssemblyName)' != 'AzeLib'">
 		<ItemGroup>
-			<InputAssemblies Include="$(TargetDir)\*.dll"
+			<InputAssemblies 
+        Include="$(TargetDir)\*.dll"
 			  Exclude="**\0Harmony.dll" />
 		</ItemGroup>
-
 		<ILRepack
-			TargetPlatformVersion="v2"
+      TargetPlatformVersion="v2"
 			OutputType="SameAsPrimaryAssembly"
 			MainAssembly="$(TargetPath)"
 			OutputAssembly="$(TargetPath)"
@@ -43,14 +44,12 @@
 	</Target>
 
 	<Target Name="CopyArtifactsToInstallFolder" AfterTargets="ILRepack" Condition=" '$(ShouldDistribute)' != 'false' ">
-
 		<ItemGroup>
 			<AnimFiles Include="$(ProjectDir)\anim\**\*.*" />
 			<WorldGenFiles Include="$(ProjectDir)\worldgen\**\*.*" />
 			<YamlFiles Include="$(ProjectDir)\*.yaml" />
 			<SpriteFiles Include="$(ProjectDir)\*.dds" />
 		</ItemGroup>
-
 		<Copy SourceFiles="@(AnimFiles)" DestinationFiles="@(AnimFiles->'$(InstallFolder)\anim\%(RecursiveDir)%(Filename)%(Extension)')" />
 		<Copy SourceFiles="@(WorldGenFiles)" DestinationFiles="@(WorldGenFiles->'$(InstallFolder)\worldgen\%(RecursiveDir)%(Filename)%(Extension)')" />
 		<Copy SourceFiles="@(YamlFiles)" DestinationFolder="$(InstallFolder)" />
@@ -58,11 +57,18 @@
 		<Copy SourceFiles="$(TargetPath)" DestinationFiles="$(InstallFolder)\$(TargetFileName)" />
 	</Target>
 
-	<Target Name="Zip" AfterTargets="CopyArtifactsToInstallFolder" Condition=" '$(Configuration)' == 'Release' And '$(ShouldDistribute)' != 'false' ">
-		<CreateItem Include="$(InstallFolder)\*.*" Exclude="$(InstallFolder)\*.zip">
-			<Output ItemName="ZipFiles" TaskParameter="Include"/>
+	<Target Name="Zip" AfterTargets="CopyArtifactsToInstallFolder" Condition=" '$(Configuration)' == 'Release' And '$(ShouldDistribute)' != 'false' ">	
+    <CreateItem 
+      Include="$(InstallFolder)\*.*"
+      Exclude="$(InstallFolder)\*.zip">
+			<Output
+        ItemName="ZipFiles"
+        TaskParameter="Include"/>
 		</CreateItem>
-		<Zip ZipFileName="$(DistributeFolder)\$(ProjectName).zip" WorkingDirectory="$(InstallFolder)" Files="@(ZipFiles)" />
+		<Zip 
+      ZipFileName="$(DistributeFolder)\$(ProjectName).zip"
+      WorkingDirectory="$(InstallFolder)"
+      Files="@(ZipFiles)" />
 	</Target>
 
 </Project>
