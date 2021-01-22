@@ -20,6 +20,15 @@
 			</Version>
 		</PropertyGroup>
 	</Target>
+
+  <PropertyGroup>
+    <ModInfoFile>$(IntermediateOutputPath)\mod_info.yaml</ModInfoFile>
+  </PropertyGroup>
+  <Target Name="WriteModInfoFile" BeforeTargets="PreBuildEvent">
+    <WriteLinesToFile File="$(ModInfoFile)" Overwrite="true" Lines="" />
+    <WriteLinesToFile File="$(ModInfoFile)" Lines="supportedContent: $(supportedContent)" />
+    <WriteLinesToFile File="$(ModInfoFile)" Lines="lastWorkingBuild: $(lastWorkingBuild)" />
+  </Target>
 	
 	<Target Name="ClearGameFolderCopyLocal" AfterTargets="ResolveAssemblyReferences"> 
 		<ItemGroup>
@@ -40,7 +49,8 @@
 			OutputAssembly="$(TargetPath)"
 			InputAssemblies="@(InputAssemblies)"
 			WilcardInputAssemblies="true"
-			WorkingDirectory="$(GameFolder)"/>
+			WorkingDirectory="$(GameFolder)"
+      Parallel="true"/>
 	</Target>
 
 	<Target Name="CopyArtifactsToInstallFolder" AfterTargets="ILRepack" Condition=" '$(ShouldDistribute)' != 'false' ">
@@ -55,6 +65,7 @@
 		<Copy SourceFiles="@(YamlFiles)" DestinationFolder="$(InstallFolder)" />
 		<Copy SourceFiles="@(SpriteFiles)" DestinationFolder="$(InstallFolder)" />
 		<Copy SourceFiles="$(TargetPath)" DestinationFiles="$(InstallFolder)\$(TargetFileName)" />
+    <Copy SourceFiles="$(ModInfoFile)" DestinationFolder="$(InstallFolder)" />
 	</Target>
 
 	<Target Name="Zip" AfterTargets="CopyArtifactsToInstallFolder" Condition=" '$(Configuration)' == 'Release' And '$(ShouldDistribute)' != 'false' ">	
@@ -70,5 +81,5 @@
       WorkingDirectory="$(InstallFolder)"
       Files="@(ZipFiles)" />
 	</Target>
-
+  
 </Project>

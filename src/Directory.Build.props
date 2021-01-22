@@ -7,29 +7,24 @@
 		<TargetFramework>net40</TargetFramework>
 		<LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    
+    <supportedContent>ALL</supportedContent>
+    <lastWorkingBuild>0</lastWorkingBuild>
 	</PropertyGroup>
 
 	<ItemDefinitionGroup>
-		<Reference>
-			<Private>False</Private>
-		</Reference>
-		<ProjectReference>
-			<Private>False</Private>
-		</ProjectReference>
-		<PackageReference>
-			<Private>False</Private>
-		</PackageReference>
+		<Reference><Private>False</Private></Reference>
+		<ProjectReference><Private>False</Private></ProjectReference>
+		<PackageReference><Private>False</Private></PackageReference>
 	</ItemDefinitionGroup>
 
-  <ItemGroup>
+	<ItemGroup>
     <PubliciseInputAssemblies Include="
 					$(GameFolder)/Assembly-CSharp.dll;
 					$(GameFolder)/Assembly-CSharp-firstpass.dll"/>
     <Reference Include="Assembly-CSharp_public" HintPath="../lib/Assembly-CSharp_public.dll"  />
     <Reference Include="Assembly-CSharp-firstpass_public" HintPath="../lib/Assembly-CSharp-firstpass_public.dll" />
-  </ItemGroup>
-  
-	<ItemGroup>
+    
 		<PackageReference Include="ILRepack.MSBuild.Task" Version="2.0.13" />
 		<PackageReference Include="Aze.Publicise.MSBuild.Task" Version="1.0.0"/>
 		<PackageReference Include="HarmonyAnalyzers" Version="1.0.0" />
@@ -55,11 +50,11 @@
 	</ItemGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <InstallFolder>..\..\Release\$(ProjectName)</InstallFolder>
+    <InstallFolder>..\..\Release\$(MSBuildProjectName)</InstallFolder>
     <DistributeFolder>..\..\Distribute\</DistributeFolder>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <InstallFolder>$(ModFolder)\DEV_$(ProjectName)</InstallFolder>
+    <InstallFolder>$(ModFolder)\DEV_$(MSBuildProjectName)</InstallFolder>
   </PropertyGroup>
 
 </Project>

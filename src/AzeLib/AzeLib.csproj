@@ -8,12 +8,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Compile Remove="Previews\**" />
-		<EmbeddedResource Remove="Previews\**" />
-		<None Remove="Previews\**" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<Reference Update="../lib/PLib.dll">
 			<Private>true</Private>
 		</Reference>
