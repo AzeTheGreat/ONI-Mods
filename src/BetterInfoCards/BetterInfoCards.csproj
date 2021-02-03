@@ -1,15 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
+  
   <PropertyGroup>
-    
     <AssemblyTitle>BetterInfoCards</AssemblyTitle>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Previews\**" />
-    <EmbeddedResource Remove="Previews\**" />
-    <None Remove="Previews\**" />
-  </ItemGroup>
+  
   <ItemGroup>
     <None Remove="Export\README.md" />
   </ItemGroup>
+  
 </Project>

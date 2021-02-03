@@ -3,9 +3,4 @@
   <PropertyGroup>
     <AssemblyTitle>NoResearchAlerts</AssemblyTitle>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Previews\**" />
-    <EmbeddedResource Remove="Previews\**" />
-    <None Remove="Previews\**" />
-  </ItemGroup>
 </Project>

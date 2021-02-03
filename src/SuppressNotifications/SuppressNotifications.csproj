@@ -1,15 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    
+  <PropertyGroup>   
     <AssemblyTitle>SuppressNotifications</AssemblyTitle>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Previews\**" />
-    <Compile Remove="Util\**" />
-    <EmbeddedResource Remove="Previews\**" />
-    <EmbeddedResource Remove="Util\**" />
-    <None Remove="Previews\**" />
-    <None Remove="Util\**" />
-  </ItemGroup>
 </Project>
