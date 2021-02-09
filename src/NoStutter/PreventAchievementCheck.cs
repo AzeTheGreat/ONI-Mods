@@ -6,21 +6,16 @@ namespace NoStutter
     [HarmonyPatch(typeof(BuildOutsideStartBiome), nameof(BuildOutsideStartBiome.Success))]
     class PreventAchievementCheck
     {
-        static bool Prefix(ref bool __result)
+        static int lastCycleChecked;
+
+        static bool Prefix()
         {
-            if (Options.Opts.OnlyInDebug && !Game.Instance.debugWasUsed)
-                return true;
-
-            __result = Options.Opts.Mode switch
+            // Only check the achievement once each cycle.
+            if (GameUtil.GetCurrentCycle() != lastCycleChecked)
             {
-                Options.DisableMode.Prevent => false,
-                Options.DisableMode.InstantSuccess => true,
-                _ => false
-            };
-
-            if(__result == true)
-                Game.Instance.unlocks.Unlock("buildoutsidestartingbiome");
-
+                lastCycleChecked = GameUtil.GetCurrentCycle();
+                return true;
+            }
             return false;
         }
     }
