@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SuppressNotifications
@@ -17,10 +18,13 @@ namespace SuppressNotifications
 
         private void OnRefreshUserMenu()
         {
+            // For vanilla and SO, must explicitly set the right action since this enum is different.
+            Enum.TryParse(nameof(Action.NumActions), out Action action);
+
             if (AreSuppressable())
-                Game.Instance.userMenu.AddButton(gameObject, new KIconButtonMenu.ButtonInfo("action_building_disabled", "Suppress Current", new System.Action(OnSuppressClick), tooltipText: GetSuppressableString()));
+                Game.Instance.userMenu.AddButton(gameObject, new KIconButtonMenu.ButtonInfo("action_building_disabled", "Suppress Current", new System.Action(OnSuppressClick), action, tooltipText: GetSuppressableString()));
             else if (AreSuppressed())
-                Game.Instance.userMenu.AddButton(gameObject, new KIconButtonMenu.ButtonInfo("action_building_disabled", "Clear Suppressed", new System.Action(OnClearClick), tooltipText: GetSuppressedString()));
+                Game.Instance.userMenu.AddButton(gameObject, new KIconButtonMenu.ButtonInfo("action_building_disabled", "Clear Suppressed", new System.Action(OnClearClick), action, tooltipText: GetSuppressedString()));
         }
 
         internal virtual bool AreSuppressable()

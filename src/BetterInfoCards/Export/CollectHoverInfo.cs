@@ -37,7 +37,8 @@ namespace BetterInfoCards
                 var targetGetCompPrimaryElement = AccessTools.Method(typeof(Component), "GetComponent").MakeGenericMethod(typeof(PrimaryElement));
                 var targetDrawText = AccessTools.Method(typeof(HoverTextDrawer), "DrawText", new Type[] { typeof(string), typeof(TextStyleSetting) });
                 var targetEndShadowBar = AccessTools.Method(typeof(HoverTextDrawer), "EndShadowBar");
-                var targetElement = AccessTools.Method(typeof(WorldInspector), nameof(WorldInspector.MassStringsReadOnly));
+                var targetElement = AccessTools.Method("HoverTextHelper:MassStringsReadOnly") ??
+                    AccessTools.Method("WorldInspector:MassStringsReadOnly");   // Fallback for vanilla assembly
 
                 LocalBuilder titleLocal = null;
                 LocalBuilder germLocal = null;
@@ -64,7 +65,6 @@ namespace BetterInfoCards
 
                         else if (i.OperandIs(germTarget))
                             germLocal = instructions.FindNext(i, x => x.OpCodeIs(OpCodes.Stloc_S)).operand as LocalBuilder;
-
 
                         else if (i.Is(OpCodes.Callvirt, targetDrawText))
                         {

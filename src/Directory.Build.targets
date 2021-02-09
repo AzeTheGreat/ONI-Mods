@@ -76,7 +76,7 @@
 
 	<Target Name="Zip" AfterTargets="CopyArtifactsToInstallFolder" Condition=" '$(Configuration)' == 'Release' And '$(ShouldDistribute)' != 'false' ">	
     <CreateItem 
-      Include="$(InstallFolder)\*.*"
+      Include="$(InstallFolder)\*; $(InstallFolder)\archived_versions\*"
       Exclude="$(InstallFolder)\*.zip">
 			<Output
         ItemName="ZipFiles"
@@ -85,7 +85,8 @@
 		<Zip 
       ZipFileName="$(DistributeFolder)\$(ProjectName).zip"
       WorkingDirectory="$(InstallFolder)"
-      Files="@(ZipFiles)" />
+      Files="@(ZipFiles)"
+      Flatten="false" />
 	</Target>
   
 </Project>
