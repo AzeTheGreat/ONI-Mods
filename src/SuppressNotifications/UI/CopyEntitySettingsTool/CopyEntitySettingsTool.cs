@@ -91,7 +91,7 @@ namespace SuppressNotifications
                 {
                     var crop = enumerator.Current as Crop;
 
-                    if(crop != null)
+                    if(crop != null && cells.Contains(Grid.PosToCell(crop)))
                     {
                         crop.gameObject.Trigger((int)GameHashes.CopySettings, sourceGameObject);
                         PopFXManager.Instance.SpawnFX(PopFXManager.Instance.sprite_Plus, UI.COPIED_SETTINGS, crop.gameObject.transform, new Vector3(0f, 0.5f, 0f), 1.5f, false, false);
