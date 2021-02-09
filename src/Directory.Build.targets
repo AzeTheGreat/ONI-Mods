@@ -76,7 +76,7 @@
 
 	<Target Name="Zip" AfterTargets="CopyArtifactsToInstallFolder" Condition=" '$(Configuration)' == 'Release' And '$(ShouldDistribute)' != 'false' ">	
     <CreateItem 
-      Include="$(InstallFolder)\*; $(InstallFolder)\archived_versions\*"
+      Include="$(InstallFolder)\**\*.*"
       Exclude="$(InstallFolder)\*.zip">
 			<Output
         ItemName="ZipFiles"
