@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using STRINGS;
+using System;
 
 namespace SuppressNotifications
 {
@@ -18,7 +19,7 @@ namespace SuppressNotifications
             string iconName = "action_mirror";
             string text = UI.USERMENUACTIONS.COPY_BUILDING_SETTINGS.NAME;
             var on_click = new System.Action(ActivateCopyTool);
-            var shortcutKey = Action.BuildingUtility1;
+            Enum.TryParse(nameof(Action.BuildingUtility1), out Action shortcutKey);
             string tooltipText = UI.USERMENUACTIONS.COPY_BUILDING_SETTINGS.TOOLTIP;
             userMenu.AddButton(gameObject, new KIconButtonMenu.ButtonInfo(iconName, text, on_click, shortcutKey, null, null, null, tooltipText, true), 1f);
         }
