@@ -128,7 +128,7 @@ namespace BetterInfoCards
             private static void ExportSelectable(KSelectable selectable) => Instance.intermediateSelectable = selectable;
             private static void Export(string name, object data) => Instance.intermediateTextInfo = (name, data);
             private static void ExportGO(string name) => Export(name, Instance.intermediateSelectable.gameObject);
-            private static void ExportStatus(StatusItemGroup.Entry entry) => Export(entry.item.Name, entry.data);
+            private static void ExportStatus(StatusItemGroup.Entry entry) => Export(entry.GetName().NullIfEmpty() ?? entry.item.Id, entry.data);
         }
 
         [HarmonyPatch(typeof(HoverTextDrawer.Pool<MonoBehaviour>), nameof(HoverTextDrawer.Pool<MonoBehaviour>.Draw))]

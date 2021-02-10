@@ -8,5 +8,7 @@
                 source = source.Substring(0, length);
             return source;
         }
+
+        public static string NullIfEmpty(this string source) => source.IsNullOrWhiteSpace() ? null : source;
     }
 }

@@ -96,33 +96,7 @@ namespace BetterInfoCards
 
             return overrides;
 
-            object GetResult(List<InfoCard> cards, InfoCard card, int i)
-            {
-                try
-                {
-                    return card.textInfos[i].Result;
-                }
-                catch (System.Exception ex)
-                {
-                    Debug.Log("Crash in Better Info Cards!");
-                    Debug.Log("PLEASE send this complete output log to the mod author (Aze) via Steam, Discord, or Github!");
-                    Debug.Log(ex);
-                    Debug.Log("------------------------------------------------------------");
-
-                    foreach (var srcCard in cards)
-                    {
-                        Debug.Log("Card: " + srcCard);
-                        foreach (var item in srcCard.textInfos)
-                            Debug.Log(item.Result);
-                    }
-
-                    Debug.Log("Card Crash: " + card);
-                    foreach (var item in card.textInfos)
-                        Debug.Log(item.Result);
-
-                    throw;
-                }
-            }
+            object GetResult(List<InfoCard> cards, InfoCard card, int i) => card.textInfos[i].Result;
         }
 
         public void Rename(List<string> overrides, bool forceUpdate = false)
