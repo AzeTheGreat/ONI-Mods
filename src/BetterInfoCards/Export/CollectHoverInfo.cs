@@ -16,13 +16,14 @@ namespace BetterInfoCards
         private List<InfoCard> infoCards = new List<InfoCard>();
         private DisplayCards displayCardManager = new DisplayCards();
 
+        private InfoCard intermediateInfoCard;
         private KSelectable intermediateSelectable;
         private (string name, object data) intermediateTextInfo = (string.Empty, null);
 
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginShadowBar))]
         private class BeginShadowBar_Patch
         {
-            static void Postfix() => Instance.infoCards.Add(new InfoCard());
+            static void Postfix() => Instance.intermediateInfoCard = new();
         }
 
         public class GetSelectInfo_Patch
@@ -136,8 +137,7 @@ namespace BetterInfoCards
         {
             static void Postfix(Entry __result, GameObject ___prefab)
             {
-                InfoCard card = Instance.infoCards.Last();
-                card.AddWidget(__result, ___prefab, Instance.intermediateTextInfo.name, Instance.intermediateTextInfo.data);
+                Instance.intermediateInfoCard.AddWidget(__result, ___prefab, Instance.intermediateTextInfo.name, Instance.intermediateTextInfo.data);
                 Instance.intermediateTextInfo = (string.Empty, null);
             }
         }
@@ -147,8 +147,10 @@ namespace BetterInfoCards
         {
             static void Postfix()
             {
-                Instance.infoCards.Last().AddSelectable(Instance.intermediateSelectable);
+                Instance.intermediateInfoCard.AddSelectable(Instance.intermediateSelectable);
+                Instance.infoCards.Add(Instance.intermediateInfoCard);
                 Instance.intermediateSelectable = null;
+                Instance.intermediateInfoCard = null;
             }
         }
 
