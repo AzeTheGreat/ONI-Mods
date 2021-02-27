@@ -1,4 +1,5 @@
 ﻿using KSerialization;
+using UnityEngine;
 
 namespace InfiniteResearch
 {
@@ -7,7 +8,11 @@ namespace InfiniteResearch
     {
         [Serialize] public bool isInfiniteMode = false;
 
-        public override void OnPrefabInit() => Subscribe((int)GameHashes.RefreshUserMenu, (object data) => OnRefreshUserMenu());
+        public override void OnPrefabInit()
+        {
+            Subscribe((int)GameHashes.RefreshUserMenu, (object data) => OnRefreshUserMenu());
+            Subscribe((int)GameHashes.CopySettings, (object data) => OnCopySettings(data));
+        }
 
         private void OnRefreshUserMenu()
         {
@@ -36,9 +41,15 @@ namespace InfiniteResearch
                 }
                 string tooltipText = BUTTONS.ENABLELEARN.TOOLTIP;
 
-                Game.Instance.userMenu.AddButton(base.gameObject, new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText), 0f);
+                Game.Instance.userMenu.AddButton(gameObject, new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText));
                 return;
             }
+        }
+
+        private void OnCopySettings(object sourceObj)
+        {
+            if((sourceObj as GameObject).GetComponent<InfiniteModeToggleButton>() is var comp)
+                isInfiniteMode = comp.isInfiniteMode;
         }
 
         protected abstract void UpdateState();
