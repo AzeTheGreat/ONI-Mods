@@ -2,11 +2,38 @@
 
 ## Compiling
 
-Compiling this solution is fairly simple.  Just duplicate `Directory.Build.props.default`, rename it to `Directory.Build.props.user`, and edit any poperties that are different for you.
+Compiling this solution is fairly simple.  If you run into issues, feel free to contact me for support.
 
-Since several references are imported through an MSBuild task, the solution may throw tons of errors claiming that references don't exist.  Just rebuild the solution once to import the references, and everything should compile.
+- Clone the repo and install ONI.
+- Select the [proper branch](#branches).
+- If ONI is not installed in the default Steam location (or your environment differs from the default):
+  - In the `Solution Items` folder, add a new `.xml` file named `Directory.Build.props.user`.
+  - Copy the contents of `.default` to `.user`.
+  - Edit any properties specific to your environment in `.user`.
+- Rebuild the solution.
+  - Automatically pulls in required packages through nuget.
+  - Creates publicized assemblies.
+- If Visual Studio can't find the `_public.dll` assemblies:
+  - Restart VS and reopen the solution.
+
+## Branches
+
+Because Vanilla and Spaced Out! use different assemblies, some mods have custom versions through branches:  
+- `master`: built against SO
+- `vanilla`: built against Vanilla
+
+The publicized assemblies are created based on the current Steam install.  
+When switching branches, remember to switch your game version:
+- Maintain a folder for each game configuration.
+- Rename folders to switch active configuration.
 
 ## Building
 
-When built in debug mode, mods will be prefixed with `DEV_` and exported to ONI's `mods\dev` folder.  
-When built in release mode, mods will be exported to the Release folder, then will be zipped into release versions and placed in the [Distribute](https://github.com/AzeTheGreat/ONI-Mods/tree/master/Distribute) folder.
+Depending on the build configuration, the mods will be handled differently.
+
+- Debug: 
+  - Prefixed with `DEV_`
+  - Exported to ONI's `mods\dev` folder.
+- Release:
+  - Exported to the Release folder
+  - Zipped and placed in the [Distribute](https://github.com/AzeTheGreat/ONI-Mods/tree/master/Distribute) folder
