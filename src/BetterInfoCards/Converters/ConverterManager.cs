@@ -20,10 +20,14 @@ namespace BetterInfoCards
         static ConverterManager()
         {
             // DEFAULT
+            // textInfos could theoretically have the same id, but different text, meaning they should not stack
+            // the keyModifier changes the key to be the text so that they are split out
             AddConverter<object>(
                 string.Empty,
                 data => null,
-                (original, o) => original);
+                (original, o) => original,
+                null,
+                ti => ti.GetText());
 
             // TITLE
             AddConverter(
@@ -58,15 +62,15 @@ namespace BetterInfoCards
                 temp,
                 data => ((GameObject)data).GetComponent<PrimaryElement>().Temperature,
                 (original, temps) => GameUtil.GetFormattedTemperature(temps.Average()) + avgSuffix,
-                new() { ((float x) => x, Options.Opts.TemperatureBandWidth) });
+                new() { (x => x, Options.Opts.TemperatureBandWidth) });
         }
 
-        public static void AddConverter<T>(string name, Func<object, T> getValue, Func<string, List<T>, string> getTextOverride, List<(Func<T, float>, float)> splitListDefs = null)
+        public static void AddConverter<T>(string name, Func<object, T> getValue, Func<string, List<T>, string> getTextOverride, List<(Func<T, float>, float)> splitListDefs = null, Func<TextInfo, string> keyModifier = null)
         {
             if (converters.ContainsKey(name))
                 throw new Exception("Attempted to add converter with name: " + name + ", but converter with name is already present.");
 
-            converters.Add(name, (Entry e, string n, object d) => new TextInfo<T>(e, n, d, getValue, getTextOverride, splitListDefs));
+            converters.Add(name, (Entry e, string n, object d) => new TextInfo<T>(e, n, d, getValue, getTextOverride, splitListDefs, keyModifier));
         }
 
         // This is not to be used internally - for reflection from external mods only.

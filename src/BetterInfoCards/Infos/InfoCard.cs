@@ -61,7 +61,7 @@ namespace BetterInfoCards
 
         public string GetTitleKey()
         {
-            return ((LocText)textInfos[0].TextEntry.widget).text.RemoveCountSuffix();
+            return textInfos[0].GetText().RemoveCountSuffix();
         }
 
         public string GetTextKey()
@@ -76,14 +76,6 @@ namespace BetterInfoCards
             return string.Join(null, texts.ToArray());
         }
 
-        public void FormTextValues()
-        {
-            foreach (TextInfo textInfo in textInfos)
-            {
-                textInfo.FormTextResult();
-            }
-        }
-
         public List<string> GetTextOverrides(List<InfoCard> cards)
         {
             var overrides = new List<string>();
@@ -91,12 +83,10 @@ namespace BetterInfoCards
             for (int i = 0; i < textInfos.Count; i++)
             {
                 var textInfo = textInfos[i];
-                overrides.Add(textInfo.GetTextOverride(cards.Select(x => GetResult(cards, x, i)).ToList()));
+                overrides.Add(textInfo.GetTextOverride(cards.Select(x => x.textInfos[i].Result).ToList()));
             }
 
             return overrides;
-
-            object GetResult(List<InfoCard> cards, InfoCard card, int i) => card.textInfos[i].Result;
         }
 
         public void Rename(List<string> overrides, bool forceUpdate = false)

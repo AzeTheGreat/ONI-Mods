@@ -8,23 +8,23 @@ namespace BetterInfoCards.Converters
     [HarmonyPatch(typeof(Db), nameof(Db.Initialize))]
     class StatusConverters
     {
-        private static readonly string oreMass = Db.Get().MiscStatusItems.OreMass.Name;
-        private static readonly string oreTemp = Db.Get().MiscStatusItems.OreTemp.Name;
-
         static void Postfix()
         {
+            var oreMass = Db.Get().MiscStatusItems.OreMass;
+            var oreTemp = Db.Get().MiscStatusItems.OreTemp;
+
             // ORE MASS
             ConverterManager.AddConverter(
-                oreMass,
+                oreMass.Id,
                 data => ((GameObject)data).GetComponent<PrimaryElement>().Mass,
-                (original, masses) => oreMass.Replace("{Mass}", GameUtil.GetFormattedMass(masses.Sum())) + ConverterManager.sumSuffix);
+                (original, masses) => oreMass.Name.Replace("{Mass}", GameUtil.GetFormattedMass(masses.Sum())) + ConverterManager.sumSuffix);
 
             // ORE TEMP
             ConverterManager.AddConverter(
-                oreTemp,
+                oreTemp.Id,
                 data => ((GameObject)data).GetComponent<PrimaryElement>().Temperature,
-                (original, temps) => oreTemp.Replace("{Temp}", GameUtil.GetFormattedTemperature(temps.Average())) + ConverterManager.avgSuffix,
-                new() { ((float x) => x, Options.Opts.TemperatureBandWidth) });
+                (original, temps) => oreTemp.Name.Replace("{Temp}", GameUtil.GetFormattedTemperature(temps.Average())) + ConverterManager.avgSuffix,
+                new() { (x => x, Options.Opts.TemperatureBandWidth) });
         }
     }
 }

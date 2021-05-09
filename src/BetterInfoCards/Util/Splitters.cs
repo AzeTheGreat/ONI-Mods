@@ -15,7 +15,7 @@ namespace BetterInfoCards.Util
             return splits;
         }
 
-        public static Dictionary<TKey, List<TVal>> SplitToDict<TKey, TVal>(this Dictionary<TKey, List<TVal>> source, Func<TVal, TKey> getNewKey)
+        public static Dictionary<TKey, List<TVal>> SplitToDict<TKey, TVal>(this Dictionary<TKey, List<TVal>> source, Func<TVal, TKey> getKey)
         {
             var splits = new Dictionary<TKey, List<TVal>>();
 
@@ -24,7 +24,7 @@ namespace BetterInfoCards.Util
                 if (kvp.Value.Count > 1)
                 {
                     foreach (var item in kvp.Value)
-                        splits.TryAddToDict(getNewKey(item), item);
+                        splits.TryAddToDict(getKey(item), item);
                 }
                 else
                     splits[kvp.Key] = kvp.Value;
@@ -53,17 +53,10 @@ namespace BetterInfoCards.Util
             var splits = new List<List<T>>();
 
             foreach (var group in source)
-                splits.AddRange(splitter(group));
-
-            return splits;
-        }
-
-        public static List<List<TVal>> SplitBySplitters<TVal, TSplit>(this List<TVal> source, List<TSplit> splitterDatas, Func<List<TVal>, TSplit, List<List<TVal>>> splitterFunc)
-        {
-            var splits = new List<List<TVal>>() { source };
-
-            foreach (var splitterData in splitterDatas)
-                splits = splits.SplitToList((group) => splitterFunc(group, splitterData));
+                if (group.Count > 1)
+                    splits.AddRange(splitter(group));
+                else
+                    splits.Add(group);
 
             return splits;
         }
