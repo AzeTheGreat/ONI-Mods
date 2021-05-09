@@ -78,7 +78,7 @@ namespace BetterInfoCards
         {
             var type = getValue.GetType().GetGenericArguments()[1];
             var method = typeof(ConverterManager).GetMethod(nameof(ConverterManager.AddConverter)).MakeGenericMethod(type);
-            method.Invoke(null, new object[] { name, getValue, getTextOverride, splitListDefs });
+            method.Invoke(null, new object[] { name, getValue, getTextOverride, splitListDefs, null });
         }
 
         public static Func<Entry, string, object, TextInfo> GetConverter(string name)
