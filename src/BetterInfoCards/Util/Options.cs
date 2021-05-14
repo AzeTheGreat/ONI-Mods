@@ -18,11 +18,19 @@ namespace BetterInfoCards
         [Option("Temperature Band Width", "Info cards are grouped grouped by temperature if they are close enough, this sets the maximum temperature difference at which info cards will be grouped.")]
         [JsonProperty] public float TemperatureBandWidth { get; set; }
 
+        [Option("Restricted Selection", "Only allow selecting items that would be selectable in the base game.")]
+        [JsonProperty] public bool UseBaseSelection { get; set; }
+
+        [Option("First Selection Hover", "Limit the first selection to the hovered item, without further restricting future selections.")]
+        [JsonProperty] public bool ForceFirstSelectionToHover { get; set; }
+
         public Options()
         {
             Compactness = CompactMode.Small;
             InfoCardOpacity = 0.8f;
             TemperatureBandWidth = 10f;
+            UseBaseSelection = false;
+            ForceFirstSelectionToHover = true;
 
             CustomCardSize = new CardSize
             {

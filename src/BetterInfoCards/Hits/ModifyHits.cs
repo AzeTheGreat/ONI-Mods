@@ -6,23 +6,20 @@ using UnityEngine;
 
 namespace BetterInfoCards
 {
-    public class ModifyHits
+    public static class ModifyHits
     {
-        public static ModifyHits Instance { get; set; }
-
-        private int localIndex = -1;
-        private List<DisplayCard> displayCards = new List<DisplayCard>();
-        private List<KSelectable> priorSelected;
-        private KSelectable selected;
+        private static List<DisplayCard> displayCards = new();
 
         [HarmonyPatch]
-        private class ChangeHits_Patch
+        private static class ChangeHits_Patch
         {
+            private static KSelectable priorSelected;
+
             static MethodBase TargetMethod() => AccessTools.Method(typeof(InterfaceTool), nameof(InterfaceTool.GetObjectUnderCursor)).MakeGenericMethod(typeof(KSelectable));
 
             static void Postfix(bool cycleSelection, ref KSelectable __result, List<InterfaceTool.Intersection> ___intersections)
             {
-                if (!cycleSelection || __result == null || !Instance.displayCards.Any())
+                if (!cycleSelection || !displayCards.Any())
                     return;
 
                 // Remove semi-duplicate WorldSelectionCollider from end of hits
@@ -31,84 +28,80 @@ namespace BetterInfoCards
                 if(___intersections.Count >= 2)
                     ___intersections.RemoveAt(___intersections.Count - 2);
 
-                var selectableGroups = Instance.displayCards.Where(x => x.GetTopSelectable() != null)   // Ignore null selectables (unreachable card)
-                    .Select(x => x.GetAllSelectables())                                                 // Each group of selectables in display cards
-                    .Concat(___intersections.Select(x => x.component as KSelectable)                    // Combined with undisplayed selectables
-                        .Except(Instance.displayCards.SelectMany(x => x.GetAllSelectables()))           // Selectables not already in display cards
-                        .Select(x => new List<KSelectable> { x }))                                      // In list form (for selecting within a group)
-                    .ToList();
+                var selectables = GetPotentialSelectables(Options.Opts.UseBaseSelection, ___intersections);
+                var index = GetIndex(priorSelected, selectables);
+                var newSelected = GetGroupedSel() ?? GetHoverSel() ?? GetCardSel();
 
-                Instance.localIndex = Instance.GetNewIndex(Instance.priorSelected, selectableGroups);
+                __result = priorSelected = newSelected;
 
-                if (Input.GetKey(KeyCode.LeftShift))
-                    Instance.selected = Instance.SelectNextValidSelectable(selectableGroups);
-                else
-                    Instance.selected = Instance.SelectNextValidDisplayCard(selectableGroups);
-
-                if (Instance.localIndex != -1)
-                    __result = Instance.selected;
-            }
-        }
-
-        private KSelectable SelectNextValidDisplayCard(List<List<KSelectable>> potentialSelectables)
-        {
-            if (++localIndex >= potentialSelectables.Count)
-                localIndex = 0;
-
-            // No valid selectables, so go back to a valid state we "know" won't break anything.
-            if (localIndex == -1)
-            { 
-                localIndex = -1;
-                priorSelected = null;
-                return null;
+                KSelectable GetGroupedSel() => 
+                    Input.GetKey(KeyCode.LeftShift) ? GetNextSelectable(selectables, index) : null;
+                KSelectable GetHoverSel() => 
+                    index == -1 && Options.Opts.ForceFirstSelectionToHover ? SelectTool.Instance.hover : null;
+                KSelectable GetCardSel() => GetNextCard(selectables, index);
             }
 
-            priorSelected = potentialSelectables[localIndex];   
-            return priorSelected.FirstOrDefault();
-        }
-
-        private KSelectable SelectNextValidSelectable(List<List<KSelectable>> selectableGroups)
-        {
-            if (Instance.localIndex == -1)
-                return null;
-
-            var selectedGroup = selectableGroups[localIndex];
-            
-            var i = selectedGroup.IndexOf(selected);
-            if (++i >= selectedGroup.Count)
-                i = 0;
-            
-            return selectedGroup[i];
-        }
-
-        public void Update(List<DisplayCard> displayCards)
-        {
-            this.displayCards = displayCards;
-        }
-
-        private int GetNewIndex(List<KSelectable> priorSelectables, List<List<KSelectable>> newSelectables)
-        {
-            if (priorSelectables == null)
-                return -1;
-
-            for (int i = 0; i < newSelectables.Count; i++)
-                if (priorSelectables.Intersect(newSelectables[i]).Any())
-                    return i;
-
-            return -1;
-        }
-
-        [HarmonyPatch(typeof(SelectTool), nameof(SelectTool.Select))]
-        private class ResetIndex_Patch
-        {
-            static void Postfix(KSelectable new_selected)
+            private static List<List<KSelectable>> GetPotentialSelectables(bool restrictToVanilla, List<InterfaceTool.Intersection> intersections)
             {
-                if(new_selected == null)
+                var dispCardSels = displayCards.Select(x => x.GetAllSelectables())
+                    .Where(x => !x.Contains(null));
+                var vanillaSels = intersections.Select(x => x.component as KSelectable);
+
+                if (restrictToVanilla)
+                    dispCardSels = dispCardSels.Where(x => x.Intersect(vanillaSels).Any());
+
+                var nonDispSels = vanillaSels.Where(x => !dispCardSels.SelectMany(y => y).Contains(x));
+                return dispCardSels.Concat(nonDispSels.Select(x => new List<KSelectable> { x })).ToList();
+            }
+
+            private static KSelectable GetNextCard(List<List<KSelectable>> potentialSelectables, int index)
+            {
+                if (!potentialSelectables.Any())
+                    return null;
+
+                if (++index >= potentialSelectables.Count)
+                    index = 0;
+
+                return potentialSelectables[index].FirstOrDefault();
+            }
+
+            private static KSelectable GetNextSelectable(List<List<KSelectable>> potentialSelectables, int index)
+            {
+                if (!potentialSelectables.Any() || index == -1)
+                    return null;
+
+                var selectedGroup = potentialSelectables[index];
+
+                var i = selectedGroup.IndexOf(priorSelected);
+                if (++i >= selectedGroup.Count)
+                    i = 0;
+
+                var selected = selectedGroup[i];
+                if (selected != priorSelected)
+                    return selected;
+                return null;
+            }
+
+            private static int GetIndex(KSelectable priorSelected, List<List<KSelectable>> newSelectables)
+            {
+                for (int i = 0; i < newSelectables.Count; i++)
+                    if (newSelectables[i].Contains(priorSelected))
+                        return i;
+
+                return -1;
+            }
+
+            [HarmonyPatch(typeof(SelectTool), nameof(SelectTool.Select))]
+            private class ResetSelection_Patch
+            {
+                static void Postfix(KSelectable new_selected)
                 {
-                    Instance.localIndex = -1;
-                    Instance.priorSelected = null;
+                    if (new_selected == null)
+                        priorSelected = null;
                 }
             }
         }
+
+        public static void Update(List<DisplayCard> dispCards) => displayCards = dispCards;
     }
 }

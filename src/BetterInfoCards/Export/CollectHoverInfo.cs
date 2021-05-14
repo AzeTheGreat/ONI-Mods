@@ -160,7 +160,7 @@ namespace BetterInfoCards
             static void Postfix()
             {
                 var displayCards = Instance.displayCardManager.UpdateData(Instance.infoCards);
-                ModifyHits.Instance.Update(displayCards);
+                ModifyHits.Update(displayCards);
                 displayCards.ForEach(x => x.Rename());
 
                 if (displayCards.Count == 0)
