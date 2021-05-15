@@ -69,46 +69,41 @@ namespace BetterInfoCards
 
         private List<List<InfoCard>> GetSplitByRange(List<InfoCard> cards, (Func<T, float>, float) def, int i)
         {
-            var values = cards.Select(x => def.Item1((T)x.textInfos[i].Result)).ToList();
-            var maxRange = def.Item2;
+            var values = new SortedSet<float>(cards.Select(x => GetTIValue(x)));
+            var bandRange = def.Item2;
 
-            cards = cards.OrderBy(x => values[cards.IndexOf(x)]).ToList();
-            values.Sort();
+            // Skip processing if the entire set needs only one band.
+            if (values.Max - values.Min <= bandRange)
+                return new List<List<InfoCard>>() { cards };
 
-            var splits = new List<List<InfoCard>>();
+            // Determine the breakpoints by which the cards should be split.
+            // Extends each band as long as it can be without exceeding the band range.
+            // Not an optimal solution for range of each band, but reasonably fast.
+            var breakPoints = new List<float>();
+            var startVal = values.Min;
+            var prevVal = 0f;
 
-            float range = values[values.Count - 1] - values[0];
-            int maxLists = Mathf.CeilToInt(range / maxRange); 
-
-            if (maxLists <= 1)
+            foreach (var val in values)
             {
-                splits.Add(cards);
-                return splits;
-            }
-
-            var listStartIndices = new List<int>() { 0 };
-            float listStartValue = values[0];
-
-            for (int j = 0; j < values.Count; j++)
-            {
-                float value = values[j];
-
-                if (value > listStartValue + maxRange)
+                if (val - startVal > bandRange)
                 {
-                    listStartIndices.Add(j);
-                    listStartValue = value;
+                    breakPoints.Add(prevVal);
+                    startVal = val;
                 }
-            }
-            listStartIndices.Add(values.Count);
 
-            for (int j = 0; j < listStartIndices.Count - 1; j++)
-            {
-                int startIndex = listStartIndices[j];
-                int endIndex = listStartIndices[j + 1];
-                splits.Add(cards.GetRange(startIndex, endIndex - startIndex));
+                prevVal = val;
             }
 
-            return splits;
+            breakPoints.Add(prevVal);
+
+            // Split the cards according to the breakpoints.
+            return cards.SplitToDict(x => GetBreakIndex(GetTIValue(x)))
+                .OrderBy(x => x.Key)
+                .Select(x => x.Value).ToList();
+
+            // Round the value to simplify the calculations since negligible differences are common.
+            float GetTIValue(InfoCard ic) => Mathf.Round(def.Item1((T)ic.textInfos[i].Result));
+            int GetBreakIndex(float f) => breakPoints.FindIndex(bp => f <= bp);
         }
     }
 }
