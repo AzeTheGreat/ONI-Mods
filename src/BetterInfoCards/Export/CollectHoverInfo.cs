@@ -161,7 +161,6 @@ namespace BetterInfoCards
             {
                 var displayCards = Instance.displayCardManager.UpdateData(Instance.infoCards);
                 ModifyHits.Update(displayCards);
-                displayCards.ForEach(x => x.Rename());
 
                 if (displayCards.Count == 0)
                     return;

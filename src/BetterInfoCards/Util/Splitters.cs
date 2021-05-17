@@ -1,50 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BetterInfoCards.Util
 {
     public static class Splitters
     {
-        public static Dictionary<TKey, List<TVal>> SplitToDict<TKey, TVal>(this List<TVal> source, Func<TVal, TKey> getKey)
+        public static Dictionary<TKey, List<TVal>> SplitByKeyToDict<TKey, TVal>(this List<TVal> source, Func<TVal, TKey> getKey)
         {
             var splits = new Dictionary<TKey, List<TVal>>();
 
-            foreach (TVal item in source)
+            foreach (var item in source)
                 splits.TryAddToDict(getKey(item), item);
 
             return splits;
         }
 
-        public static Dictionary<TKey, List<TVal>> SplitToDict<TKey, TVal>(this Dictionary<TKey, List<TVal>> source, Func<TVal, TKey> getKey)
+        public static List<List<TVal>> SplitByKey<TKey, TVal>(this List<TVal> source, Func<TVal, TKey> getKey)
         {
-            var splits = new Dictionary<TKey, List<TVal>>();
-
-            foreach (var kvp in source)
-            {
-                if (kvp.Value.Count > 1)
-                {
-                    foreach (var item in kvp.Value)
-                        splits.TryAddToDict(getKey(item), item);
-                }
-                else
-                    splits[kvp.Key] = kvp.Value;
-            }
-
-            return splits;
+            if (source.Count <= 1)
+                return new() { source };
+            return source.SplitByKeyToDict(getKey).Values.ToList();
         }
 
-        public static List<List<TVal>> SplitToList<TKey, TVal>(this Dictionary<TKey, List<TVal>> source, Func<List<TVal>, List<List<TVal>>> splitter)
+        public static List<List<T>> SplitMany<T>(this List<List<T>> source, Func<List<T>, List<List<T>>> getSplits)
         {
-            var splits = new List<List<TVal>>();
+            var splits = new List<List<T>>();
 
-            foreach (var kvp in source)
-            {
-                if (kvp.Value.Count > 1)
-                    splits.AddRange(splitter(kvp.Value));
+            foreach (var group in source)
+                if (group.Count <= 1)
+                    splits.Add(group);
                 else
-                    splits.Add(kvp.Value);
-            }
-                
+                    splits.AddRange(getSplits(group));
+
             return splits;
         }
 
