@@ -147,10 +147,9 @@ namespace BetterInfoCards
         {
             static void Postfix()
             {
-                Instance.intermediateInfoCard.AddSelectable(Instance.intermediateSelectable);
+                Instance.intermediateInfoCard.Finalize(Instance.intermediateSelectable);
                 Instance.infoCards.Add(Instance.intermediateInfoCard);
                 Instance.intermediateSelectable = null;
-                Instance.intermediateInfoCard = null;
             }
         }
 

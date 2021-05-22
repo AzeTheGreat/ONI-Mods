@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 
@@ -10,9 +9,10 @@ namespace BetterInfoCards
     {
         public KSelectable selectable;
 
-        public Dictionary<string, TextInfo> textInfos = new();
+        public Dictionary<string, TextInfo> textInfos;
         public Entry selectBorder;
         private Entry shadowBar;
+        private List<(Entry entry, string key, object data)> tiDatas = new();
         private List<Entry> iconWidgets = new();
 
         private float widthOverride;
@@ -21,12 +21,17 @@ namespace BetterInfoCards
         public float YMax => shadowBar.rect.anchoredPosition.y;
         public float YMin => YMax - shadowBar.rect.rect.height;
 
-        public void AddSelectable(KSelectable selectable)
+        public void Finalize(KSelectable selectable)
         {
             this.selectable = selectable;
+
+            // The widget's text is not set until after Pool.Draw.
+            // So TIs must be added to a dict after so Text can be used as a Key if necessary.
+            textInfos = tiDatas.Select(d => TextInfo.Create(d.entry, d.key, d.data))
+                .ToDictionary(ti => ti.Key, ti => ti);
         }
 
-        public void AddWidget(Entry entry, GameObject prefab, string name, object data)
+        public void AddWidget(Entry entry, GameObject prefab, string key, object data)
         {
             var skin = HoverTextScreen.Instance.drawer.skin;
 
@@ -35,12 +40,7 @@ namespace BetterInfoCards
             else if (prefab == skin.iconWidget.gameObject)
                 iconWidgets.Add(entry);
             else if (prefab == skin.textWidget.gameObject)
-            {
-                // TODO: Why are there duplicate keys being created...?
-                var ti = TextInfo.Create(entry, name, data);
-                if (!ti.Key.IsNullOrWhiteSpace() && !textInfos.ContainsKey(ti.Key))
-                    textInfos.Add(ti.Key, ti);
-            }  
+                tiDatas.Add((entry, key, data));
             else if (prefab == skin.selectBorderWidget.gameObject)
                 selectBorder = entry;
         }
@@ -68,7 +68,6 @@ namespace BetterInfoCards
                 selectBorder.rect.sizeDelta = new Vector2(width + 2f, selectBorder.rect.sizeDelta.y);
         }
 
-        // TODO: Not use first
         public string GetTitleKey()
         {
             return textInfos.Values.FirstOrDefault()?.GetText().RemoveCountSuffix() ?? string.Empty;
