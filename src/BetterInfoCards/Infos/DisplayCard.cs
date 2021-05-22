@@ -7,14 +7,13 @@ namespace BetterInfoCards
 {
     public class DisplayCard
     {
-        public float Width => VisCard.Width + widthDelta;
+        public float Width => VisCard.Width;
         public float Height => VisCard.Height;
         public float YMax => VisCard.YMax;
         public float YMin => VisCard.YMin;
 
         public Vector2 offset = new();
 
-        private float widthDelta = 0f;
         private List<InfoCard> infoCards;
         private int visCardIndex;
         private InfoCard VisCard => infoCards[visCardIndex];
@@ -24,25 +23,16 @@ namespace BetterInfoCards
         private float MinY => _minY == float.MaxValue ?
             _minY = -CameraController.Instance?.uiCamera.pixelRect.height / HoverTextScreen.Instance.GetComponentInParent<Canvas>().scaleFactor ?? float.MaxValue : _minY;
 
-        public DisplayCard(List<InfoCard> infoCards, Stopwatch sw1, Stopwatch sw2)
+        public DisplayCard(List<InfoCard> infoCards)
         {
             this.infoCards = infoCards;
             
             visCardIndex = infoCards.FindIndex(x => x.selectBorder.widget != null);
             if (visCardIndex == -1)
                 visCardIndex = 0;
-            
-            
+
             if(infoCards.Count > 1)
-            {
-                sw1.Start();
                 VisCard.Rename(infoCards, visCardIndex);
-                sw1.Stop();
-                sw2.Start();
-                widthDelta = VisCard.GetWidthDelta();
-                sw2.Stop();
-            }
-            
         }
 
         public void Translate(float x)

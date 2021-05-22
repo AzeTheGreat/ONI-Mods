@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using TMPro;
 using UnityEngine;
 
 namespace BetterInfoCards
@@ -16,7 +15,8 @@ namespace BetterInfoCards
         private Entry shadowBar;
         private List<Entry> iconWidgets = new();
 
-        public float Width => shadowBar.rect.rect.width;
+        private float widthOverride;
+        public float Width => shadowBar.rect.rect.width + widthOverride;
         public float Height => shadowBar.rect.rect.height;
         public float YMax => shadowBar.rect.anchoredPosition.y;
         public float YMin => YMax - shadowBar.rect.rect.height;
@@ -40,7 +40,6 @@ namespace BetterInfoCards
                 var ti = TextInfo.Create(entry, name, data);
                 if (!ti.Key.IsNullOrWhiteSpace() && !textInfos.ContainsKey(ti.Key))
                     textInfos.Add(ti.Key, ti);
-                    
             }  
             else if (prefab == skin.selectBorderWidget.gameObject)
                 selectBorder = entry;
@@ -77,6 +76,9 @@ namespace BetterInfoCards
 
         public void Rename(List<InfoCard> cards, int visCardIndex)
         {
+            var newWidthDelta = 0f;
+            var titlePos = textInfos.Values.First().Widget.rectTransform.anchoredPosition.x;
+
             foreach (var textInfo in textInfos.Values)
             {
                 var textOverride = textInfo.GetTextOverride(cards);
@@ -85,27 +87,15 @@ namespace BetterInfoCards
                     textOverride += " #" + (visCardIndex + 1);
 
                 var widget = textInfo.Widget;
-                widget.text = textOverride;
-            }
-        }
-
-
-        // TODO: Not use first
-        public float GetWidthDelta()
-        {
-            float largestWdith = 0f;
-            var titlePos = textInfos.Values.First().Widget.GetPreferredValues().x;
-
-            foreach (var textInfo in textInfos.Values)
-            {
-                var widgetVals = textInfo.Widget.GetPreferredValues();
-                var indentWidth = widgetVals.x - titlePos;
-                var width = widgetVals.x + indentWidth;
-
-                largestWdith = Mathf.Max(width, largestWdith);
+                if(widget.text != textOverride)
+                {
+                    widget.text = textOverride;
+                    var width = widget.preferredWidth + widget.rectTransform.anchoredPosition.x - titlePos;
+                    newWidthDelta = Math.Max(width, newWidthDelta);
+                }
             }
 
-            return largestWdith + HoverTextScreen.Instance.drawer.skin.shadowBarBorder.x * 2f - Width;
+            widthOverride = newWidthDelta + HoverTextScreen.Instance.drawer.skin.shadowBarBorder.x * 2f - Width;
         }
     }
 }
