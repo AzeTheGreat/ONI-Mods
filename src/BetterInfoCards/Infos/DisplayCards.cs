@@ -61,52 +61,40 @@ namespace BetterInfoCards
             two.Stop();
 
             three.Start();
-            var dSplit4 = GetValBandSplits(dSplit3);
+            // Assumes each IC in the group has the same TIs (order doesn't matter).
+            var dSplit4 = dSplit3.SplitMany(cards => cards.SplitBySplitters(
+                cards.First().textInfos.ToList(),
+                (group, ti) => ti.Value.SplitByTIDefs(group)));
             three.Stop();
 
             four.Start();
             foreach (var cards in dSplit4)
-                displayCards.Add(new DisplayCard(cards, dispCard, dispCard2));
+                displayCards.Add(new DisplayCard(cards));
             four.Stop();
 
             runs++;
             return displayCards;
 
-
-            // TODO: OPTIMIZE
+            // Assumes that the ICs in the same group have the same number of TIs.
+            // It's too intensive to check TIs beyond the first IC in a group.
             List<List<InfoCard>> GetTextKeySplits(List<List<InfoCard>> groups, List<string> history = null)
             {
+                // History is usually pretty short, so List is faster here than HashSet
+                // (threshold around 5 items: https://stackoverflow.com/questions/150750/hashset-vs-list-performance/)
                 if (history is null)
                     history = new();
 
                 return groups.SplitMany(cards =>
                 {
-                    // Relies on the assumption that all the cards have the same number of TextInfos.
-                    var textInfo = cards.First().textInfos.FirstOrDefault(x => !history.Contains(x.Key));
-                    
-                    if (textInfo.Value is null)
+                    var textInfos = cards.First().textInfos.Keys.Except(history);
+                    if (!textInfos.Any())
                         return new() { cards };
 
-                    history.Add(textInfo.Key);
-                    return GetTextKeySplits(cards.SplitByKey(card => card.textInfos.ContainsKey(textInfo.Key)), history.ToList());
-                });
-            }
+                    history.AddRange(textInfos);
 
-            // Assumes each InfoCard in the List has the same TextInfos.
-            List<List<InfoCard>> GetValBandSplits(List<List<InfoCard>> groups, List<string> history = null)
-            {
-                if (history is null)
-                    history = new();
-
-                return groups.SplitMany(cards =>
-                {
-                    var textInfo = cards.First().textInfos.FirstOrDefault(x => !history.Contains(x.Key));
-
-                    if (textInfo.Value is null)
-                        return new() { cards };
-
-                    history.Add(textInfo.Key);
-                    return GetValBandSplits(textInfo.Value.SplitByTIDefs(cards), history.ToList());
+                    return GetTextKeySplits(
+                        cards.SplitBySplitters(textInfos.ToList(), (group, ti) => group.SplitByKey(card => card.textInfos.ContainsKey(ti))),
+                        new (history));
                 });
             }
         }

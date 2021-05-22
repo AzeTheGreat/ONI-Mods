@@ -71,7 +71,7 @@ namespace BetterInfoCards
         public override List<List<InfoCard>> SplitByTIDefs(List<InfoCard> cards)
         {
             if (splitListDefs is not null)
-                return cards.SplitBySplitters(splitListDefs, (g, def, j) => GetSplitByRange(g, def));
+                return cards.SplitBySplitters(splitListDefs, (g, def) => GetSplitByRange(g, def));
             else
                 return new() { cards };
         }
