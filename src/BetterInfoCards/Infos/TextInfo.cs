@@ -29,18 +29,7 @@ namespace BetterInfoCards
     {
         private bool _isResultCached;
         private T _result;
-        private T Result
-        {
-            get
-            {
-                if (!_isResultCached)
-                {
-                    _result = getValue(data);
-                    _isResultCached = true;
-                }
-                return _result;
-            }
-        }
+        private T Result => _isResultCached ? _result : ((_result, _isResultCached) = (getValue(data), true))._result;
 
         private readonly object data;
         private readonly Func<object, T> getValue;
