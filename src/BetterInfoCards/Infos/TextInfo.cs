@@ -59,10 +59,12 @@ namespace BetterInfoCards
             this.Key = keyModifier is null ? key : keyModifier(this).NullIfEmpty() ?? key;
         }
 
-        // TODO: This may be pointless a lot of the time.  If the override just returns the original, then evaluating all the results is a waste.
         public override string GetTextOverride(List<InfoCard> cards)
         {
-            var results = cards.Select(x =>((TextInfo<T>)x.textInfos[Key]).Result);
+            if (getTextOverride is null)
+                return GetText();
+
+            var results = cards.Select(x => ((TextInfo<T>)x.textInfos[Key]).Result);
             return getTextOverride(GetText(), results.ToList());
         }
 
