@@ -35,12 +35,12 @@ namespace BetterInfoCards
         {
             var skin = HoverTextScreen.Instance.drawer.skin;
 
-            if (prefab == skin.shadowBarWidget.gameObject)
-                shadowBar = entry;
+            if (prefab == skin.textWidget.gameObject)
+                tiDatas.Add((entry, key, data));
             else if (prefab == skin.iconWidget.gameObject)
                 iconWidgets.Add(entry);
-            else if (prefab == skin.textWidget.gameObject)
-                tiDatas.Add((entry, key, data));
+            else if (prefab == skin.shadowBarWidget.gameObject)
+                shadowBar = entry;
             else if (prefab == skin.selectBorderWidget.gameObject)
                 selectBorder = entry;
         }
