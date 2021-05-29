@@ -20,7 +20,7 @@ namespace BetterInfoCards
             // Assumes each IC in the group has the same TIs (order doesn't matter).
             var dSplit4 = dSplit3.SplitMany(cards => cards.SplitBySplitters(
                 cards.First().textInfos.ToList(),
-                (group, ti) => ti.Value.SplitByTIDefs(group)));
+                (group, ti) => ti.Value.textInfo.SplitByTIDefs(group)));
 
             foreach (var cards in dSplit4)
                 displayCards.Add(new DisplayCard(cards));

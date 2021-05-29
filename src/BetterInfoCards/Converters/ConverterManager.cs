@@ -15,19 +15,16 @@ namespace BetterInfoCards
         public const string sumSuffix = " (Σ)";
         public const string avgSuffix = " (μ)";
 
-        private static readonly Dictionary<string, Func<Entry, string, object, TextInfo>> converters = new();
+        private static readonly Dictionary<string, Func<string, string, object, TextInfo>> converters = new();
 
         static ConverterManager()
         {
             // DEFAULT
-            // textInfos could theoretically have the same id, but different text, meaning they should not stack
-            // the keyModifier changes the key to be the text so that they are split out
             AddConverter<object>(
                 string.Empty,
                 data => null,
                 null,
-                null,
-                ti => ti.GetText());
+                null);
 
             // TITLE
             AddConverter(
@@ -65,12 +62,12 @@ namespace BetterInfoCards
                 new() { (x => x, Options.Opts.TemperatureBandWidth) });
         }
 
-        public static void AddConverter<T>(string name, Func<object, T> getValue, Func<string, List<T>, string> getTextOverride = null, List<(Func<T, float>, float)> splitListDefs = null, Func<TextInfo, string> keyModifier = null)
+        public static void AddConverter<T>(string name, Func<object, T> getValue, Func<string, List<T>, string> getTextOverride = null, List<(Func<T, float>, float)> splitListDefs = null)
         {
             if (converters.ContainsKey(name))
                 throw new Exception("Attempted to add converter with name: " + name + ", but converter with name is already present.");
 
-            converters.Add(name, (Entry e, string n, object d) => new TextInfo<T>(e, n, d, getValue, getTextOverride, splitListDefs, keyModifier));
+            converters.Add(name, (string k, string n, object d) => new TextInfo<T>(k, n, d, getValue, getTextOverride, splitListDefs));
         }
 
         // This is not to be used internally - for reflection from external mods only.
@@ -81,15 +78,14 @@ namespace BetterInfoCards
             method.Invoke(null, new object[] { name, getValue, getTextOverride, splitListDefs, null });
         }
 
-        public static Func<Entry, string, object, TextInfo> GetConverter(string name)
+        public static bool TryGetConverter(string id, out Func<string, string, object, TextInfo> converter)
         {
-            if (converters.TryGetValue(name, out var converter))
-                return converter;
+            // TODO: Pull default converter out of dict?
+            if (id != string.Empty && converters.TryGetValue(id, out converter))
+                return true;
 
-            else if (converters.TryGetValue(string.Empty, out var defaultConv))
-                return defaultConv;
-
-            throw new Exception("Somehow name: `" + name + "` wasn't in the dict, and the fallback `string.Empty` wasn't either...");
+            converter = converters[string.Empty];
+            return false;
         }
     }
 }
