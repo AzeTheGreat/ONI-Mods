@@ -44,7 +44,7 @@ namespace BetterInfoCards
 
         public override string GetTextOverride(List<InfoCard> cards)
         {
-            if (getTextOverride is null)
+            if (getTextOverride is null || cards.Count <= 1)
                 return Text;
 
             var results = cards.Select(x => ((TextInfo<T>)x.textInfos[ID].textInfo).Result);

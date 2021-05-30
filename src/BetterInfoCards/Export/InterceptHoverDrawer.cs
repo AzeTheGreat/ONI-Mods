@@ -7,9 +7,13 @@ namespace BetterInfoCards
     static class InterceptDrawer
     {
         public static bool isInterceptMode;
+        public static HoverTextDrawer drawerInstance;
+
         public static InfoCard curInfoCard;
         public static List<InfoCard> infoCards = new();
-        public static HoverTextDrawer drawerInstance;
+
+        public static ICWidgetData curICWidgets;
+        public static List<ICWidgetData> icWidgets = new();
 
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.EndDrawing))]
         class ProcessHoverInfo
@@ -20,37 +24,42 @@ namespace BetterInfoCards
             {
                 drawerInstance = __instance;
 
-                isInterceptMode = false;
-
                 var displayCards = displayCardManager.UpdateData(infoCards);
                 ModifyHits.Update(displayCards);
 
+                isInterceptMode = false;
                 foreach (var card in displayCards)
-                {
                     card.Draw();
+                isInterceptMode = true;
+
+                if (icWidgets.Count > 0)
+                {
+                    var gridInfo = new GridInfo(icWidgets, icWidgets[0].YMax);
+                    gridInfo.MoveAndResizeInfoCards();
                 }
 
-
-                //if (displayCards.Count == 0)
-                //    return;
-                //var gridInfo = new GridInfo(displayCards, Instance.infoCards[0].YMax);
-                //gridInfo.MoveAndResizeInfoCards();
-
+                icWidgets.Clear();
                 infoCards.Clear();
-
-                isInterceptMode = true;
             }
         }
 
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginShadowBar))]
         class BeginShadowBar
         {
+            // TODO: Can maybe just use skin.DrawnWidgets instead?
             static bool Prefix(bool selected)
             {
-                if (!isInterceptMode)
-                    return true;
+                if (isInterceptMode)
+                    Intercept(selected);
+                else
+                    Draw(selected);
+                return !isInterceptMode;
+            }
 
+            static void Intercept(bool selected)
+            {
                 curInfoCard = new();
+                infoCards.Add(curInfoCard);
 
                 var sbInfo = new DrawerInfo.BeginSB
                 {
@@ -58,8 +67,12 @@ namespace BetterInfoCards
                 };
                 curInfoCard.infos.Add(sbInfo);
                 curInfoCard.isSelected = selected;
+            }
 
-                return false;
+            static void Draw(bool selected)
+            {
+                curICWidgets = new();
+                icWidgets.Add(curICWidgets);
             }
         }
 
@@ -75,10 +88,7 @@ namespace BetterInfoCards
                 curInfoCard.infos.Add(sbInfo);
 
                 curInfoCard.selectable = ExportSelectToolData.curSelectable;
-                infoCards.Add(curInfoCard);
-
                 ExportSelectToolData.curSelectable = null;
-                curInfoCard = null;
 
                 return false;
             }
@@ -170,72 +180,14 @@ namespace BetterInfoCards
                 return false;
             }
         }
-    }
 
-    public class InfoCardData
-    {
-        public bool isSelected;
-        public KSelectable selectable;
-        public List<DrawerInfo> infos = new();
-        public Dictionary<string, DrawerInfo.Text> textInfos = new();
-
-        public void Draw()
+        [HarmonyPatch(typeof(HoverTextDrawer.Pool<MonoBehaviour>), nameof(HoverTextDrawer.Pool<MonoBehaviour>.Draw))]
+        class GetWidget_Patch
         {
-            foreach (var info in infos)
+            static void Postfix(Entry __result, GameObject ___prefab)
             {
-                info.Draw(null);
+                curICWidgets.AddWidget(__result, ___prefab);
             }
-        }
-    }
-
-    public abstract class DrawerInfo
-    {
-        public abstract void Draw(List<InfoCard> cards);
-
-        HoverTextDrawer Drawer => InterceptDrawer.drawerInstance;
-
-        public class Icon : DrawerInfo
-        {
-            public Sprite icon;
-            public Color color;
-            public int imageSize;
-            public int xSpacing;
-
-            public override void Draw(List<InfoCard> _) => Drawer.DrawIcon(icon, color, imageSize, xSpacing);
-        }
-
-        public class Text : DrawerInfo
-        {
-            public TextInfo textInfo;
-            public TextStyleSetting style;
-            public Color color;
-            public bool overrideColor;
-
-            // TODO: Change text to get override text.
-            public override void Draw(List<InfoCard> cards) => Drawer.DrawText(textInfo.GetTextOverride(cards), style, color, overrideColor);
-        }
-
-        public class Indent : DrawerInfo
-        {
-            public int width;
-            public override void Draw(List<InfoCard> _) => Drawer.AddIndent(width);
-        }
-
-        public class NewLine : DrawerInfo
-        {
-            public int minHeight;
-            public override void Draw(List<InfoCard> _) => Drawer.NewLine(minHeight);
-        }
-
-        public class BeginSB : DrawerInfo
-        {
-            public bool isSelected;
-            public override void Draw(List<InfoCard> _) => Drawer.BeginShadowBar(isSelected);
-        }
-
-        public class EndSB : DrawerInfo
-        {
-            public override void Draw(List<InfoCard> _) => Drawer.EndShadowBar();
         }
     }
 }

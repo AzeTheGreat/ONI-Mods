@@ -3,75 +3,75 @@ using UnityEngine;
 
 namespace BetterInfoCards
 {
-    //public class GridInfo
-    //{
-    //    private const float shadowBarSpacing = 4f;
+    public class GridInfo
+    {
+        private const float shadowBarSpacing = 4f;
 
-    //    List<ColumnInfo> columnInfos = new List<ColumnInfo>();
+        List<ColumnInfo> columnInfos = new List<ColumnInfo>();
 
-    //    // The HoverTextScreen is initialized before CameraController
-    //    private float _minY = float.MaxValue;
-    //    private float MinY
-    //    {
-    //        get
-    //        {
-    //            if (_minY == float.MaxValue)
-    //            {
-    //                var canvas = HoverTextScreen.Instance.gameObject.GetComponentInParent<Canvas>();
-    //                _minY = -canvas.pixelRect.height / canvas.scaleFactor;
-    //            }
-                   
-    //            return _minY;
-    //        }
-    //    }
+        // The HoverTextScreen is initialized before CameraController
+        private float _minY = float.MaxValue;
+        private float MinY
+        {
+            get
+            {
+                if (_minY == float.MaxValue)
+                {
+                    var canvas = HoverTextScreen.Instance.gameObject.GetComponentInParent<Canvas>();
+                    _minY = -canvas.pixelRect.height / canvas.scaleFactor;
+                }
 
-    //    public GridInfo(List<DisplayCard> displayCards, float topY)
-    //    {
-    //        if (displayCards.Count == 0)
-    //            return;
+                return _minY;
+            }
+        }
 
-    //        var offset = new Vector2(0f, topY);
+        public GridInfo(List<ICWidgetData> cards, float topY)
+        {
+            if (cards.Count == 0)
+                return;
 
-    //        columnInfos.Clear();
-    //        var colInfo = new ColumnInfo();
+            var offset = new Vector2(0f, topY);
 
-    //        for (int i = 0; i < displayCards.Count; i++)
-    //        {
-    //            DisplayCard card = displayCards[i];
+            columnInfos.Clear();
+            var colInfo = new ColumnInfo();
 
-    //            // If the first one can't fit, put it down anyways otherwise they all get shifted over by the shadow bar spacing.
-    //            if (offset.y - card.Height < MinY && i > 0)
-    //            {
-    //                offset.x += colInfo.maxXInCol + shadowBarSpacing;
+            for (int i = 0; i < cards.Count; i++)
+            {
+                var card = cards[i];
 
-    //                columnInfos.Add(colInfo);
-    //                colInfo = new ColumnInfo { offsetX = offset.x };
-    //                offset.y = topY;
-    //            }
+                // If the first one can't fit, put it down anyways otherwise they all get shifted over by the shadow bar spacing.
+                if (offset.y - card.Height < MinY && i > 0)
+                {
+                    offset.x += colInfo.maxXInCol + shadowBarSpacing;
 
-    //            card.offset.y = offset.y - card.YMax;
-    //            offset.y -= card.Height + shadowBarSpacing;
+                    columnInfos.Add(colInfo);
+                    colInfo = new ColumnInfo { offsetX = offset.x };
+                    offset.y = topY;
+                }
 
-    //            if (card.Width > colInfo.maxXInCol)
-    //                colInfo.maxXInCol = card.Width;
+                card.offset.y = offset.y - card.YMax;
+                offset.y -= card.Height + shadowBarSpacing;
 
-    //            colInfo.displayCards.Add(card);
-    //        }
+                if (card.Width > colInfo.maxXInCol)
+                    colInfo.maxXInCol = card.Width;
 
-    //        columnInfos.Add(colInfo);
-    //    }
+                colInfo.displayCards.Add(card);
+            }
 
-    //    public void MoveAndResizeInfoCards()
-    //    {
-    //        for (int i = columnInfos.Count - 1; i >= 0; i--)
-    //        {
-    //            float colToRightYMin = float.MaxValue;
+            columnInfos.Add(colInfo);
+        }
 
-    //            if (i != columnInfos.Count - 1)
-    //                colToRightYMin = columnInfos[i + 1].YMin;
+        public void MoveAndResizeInfoCards()
+        {
+            for (int i = columnInfos.Count - 1; i >= 0; i--)
+            {
+                float colToRightYMin = float.MaxValue;
 
-    //            columnInfos[i].MoveAndResize(colToRightYMin);
-    //        }
-    //    }
-    //}
+                if (i != columnInfos.Count - 1)
+                    colToRightYMin = columnInfos[i + 1].YMin;
+
+                columnInfos[i].MoveAndResize(colToRightYMin);
+            }
+        }
+    }
 }
