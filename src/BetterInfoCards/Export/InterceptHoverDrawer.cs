@@ -6,7 +6,11 @@ namespace BetterInfoCards
 {
     static class InterceptDrawer
     {
-        public static bool isInterceptMode;
+        public static bool IsInterceptMode
+        {
+            get => !drawerInstance.skin.drawWidgets;
+            set => drawerInstance.skin.drawWidgets = !value;
+        }
         public static HoverTextDrawer drawerInstance;
 
         public static InfoCard curInfoCard;
@@ -15,22 +19,28 @@ namespace BetterInfoCards
         public static ICWidgetData curICWidgets;
         public static List<ICWidgetData> icWidgets = new();
 
+        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginDrawing))]
+        class BeginDrawing
+        {
+            static void Postfix(HoverTextDrawer __instance)
+            {
+                drawerInstance = __instance;
+                IsInterceptMode = true;
+            }
+        }
+
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.EndDrawing))]
         class ProcessHoverInfo
         {
-            static DisplayCards displayCardManager = new();
-
-            static void Prefix(HoverTextDrawer __instance)
+            static void Prefix()
             {
-                drawerInstance = __instance;
-
-                var displayCards = displayCardManager.UpdateData(infoCards);
+                var displayCards = new DisplayCards().UpdateData(infoCards);
                 ModifyHits.Update(displayCards);
 
-                isInterceptMode = false;
+                IsInterceptMode = false;
                 foreach (var card in displayCards)
                     card.Draw();
-                isInterceptMode = true;
+                IsInterceptMode = true;
 
                 if (icWidgets.Count > 0)
                 {
@@ -46,14 +56,12 @@ namespace BetterInfoCards
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginShadowBar))]
         class BeginShadowBar
         {
-            // TODO: Can maybe just use skin.DrawnWidgets instead?
-            static bool Prefix(bool selected)
+            static void Prefix(bool selected)
             {
-                if (isInterceptMode)
+                if (IsInterceptMode)
                     Intercept(selected);
                 else
                     Draw(selected);
-                return !isInterceptMode;
             }
 
             static void Intercept(bool selected)
@@ -79,28 +87,26 @@ namespace BetterInfoCards
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.EndShadowBar))]
         class EndShadowBar
         {
-            static bool Prefix()
+            static void Prefix()
             {
-                if (!isInterceptMode)
-                    return true;
+                if (!IsInterceptMode)
+                    return;
 
                 var sbInfo = new DrawerInfo.EndSB();
                 curInfoCard.infos.Add(sbInfo);
 
                 curInfoCard.selectable = ExportSelectToolData.curSelectable;
                 ExportSelectToolData.curSelectable = null;
-
-                return false;
             }
         }
 
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.DrawIcon), new [] { typeof(Sprite), typeof(Color), typeof(int), typeof(int)})]
         class DrawIcon
         {
-            static bool Prefix(Sprite icon, Color color, int image_size, int horizontal_spacing)
+            static void Prefix(Sprite icon, Color color, int image_size, int horizontal_spacing)
             {
-                if (!isInterceptMode)
-                    return true;
+                if (!IsInterceptMode)
+                    return;
 
                 var iconInfo = new DrawerInfo.Icon()
                 {
@@ -111,18 +117,16 @@ namespace BetterInfoCards
                 };
 
                 curInfoCard.infos.Add(iconInfo);
-
-                return false;
             }
         }
 
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.DrawText), new[] { typeof(string), typeof(TextStyleSetting), typeof(Color), typeof(bool) })]
         class DrawText
         {
-            static bool Prefix(string text, TextStyleSetting style, Color color, bool override_color)
+            static void Prefix(string text, TextStyleSetting style, Color color, bool override_color)
             {
-                if (!isInterceptMode)
-                    return true;
+                if (!IsInterceptMode)
+                    return;
 
                 var (id, data) = ExportSelectToolData.curTextInfo;
  
@@ -138,18 +142,16 @@ namespace BetterInfoCards
                 curInfoCard.textInfos.Add(textInfo.textInfo.ID, textInfo);
 
                 ExportSelectToolData.curTextInfo = (string.Empty, null);
-
-                return false;
             }
         }
 
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.AddIndent))]
         class AddIndent
         {
-            static bool Prefix(int width)
+            static void Prefix(int width)
             {
-                if (!isInterceptMode)
-                    return true;
+                if (!IsInterceptMode)
+                    return;
 
                 var indentInfo = new DrawerInfo.Indent
                 {
@@ -157,18 +159,16 @@ namespace BetterInfoCards
                 };
 
                 curInfoCard.infos.Add(indentInfo);
-
-                return false;
             }
         }
 
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.NewLine))]
         class NewLine
         {
-            static bool Prefix(int min_height)
+            static void Prefix(int min_height)
             {
-                if (!isInterceptMode)
-                    return true;
+                if (!IsInterceptMode)
+                    return;
 
                 var newLineInfo = new DrawerInfo.NewLine
                 {
@@ -176,8 +176,6 @@ namespace BetterInfoCards
                 };
 
                 curInfoCard.infos.Add(newLineInfo);
-
-                return false;
             }
         }
 
