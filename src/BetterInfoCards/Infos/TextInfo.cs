@@ -47,7 +47,7 @@ namespace BetterInfoCards
             if (getTextOverride is null || cards.Count <= 1)
                 return Text;
 
-            var results = cards.Select(x => ((TextInfo<T>)x.textInfos[ID].textInfo).Result);
+            var results = cards.Select(x => ((TextInfo<T>)x.textInfos[ID]).Result);
             return getTextOverride(Text, results.ToList());
         }
 
@@ -93,7 +93,7 @@ namespace BetterInfoCards
                 .OrderBy(x => x.Key).Select(x=> x.Value).ToList();
 
             // Round the value to simplify the calculations since negligible differences are common.
-            float GetTIValue(InfoCard ic) => Mathf.Round(def.Item1(((TextInfo<T>)ic.textInfos[ID].textInfo).Result));
+            float GetTIValue(InfoCard ic) => Mathf.Round(def.Item1(((TextInfo<T>)ic.textInfos[ID]).Result));
             int GetBreakIndex(float f) => breakPoints.FindIndex(bp => f <= bp);
         }
     }

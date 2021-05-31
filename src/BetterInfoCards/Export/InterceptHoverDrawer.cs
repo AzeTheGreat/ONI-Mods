@@ -61,7 +61,7 @@ namespace BetterInfoCards
                 if (IsInterceptMode)
                     Intercept(selected);
                 else
-                    Draw(selected);
+                    Draw();
             }
 
             static void Intercept(bool selected)
@@ -69,15 +69,11 @@ namespace BetterInfoCards
                 curInfoCard = new();
                 infoCards.Add(curInfoCard);
 
-                var sbInfo = new DrawerInfo.BeginSB
-                {
-                    isSelected = selected
-                };
-                curInfoCard.infos.Add(sbInfo);
+                curInfoCard.infos.Add(_ => drawerInstance.BeginShadowBar(selected));
                 curInfoCard.isSelected = selected;
             }
 
-            static void Draw(bool selected)
+            static void Draw()
             {
                 curICWidgets = new();
                 icWidgets.Add(curICWidgets);
@@ -92,8 +88,7 @@ namespace BetterInfoCards
                 if (!IsInterceptMode)
                     return;
 
-                var sbInfo = new DrawerInfo.EndSB();
-                curInfoCard.infos.Add(sbInfo);
+                curInfoCard.infos.Add(_ => drawerInstance.EndShadowBar());
 
                 curInfoCard.selectable = ExportSelectToolData.curSelectable;
                 ExportSelectToolData.curSelectable = null;
@@ -108,15 +103,7 @@ namespace BetterInfoCards
                 if (!IsInterceptMode)
                     return;
 
-                var iconInfo = new DrawerInfo.Icon()
-                {
-                    icon = icon,
-                    color = color,
-                    imageSize = image_size,
-                    xSpacing = horizontal_spacing
-                };
-
-                curInfoCard.infos.Add(iconInfo);
+                curInfoCard.infos.Add(_ => drawerInstance.DrawIcon(icon, color, image_size, horizontal_spacing));
             }
         }
 
@@ -129,17 +116,10 @@ namespace BetterInfoCards
                     return;
 
                 var (id, data) = ExportSelectToolData.curTextInfo;
- 
-                var textInfo = new DrawerInfo.Text()
-                {
-                    textInfo = TextInfo.Create(id, text, data),
-                    style = style,
-                    color = color,
-                    overrideColor = override_color
-                };
+                var ti = TextInfo.Create(id, text, data);
 
-                curInfoCard.infos.Add(textInfo);
-                curInfoCard.textInfos.Add(textInfo.textInfo.ID, textInfo);
+                curInfoCard.infos.Add(cards => drawerInstance.DrawText(ti.GetTextOverride(cards), style, color, override_color));
+                curInfoCard.textInfos.Add(ti.ID, ti);
 
                 ExportSelectToolData.curTextInfo = (string.Empty, null);
             }
@@ -153,12 +133,7 @@ namespace BetterInfoCards
                 if (!IsInterceptMode)
                     return;
 
-                var indentInfo = new DrawerInfo.Indent
-                {
-                    width = width
-                };
-
-                curInfoCard.infos.Add(indentInfo);
+                curInfoCard.infos.Add(_ => drawerInstance.AddIndent(width));
             }
         }
 
@@ -170,12 +145,7 @@ namespace BetterInfoCards
                 if (!IsInterceptMode)
                     return;
 
-                var newLineInfo = new DrawerInfo.NewLine
-                {
-                    minHeight = min_height
-                };
-
-                curInfoCard.infos.Add(newLineInfo);
+                curInfoCard.infos.Add(_ => drawerInstance.NewLine(min_height));
             }
         }
 
