@@ -20,7 +20,9 @@ namespace BetterInfoCards
 
         public void Draw()
         {
-            VisCard.Draw(infoCards);
+            // Explicitly drawing the VisCard is not necessary for 99% of cases.
+            // However, custom converters could be created to group different values together.
+            VisCard.Draw(infoCards, visCardIndex);
         }
 
         public List<KSelectable> GetAllSelectables()

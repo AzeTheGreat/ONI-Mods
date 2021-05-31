@@ -69,7 +69,7 @@ namespace BetterInfoCards
                 curInfoCard = new();
                 infoCards.Add(curInfoCard);
 
-                curInfoCard.infos.Add(_ => drawerInstance.BeginShadowBar(selected));
+                curInfoCard.AddDraw(_ => drawerInstance.BeginShadowBar(selected));
                 curInfoCard.isSelected = selected;
             }
 
@@ -88,7 +88,7 @@ namespace BetterInfoCards
                 if (!IsInterceptMode)
                     return;
 
-                curInfoCard.infos.Add(_ => drawerInstance.EndShadowBar());
+                curInfoCard.AddDraw(_ => drawerInstance.EndShadowBar());
 
                 curInfoCard.selectable = ExportSelectToolData.curSelectable;
                 ExportSelectToolData.curSelectable = null;
@@ -103,7 +103,7 @@ namespace BetterInfoCards
                 if (!IsInterceptMode)
                     return;
 
-                curInfoCard.infos.Add(_ => drawerInstance.DrawIcon(icon, color, image_size, horizontal_spacing));
+                curInfoCard.AddDraw(_ => drawerInstance.DrawIcon(icon, color, image_size, horizontal_spacing));
             }
         }
 
@@ -117,9 +117,7 @@ namespace BetterInfoCards
 
                 var (id, data) = ExportSelectToolData.curTextInfo;
                 var ti = TextInfo.Create(id, text, data);
-
-                curInfoCard.infos.Add(cards => drawerInstance.DrawText(ti.GetTextOverride(cards), style, color, override_color));
-                curInfoCard.textInfos.Add(ti.ID, ti);
+                curInfoCard.AddDraw(cards => drawerInstance.DrawText(ti.GetTextOverride(cards), style, color, override_color), ti);
 
                 ExportSelectToolData.curTextInfo = (string.Empty, null);
             }
@@ -133,7 +131,7 @@ namespace BetterInfoCards
                 if (!IsInterceptMode)
                     return;
 
-                curInfoCard.infos.Add(_ => drawerInstance.AddIndent(width));
+                curInfoCard.AddDraw(_ => drawerInstance.AddIndent(width));
             }
         }
 
@@ -145,7 +143,7 @@ namespace BetterInfoCards
                 if (!IsInterceptMode)
                     return;
 
-                curInfoCard.infos.Add(_ => drawerInstance.NewLine(min_height));
+                curInfoCard.AddDraw(_ => drawerInstance.NewLine(min_height));
             }
         }
 

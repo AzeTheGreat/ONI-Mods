@@ -9,18 +9,43 @@ namespace BetterInfoCards
     {
         public bool isSelected;
         public KSelectable selectable;
-        public List<Action<List<InfoCard>>> infos = new();
+        
+        private List<Action<List<InfoCard>>> infos = new();
+        private (int drawIndex, TextInfo ti) titleDrawer;
+
+        // Assume that order is maintained here. Technically it isn't guaranteed...
+        // But it works as used and I don't want to eat the performance hit of a SortedDictionary.
         public Dictionary<string, TextInfo> textInfos = new();
 
-        public string GetTitleKey()
-        {
-            return textInfos.Values.FirstOrDefault()?.Text.RemoveCountSuffix() ?? string.Empty;
-        }
+        public string GetTitleKey() => titleDrawer.ti?.Text.RemoveCountSuffix() ?? string.Empty;
 
-        public void Draw(List<InfoCard> cards)
+        public void Draw(List<InfoCard> cards, int visCardIndex)
         {
+            if (visCardIndex > 0)
+            {
+                // Getting the style like this is not ideal since it could potentially be different from the title's.
+                // It does not appear to be an issue under current game conditions though.
+                infos[titleDrawer.drawIndex] += _ =>
+                {
+                    InterceptDrawer.drawerInstance.DrawText(
+                    " #" + (++visCardIndex),
+                    SelectTool.Instance.hoverTextConfiguration.Styles_Title.Standard);
+                };
+            }    
+
             foreach (var info in infos)
                 info(cards);
+        }
+
+        public void AddDraw(Action<List<InfoCard>> drawAction) => infos.Add(drawAction);
+
+        public void AddDraw(Action<List<InfoCard>> drawAction, TextInfo ti)
+        {
+            if (!textInfos.Any())
+                titleDrawer = (infos.Count, ti);
+
+            textInfos.Add(ti.ID, ti);
+            AddDraw(drawAction);
         }
     }
 
@@ -30,7 +55,6 @@ namespace BetterInfoCards
         public List<Entry> entries = new();
         public Entry shadowBar;
         public Entry selectBorder;
-
         public Vector2 offset = new();
 
         public float YMax => shadowBar.rect.anchoredPosition.y;
