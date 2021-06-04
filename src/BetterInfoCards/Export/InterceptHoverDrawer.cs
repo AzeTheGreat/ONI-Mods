@@ -55,7 +55,7 @@ namespace BetterInfoCards
             static void Postfix(Sprite icon, Color color, int image_size, int horizontal_spacing)
             {
                 if (IsInterceptMode)
-                    curInfoCard.AddDraw(_ => drawerInstance.DrawIcon(icon, color, image_size, horizontal_spacing));
+                    curInfoCard.AddDraw(_ => drawerInstance.DrawIcon(icon, color, CardTweaker.GetNewIconSize(image_size), horizontal_spacing));
             }
         }
 
@@ -89,7 +89,7 @@ namespace BetterInfoCards
             static void Postfix(int min_height)
             {
                 if (IsInterceptMode)
-                    curInfoCard.AddDraw(_ => drawerInstance.NewLine(min_height));
+                    curInfoCard.AddDraw(_ => drawerInstance.NewLine(CardTweaker.GetNewLineHeight(min_height)));
             }
         }
 
