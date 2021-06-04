@@ -11,8 +11,22 @@ namespace BetterInfoCards
 {
     public class ExportSelectToolData
     {
-        public static KSelectable curSelectable;
-        public static (string id, object data) curTextInfo = (string.Empty, null);
+        private static KSelectable curSelectable;
+        private static (string id, object data) curTextInfo = (string.Empty, null);
+
+        public static KSelectable ConsumeSelectable()
+        {
+            var sel = curSelectable;
+            curSelectable = null;
+            return sel;
+        }
+
+        public static (string id, object data) ConsumeTextInfo()
+        {
+            var ti = curTextInfo;
+            curTextInfo = (string.Empty, null);
+            return ti;
+        }
 
         public class GetSelectInfo_Patch
         {

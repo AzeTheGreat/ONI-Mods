@@ -27,7 +27,7 @@ namespace BetterInfoCards
                 // It does not appear to be an issue under current game conditions though.
                 infos[titleDrawer.drawIndex] += _ =>
                 {
-                    InterceptDrawer.drawerInstance.DrawText(
+                    InterceptHoverDrawer.drawerInstance.DrawText(
                     " #" + (++visCardIndex),
                     SelectTool.Instance.hoverTextConfiguration.Styles_Title.Standard);
                 };
@@ -91,7 +91,7 @@ namespace BetterInfoCards
         {
             // Modifying existing SBs triggers rebuilds somewhere and has a major impact on performance.
             // Genius idea from Peter to just add new ones to fill the gap.
-            var newSB = InterceptDrawer.drawerInstance.shadowBars.Draw(shadowBar.rect.anchoredPosition + new Vector2(shadowBar.rect.sizeDelta.x, 0f));
+            var newSB = InterceptHoverDrawer.drawerInstance.shadowBars.Draw(shadowBar.rect.anchoredPosition + new Vector2(shadowBar.rect.sizeDelta.x, 0f));
             newSB.rect.sizeDelta = new Vector2(width - shadowBar.rect.sizeDelta.x, shadowBar.rect.sizeDelta.y);
 
             if (selectBorder.rect != null)
