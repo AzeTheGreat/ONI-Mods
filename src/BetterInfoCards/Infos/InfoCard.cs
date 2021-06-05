@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace BetterInfoCards
@@ -10,10 +9,8 @@ namespace BetterInfoCards
         public KSelectable selectable;
         public Dictionary<string, TextInfo> textInfos = new();
         
-        private List<DrawActions> infos = new();
+        private List<DrawActions> drawActions = new();
         private (int drawIndex, TextInfo ti) titleDrawer;
-
-        
 
         public string GetTitleKey() => titleDrawer.ti?.Text.RemoveCountSuffix() ?? string.Empty;
 
@@ -25,23 +22,23 @@ namespace BetterInfoCards
                 // It does not appear to be an issue under current game conditions though.
                 var ti = TextInfo.Create(string.Empty, " #" + (++visCardIndex), null);
                 var drawCount = new DrawActions.Text().Set(ti, SelectTool.Instance.hoverTextConfiguration.Styles_Title.Standard, Color.white, false);
-                infos.Insert(++titleDrawer.drawIndex, drawCount);
+                drawActions.Insert(++titleDrawer.drawIndex, drawCount);
             }
 
             InterceptHoverDrawer.drawerInstance.BeginShadowBar(isSelected);
 
-            foreach (var info in infos)
+            foreach (var info in drawActions)
                 info.Draw(cards);
 
             InterceptHoverDrawer.drawerInstance.EndShadowBar();
         }
 
-        public void AddDraw(DrawActions drawAction) => infos.Add(drawAction);
+        public void AddDraw(DrawActions drawAction) => drawActions.Add(drawAction);
 
         public void AddDraw(DrawActions drawAction, TextInfo ti)
         {
-            if (!textInfos.Any())
-                titleDrawer = (infos.Count, ti);
+            if (titleDrawer.ti == null)
+                titleDrawer = (drawActions.Count, ti);
 
             textInfos.Add(ti.ID, ti);
             AddDraw(drawAction);
