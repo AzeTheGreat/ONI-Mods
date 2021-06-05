@@ -31,10 +31,14 @@ namespace BetterInfoCards
                     " #" + (++visCardIndex),
                     SelectTool.Instance.hoverTextConfiguration.Styles_Title.Standard);
                 };
-            }    
+            }
+
+            InterceptHoverDrawer.drawerInstance.BeginShadowBar(isSelected);
 
             foreach (var info in infos)
                 info(cards);
+
+            InterceptHoverDrawer.drawerInstance.EndShadowBar();
         }
 
         public void AddDraw(Action<List<InfoCard>> drawAction) => infos.Add(drawAction);

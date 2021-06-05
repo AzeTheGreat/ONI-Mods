@@ -43,7 +43,6 @@ namespace BetterInfoCards
                     curInfoCard = new();
                     infoCards.Add(curInfoCard);
 
-                    curInfoCard.AddDraw(_ => drawerInstance.BeginShadowBar(selected));
                     curInfoCard.isSelected = selected;
                 }
             }
@@ -99,10 +98,7 @@ namespace BetterInfoCards
             static void Postfix()
             {
                 if (IsInterceptMode)
-                {
-                    curInfoCard.AddDraw(_ => drawerInstance.EndShadowBar());
                     curInfoCard.selectable = ExportSelectToolData.ConsumeSelectable();
-                }
             }
         }
     }
