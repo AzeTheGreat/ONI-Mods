@@ -75,12 +75,12 @@ namespace BetterInfoCards
         {
             var type = getValue.GetType().GetGenericArguments()[1];
             var method = typeof(ConverterManager).GetMethod(nameof(ConverterManager.AddConverter)).MakeGenericMethod(type);
-            method.Invoke(null, new object[] { name, getValue, getTextOverride, splitListDefs, null });
+            method.Invoke(null, new object[] { name, getValue, getTextOverride, splitListDefs });
         }
 
         public static bool TryGetConverter(string id, out Func<string, string, object, TextInfo> converter)
         {
-            // TODO: Pull default converter out of dict?
+            // TODO: Pull default converter out of dict?  Maybe Title as well?
             if (id != string.Empty && converters.TryGetValue(id, out converter))
                 return true;
 
