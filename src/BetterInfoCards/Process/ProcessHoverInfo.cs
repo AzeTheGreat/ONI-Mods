@@ -21,8 +21,8 @@ namespace BetterInfoCards
             var widgets = ExportWidgets.ConsumeWidgets();
             if (widgets.Count > 0)
             {
-                var gridInfo = new GridInfo(widgets, widgets[0].YMax);
-                gridInfo.MoveAndResizeInfoCards();
+                var grid = new Grid(widgets, widgets[0].YMax);
+                grid.MoveAndResizeInfoCards();
             }
         }
     }

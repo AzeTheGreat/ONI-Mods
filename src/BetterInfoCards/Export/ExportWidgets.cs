@@ -6,14 +6,14 @@ namespace BetterInfoCards.Export
 {
     public static class ExportWidgets
     {
-        private static ICWidgetData curICWidgets;
-        private static List<ICWidgetData> icWidgets = new();
+        private static InfoCardWidgets curICWidgets;
+        private static List<InfoCardWidgets> icWidgets = new();
 
-        public static List<ICWidgetData> ConsumeWidgets()
+        public static List<InfoCardWidgets> ConsumeWidgets()
         {
-            var widgets = icWidgets;
+            var cardWidgets = icWidgets;
             icWidgets = new();
-            return widgets;
+            return cardWidgets;
         }
 
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginDrawing))]
@@ -41,7 +41,7 @@ namespace BetterInfoCards.Export
         [HarmonyPatch(typeof(HoverTextDrawer.Pool<MonoBehaviour>), nameof(HoverTextDrawer.Pool<MonoBehaviour>.Draw))]
         class GetWidget_Patch
         {
-            static void Postfix(Entry __result, GameObject ___prefab)
+            static void Postfix(Widget __result, GameObject ___prefab)
             {
                 curICWidgets.AddWidget(__result, ___prefab);
             }
