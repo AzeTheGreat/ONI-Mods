@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -9,13 +8,12 @@ namespace BetterInfoCards
     {
         public bool isSelected;
         public KSelectable selectable;
+        public Dictionary<string, TextInfo> textInfos = new();
         
-        private List<Action<List<InfoCard>>> infos = new();
+        private List<DrawActions> infos = new();
         private (int drawIndex, TextInfo ti) titleDrawer;
 
-        // Assume that order is maintained here. Technically it isn't guaranteed...
-        // But it works as used and I don't want to eat the performance hit of a SortedDictionary.
-        public Dictionary<string, TextInfo> textInfos = new();
+        
 
         public string GetTitleKey() => titleDrawer.ti?.Text.RemoveCountSuffix() ?? string.Empty;
 
@@ -25,25 +23,22 @@ namespace BetterInfoCards
             {
                 // Getting the style like this is not ideal since it could potentially be different from the title's.
                 // It does not appear to be an issue under current game conditions though.
-                infos[titleDrawer.drawIndex] += _ =>
-                {
-                    InterceptHoverDrawer.drawerInstance.DrawText(
-                    " #" + (++visCardIndex),
-                    SelectTool.Instance.hoverTextConfiguration.Styles_Title.Standard);
-                };
+                var ti = TextInfo.Create(string.Empty, " #" + (++visCardIndex), null);
+                var drawCount = new DrawActions.Text().Set(ti, SelectTool.Instance.hoverTextConfiguration.Styles_Title.Standard, Color.white, false);
+                infos.Insert(++titleDrawer.drawIndex, drawCount);
             }
 
             InterceptHoverDrawer.drawerInstance.BeginShadowBar(isSelected);
 
             foreach (var info in infos)
-                info(cards);
+                info.Draw(cards);
 
             InterceptHoverDrawer.drawerInstance.EndShadowBar();
         }
 
-        public void AddDraw(Action<List<InfoCard>> drawAction) => infos.Add(drawAction);
+        public void AddDraw(DrawActions drawAction) => infos.Add(drawAction);
 
-        public void AddDraw(Action<List<InfoCard>> drawAction, TextInfo ti)
+        public void AddDraw(DrawActions drawAction, TextInfo ti)
         {
             if (!textInfos.Any())
                 titleDrawer = (infos.Count, ti);
