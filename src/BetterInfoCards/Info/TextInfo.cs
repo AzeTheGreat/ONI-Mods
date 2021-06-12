@@ -27,12 +27,12 @@ namespace BetterInfoCards
         private T _result;
         private T Result => _isResultCached ? _result : ((_result, _isResultCached) = (getValue(data), true))._result;
 
-        private readonly object data;
-        private readonly Func<object, T> getValue;
-        private readonly Func<string, List<T>, string> getTextOverride;
-        private readonly List<(Func<T, float>, float)> splitListDefs;
+        private object data;
+        private Func<object, T> getValue;
+        private Func<string, List<T>, string> getTextOverride;
+        private List<(Func<T, float>, float)> splitListDefs;
 
-        public TextInfo(string key, string text, object data, Func<object, T> getValue, Func<string, List<T>, string> getTextOverride, List<(Func<T, float>, float)> splitListDefs)
+        public TextInfo Set(string key, string text, object data, Func<object, T> getValue, Func<string, List<T>, string> getTextOverride, List<(Func<T, float>, float)> splitListDefs)
         {
             this.data = data;
             this.getValue = getValue;
@@ -40,6 +40,11 @@ namespace BetterInfoCards
             this.splitListDefs = splitListDefs;
             this.Text = text;
             this.ID = key;
+
+            _result = default;
+            _isResultCached = false;
+
+            return this;
         }
 
         public override string GetTextOverride(List<InfoCard> cards)

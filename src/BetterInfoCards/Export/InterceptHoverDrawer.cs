@@ -24,7 +24,7 @@ namespace BetterInfoCards
         }
 
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginDrawing))]
-        class BeginDrawing
+        public class BeginDrawing
         {
             public static System.Action onBeginDrawing;
 

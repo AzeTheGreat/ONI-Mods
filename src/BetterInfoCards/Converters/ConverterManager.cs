@@ -62,12 +62,13 @@ namespace BetterInfoCards
                 new() { (x => x, Options.Opts.TemperatureBandWidth) });
         }
 
-        public static void AddConverter<T>(string name, Func<object, T> getValue, Func<string, List<T>, string> getTextOverride = null, List<(Func<T, float>, float)> splitListDefs = null)
+        public static void AddConverter<T>(string name, Func<object, T> getValue, Func<string, List<T>, string> getTextOverride = null, List<(Func<T, float>, float)> splitListDefs = null) where T : new()
         {
             if (converters.ContainsKey(name))
                 throw new Exception("Attempted to add converter with name: " + name + ", but converter with name is already present.");
 
-            converters.Add(name, (string k, string n, object d) => new TextInfo<T>(k, n, d, getValue, getTextOverride, splitListDefs));
+            var pool = new ResetPool<TextInfo<T>>(ref InterceptHoverDrawer.BeginDrawing.onBeginDrawing);
+            converters.Add(name, (string k, string n, object d) => pool.Get().Set(k, n, d, getValue, getTextOverride, splitListDefs));
         }
 
         // This is not to be used internally - for reflection from external mods only.
