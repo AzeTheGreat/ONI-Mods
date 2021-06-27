@@ -1,10 +1,10 @@
-﻿using Harmony;
+﻿using AzeLib;
+using HarmonyLib;
 using Newtonsoft.Json;
-using PeterHan.PLib;
-using PeterHan.PLib.Datafiles;
+using PeterHan.PLib.Database;
+using PeterHan.PLib.Options;
 using System.IO;
 using System.Reflection;
-using AzeLib;
 
 namespace BetterLogicOverlay
 {
@@ -30,7 +30,8 @@ namespace BetterLogicOverlay
 
         public static void OnLoad()
         {
-            PLocalization.Register();
+            var loc = new PLocalization();
+            loc.Register();
         }
 
         private bool GetTranslatedStatus()

@@ -13,7 +13,7 @@
 									"MeshTile",
 									"MetalTile",
 									"PlasticTile"}; #>
-using Harmony;
+using HarmonyLib;
 using UnityEngine;
 
 namespace RebalancedTiles

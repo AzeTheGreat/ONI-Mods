@@ -1,6 +1,6 @@
-﻿using PeterHan.PLib;
+﻿using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
-using System.Collections;
+using System.Collections.Generic;
 
 namespace AzeLib
 {
@@ -15,13 +15,14 @@ namespace AzeLib
         }
 
         public virtual bool ValidateSettings() => true;
-        public virtual IEnumerable CreateOptions() => null;
+        public virtual IEnumerable<IOptionsEntry> CreateOptions() => new List<IOptionsEntry>();
         public void OnOptionsChanged() => Opts = ReadAndValidateSettings();
 
-        private static void OnOnLoad()
+        public static void OnLoad()
         {
+            var opts = new POptions();
             PUtil.InitLibrary(false);
-            POptions.RegisterOptions(typeof(T));
+            opts.RegisterOptions(AzeMod.UserMod, typeof(T));
         }
 
         private static T ReadAndValidateSettings()
@@ -33,6 +34,11 @@ namespace AzeLib
                 POptions.WriteSettings(settings);
 
             return settings;
+        }
+
+        IEnumerable<IOptionsEntry> IOptions.CreateOptions()
+        {
+            return CreateOptions();
         }
     }
 }

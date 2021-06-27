@@ -1,5 +1,5 @@
 ﻿using Database;
-using Harmony;
+using HarmonyLib;
 
 namespace NoStutter
 {

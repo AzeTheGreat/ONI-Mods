@@ -1,9 +1,9 @@
 ﻿using System;
-using CustomAnalyzers.Interface;
+//using CustomAnalyzers.Interface;
 
 namespace AzeLib.Attributes
 {
     [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
-    [SuppressNotAssigned]
+    //[SuppressNotAssigned]
     public sealed class MyIntGetAttribute : Attribute { }
 }

@@ -1,18 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
 
+  <!--Ignore the contents of the Previews folder.-->
   <ItemGroup>
     <Compile Remove="Previews\**" />
     <EmbeddedResource Remove="Previews\**" />
     <None Remove="Previews\**" />
   </ItemGroup>
 
+  <!--Publicise the game's assemblies on rebuilds.-->
   <Target Name="Publicise" AfterTargets="Clean">
     <Publicise
       InputAssemblies="@(PubliciseInputAssemblies)"
       OutputPath="../lib/"/>
   </Target>
   
+  <!--Increment the version number after each build, resetting each day.-->
   <Import Project="AutoIncrement.targets" />
 	<Target Name="AutoIncrement" BeforeTargets="PrepareForBuild">   
 		<AutoIncrement Path="$(IntermediateOutputPath)">
@@ -21,44 +24,49 @@
         TaskParameter="Revision" />
 		</AutoIncrement>
 		<PropertyGroup>
-			<Version>
-				$([System.DateTime]::Now.Year).$([System.DateTime]::Now.Month).$([System.DateTime]::Now.Day).$(ProjectRevision)
-			</Version>
+			<Version>$([System.DateTime]::Now.Year).$([System.DateTime]::Now.Month).$([System.DateTime]::Now.Day).$(ProjectRevision)</Version>
 		</PropertyGroup>
 	</Target>
 
+  <!--Create and update the mod_info file.-->
   <PropertyGroup>
-    <ModInfoFile>$(IntermediateOutputPath)\mod_info.yaml</ModInfoFile>
+    <ModInfoFile>$(TargetDir)\mod_info.yaml</ModInfoFile>
   </PropertyGroup>
   <Target Name="WriteModInfoFile" BeforeTargets="PreBuildEvent">
-    <WriteLinesToFile File="$(ModInfoFile)" Overwrite="true" Lines="" />
-    <WriteLinesToFile File="$(ModInfoFile)" Lines="supportedContent: $(supportedContent)" />
-    <WriteLinesToFile File="$(ModInfoFile)" Lines="lastWorkingBuild: $(lastWorkingBuild)" />
+    <WriteLinesToFile File="$(ModInfoFile)" Overwrite="true" Lines=
+                      "APIVersion: 2;
+                      supportedContent: $(supportedContent);
+                      minimumSupportedBuild: $(minimumSupportedBuild);
+                      version: &quot;$(Version)&quot;" />
   </Target>
-	
-	<Target Name="ClearGameFolderCopyLocal" AfterTargets="ResolveAssemblyReferences"> 
-		<ItemGroup>
-			<ReferenceCopyLocalPaths Remove="$(GameFolder)\*" />
-		</ItemGroup>
-	</Target>
 
+  <!--Prevent game assemblies from being copied (and thus merged).-->
+  <Target Name="ClearCopyLocalReferences" AfterTargets="ResolveAssemblyReferences">
+    <ItemGroup>
+      <ReferenceCopyLocalPaths Remove="$(GameFolder)\* " />
+    </ItemGroup>
+  </Target>
+
+  <!--Merge required assemblies.-->
 	<Target Name="ILRepack" AfterTargets="Build" Condition=" '$(AssemblyName)' != 'AzeLib'">
-		<ItemGroup>
-			<InputAssemblies 
-        Include="$(TargetDir)\*.dll"
-			  Exclude="**\0Harmony.dll" />
+		<!--The primary assembly must be the first one, so this is ugly.-->
+    <ItemGroup>
+      <InputAssemblies Include ="$(TargetPath)" />
+      <InputAssemblies
+        Include ="$(TargetDir)\*.dll"
+        Exclude ="$(TargetPath); **/System.*"/>
 		</ItemGroup>
 		<ILRepack
       TargetPlatformVersion="v2"
-			OutputType="SameAsPrimaryAssembly"
-			MainAssembly="$(TargetPath)"
-			OutputAssembly="$(TargetPath)"
+			TargetKind="SameAsPrimaryAssembly"
+			OutputFile="$(TargetPath)"
 			InputAssemblies="@(InputAssemblies)"
-			WilcardInputAssemblies="true"
-			WorkingDirectory="$(GameFolder)"
+			Wildcards="true"
+      LibraryPath="$(GameFolder)"
       Parallel="true"/>
 	</Target>
 
+  <!--Copy the mod to the install folder.-->
 	<Target Name="CopyArtifactsToInstallFolder" AfterTargets="ILRepack" Condition=" '$(ShouldDistribute)' != 'false' ">
 		<ItemGroup>
 			<AnimFiles Include="$(ProjectDir)\anim\**\*.*" />
@@ -74,6 +82,7 @@
     <Copy SourceFiles="$(ModInfoFile)" DestinationFolder="$(InstallFolder)" />
 	</Target>
 
+  <!--If releasing, create a zipped version of the mod to distribute for manual downloads.-->
 	<Target Name="Zip" AfterTargets="CopyArtifactsToInstallFolder" Condition=" '$(Configuration)' == 'Release' And '$(ShouldDistribute)' != 'false' ">	
     <CreateItem 
       Include="$(InstallFolder)\**\*.*"

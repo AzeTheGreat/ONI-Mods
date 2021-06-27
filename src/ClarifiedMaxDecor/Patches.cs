@@ -1,5 +1,5 @@
 ﻿using AzeLib.Extensions;
-using Harmony;
+using HarmonyLib;
 using Klei.AI;
 using STRINGS;
 using System.Collections.Generic;

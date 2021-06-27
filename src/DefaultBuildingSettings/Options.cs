@@ -1,5 +1,5 @@
 ﻿using AzeLib;
-using PeterHan.PLib;
+using PeterHan.PLib.Options;
 using static DefaultBuildingSettings.STRINGS.DEFAULTBUILDINGSETTINGS.OPTIONS;
 
 namespace DefaultBuildingSettings

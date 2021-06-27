@@ -1,23 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
+  
+  <!--User Configuration-->
 	<Import Project="Directory.Build.props.default" />
 	<Import Condition=" Exists('Directory.Build.props.user') " Project="Directory.Build.props.user" />
 
+  <!--Base Settings-->
 	<PropertyGroup>
-		<TargetFramework>net40</TargetFramework>
+		<TargetFramework>net471</TargetFramework>
 		<LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     
     <supportedContent>ALL</supportedContent>
-    <lastWorkingBuild>0</lastWorkingBuild>
+    <minimumSupportedBuild>0</minimumSupportedBuild>
 	</PropertyGroup>
 
+  <!--Default all references to CopyLocal False.-->
 	<ItemDefinitionGroup>
 		<Reference><Private>False</Private></Reference>
 		<ProjectReference><Private>False</Private></ProjectReference>
 		<PackageReference><Private>False</Private></PackageReference>
 	</ItemDefinitionGroup>
 
+  <!--Publicized References-->
 	<ItemGroup>
     <PubliciseInputAssemblies Include="
 					$(GameFolder)/Assembly-CSharp.dll;
@@ -25,14 +30,18 @@
     <Reference Include="Assembly-CSharp_public" HintPath="../lib/Assembly-CSharp_public.dll"  />
     <Reference Include="Assembly-CSharp-firstpass_public" HintPath="../lib/Assembly-CSharp-firstpass_public.dll" />
     
-		<PackageReference Include="ILRepack.MSBuild.Task" Version="2.0.13" />
-		<PackageReference Include="Aze.Publicise.MSBuild.Task" Version="1.0.0"/>
-		<PackageReference Include="HarmonyAnalyzers" Version="1.0.0" />
-		<PackageReference Include="OniAnalyzers" Version="1.0.0" />
-		<PackageReference Include="PLib" Version="3.13.1" Private="true" />
-		<PackageReference Include="SuppressionAttributes" Version="1.0.0" />
+    <!--Meta References-->
+		<PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="*" />
 		<PackageReference Include ="MSBuildTasks" Version="1.5.0.235"/>
-		<PackageReference Include ="System.ValueTuple" Version="4.5.0"/>
+		<PackageReference Include="Aze.Publicise.MSBuild.Task" Version="1.0.0"/>
+		<!--<PackageReference Include="HarmonyAnalyzers" Version="1.0.0" />
+		<PackageReference Include="OniAnalyzers" Version="1.0.0" />
+    <PackageReference Include="SuppressionAttributes" Version="1.0.0" />-->
+    <ProjectReference Include ="../AzeLib/AzeLib.csproj" Private ="true" Condition="'$(UsesAzeLib)' != 'false'"/>
+    <PackageReference Include="PLib" Version="*" Private="true" />
+    <PackageReference Include ="System.ValueTuple" Version="4.5.0"/>
+    
+    <!--Game References-->
 		<Reference Include="0Harmony" HintPath="$(GameFolder)/0Harmony.dll" />
 		<Reference Include="Newtonsoft.Json" HintPath="$(GameFolder)/Newtonsoft.Json.dll" />
 		<Reference Include="UnityEngine" HintPath="$(GameFolder)/UnityEngine.dll" />
@@ -45,10 +54,7 @@
 		<Reference Include="UnityEngine.UIModule" HintPath="$(GameFolder)/UnityEngine.UIModule.dll" />
 	</ItemGroup>
 
-	<ItemGroup Condition=" '$(UsesAzeLib)' != 'false' ">
-		<ProjectReference Include ="../AzeLib/AzeLib.csproj" Private ="true" />
-	</ItemGroup>
-
+  <!--Direct the output locations based on build configuration.-->
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <InstallFolder>..\..\Release\$(MSBuildProjectName)</InstallFolder>
     <DistributeFolder>..\..\Distribute\</DistributeFolder>

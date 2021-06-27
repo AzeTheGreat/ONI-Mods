@@ -1,8 +1,7 @@
 ﻿using AzeLib;
 using Newtonsoft.Json;
-using PeterHan.PLib;
-using PeterHan.PLib.Datafiles;
-using TUNING;
+using PeterHan.PLib.Database;
+using PeterHan.PLib.Options;
 
 namespace InfiniteResearch
 {
@@ -62,7 +61,8 @@ namespace InfiniteResearch
 
         public static void OnLoad()
         {
-            PLocalization.Register();
+            var loc = new PLocalization();
+            loc.Register();
         }
     }
 }

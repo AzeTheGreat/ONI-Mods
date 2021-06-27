@@ -1,5 +1,5 @@
-﻿using Harmony;
-using PeterHan.PLib;
+﻿using HarmonyLib;
+using PeterHan.PLib.Options;
 
 namespace NoNotificationSounds
 {

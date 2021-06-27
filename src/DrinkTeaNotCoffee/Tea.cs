@@ -1,4 +1,4 @@
-﻿using PeterHan.PLib.Datafiles;
+﻿using PeterHan.PLib.Database;
 using STRINGS;
 
 namespace DrinkTeaNotCoffee
@@ -7,7 +7,8 @@ namespace DrinkTeaNotCoffee
     {
         public static void OnLoad()
         {
-            PLocalization.Register();
+            var loc = new PLocalization();
+            loc.Register();
 
             BUILDINGS.PREFABS.ESPRESSOMACHINE.NAME = STRINGS.TEAMACHINE.NAME;
             BUILDINGS.PREFABS.ESPRESSOMACHINE.DESC = STRINGS.TEAMACHINE.DESC;
