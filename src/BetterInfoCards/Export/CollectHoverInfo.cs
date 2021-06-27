@@ -135,7 +135,7 @@ namespace BetterInfoCards
         [HarmonyPatch(typeof(HoverTextDrawer.Pool<MonoBehaviour>), nameof(HoverTextDrawer.Pool<MonoBehaviour>.Draw))]
         private class GetWidget_Patch
         {
-            static void Postfix(Entry __result, GameObject ___prefab)
+            static void Postfix(HoverTextDrawer.Pool<MonoBehaviour>.Entry __result, GameObject ___prefab)
             {
                 Instance.intermediateInfoCard.AddWidget(__result, ___prefab, Instance.intermediateTextInfo.name, Instance.intermediateTextInfo.data);
                 Instance.intermediateTextInfo = (string.Empty, null);
