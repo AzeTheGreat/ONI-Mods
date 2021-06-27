@@ -32,7 +32,7 @@ namespace BetterDeselect
             [Option("Deselect Selected", "Deselect the tool. Closest to vanilla behavior.")] Close
         }
 
-        public override bool ValidateSettings()
+        protected override bool ValidateSettings()
         {
             if (!(Overlay == ClickNum.Three && BuildMenu == ClickNum.Three))
                 return true;

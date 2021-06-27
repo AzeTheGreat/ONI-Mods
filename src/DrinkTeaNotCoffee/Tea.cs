@@ -1,14 +1,15 @@
-﻿using PeterHan.PLib.Database;
+﻿using AzeLib.Attributes;
+using PeterHan.PLib.Database;
 using STRINGS;
 
 namespace DrinkTeaNotCoffee
 {
     public class Tea
     {
-        public static void OnLoad()
+        [OnLoad]
+        private static void RegisterAndUpdateStrings()
         {
-            var loc = new PLocalization();
-            loc.Register();
+            new PLocalization().Register();
 
             BUILDINGS.PREFABS.ESPRESSOMACHINE.NAME = STRINGS.TEAMACHINE.NAME;
             BUILDINGS.PREFABS.ESPRESSOMACHINE.DESC = STRINGS.TEAMACHINE.DESC;

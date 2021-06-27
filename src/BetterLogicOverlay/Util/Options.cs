@@ -1,4 +1,5 @@
 ﻿using AzeLib;
+using AzeLib.Attributes;
 using HarmonyLib;
 using Newtonsoft.Json;
 using PeterHan.PLib.Database;
@@ -28,11 +29,8 @@ namespace BetterLogicOverlay
             DisplayLogicSettings = true;
         }
 
-        public static void OnLoad()
-        {
-            var loc = new PLocalization();
-            loc.Register();
-        }
+        [OnLoad]
+        private static void RegisterStrings() => new PLocalization().Register();
 
         private bool GetTranslatedStatus()
         {

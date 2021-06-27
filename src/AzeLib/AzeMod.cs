@@ -1,35 +1,37 @@
-﻿using HarmonyLib;
+﻿using AzeLib.Attributes;
+using HarmonyLib;
 using KMod;
-using System;
-using System.Collections.Generic;
+using PeterHan.PLib.Core;
 using System.Linq;
+using System.Reflection;
 
 namespace AzeLib
 {
-    public sealed class AzeMod : UserMod2
+    public static class AzeMod
     {
-        public static UserMod2 UserMod { get; private set; }
+        public static UserMod2 UserMod { get; set; }
 
-        public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<Mod> mods)
+        // Only one class per assembly may inherit from UserMod2 or the game will crash.
+        // The game can't find a private constructor, do not instantiate this manually.
+        private sealed class AzeUserMod : UserMod2
         {
-            base.OnAllModsLoaded(harmony, mods);
-        }
+            // TODO: Benchmark and make sure this isn't too bad for load times.
+            public override void OnLoad(Harmony harmony)
+            {
+                UserMod = this;
+                Debug.Log("    - version: " + UserMod.assembly.GetName().Version);
+                PUtil.InitLibrary(false);
 
-        public override void OnLoad(Harmony harmony)
-        {
-            UserMod = this;
-            OnOnLoad();
-            harmony.PatchAll(UserMod.assembly);
-            //base.OnLoad(harmony);
-        }
+                var onLoadMethods = assembly.GetTypes()
+                    .SelectMany(x => x.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
+                    .Where(x => x.GetCustomAttribute<OnLoadAttribute>() != null)
+                    .ToList();
 
-        private void OnOnLoad()
-        {
-            // Assume only one Options per assembly
-            if (ReflectionHelpers.GetChildTypesOfGenericType(typeof(BaseOptions<>)).FirstOrDefault() is Type optionType)
-                AccessTools.Method(optionType, "OnLoad").Invoke(null, null);
+                foreach (var method in onLoadMethods)
+                    method.Invoke(null, null);
 
-            Debug.Log("    - version: " + UserMod.assembly.GetName().Version);
+                base.OnLoad(harmony);
+            }
         }
     }
 }

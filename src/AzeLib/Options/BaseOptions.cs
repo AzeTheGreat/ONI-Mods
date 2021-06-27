@@ -1,6 +1,8 @@
-﻿using PeterHan.PLib.Core;
+﻿using AzeLib.Attributes;
 using PeterHan.PLib.Options;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AzeLib
 {
@@ -14,16 +16,7 @@ namespace AzeLib
             set { _opts = value; }
         }
 
-        public virtual bool ValidateSettings() => true;
-        public virtual IEnumerable<IOptionsEntry> CreateOptions() => new List<IOptionsEntry>();
-        public void OnOptionsChanged() => Opts = ReadAndValidateSettings();
-
-        public static void OnLoad()
-        {
-            var opts = new POptions();
-            PUtil.InitLibrary(false);
-            opts.RegisterOptions(AzeMod.UserMod, typeof(T));
-        }
+        void IOptions.OnOptionsChanged() => Opts = ReadAndValidateSettings();
 
         private static T ReadAndValidateSettings()
         {
@@ -36,9 +29,22 @@ namespace AzeLib
             return settings;
         }
 
-        IEnumerable<IOptionsEntry> IOptions.CreateOptions()
+        bool IValidatedOptions.ValidateSettings() => ValidateSettings();
+        protected virtual bool ValidateSettings() => true;
+
+        IEnumerable<IOptionsEntry> IOptions.CreateOptions() => CreateOptions();
+        protected virtual IEnumerable<IOptionsEntry> CreateOptions() => new List<IOptionsEntry>();
+    }
+
+    // Can't be in BaseOptions since OnLoad invocation can't handle generics.
+    class OptionsInit
+    {
+        [OnLoad]
+        private static void RegisterOptions()
         {
-            return CreateOptions();
+            // Assume only one Options per assembly
+            if (ReflectionHelpers.GetChildTypesOfGenericType(typeof(BaseOptions<>)).FirstOrDefault() is Type optionType)
+                new POptions().RegisterOptions(AzeMod.UserMod, optionType);
         }
     }
 }
