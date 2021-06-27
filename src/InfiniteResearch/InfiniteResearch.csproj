@@ -2,6 +2,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>   
     <AssemblyTitle>InfiniteResearch</AssemblyTitle>
-    <supportedContent>EXPANSION1_ID</supportedContent>
   </PropertyGroup>
 </Project>

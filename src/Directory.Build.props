@@ -12,7 +12,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     
     <supportedContent>ALL</supportedContent>
-    <minimumSupportedBuild>0</minimumSupportedBuild>
+    <minimumSupportedBuild>469369</minimumSupportedBuild>
 	</PropertyGroup>
 
   <!--Default all references to CopyLocal False.-->
