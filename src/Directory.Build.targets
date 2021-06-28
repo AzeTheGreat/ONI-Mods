@@ -35,11 +35,15 @@
                       supportedContent: $(supportedContent);
                       minimumSupportedBuild: $(minimumSupportedBuild);
                       version: &quot;$(Version)&quot;" />
-    
-    <WriteLinesToFile File="$(TargetDir)\mod.yaml" Overwrite="true" Lines="staticID: Aze.$(AssemblyName)" />
-    <WriteLinesToFile File="$(TargetDir)\mod.yaml" Condition=" '$(Configuration)' == 'Release' And '$(title)' != '' " Lines=
-                      "title: $(Title);
-                      description: $(Description)"/>
+
+    <PropertyGroup>
+      <ModFile>$(TargetDir)\mod.yaml</ModFile>
+      <Title Condition=" '$(Configuration)' == 'Debug' ">DEV: $(Title)</Title>
+    </PropertyGroup>
+    <WriteLinesToFile File="$(ModFile)" Overwrite="true" Lines=
+                      "staticID: Aze.$(AssemblyName);
+                      description: &quot;$(Description)&quot;" />
+    <WriteLinesToFile File="$(ModFile)" Lines="title: &quot;$(Title)&quot;"/>
   </Target>
 
   <!--Prevent game assemblies from being copied (and thus merged).-->
