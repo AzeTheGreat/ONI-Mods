@@ -28,16 +28,18 @@
 		</PropertyGroup>
 	</Target>
 
-  <!--Create and update the mod_info file.-->
-  <PropertyGroup>
-    <ModInfoFile>$(TargetDir)\mod_info.yaml</ModInfoFile>
-  </PropertyGroup>
+  <!--Create and update the mod_info and mod file.-->
   <Target Name="WriteModInfoFile" BeforeTargets="PreBuildEvent">
-    <WriteLinesToFile File="$(ModInfoFile)" Overwrite="true" Lines=
+    <WriteLinesToFile File="$(TargetDir)\mod_info.yaml" Overwrite="true" Lines=
                       "APIVersion: 2;
                       supportedContent: $(supportedContent);
                       minimumSupportedBuild: $(minimumSupportedBuild);
                       version: &quot;$(Version)&quot;" />
+    
+    <WriteLinesToFile File="$(TargetDir)\mod.yaml" Overwrite="true" Lines="staticID: Aze.$(AssemblyName)" />
+    <WriteLinesToFile File="$(TargetDir)\mod.yaml" Condition=" '$(Configuration)' == 'Release' And '$(title)' != '' " Lines=
+                      "title: $(Title);
+                      description: $(Description)"/>
   </Target>
 
   <!--Prevent game assemblies from being copied (and thus merged).-->
@@ -73,13 +75,14 @@
 			<WorldGenFiles Include="$(ProjectDir)\worldgen\**\*.*" />
 			<YamlFiles Include="$(ProjectDir)\*.yaml" />
 			<SpriteFiles Include="$(ProjectDir)\*.dds" />
+      <InfoFiles Include="$(TargetDir)\*.yaml" />
 		</ItemGroup>
 		<Copy SourceFiles="@(AnimFiles)" DestinationFiles="@(AnimFiles->'$(InstallFolder)\anim\%(RecursiveDir)%(Filename)%(Extension)')" />
 		<Copy SourceFiles="@(WorldGenFiles)" DestinationFiles="@(WorldGenFiles->'$(InstallFolder)\worldgen\%(RecursiveDir)%(Filename)%(Extension)')" />
 		<Copy SourceFiles="@(YamlFiles)" DestinationFolder="$(InstallFolder)" />
 		<Copy SourceFiles="@(SpriteFiles)" DestinationFolder="$(InstallFolder)" />
 		<Copy SourceFiles="$(TargetPath)" DestinationFiles="$(InstallFolder)\$(TargetFileName)" />
-    <Copy SourceFiles="$(ModInfoFile)" DestinationFolder="$(InstallFolder)" />
+    <Copy SourceFiles="@(InfoFiles)" DestinationFolder="$(InstallFolder)" />
 	</Target>
 
   <!--If releasing, create a zipped version of the mod to distribute for manual downloads.-->

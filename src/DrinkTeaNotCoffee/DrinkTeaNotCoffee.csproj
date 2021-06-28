@@ -3,4 +3,8 @@
   <PropertyGroup>    
     <AssemblyTitle>DrinkTeaNotCoffee</AssemblyTitle>
   </PropertyGroup>
+  <PropertyGroup>
+    <Title>Drink Tea Not Coffee</Title>
+    <Description>A silly mod that changes references to espresso to tea.</Description>
+  </PropertyGroup>
 </Project>

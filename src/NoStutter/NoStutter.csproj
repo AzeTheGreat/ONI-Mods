@@ -3,4 +3,8 @@
   <PropertyGroup>
     <AssemblyTitle>NoStutter</AssemblyTitle>
   </PropertyGroup>
+  <PropertyGroup>
+    <Title>No Stutter</Title>
+    <Description>Fixes the cause of the worst form of stutter in game.</Description>
+  </PropertyGroup>
 </Project>

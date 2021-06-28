@@ -3,4 +3,8 @@
   <PropertyGroup>   
     <AssemblyTitle>SuppressNotifications</AssemblyTitle>
   </PropertyGroup>
+  <PropertyGroup>
+    <Title>Suppress Notifications</Title>
+    <Description>Suppresses notifications and status items from individual buildings/critters/crops.</Description>
+  </PropertyGroup>
 </Project>

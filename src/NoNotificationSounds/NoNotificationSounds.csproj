@@ -3,4 +3,8 @@
   <PropertyGroup>    
     <AssemblyTitle>NoNotificationSounds</AssemblyTitle>
   </PropertyGroup>
+  <PropertyGroup>
+    <Title>No Notification Sounds</Title>
+    <Description>Removes sounds from notifications for those who just hate noise.</Description>
+  </PropertyGroup>
 </Project>

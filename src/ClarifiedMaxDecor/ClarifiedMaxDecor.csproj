@@ -3,4 +3,8 @@
   <PropertyGroup>
     <AssemblyTitle>ClarifiedMaxDecor</AssemblyTitle>
   </PropertyGroup>
+  <PropertyGroup>
+    <Title>Clarified Max Decor</Title>
+    <Description>Makes UI tweaks so that tooltips more accurately represent max decor.</Description>
+  </PropertyGroup>
 </Project>

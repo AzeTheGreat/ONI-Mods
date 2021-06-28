@@ -3,4 +3,8 @@
   <PropertyGroup>  
     <AssemblyTitle>CleanFloors</AssemblyTitle>
   </PropertyGroup>
+  <PropertyGroup>
+    <Title>Clean Floors</Title>
+    <Description>Removes the largest decor pieces from tiles to give a smoother look.</Description>
+  </PropertyGroup>
 </Project>

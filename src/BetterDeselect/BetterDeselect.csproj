@@ -3,4 +3,8 @@
   <PropertyGroup>    
     <AssemblyTitle>BetterDeselect</AssemblyTitle>
   </PropertyGroup>
+  <PropertyGroup>
+    <Title>Better Deselect</Title>
+    <Description>Requires separate clicks to: deselect the cursor item, close the building menu, and close the overlay.</Description>
+  </PropertyGroup>
 </Project>

@@ -3,4 +3,8 @@
   <PropertyGroup>
     <AssemblyTitle>BetterLogicOverlay</AssemblyTitle>
   </PropertyGroup>
+  <PropertyGroup>
+    <Title>Better Automation Overlay</Title>
+    <Description>Improves the automation overlay.</Description>
+  </PropertyGroup>
 </Project>

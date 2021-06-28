@@ -3,4 +3,8 @@
   <PropertyGroup>
     <AssemblyTitle>NoDoorIdle</AssemblyTitle>
   </PropertyGroup>
+  <PropertyGroup>
+    <Title>Don't Idle in Doors</Title>
+    <Description>Provides options to prevent idle dupes from standing in / crossing through doors.</Description>
+  </PropertyGroup>
 </Project>
