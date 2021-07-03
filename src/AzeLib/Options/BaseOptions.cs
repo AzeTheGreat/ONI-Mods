@@ -16,6 +16,7 @@ namespace AzeLib
             set { _opts = value; }
         }
 
+        // TODO: Acording to IOptions docs, this may no longer be necessary to reread manually.
         void IOptions.OnOptionsChanged() => Opts = ReadAndValidateSettings();
 
         private static T ReadAndValidateSettings()
