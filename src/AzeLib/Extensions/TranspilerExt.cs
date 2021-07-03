@@ -31,24 +31,24 @@ namespace AzeLib.Extensions
             }
         }
 
-        public static IEnumerable<CodeInstruction> Manipulator(this IEnumerable<CodeInstruction> instructions, Func<CodeInstruction, bool> targeter,
-            Func<CodeInstruction, IEnumerable<CodeInstruction>> manipulator)
+        public static IEnumerable<CodeInstruction> Manipulator(this IEnumerable<CodeInstruction> codes, Func<CodeInstruction, bool> predicate,
+            Func<CodeInstruction, IEnumerable<CodeInstruction>> function)
         {
-            foreach (var i in instructions)
+            foreach (var c in codes)
             {
-                if (targeter(i))
-                    foreach (var result in manipulator(i))
-                        yield return result;
+                if (predicate(c))
+                    foreach (var i in function(c))
+                        yield return i;
                 else
-                    yield return i;
+                    yield return c;
             }
         }
 
-        public static IEnumerable<CodeInstruction> Manipulator(this IEnumerable<CodeInstruction> instructions, OpCode targetOpCode, object targetOperand,
-            Func<CodeInstruction, IEnumerable<CodeInstruction>> manipulator) => instructions.Manipulator((CodeInstruction i) => i.Is(targetOpCode, targetOperand), manipulator);
-        public static IEnumerable<CodeInstruction> Manipulator(this IEnumerable<CodeInstruction> instructions, object targetOperand,
-            Func<CodeInstruction, IEnumerable<CodeInstruction>> manipulator) => instructions.Manipulator((CodeInstruction i) => i.OperandIs(targetOperand), manipulator);
-        public static IEnumerable<CodeInstruction> Manipulator(this IEnumerable<CodeInstruction> instructions, OpCode targetOpCode,
-            Func<CodeInstruction, IEnumerable<CodeInstruction>> manipulator) => instructions.Manipulator((CodeInstruction i) => i.OpCodeIs(targetOpCode), manipulator);
+        public static IEnumerable<CodeInstruction> Manipulator(this IEnumerable<CodeInstruction> codes, Func<CodeInstruction, bool> predicate,
+            Action<IEnumerable<CodeInstruction>, CodeInstruction> action) => codes.Manipulator(predicate, i => action(codes, i));
+
+        // TODO: Remove? I think this is too specific to justify itself?
+        public static IEnumerable<CodeInstruction> Manipulator(this IEnumerable<CodeInstruction> codes, object targetOperand,
+            Func<CodeInstruction, IEnumerable<CodeInstruction>> manipulator) => codes.Manipulator((CodeInstruction i) => i.OperandIs(targetOperand), manipulator);
     }
 }
