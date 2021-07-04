@@ -34,9 +34,9 @@
 		<PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="*" />
 		<PackageReference Include ="MSBuildTasks" Version="1.5.0.235"/>
 		<PackageReference Include="Aze.Publicise.MSBuild.Task" Version="1.0.0"/>
-		<!--<PackageReference Include="HarmonyAnalyzers" Version="1.0.0" />
+		<!--<PackageReference Include="HarmonyAnalyzers" Version="1.0.0" />-->
 		<PackageReference Include="OniAnalyzers" Version="1.0.0" />
-    <PackageReference Include="SuppressionAttributes" Version="1.0.0" />-->
+    <!--<PackageReference Include="SuppressionAttributes" Version="1.0.0" />-->
     <ProjectReference Include ="../AzeLib/AzeLib.csproj" Private ="true" Condition="'$(UsesAzeLib)' != 'false'"/>
     <PackageReference Include="PLib" Version="*" Private="true" />
     <PackageReference Include ="System.ValueTuple" Version="4.5.0"/>
