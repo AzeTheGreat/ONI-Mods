@@ -7,9 +7,15 @@ namespace CleanHUD
     [JsonObject(MemberSerialization.OptIn)]
     public class Options : BaseOptions<Options>
     {
-        [Option("Disable Vignette", "When true, the vignette is removed from the screen.")]
+        [Option("Vignette Opacity", "Adjust the opacity of the vignette (standard value = 47%)", "Vignettes", Format = "P0")]
+        [Limit(0, 1)]
         [JsonProperty]
-        public bool IsVignetteDisabled { get; set; }
+        public float VignetteAlpha { get; set; }
+
+        [Option("Warning Vignette Opacity", "Adjust the opacity of the warning vignettes (standard value = 30%) ", "Vignettes", Format = "P0")]
+        [Limit(0, 1)]
+        [JsonProperty]
+        public float AlertVignetteAlpha { get; set; }
 
         [Option("Disable Watermark", "When true, the build watermark is removed from the screen.")]
         [JsonProperty]
@@ -21,7 +27,8 @@ namespace CleanHUD
 
         public Options()
         {
-            IsVignetteDisabled = false;
+            VignetteAlpha = 0f;
+            AlertVignetteAlpha = 20f;
             IsWatermarkDisabled = true;
             UseSmallButtons = false;
         }
