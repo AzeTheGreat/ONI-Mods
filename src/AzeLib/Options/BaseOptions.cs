@@ -7,22 +7,19 @@ using System.Linq;
 namespace AzeLib
 {
     [ConfigFile("config.json", true)]
-    public abstract class BaseOptions<T> : IValidatedOptions, IOptions where T : class, IValidatedOptions, new()
+    public abstract class BaseOptions<T> : IOptions where T : BaseOptions<T>, new()
     {
         private static T _opts;
         public static T Opts
         {
-            get => _opts ??= ReadAndValidateSettings() ?? new T();
-            set { _opts = value; }
+            get => _opts ??= Validate(POptions.ReadSettings<T>()) ?? new T();
+            set => _opts = value;
         }
 
-        // TODO: Acording to IOptions docs, this may no longer be necessary to reread manually.
-        void IOptions.OnOptionsChanged() => Opts = ReadAndValidateSettings();
+        void IOptions.OnOptionsChanged() => Opts = Validate((T)this);
 
-        private static T ReadAndValidateSettings()
+        private static T Validate(T settings)
         {
-            // Must re-read to update anything that was changed by the GUI.
-            T settings = POptions.ReadSettings<T>();
             // If anything had to be changed again, save it back to file.
             if (!settings?.ValidateSettings() ?? false)
                 POptions.WriteSettings(settings);
@@ -30,11 +27,12 @@ namespace AzeLib
             return settings;
         }
 
-        bool IValidatedOptions.ValidateSettings() => ValidateSettings();
+        /// <summary>Called on the new settings object to check for validity. If the return value is false (settings not valid), the settings are rewritten.</summary>
         protected virtual bool ValidateSettings() => true;
 
         IEnumerable<IOptionsEntry> IOptions.CreateOptions() => CreateOptions();
-        protected virtual IEnumerable<IOptionsEntry> CreateOptions() => new List<IOptionsEntry>();
+        /// <inheritdoc cref="IOptions.CreateOptions"/>
+        protected virtual IEnumerable<IOptionsEntry> CreateOptions() => null;
     }
 
     // Can't be in BaseOptions since OnLoad invocation can't handle generics.
