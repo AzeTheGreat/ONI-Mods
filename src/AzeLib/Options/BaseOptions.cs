@@ -32,7 +32,7 @@ namespace AzeLib
 
         IEnumerable<IOptionsEntry> IOptions.CreateOptions() => CreateOptions();
         /// <inheritdoc cref="IOptions.CreateOptions"/>
-        protected virtual IEnumerable<IOptionsEntry> CreateOptions() => null;
+        protected virtual IEnumerable<IOptionsEntry> CreateOptions() => new List<IOptionsEntry>();
     }
 
     // Can't be in BaseOptions since OnLoad invocation can't handle generics.
