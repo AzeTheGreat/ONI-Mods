@@ -10,8 +10,7 @@ namespace AzeLib.Extensions
     {
         public static bool IsLocalOfType(this CodeInstruction i, Type type)
         {
-            var localBuilder = i.operand as LocalBuilder;
-            if (localBuilder != null && localBuilder.LocalType == type)
+            if (i.operand is LocalBuilder localBuilder && localBuilder.LocalType == type)
                 return true;
             return false;
         }

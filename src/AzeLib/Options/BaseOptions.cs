@@ -1,4 +1,5 @@
 ﻿using AzeLib.Attributes;
+using Newtonsoft.Json;
 using PeterHan.PLib.Options;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Linq;
 namespace AzeLib
 {
     [ConfigFile("config.json", true)]
+    [JsonObject(MemberSerialization.OptOut)]
     public abstract class BaseOptions<T> : IOptions where T : BaseOptions<T>, new()
     {
         private static T _opts;

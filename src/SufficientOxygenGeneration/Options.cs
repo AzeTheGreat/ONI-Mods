@@ -4,9 +4,14 @@ using PeterHan.PLib.Options;
 
 namespace SufficientOxygenGeneration
 {
-    [JsonObject(MemberSerialization.OptIn)]
     public class Options : BaseOptions<Options>
     {
+        [Option] public OxygenThresholMode Mode { get; set; }
+        [Option] [Limit(0.0001f, 9999f)] public float ConstantThreshold { get; set; }
+        [Option] [Limit(0f, 1f)] public float RatioThreshold { get; set; }
+
+        [JsonIgnore] public float TimeDelay { get; set; }
+
         public enum OxygenThresholMode
         {
             [Option("Constant", "If you are underproducing by x amount in the current cycle, the notification will trigger.")]
@@ -16,22 +21,6 @@ namespace SufficientOxygenGeneration
             [Option("Off", "The notification will never trigger")]
             Off
         }
-
-        [Option]
-        [JsonProperty]
-        public OxygenThresholMode Mode { get; set; }
-
-        [Option]
-        [Limit(0.0001f, 9999f)]
-        [JsonProperty]
-        public float ConstantThreshold { get; set; }
-
-        [Option]
-        [Limit(0f, 1f)]
-        [JsonProperty]
-        public float RatioThreshold { get; set; }
-
-        public float TimeDelay { get; set; }
 
         public Options()
         {

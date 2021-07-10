@@ -1,58 +1,58 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
-  
+
   <!--User Configuration-->
-	<Import Project="Directory.Build.props.default" />
-	<Import Condition=" Exists('Directory.Build.props.user') " Project="Directory.Build.props.user" />
+  <Import Project="Directory.Build.props.default" />
+  <Import Condition=" Exists('Directory.Build.props.user') " Project="Directory.Build.props.user" />
 
   <!--Base Settings-->
-	<PropertyGroup>
-		<TargetFramework>net471</TargetFramework>
-		<LangVersion>latest</LangVersion>
+  <PropertyGroup>
+    <TargetFramework>net471</TargetFramework>
+    <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    
+
     <supportedContent>ALL</supportedContent>
     <minimumSupportedBuild>469369</minimumSupportedBuild>
-	</PropertyGroup>
+  </PropertyGroup>
 
   <!--Default all references to CopyLocal False.-->
-	<ItemDefinitionGroup>
-		<Reference><Private>False</Private></Reference>
-		<ProjectReference><Private>False</Private></ProjectReference>
-		<PackageReference><Private>False</Private></PackageReference>
-	</ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <Reference><Private>False</Private></Reference>
+    <ProjectReference><Private>False</Private></ProjectReference>
+    <PackageReference><Private>False</Private></PackageReference>
+  </ItemDefinitionGroup>
 
   <!--Publicized References-->
-	<ItemGroup>
+  <ItemGroup>
     <PubliciseInputAssemblies Include="
 					$(GameFolder)/Assembly-CSharp.dll;
 					$(GameFolder)/Assembly-CSharp-firstpass.dll"/>
     <Reference Include="Assembly-CSharp_public" HintPath="../lib/Assembly-CSharp_public.dll"  />
     <Reference Include="Assembly-CSharp-firstpass_public" HintPath="../lib/Assembly-CSharp-firstpass_public.dll" />
-    
+
     <!--Meta References-->
-		<PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="*" />
-		<PackageReference Include ="MSBuildTasks" Version="1.5.0.235"/>
-		<PackageReference Include="Aze.Publicise.MSBuild.Task" Version="1.0.0"/>
-		<!--<PackageReference Include="HarmonyAnalyzers" Version="1.0.0" />-->
-		<PackageReference Include="OniAnalyzers" Version="1.0.0" />
+    <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="*" />
+    <PackageReference Include ="MSBuildTasks" Version="1.5.0.235"/>
+    <PackageReference Include="Aze.Publicise.MSBuild.Task" Version="1.0.0"/>
+    <!--<PackageReference Include="HarmonyAnalyzers" Version="1.0.0" />-->
+    <PackageReference Include="OniAnalyzers" Version="1.0.0" />
     <!--<PackageReference Include="SuppressionAttributes" Version="1.0.0" />-->
     <ProjectReference Include ="../AzeLib/AzeLib.csproj" Private ="true" Condition="'$(UsesAzeLib)' != 'false'"/>
     <PackageReference Include="PLib" Version="*" Private="true" />
     <PackageReference Include ="System.ValueTuple" Version="4.5.0"/>
-    
+
     <!--Game References-->
-		<Reference Include="0Harmony" HintPath="$(GameFolder)/0Harmony.dll" />
-		<Reference Include="Newtonsoft.Json" HintPath="$(GameFolder)/Newtonsoft.Json.dll" />
-		<Reference Include="UnityEngine" HintPath="$(GameFolder)/UnityEngine.dll" />
-		<Reference Include="UnityEngine.CoreModule" HintPath="$(GameFolder)/UnityEngine.CoreModule.dll" />
-		<Reference Include="UnityEngine.ImageConversionModule" HintPath="$(GameFolder)/UnityEngine.ImageConversionModule.dll" />
-		<Reference Include="UnityEngine.InputLegacyModule" HintPath="$(GameFolder)/UnityEngine.InputLegacyModule.dll" />
-		<Reference Include="Unity.TextMeshPro" HintPath="$(GameFolder)/Unity.TextMeshPro.dll" />
-		<Reference Include="UnityEngine.TextRenderingModule" HintPath="$(GameFolder)/UnityEngine.TextRenderingModule.dll" />
-		<Reference Include="UnityEngine.UI" HintPath="$(GameFolder)/UnityEngine.UI.dll" />
-		<Reference Include="UnityEngine.UIModule" HintPath="$(GameFolder)/UnityEngine.UIModule.dll" />
-	</ItemGroup>
+    <Reference Include="0Harmony" HintPath="$(GameFolder)/0Harmony.dll" />
+    <Reference Include="Newtonsoft.Json" HintPath="$(GameFolder)/Newtonsoft.Json.dll" />
+    <Reference Include="UnityEngine" HintPath="$(GameFolder)/UnityEngine.dll" />
+    <Reference Include="UnityEngine.CoreModule" HintPath="$(GameFolder)/UnityEngine.CoreModule.dll" />
+    <Reference Include="UnityEngine.ImageConversionModule" HintPath="$(GameFolder)/UnityEngine.ImageConversionModule.dll" />
+    <Reference Include="UnityEngine.InputLegacyModule" HintPath="$(GameFolder)/UnityEngine.InputLegacyModule.dll" />
+    <Reference Include="Unity.TextMeshPro" HintPath="$(GameFolder)/Unity.TextMeshPro.dll" />
+    <Reference Include="UnityEngine.TextRenderingModule" HintPath="$(GameFolder)/UnityEngine.TextRenderingModule.dll" />
+    <Reference Include="UnityEngine.UI" HintPath="$(GameFolder)/UnityEngine.UI.dll" />
+    <Reference Include="UnityEngine.UIModule" HintPath="$(GameFolder)/UnityEngine.UIModule.dll" />
+  </ItemGroup>
 
   <!--Direct the output locations based on build configuration.-->
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">

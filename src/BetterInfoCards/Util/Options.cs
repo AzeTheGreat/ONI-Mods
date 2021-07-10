@@ -5,24 +5,14 @@ using UnityEngine;
 
 namespace BetterInfoCards
 {
-    [JsonObject(MemberSerialization.OptIn)]
-    [PeterHan.PLib.Options.RestartRequired]
+    [RestartRequired]
     public class Options : BaseOptions<Options>
     {
-        [Option]
-        [JsonProperty] public CompactMode Compactness { get; set; }
-
-        [Option]
-        [JsonProperty] public float InfoCardOpacity { get; set; }
-
-        [Option]
-        [JsonProperty] public float TemperatureBandWidth { get; set; }
-
-        [Option]
-        [JsonProperty] public bool UseBaseSelection { get; set; }
-
-        [Option]
-        [JsonProperty] public bool ForceFirstSelectionToHover { get; set; }
+        [Option] public CompactMode Compactness { get; set; }
+        [Option] public float InfoCardOpacity { get; set; }
+        [Option] public float TemperatureBandWidth { get; set; }
+        [Option] public bool UseBaseSelection { get; set; }
+        [Option] public bool ForceFirstSelectionToHover { get; set; }
 
         public Options()
         {

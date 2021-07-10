@@ -1,27 +1,19 @@
 ﻿using AzeLib;
-using AzeLib.Attributes;
 using HarmonyLib;
 using Newtonsoft.Json;
-using PeterHan.PLib.Database;
 using PeterHan.PLib.Options;
 using System.IO;
 using System.Reflection;
 
 namespace BetterLogicOverlay
 {
-    [JsonObject(MemberSerialization.OptIn)]
-    [PeterHan.PLib.Options.RestartRequired]
+    [RestartRequired]
     public class Options : BaseOptions<Options>
     {
-        public bool isTranslated = true;
+        [Option] public bool FixWireOverwrite { get; set; }
+        [Option] public bool DisplayLogicSettings { get; set; }
 
-        [Option]
-        [JsonProperty]
-        public bool FixWireOverwrite { get; set; }
-
-        [Option]
-        [JsonProperty]
-        public bool DisplayLogicSettings { get; set; }
+        [JsonIgnore] public bool isTranslated = true;
 
         public Options()
         {

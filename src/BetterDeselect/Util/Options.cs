@@ -1,17 +1,13 @@
 ﻿using AzeLib;
-using Newtonsoft.Json;
 using PeterHan.PLib.Options;
 
 namespace BetterDeselect
 {
-    [JsonObject(MemberSerialization.OptIn)]
     public class Options : BaseOptions<Options>
     {
-        [Option]
-        [JsonProperty] public ClickNum Overlay { get; set; }
-
-        [Option]
-        [JsonProperty] public ClickNum BuildMenu { get; set; }
+        [Option] public ClickNum Overlay { get; set; }
+        [Option] public ClickNum BuildMenu { get; set; }
+        [Option] public ReselectMode Reselect { get; set; }
 
         public enum ClickNum
         {
@@ -19,10 +15,6 @@ namespace BetterDeselect
             [Option("Second")] Two,
             [Option("Third")] Three
         }
-
-        [Option]
-        [JsonProperty]
-        public ReselectMode Reselect { get; set; }
 
         public enum ReselectMode
         {

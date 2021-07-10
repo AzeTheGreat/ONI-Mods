@@ -19,7 +19,7 @@ namespace BetterInfoCards
         public class TEMPERATUREBANDWIDTH : BaseOpt
         {
             public static LocString NAME = "Temperature Band Width";
-            public static LocString TOOLTIP = "Info cards are grouped grouped by temperature if they are close enough, this sets the maximum temperature difference at which info cards will be grouped.";
+            public static LocString TOOLTIP = "Info cards are grouped by temperature if they are close enough, this sets the maximum temperature difference at which info cards will be grouped.";
         }
 
         public class USEBASESELECTION : BaseOpt
