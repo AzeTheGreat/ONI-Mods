@@ -3,4 +3,8 @@
   <PropertyGroup>
     <AssemblyTitle>SufficientOxygenGeneration</AssemblyTitle>
   </PropertyGroup>
+  <PropertyGroup>
+    <Title>Sufficient Oxygen Generation</Title>
+    <Description>Allows the oxygen generation warning to be configured to be less sensitive.</Description>
+  </PropertyGroup>
 </Project>

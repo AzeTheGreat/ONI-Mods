@@ -3,4 +3,8 @@
   <PropertyGroup>
     <AssemblyTitle>FixedCameraPan</AssemblyTitle>
   </PropertyGroup>
+  <PropertyGroup>
+    <Title>Fixed Camera Pan</Title>
+    <Description>Makes camera pan speed independent of frame rate and configurable.</Description>
+  </PropertyGroup>
 </Project>

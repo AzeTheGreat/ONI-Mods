@@ -1,36 +1,24 @@
-﻿using Harmony;
+﻿using AzeLib;
+using HarmonyLib;
 using Newtonsoft.Json;
-using PeterHan.PLib;
-using PeterHan.PLib.Datafiles;
+using PeterHan.PLib.Options;
 using System.IO;
 using System.Reflection;
-using AzeLib;
 
 namespace BetterLogicOverlay
 {
-    [JsonObject(MemberSerialization.OptIn)]
-    [PeterHan.PLib.Options.RestartRequired]
+    [RestartRequired]
     public class Options : BaseOptions<Options>
     {
-        public bool isTranslated = true;
+        [Option] public bool FixWireOverwrite { get; set; }
+        [Option] public bool DisplayLogicSettings { get; set; }
 
-        [Option("Fix Wire Overwriting", "If true, green signals will not make a red output port display as green.")]
-        [JsonProperty]
-        public bool FixWireOverwrite { get; set; }
-
-        [Option("Display Logic Settings", "If true, logic gate and sensor settings will be displayed in the automation overlay.")]
-        [JsonProperty]
-        public bool DisplayLogicSettings { get; set; }
+        [JsonIgnore] public bool isTranslated = true;
 
         public Options()
         {
             FixWireOverwrite = true;
             DisplayLogicSettings = true;
-        }
-
-        public static void OnLoad()
-        {
-            PLocalization.Register();
         }
 
         private bool GetTranslatedStatus()

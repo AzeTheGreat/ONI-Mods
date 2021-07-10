@@ -1,8 +1,8 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 
 namespace InfiniteResearch
 {
-    [HarmonyPatch(typeof(GlobalAssets), "Awake")]
+    [HarmonyPatch(typeof(GlobalAssets), nameof(GlobalAssets.OnPrefabInit))]
     public class BUILDING
     {
         static void Postfix() => LocString.CreateLocStringKeys(typeof(BUILDING));

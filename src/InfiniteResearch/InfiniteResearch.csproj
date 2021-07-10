@@ -2,6 +2,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>   
     <AssemblyTitle>InfiniteResearch</AssemblyTitle>
-    <supportedContent>EXPANSION1_ID</supportedContent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Title>Endless Science</Title>
+    <Description>Allows dupes to train science even after research is complete.</Description>
   </PropertyGroup>
 </Project>

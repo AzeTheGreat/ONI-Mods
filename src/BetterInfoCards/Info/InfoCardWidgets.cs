@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Entry = HoverTextDrawer.Pool<UnityEngine.MonoBehaviour>.Entry;
 
 namespace BetterInfoCards
 {
     public class InfoCardWidgets
     {
-        public List<Widget> widgets = new();
-        public Widget shadowBar;
-        public Widget selectBorder;
+        public List<Entry> widgets = new();
+        public Entry shadowBar;
+        public Entry selectBorder;
         public Vector2 offset = new();
 
         public float YMax => shadowBar.rect.anchoredPosition.y;
@@ -15,7 +16,7 @@ namespace BetterInfoCards
         public float Width => shadowBar.rect.rect.width;
         public float Height => shadowBar.rect.rect.height;
 
-        public void AddWidget(Widget entry, GameObject prefab)
+        public void AddWidget(Entry entry, GameObject prefab)
         {
             var skin = HoverTextScreen.Instance.drawer.skin;
 

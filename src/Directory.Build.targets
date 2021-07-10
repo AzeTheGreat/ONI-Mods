@@ -1,92 +1,108 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
 
+  <!--Ignore the contents of the Previews folder.-->
   <ItemGroup>
     <Compile Remove="Previews\**" />
     <EmbeddedResource Remove="Previews\**" />
     <None Remove="Previews\**" />
   </ItemGroup>
 
+  <!--Publicise the game's assemblies on rebuilds.-->
   <Target Name="Publicise" AfterTargets="Clean">
     <Publicise
       InputAssemblies="@(PubliciseInputAssemblies)"
       OutputPath="../lib/"/>
   </Target>
-  
+
+  <!--Increment the version number after each build, resetting each day.-->
   <Import Project="AutoIncrement.targets" />
-	<Target Name="AutoIncrement" BeforeTargets="PrepareForBuild">   
-		<AutoIncrement Path="$(IntermediateOutputPath)">
-			<Output 
-        PropertyName="ProjectRevision" 
+  <Target Name="AutoIncrement" BeforeTargets="PrepareForBuild">
+    <AutoIncrement Path="$(IntermediateOutputPath)">
+      <Output
+        PropertyName="ProjectRevision"
         TaskParameter="Revision" />
-		</AutoIncrement>
-		<PropertyGroup>
-			<Version>
-				$([System.DateTime]::Now.Year).$([System.DateTime]::Now.Month).$([System.DateTime]::Now.Day).$(ProjectRevision)
-			</Version>
-		</PropertyGroup>
-	</Target>
-
-  <PropertyGroup>
-    <ModInfoFile>$(IntermediateOutputPath)\mod_info.yaml</ModInfoFile>
-  </PropertyGroup>
-  <Target Name="WriteModInfoFile" BeforeTargets="PreBuildEvent">
-    <WriteLinesToFile File="$(ModInfoFile)" Overwrite="true" Lines="" />
-    <WriteLinesToFile File="$(ModInfoFile)" Lines="supportedContent: $(supportedContent)" />
-    <WriteLinesToFile File="$(ModInfoFile)" Lines="lastWorkingBuild: $(lastWorkingBuild)" />
+    </AutoIncrement>
+    <PropertyGroup>
+      <Version>$([System.DateTime]::Now.Year).$([System.DateTime]::Now.Month).$([System.DateTime]::Now.Day).$(ProjectRevision)</Version>
+    </PropertyGroup>
   </Target>
-	
-	<Target Name="ClearGameFolderCopyLocal" AfterTargets="ResolveAssemblyReferences"> 
-		<ItemGroup>
-			<ReferenceCopyLocalPaths Remove="$(GameFolder)\*" />
-		</ItemGroup>
-	</Target>
 
-	<Target Name="ILRepack" AfterTargets="Build" Condition=" '$(AssemblyName)' != 'AzeLib'">
-		<ItemGroup>
-			<InputAssemblies 
-        Include="$(TargetDir)\*.dll"
-			  Exclude="**\0Harmony.dll" />
-		</ItemGroup>
-		<ILRepack
+  <!--Create and update the mod_info and mod file.-->
+  <Target Name="WriteModInfoFile" BeforeTargets="PreBuildEvent">
+    <WriteLinesToFile File="$(TargetDir)\mod_info.yaml" Overwrite="true" Lines=
+                      "APIVersion: 2;
+                      supportedContent: $(supportedContent);
+                      minimumSupportedBuild: $(minimumSupportedBuild);
+                      version: &quot;$(Version)&quot;" />
+
+    <PropertyGroup>
+      <ModFile>$(TargetDir)\mod.yaml</ModFile>
+      <Title Condition=" '$(Configuration)' == 'Debug' ">DEV: $(Title)</Title>
+    </PropertyGroup>
+    <WriteLinesToFile File="$(ModFile)" Overwrite="true" Lines=
+                      "staticID: Aze.$(AssemblyName);
+                      description: &quot;$(Description)&quot;;
+                      title: &quot;$(Title)&quot;" />
+  </Target>
+
+  <!--Prevent game assemblies from being copied (and thus merged).-->
+  <Target Name="ClearCopyLocalReferences" AfterTargets="ResolveAssemblyReferences">
+    <ItemGroup>
+      <ReferenceCopyLocalPaths Remove="$(GameFolder)\* " />
+    </ItemGroup>
+  </Target>
+
+  <!--Merge required assemblies.-->
+  <Target Name="ILRepack" AfterTargets="Build" Condition=" '$(AssemblyName)' != 'AzeLib'">
+    <!--The primary assembly must be the first one, so this is ugly.-->
+    <ItemGroup>
+      <InputAssemblies Include ="$(TargetPath)" />
+      <InputAssemblies
+        Include ="$(TargetDir)\*.dll"
+        Exclude ="$(TargetPath); **/System.*"/>
+    </ItemGroup>
+    <ILRepack
       TargetPlatformVersion="v2"
-			OutputType="SameAsPrimaryAssembly"
-			MainAssembly="$(TargetPath)"
-			OutputAssembly="$(TargetPath)"
+			TargetKind="SameAsPrimaryAssembly"
+			OutputFile="$(TargetPath)"
 			InputAssemblies="@(InputAssemblies)"
-			WilcardInputAssemblies="true"
-			WorkingDirectory="$(GameFolder)"
+			Wildcards="true"
+      LibraryPath="$(GameFolder)"
       Parallel="true"/>
-	</Target>
+  </Target>
 
-	<Target Name="CopyArtifactsToInstallFolder" AfterTargets="ILRepack" Condition=" '$(ShouldDistribute)' != 'false' ">
-		<ItemGroup>
-			<AnimFiles Include="$(ProjectDir)\anim\**\*.*" />
-			<WorldGenFiles Include="$(ProjectDir)\worldgen\**\*.*" />
-			<YamlFiles Include="$(ProjectDir)\*.yaml" />
-			<SpriteFiles Include="$(ProjectDir)\*.dds" />
-		</ItemGroup>
-		<Copy SourceFiles="@(AnimFiles)" DestinationFiles="@(AnimFiles->'$(InstallFolder)\anim\%(RecursiveDir)%(Filename)%(Extension)')" />
-		<Copy SourceFiles="@(WorldGenFiles)" DestinationFiles="@(WorldGenFiles->'$(InstallFolder)\worldgen\%(RecursiveDir)%(Filename)%(Extension)')" />
-		<Copy SourceFiles="@(YamlFiles)" DestinationFolder="$(InstallFolder)" />
-		<Copy SourceFiles="@(SpriteFiles)" DestinationFolder="$(InstallFolder)" />
-		<Copy SourceFiles="$(TargetPath)" DestinationFiles="$(InstallFolder)\$(TargetFileName)" />
-    <Copy SourceFiles="$(ModInfoFile)" DestinationFolder="$(InstallFolder)" />
-	</Target>
+  <!--Copy the mod to the install folder.-->
+  <Target Name="CopyArtifactsToInstallFolder" AfterTargets="ILRepack" Condition=" '$(ShouldDistribute)' != 'false' ">
+    <ItemGroup>
+      <AnimFiles Include="$(ProjectDir)\anim\**\*.*" />
+      <WorldGenFiles Include="$(ProjectDir)\worldgen\**\*.*" />
+      <YamlFiles Include="$(ProjectDir)\*.yaml" />
+      <SpriteFiles Include="$(ProjectDir)\*.dds" />
+      <InfoFiles Include="$(TargetDir)\*.yaml" />
+    </ItemGroup>
+    <Copy SourceFiles="@(AnimFiles)" DestinationFiles="@(AnimFiles->'$(InstallFolder)\anim\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(WorldGenFiles)" DestinationFiles="@(WorldGenFiles->'$(InstallFolder)\worldgen\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(YamlFiles)" DestinationFolder="$(InstallFolder)" />
+    <Copy SourceFiles="@(SpriteFiles)" DestinationFolder="$(InstallFolder)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFiles="$(InstallFolder)\$(TargetFileName)" />
+    <Copy SourceFiles="@(InfoFiles)" DestinationFolder="$(InstallFolder)" />
+  </Target>
 
-	<Target Name="Zip" AfterTargets="CopyArtifactsToInstallFolder" Condition=" '$(Configuration)' == 'Release' And '$(ShouldDistribute)' != 'false' ">	
-    <CreateItem 
+  <!--If releasing, create a zipped version of the mod to distribute for manual downloads.-->
+  <Target Name="Zip" AfterTargets="CopyArtifactsToInstallFolder" Condition=" '$(Configuration)' == 'Release' And '$(ShouldDistribute)' != 'false' ">
+    <CreateItem
       Include="$(InstallFolder)\**\*.*"
       Exclude="$(InstallFolder)\*.zip">
-			<Output
+      <Output
         ItemName="ZipFiles"
         TaskParameter="Include"/>
-		</CreateItem>
-		<Zip 
+    </CreateItem>
+    <Zip
       ZipFileName="$(DistributeFolder)\$(ProjectName).zip"
       WorkingDirectory="$(InstallFolder)"
       Files="@(ZipFiles)"
       Flatten="false" />
-	</Target>
-  
+  </Target>
+
 </Project>

@@ -3,4 +3,8 @@
   <PropertyGroup>   
     <AssemblyTitle>NoPointlessScrollbars</AssemblyTitle>
   </PropertyGroup>
+  <PropertyGroup>
+    <Title>No Pointless Scrollbars</Title>
+    <Description>Removes scrollbars from plan screen windows that don't need them.</Description>
+  </PropertyGroup>
 </Project>

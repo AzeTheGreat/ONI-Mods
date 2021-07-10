@@ -1,5 +1,5 @@
 ﻿using BetterInfoCards.Export;
-using Harmony;
+using HarmonyLib;
 
 namespace BetterInfoCards
 {

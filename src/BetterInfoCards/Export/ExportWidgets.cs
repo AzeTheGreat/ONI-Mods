@@ -1,4 +1,4 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -41,7 +41,7 @@ namespace BetterInfoCards.Export
         [HarmonyPatch(typeof(HoverTextDrawer.Pool<MonoBehaviour>), nameof(HoverTextDrawer.Pool<MonoBehaviour>.Draw))]
         class GetWidget_Patch
         {
-            static void Postfix(Widget __result, GameObject ___prefab)
+            static void Postfix(HoverTextDrawer.Pool<MonoBehaviour>.Entry __result, GameObject ___prefab)
             {
                 curICWidgets.AddWidget(__result, ___prefab);
             }

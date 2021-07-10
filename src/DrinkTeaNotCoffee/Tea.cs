@@ -1,18 +1,17 @@
-﻿using PeterHan.PLib.Datafiles;
+﻿using AzeLib.Attributes;
 using STRINGS;
 
 namespace DrinkTeaNotCoffee
 {
     public class Tea
     {
-        public static void OnLoad()
+        [OnLoad]
+        private static void UpdateStrings()
         {
-            PLocalization.Register();
+            BUILDINGS.PREFABS.ESPRESSOMACHINE.NAME = MYSTRINGS.TEAMACHINE.NAME;
+            BUILDINGS.PREFABS.ESPRESSOMACHINE.DESC = MYSTRINGS.TEAMACHINE.DESC;
 
-            BUILDINGS.PREFABS.ESPRESSOMACHINE.NAME = STRINGS.TEAMACHINE.NAME;
-            BUILDINGS.PREFABS.ESPRESSOMACHINE.DESC = STRINGS.TEAMACHINE.DESC;
-
-            DUPLICANTS.MODIFIERS.ESPRESSO.NAME = STRINGS.TEA.NAME;
+            DUPLICANTS.MODIFIERS.ESPRESSO.NAME = MYSTRINGS.TEA.NAME;
         }
     }
 }

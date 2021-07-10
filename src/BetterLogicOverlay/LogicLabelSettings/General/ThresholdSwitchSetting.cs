@@ -30,7 +30,7 @@ namespace BetterLogicOverlay.LogicSettingDisplay
                 if (threshold > 10000f)
                 {
                     threshold /= 1000f;
-                    modifier = ASTRINGS.UNITMODIFIERS.thousand;
+                    modifier = MYSTRINGS.UNITMODIFIERS.thousand;
                 }
 
                 return Mathf.Round(threshold) + modifier;

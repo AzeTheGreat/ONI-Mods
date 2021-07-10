@@ -1,28 +1,18 @@
 ﻿using AzeLib;
 using Newtonsoft.Json;
-using PeterHan.PLib;
+using PeterHan.PLib.Options;
 using UnityEngine;
 
 namespace BetterInfoCards
 {
-    [JsonObject(MemberSerialization.OptIn)]
-    [PeterHan.PLib.Options.RestartRequired]
+    [RestartRequired]
     public class Options : BaseOptions<Options>
     {
-        [Option("Info Card Compactness", "How compact the info cards should be.")]
-        [JsonProperty] public CompactMode Compactness { get; set; }
-
-        [Option("Info Card Opacity", "Game default is 0.9.")]
-        [JsonProperty] public float InfoCardOpacity { get; set; }
-
-        [Option("Temperature Band Width", "Info cards are grouped grouped by temperature if they are close enough, this sets the maximum temperature difference at which info cards will be grouped.")]
-        [JsonProperty] public float TemperatureBandWidth { get; set; }
-
-        [Option("Restricted Selection", "Only allow selecting items that would be selectable in the base game.")]
-        [JsonProperty] public bool UseBaseSelection { get; set; }
-
-        [Option("First Selection Hover", "Limit the first selection to the hovered item, without further restricting future selections.")]
-        [JsonProperty] public bool ForceFirstSelectionToHover { get; set; }
+        [Option] public CompactMode Compactness { get; set; }
+        [Option] public float InfoCardOpacity { get; set; }
+        [Option] public float TemperatureBandWidth { get; set; }
+        [Option] public bool UseBaseSelection { get; set; }
+        [Option] public bool ForceFirstSelectionToHover { get; set; }
 
         public Options()
         {

@@ -1,8 +1,8 @@
 ﻿using AzeLib;
+using AzeLib.Attributes;
 using Newtonsoft.Json;
-using PeterHan.PLib;
-using PeterHan.PLib.Datafiles;
-using TUNING;
+using PeterHan.PLib.Database;
+using PeterHan.PLib.Options;
 
 namespace InfiniteResearch
 {
@@ -60,9 +60,7 @@ namespace InfiniteResearch
             CosmicResearchCenterExpRate = TUNING.SKILLS.ALL_DAY_EXPERIENCE;
         }
 
-        public static void OnLoad()
-        {
-            PLocalization.Register();
-        }
+        [OnLoad]
+        private static void RegisterStrings() => new PLocalization().Register();
     }
 }

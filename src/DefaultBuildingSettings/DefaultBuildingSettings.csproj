@@ -3,4 +3,8 @@
   <PropertyGroup>    
     <AssemblyTitle>DefaultBuildingSettings</AssemblyTitle>
   </PropertyGroup>
+  <PropertyGroup>
+    <Title>Default Building Settings</Title>
+    <Description>Provides config options to change the default settings many buildings spawn with.</Description>
+  </PropertyGroup>
 </Project>

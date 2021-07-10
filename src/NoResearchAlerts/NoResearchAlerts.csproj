@@ -3,4 +3,8 @@
   <PropertyGroup>
     <AssemblyTitle>NoResearchAlerts</AssemblyTitle>
   </PropertyGroup>
+  <PropertyGroup>
+    <Title>No Research Alerts</Title>
+    <Description>Prevents notification icons from showing newly unlocked buildings.</Description>
+  </PropertyGroup>
 </Project>

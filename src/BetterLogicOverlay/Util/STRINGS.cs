@@ -1,6 +1,8 @@
-﻿namespace BetterLogicOverlay
+﻿using AzeLib;
+
+namespace BetterLogicOverlay
 {
-    class ASTRINGS
+    public class MYSTRINGS : RegisterStrings
     {
         public class UNITMODIFIERS
         {
@@ -200,6 +202,21 @@
             public static LocString Snow = string.Empty;
 
             public static LocString Wolframite = string.Empty;
+        }
+    }
+
+    public class OPTIONS : RegisterStrings
+    {
+        public class FIXWIREOVERWRITE : BaseOpt
+        {
+            public static LocString NAME = "Fix Wire Overwriting";
+            public static LocString TOOLTIP = "If true, green signals will not make a red output port display as green.";
+        }
+
+        public class DISPLAYLOGICSETTINGS : BaseOpt
+        {
+            public static LocString NAME = "Display Logic Settings";
+            public static LocString TOOLTIP = "If true, logic gate and sensor settings will be displayed in the automation overlay.";
         }
     }
 }

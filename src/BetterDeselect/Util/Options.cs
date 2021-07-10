@@ -1,19 +1,13 @@
 ﻿using AzeLib;
-using Newtonsoft.Json;
-using PeterHan.PLib;
+using PeterHan.PLib.Options;
 
 namespace BetterDeselect
 {
-    [JsonObject(MemberSerialization.OptIn)]
     public class Options : BaseOptions<Options>
     {
-        private const string tooltip = "What order to deslect items. The Cursor is deslected on First.";
-
-        [Option("Deselect Overlay", tooltip)]
-        [JsonProperty] public ClickNum Overlay { get; set; }
-
-        [Option("Deselect Build Menu", tooltip)]
-        [JsonProperty] public ClickNum BuildMenu { get; set; }
+        [Option] public ClickNum Overlay { get; set; }
+        [Option] public ClickNum BuildMenu { get; set; }
+        [Option] public ReselectMode Reselect { get; set; }
 
         public enum ClickNum
         {
@@ -22,17 +16,13 @@ namespace BetterDeselect
             [Option("Third")] Three
         }
 
-        [Option("Selection Mode", "When reselecting a held tool, or opening a category, choose what to do with the selected tool.")]
-        [JsonProperty]
-        public ReselectMode Reselect { get; set; }
-
         public enum ReselectMode
         {
             [Option("Hold Selected", "Continue holding the same tool.")] Hold,
             [Option("Deselect Selected", "Deselect the tool. Closest to vanilla behavior.")] Close
         }
 
-        public override bool ValidateSettings()
+        protected override bool ValidateSettings()
         {
             if (!(Overlay == ClickNum.Three && BuildMenu == ClickNum.Three))
                 return true;

@@ -3,4 +3,8 @@
   <PropertyGroup>
     <AssemblyTitle>CleanHUD</AssemblyTitle>
   </PropertyGroup>
+  <PropertyGroup>
+    <Title>Clean HUD</Title>
+    <Description>Provides multiple options to simplify the main HUD.</Description>
+  </PropertyGroup>
 </Project>

@@ -3,4 +3,8 @@
   <PropertyGroup>  
     <AssemblyTitle>DefaultSaveSettings</AssemblyTitle>
   </PropertyGroup>
+  <PropertyGroup>
+    <Title>Default Save Settings</Title>
+    <Description>Provides config options to change the default settings new saves start with.</Description>
+  </PropertyGroup>
 </Project>
