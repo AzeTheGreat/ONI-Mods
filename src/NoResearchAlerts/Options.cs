@@ -16,10 +16,10 @@ namespace NoResearchAlerts
             FastClear
         }
 
-        [Option("Mode", "The mode to use.")]
+        [Option]
         [JsonProperty]
         public Mode AlertMode { get; set; }
-        [Option("Prevent Notification", "If true, prevents notifications in the top left due to completed research.")]
+        [Option]
         [JsonProperty]
         public bool SuppressMessage { get; set; }
 

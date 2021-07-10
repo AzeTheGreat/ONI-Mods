@@ -1,8 +1,9 @@
-﻿using STRINGS;
+﻿using AzeLib;
+using STRINGS;
 
 namespace DrinkTeaNotCoffee
 {
-    class STRINGS
+    class MYSTRINGS : RegisterStrings
     {
         public class TEAMACHINE
         {

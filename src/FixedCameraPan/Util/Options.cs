@@ -7,7 +7,7 @@ namespace FixedCameraPan
     [JsonObject(MemberSerialization.OptIn)]
     public class Options : BaseOptions<Options>
     {
-        [Option("Pan Speed", "Set to the framerate at which you find the speed comfortable.  At 60, the camera will always move at the same speed as it moves when the game is at 60 FPS.")]
+        [Option]
         [Limit(1, 999)]
         [JsonProperty]
         public float PanSpeed { get; set; }

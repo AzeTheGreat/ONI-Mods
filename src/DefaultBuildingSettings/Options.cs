@@ -1,45 +1,44 @@
 ﻿using AzeLib;
 using PeterHan.PLib.Options;
-using static DefaultBuildingSettings.STRINGS.DEFAULTBUILDINGSETTINGS.OPTIONS;
 
 namespace DefaultBuildingSettings
 {
     [PeterHan.PLib.Options.RestartRequired]
     public class Options : BaseOptions<Options>
     {
-        [Option(VACANCYONLY.nameKey, VACANCYONLY.tooltipKey)]
+        [Option]
         public bool VacancyOnly { get; set; }
 
-        [Option(SWEEPONLY.nameKey, SWEEPONLY.tooltipKey)]
+        [Option]
         public bool SweepOnly { get; set; }
 
-        [Option(AUTOREPAIROFF.nameKey, AUTOREPAIROFF.tooltipKey)]
+        [Option]
         public bool AutoRepairOff { get; set; }
 
-        [Option(OPENDOOR.nameKey, OPENDOOR.tooltipKey)]
+        [Option]
         public bool OpenDoors { get; set; }
 
-        [Option(SWITCHESOFF.nameKey, SWITCHESOFF.tooltipKey)]
+        [Option]
         public bool SwitchesOff { get; set; }
 
-        [Option(ACTIVATIONRANGE.ACTIVATEVALUE.nameKey, ACTIVATIONRANGE.ACTIVATEVALUE.tooltipKey, ACTIVATIONRANGE.batteryCatKey)]
+        [Option]
         [Limit(0, 100)]
         public int SmartBatteryActivateValue { get; set; }
-        [Option(ACTIVATIONRANGE.DEACTIVATEVALUE.nameKey, ACTIVATIONRANGE.DEACTIVATEVALUE.tooltipKey, ACTIVATIONRANGE.batteryCatKey)]
+        [Option]
         [Limit(0, 100)]
         public int SmartBatteryDeactivateValue { get; set; }
 
-        [Option(ACTIVATIONRANGE.ACTIVATEVALUE.nameKey, ACTIVATIONRANGE.ACTIVATEVALUE.tooltipKey, ACTIVATIONRANGE.reservoirCatKey)]
+        [Option]
         [Limit(0, 100)]
         public int ReservoirActivateValue { get; set; }
-        [Option(ACTIVATIONRANGE.DEACTIVATEVALUE.nameKey, ACTIVATIONRANGE.DEACTIVATEVALUE.tooltipKey, ACTIVATIONRANGE.reservoirCatKey)]
+        [Option]
         [Limit(0, 100)]
         public int ReservoirDeactivateValue { get; set; }
 
-        [Option(GENERATORS.DELIVERGENVALUE.nameKey, GENERATORS.DELIVERGENVALUE.tooltipKey, GENERATORS.categoryKey)]
+        [Option]
         [Limit(0, 100)]
         public int DeliverGenValue { get; set; }
-        [Option(GENERATORS.MANUALGENVALUE.nameKey, GENERATORS.MANUALGENVALUE.tooltipKey, GENERATORS.categoryKey)]
+        [Option]
         [Limit(0, 100)]
         public int ManualGenValue { get; set; }
 

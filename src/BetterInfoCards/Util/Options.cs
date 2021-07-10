@@ -9,19 +9,19 @@ namespace BetterInfoCards
     [PeterHan.PLib.Options.RestartRequired]
     public class Options : BaseOptions<Options>
     {
-        [Option("Info Card Compactness", "How compact the info cards should be.")]
+        [Option]
         [JsonProperty] public CompactMode Compactness { get; set; }
 
-        [Option("Info Card Opacity", "Game default is 0.9.")]
+        [Option]
         [JsonProperty] public float InfoCardOpacity { get; set; }
 
-        [Option("Temperature Band Width", "Info cards are grouped grouped by temperature if they are close enough, this sets the maximum temperature difference at which info cards will be grouped.")]
+        [Option]
         [JsonProperty] public float TemperatureBandWidth { get; set; }
 
-        [Option("Restricted Selection", "Only allow selecting items that would be selectable in the base game.")]
+        [Option]
         [JsonProperty] public bool UseBaseSelection { get; set; }
 
-        [Option("First Selection Hover", "Limit the first selection to the hovered item, without further restricting future selections.")]
+        [Option]
         [JsonProperty] public bool ForceFirstSelectionToHover { get; set; }
 
         public Options()

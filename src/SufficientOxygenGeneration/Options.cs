@@ -17,16 +17,16 @@ namespace SufficientOxygenGeneration
             Off
         }
 
-        [Option("Mode", "Switch between constant or ratio threshold.")]
+        [Option]
         [JsonProperty]
         public OxygenThresholMode Mode { get; set; }
 
-        [Option("Constant Threshold", "Set to oxygen deficit in kg below which you'd like to be notified.")]
+        [Option]
         [Limit(0.0001f, 9999f)]
         [JsonProperty]
         public float ConstantThreshold { get; set; }
 
-        [Option("Ratio Threshold", "Set to the ratio of oxygen produced to consumed, below which you'd like to be notified.")]
+        [Option]
         [Limit(0f, 1f)]
         [JsonProperty]
         public float RatioThreshold { get; set; }

@@ -1,5 +1,4 @@
 ﻿using AzeLib.Attributes;
-using PeterHan.PLib.Database;
 using STRINGS;
 
 namespace DrinkTeaNotCoffee
@@ -7,14 +6,12 @@ namespace DrinkTeaNotCoffee
     public class Tea
     {
         [OnLoad]
-        private static void RegisterAndUpdateStrings()
+        private static void UpdateStrings()
         {
-            new PLocalization().Register();
+            BUILDINGS.PREFABS.ESPRESSOMACHINE.NAME = MYSTRINGS.TEAMACHINE.NAME;
+            BUILDINGS.PREFABS.ESPRESSOMACHINE.DESC = MYSTRINGS.TEAMACHINE.DESC;
 
-            BUILDINGS.PREFABS.ESPRESSOMACHINE.NAME = STRINGS.TEAMACHINE.NAME;
-            BUILDINGS.PREFABS.ESPRESSOMACHINE.DESC = STRINGS.TEAMACHINE.DESC;
-
-            DUPLICANTS.MODIFIERS.ESPRESSO.NAME = STRINGS.TEA.NAME;
+            DUPLICANTS.MODIFIERS.ESPRESSO.NAME = MYSTRINGS.TEA.NAME;
         }
     }
 }

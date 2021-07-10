@@ -7,12 +7,10 @@ namespace BetterDeselect
     [JsonObject(MemberSerialization.OptIn)]
     public class Options : BaseOptions<Options>
     {
-        private const string tooltip = "What order to deslect items. The Cursor is deslected on First.";
-
-        [Option("Deselect Overlay", tooltip)]
+        [Option]
         [JsonProperty] public ClickNum Overlay { get; set; }
 
-        [Option("Deselect Build Menu", tooltip)]
+        [Option]
         [JsonProperty] public ClickNum BuildMenu { get; set; }
 
         public enum ClickNum
@@ -22,7 +20,7 @@ namespace BetterDeselect
             [Option("Third")] Three
         }
 
-        [Option("Selection Mode", "When reselecting a held tool, or opening a category, choose what to do with the selected tool.")]
+        [Option]
         [JsonProperty]
         public ReselectMode Reselect { get; set; }
 

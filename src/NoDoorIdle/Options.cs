@@ -8,13 +8,13 @@ namespace NoDoorIdle
     [JsonObject(MemberSerialization.OptIn)]
     public class Options : BaseOptions<Options>
     {
-        [Option("Idle In Doors", "When true, duplicants can idle inside of doors.")]
+        [Option]
         [JsonProperty] public bool CanIdleInDoors { get; set; }
 
-        [Option("Idle Traverse Doors", "When true, duplicants can cross doors while idling.")]
+        [Option]
         [JsonProperty] public bool CanIdleTraverseDoors { get; set; }
 
-        [Option("Fix Idle Trapping", "When true, fixes a base game bug that causes dupes to get stuck at checkpoints when idle.")]
+        [Option]
         [JsonProperty] public bool FixIdleTrapping { get; set; }
 
         public Options()

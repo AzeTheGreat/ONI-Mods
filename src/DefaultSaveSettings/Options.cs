@@ -1,17 +1,16 @@
 ﻿using AzeLib;
 using Newtonsoft.Json;
 using PeterHan.PLib.Options;
-using static DefaultSaveSettings.STRINGS.DEFAULTSAVESETTINGS.OPTIONS;
 
 namespace DefaultSaveSettings
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class Options : BaseOptions<Options>
     {
-        [Option(ENABLEPROXIMITY.nameKey, ENABLEPROXIMITY.tooltipKey)]
+        [Option]
         [JsonProperty] public bool EnableProximity { get; set; }
 
-        [Option(AUTOSAVEINTERVAL.nameKey, AUTOSAVEINTERVAL.tooltipKey)]
+        [Option]
         [JsonProperty] public SaveIntervals AutoSaveInterval { get; set; }
 
         // TODO: Correct to be string keys once they properly work in PLib.
@@ -26,7 +25,7 @@ namespace DefaultSaveSettings
             [Option("Every Cycle")] Every
         }
 
-        [Option(TIMELAPSERESOLUTION.nameKey, TIMELAPSERESOLUTION.tooltipKey)]
+        [Option]
         [Limit(0, 6)]
         [JsonProperty] public Resolutions TimelapseResolution { get; set; }
 
@@ -41,10 +40,10 @@ namespace DefaultSaveSettings
             [Option("8192 x 12288")] R8192
         }
 
-        [Option(GERMS.ENABLEAUTODISINFECT.nameKey, GERMS.ENABLEAUTODISINFECT.tooltipKey, GERMS.categoryKey)]
+        [Option]
         [JsonProperty] public bool EnableAutoDisinfect { get; set; }
 
-        [Option(GERMS.DISINFECTMINGERMCOUNT.nameKey, GERMS.DISINFECTMINGERMCOUNT.tooltipKey, GERMS.categoryKey)]
+        [Option]
         [Limit(0, 1000000)]
         [JsonProperty] public int DisinfectMinGermCount { get; set; }
 

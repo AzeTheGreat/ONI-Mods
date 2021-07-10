@@ -10,7 +10,7 @@ namespace BetterLogicOverlay
 
         static void Postfix(ElementLoader.ElementEntry entry, Element elem)
         {
-            LocString abbreviation = Traverse.Create(typeof(ASTRINGS.ABBREVIATIONS)).Field(entry.elementId)?.GetValue<LocString>() ?? string.Empty;
+            LocString abbreviation = Traverse.Create(typeof(MYSTRINGS.ABBREVIATIONS)).Field(entry.elementId)?.GetValue<LocString>() ?? string.Empty;
             abbreviations.Add(elem.id, abbreviation);
         }
     }

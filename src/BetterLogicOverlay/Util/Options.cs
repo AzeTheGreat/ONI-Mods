@@ -15,11 +15,11 @@ namespace BetterLogicOverlay
     {
         public bool isTranslated = true;
 
-        [Option("Fix Wire Overwriting", "If true, green signals will not make a red output port display as green.")]
+        [Option]
         [JsonProperty]
         public bool FixWireOverwrite { get; set; }
 
-        [Option("Display Logic Settings", "If true, logic gate and sensor settings will be displayed in the automation overlay.")]
+        [Option]
         [JsonProperty]
         public bool DisplayLogicSettings { get; set; }
 
@@ -28,9 +28,6 @@ namespace BetterLogicOverlay
             FixWireOverwrite = true;
             DisplayLogicSettings = true;
         }
-
-        [OnLoad]
-        private static void RegisterStrings() => new PLocalization().Register();
 
         private bool GetTranslatedStatus()
         {
