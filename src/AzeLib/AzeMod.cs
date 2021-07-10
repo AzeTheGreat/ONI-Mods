@@ -28,7 +28,12 @@ namespace AzeLib
                     .ToList();
 
                 foreach (var method in onLoadMethods)
-                    method.Invoke(null, null);
+                {
+                    if (method.GetParameters().Count() == 1)
+                        method.Invoke(null, new[] { harmony });
+                    else
+                        method.Invoke(null, null);
+                }
 
                 base.OnLoad(harmony);
             }
