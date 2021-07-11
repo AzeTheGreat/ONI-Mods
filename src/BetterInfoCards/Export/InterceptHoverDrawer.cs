@@ -70,7 +70,9 @@ namespace BetterInfoCards
 
             static void Postfix(string text, TextStyleSetting style, Color color, bool override_color)
             {
-                if (!IsInterceptMode)
+                // Null check avoids crashes from drawing multiple empty strings.
+                // This appears to now occur when hovering neutromium tiles.
+                if (!IsInterceptMode || text.IsNullOrWhiteSpace())
                     return;
 
                 var (id, data) = ExportSelectToolData.ConsumeTextInfo();
