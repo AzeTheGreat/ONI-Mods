@@ -9,7 +9,6 @@ namespace BetterInfoCards
     {
         static bool ShouldTweak => Options.Opts.Compactness != Options.CompactMode.Default;
 
-        public static int GetNewLineHeight(int minHeight) => ShouldTweak ? Options.Opts.InfoCardSize.minHeight : minHeight;
         public static int GetNewIconSize(int imageSize) => ShouldTweak ? Math.Min(imageSize, Options.Opts.InfoCardSize.maxImageSize) : imageSize;
 
         [HarmonyPatch(typeof(HoverTextDrawer), MethodType.Constructor, new[] { typeof(HoverTextDrawer.Skin), typeof(RectTransform) })]
@@ -43,6 +42,19 @@ namespace BetterInfoCards
 
                 foreach (var style in styles.Where(x => x != null).Distinct())
                     style.fontSize -= Options.Opts.InfoCardSize.fontSizeDecrease;
+            }
+        }
+
+        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.NewLine))]
+        class NewLineHeight_Patch
+        {
+            private static readonly int minHeight = Options.Opts.InfoCardSize.minHeight;
+
+            static bool Prepare() => ShouldTweak;
+
+            static void Prefix(ref int min_height)
+            {
+                min_height = minHeight;
             }
         }
     }

@@ -81,7 +81,7 @@ namespace BetterInfoCards
 
             public override void Draw(List<InfoCard> _)
             {
-                InterceptHoverDrawer.drawerInstance.NewLine(CardTweaker.GetNewLineHeight(minHeight));
+                InterceptHoverDrawer.drawerInstance.NewLine(minHeight);
             }
         }
     }
