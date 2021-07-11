@@ -35,15 +35,13 @@ namespace BetterInfoCards
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginShadowBar))]
         class BeginShadowBar
         {
+            static ResetPool<InfoCard> pool = new(ref BeginDrawing.onBeginDrawing);
+
             [HarmonyPriority(Priority.First)]
             static bool Prefix(bool selected)
             {
                 if (IsInterceptMode)
-                {
-                    curInfoCard = new();
-                    infoCards.Add(curInfoCard);
-                    curInfoCard.isSelected = selected;
-                }
+                    infoCards.Add(curInfoCard = pool.Get().Set(selected));
                 return !IsInterceptMode;
             }
         }

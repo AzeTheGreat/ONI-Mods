@@ -12,6 +12,16 @@ namespace BetterInfoCards
         private List<DrawActions> drawActions = new();
         private (int drawIndex, TextInfo ti) titleDrawer;
 
+        public InfoCard Set(bool isSelected)
+        {
+            this.isSelected = isSelected;
+            selectable = null;
+            textInfos.Clear();
+            drawActions.Clear();
+            titleDrawer = (default, null);
+            return this;
+        }
+
         public string GetTitleKey() => titleDrawer.ti?.Text.RemoveCountSuffix() ?? string.Empty;
 
         public void Draw(List<InfoCard> cards, int visCardIndex)
