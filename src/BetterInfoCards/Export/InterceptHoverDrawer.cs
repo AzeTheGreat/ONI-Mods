@@ -6,11 +6,7 @@ namespace BetterInfoCards
 {
     static class InterceptHoverDrawer
     {
-        public static bool IsInterceptMode
-        {
-            get => !drawerInstance.skin.drawWidgets;
-            set => drawerInstance.skin.drawWidgets = !value;
-        }
+        public static bool IsInterceptMode { get; set; }
         public static HoverTextDrawer drawerInstance;
 
         private static InfoCard curInfoCard;
@@ -39,15 +35,15 @@ namespace BetterInfoCards
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginShadowBar))]
         class BeginShadowBar
         {
-            static void Postfix(bool selected)
+            static bool Prefix(bool selected)
             {
                 if (IsInterceptMode)
                 {
                     curInfoCard = new();
                     infoCards.Add(curInfoCard);
-
                     curInfoCard.isSelected = selected;
                 }
+                return !IsInterceptMode;
             }
         }
 
@@ -56,10 +52,11 @@ namespace BetterInfoCards
         {
             static ResetPool<DrawActions.Icon> pool = new(ref BeginDrawing.onBeginDrawing);
 
-            static void Postfix(Sprite icon, Color color, int image_size, int horizontal_spacing)
+            static bool Prefix(Sprite icon, Color color, int image_size, int horizontal_spacing)
             {
                 if (IsInterceptMode)
                     curInfoCard.AddDraw(pool.Get().Set(icon, color, image_size, horizontal_spacing));
+                return !IsInterceptMode;
             }
         }
 
@@ -68,16 +65,17 @@ namespace BetterInfoCards
         {
             static ResetPool<DrawActions.Text> pool = new(ref BeginDrawing.onBeginDrawing);
 
-            static void Postfix(string text, TextStyleSetting style, Color color, bool override_color)
+            static bool Prefix(string text, TextStyleSetting style, Color color, bool override_color)
             {
                 // Null check avoids crashes from drawing multiple empty strings.
                 // This appears to now occur when hovering neutromium tiles.
-                if (!IsInterceptMode || text.IsNullOrWhiteSpace())
-                    return;
-
-                var (id, data) = ExportSelectToolData.ConsumeTextInfo();
-                var ti = TextInfo.Create(id, text, data);
-                curInfoCard.AddDraw(pool.Get().Set(ti, style, color, override_color), ti);
+                if (IsInterceptMode && !text.IsNullOrWhiteSpace())
+                {
+                    var (id, data) = ExportSelectToolData.ConsumeTextInfo();
+                    var ti = TextInfo.Create(id, text, data);
+                    curInfoCard.AddDraw(pool.Get().Set(ti, style, color, override_color), ti);
+                }
+                return !IsInterceptMode;
             }
         }
 
@@ -86,10 +84,11 @@ namespace BetterInfoCards
         {
             static ResetPool<DrawActions.AddIndent> pool = new(ref BeginDrawing.onBeginDrawing);
 
-            static void Postfix(int width)
+            static bool Prefix(int width)
             {
                 if (IsInterceptMode)
                     curInfoCard.AddDraw(pool.Get().Set(width));
+                return !IsInterceptMode;
             }
         }
 
@@ -98,20 +97,22 @@ namespace BetterInfoCards
         {
             static ResetPool<DrawActions.NewLine> pool = new(ref BeginDrawing.onBeginDrawing);
 
-            static void Postfix(int min_height)
+            static bool Prefix(int min_height)
             {
                 if (IsInterceptMode)
                     curInfoCard.AddDraw(pool.Get().Set(min_height));
+                return !IsInterceptMode;
             }
         }
 
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.EndShadowBar))]
         class EndShadowBar
         {
-            static void Postfix()
+            static bool Prefix()
             {
                 if (IsInterceptMode)
                     curInfoCard.selectable = ExportSelectToolData.ConsumeSelectable();
+                return !IsInterceptMode;
             }
         }
     }
