@@ -35,6 +35,7 @@ namespace BetterInfoCards
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginShadowBar))]
         class BeginShadowBar
         {
+            [HarmonyPriority(Priority.First)]
             static bool Prefix(bool selected)
             {
                 if (IsInterceptMode)
@@ -52,6 +53,7 @@ namespace BetterInfoCards
         {
             static ResetPool<DrawActions.Icon> pool = new(ref BeginDrawing.onBeginDrawing);
 
+            [HarmonyPriority(Priority.First)]
             static bool Prefix(Sprite icon, Color color, int image_size, int horizontal_spacing)
             {
                 if (IsInterceptMode)
@@ -65,6 +67,7 @@ namespace BetterInfoCards
         {
             static ResetPool<DrawActions.Text> pool = new(ref BeginDrawing.onBeginDrawing);
 
+            [HarmonyPriority(Priority.First)]
             static bool Prefix(string text, TextStyleSetting style, Color color, bool override_color)
             {
                 // Null check avoids crashes from drawing multiple empty strings.
@@ -84,6 +87,7 @@ namespace BetterInfoCards
         {
             static ResetPool<DrawActions.AddIndent> pool = new(ref BeginDrawing.onBeginDrawing);
 
+            [HarmonyPriority(Priority.First)]
             static bool Prefix(int width)
             {
                 if (IsInterceptMode)
@@ -97,6 +101,7 @@ namespace BetterInfoCards
         {
             static ResetPool<DrawActions.NewLine> pool = new(ref BeginDrawing.onBeginDrawing);
 
+            [HarmonyPriority(Priority.First)]
             static bool Prefix(int min_height)
             {
                 if (IsInterceptMode)
@@ -108,6 +113,7 @@ namespace BetterInfoCards
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.EndShadowBar))]
         class EndShadowBar
         {
+            [HarmonyPriority(Priority.First)]
             static bool Prefix()
             {
                 if (IsInterceptMode)
