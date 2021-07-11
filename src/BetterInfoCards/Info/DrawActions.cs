@@ -49,7 +49,7 @@ namespace BetterInfoCards
 
             public override void Draw(List<InfoCard> _)
             {
-                InterceptHoverDrawer.drawerInstance.DrawIcon(icon, color, CardTweaker.GetNewIconSize(imageSize), horizontalSpacing);
+                InterceptHoverDrawer.drawerInstance.DrawIcon(icon, color, imageSize, horizontalSpacing);
             }
         }
 
