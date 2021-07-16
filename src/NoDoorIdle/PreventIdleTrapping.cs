@@ -2,7 +2,6 @@
 using HarmonyLib;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Emit;
 
 namespace NoDoorIdle
 {
@@ -23,22 +22,22 @@ namespace NoDoorIdle
             var hasSuitMarker_storeToLoc = codes.First(i => i.Calls(tryGetSuitMarkerTags_method)).FindNext(codes, i => i.IsStloc());
             var agentRequiresSuit_storeToLoc = codes.First(i => i.Calls(doesTravDirRequireSuit_method)).FindNext(codes, i => i.IsStloc());
 
-            // Find the push code instruction from the true branch; used as the splice target.
-            var pushTrue = codes.First(i => i.Calls(preventIdleTrav_getter)).FindNext(codes, i => i.OpCodeIs(OpCodes.Ldc_I4_1));
+            var lastIdleGetter = codes.Last(i => i.Calls(preventIdleTrav_getter));
+            var orBranch = codes.First(i => i.Calls(preventIdleTrav_getter)).FindNext(codes, i => i.Branches(out _));
 
             return codes
-                // Add the call to the splice.
+                // Add the call to the splice just after the last idle-getter.
                 .Manipulator(
-                    i => i == pushTrue,
+                    i => i == lastIdleGetter,
                     i => new[] {
-                        i.MakeNop(),
+                        i,
                         hasSuitMarker_storeToLoc.GetLoadFromStore(),
                         agentRequiresSuit_storeToLoc.GetLoadFromStore(),
                         CodeInstruction.Call(typeof(PreventIdleTrapping), nameof(Splice))})
-                // Remove branches that occur after indexer calls so that the results fall through to the splice.
+                // Remove the branch after the first idle-getter so that the result falls through to the splice.
                 .Manipulator(
-                    i => i.Calls(preventIdleTrav_getter),
-                    (codes, i) => codes.FindNext(i, i => i.Branches(out _)).MakeNop());
+                    i => i == orBranch,
+                    i => i.MakeNop());
         }
 
         // Allow leaving an idle cell, and allow entering another idle cell if the source is an idle cell.
