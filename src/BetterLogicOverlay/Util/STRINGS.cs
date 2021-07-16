@@ -207,13 +207,13 @@ namespace BetterLogicOverlay
 
     public class OPTIONS : RegisterStrings
     {
-        public class FIXWIREOVERWRITE : BaseOpt
+        public class FIXWIREOVERWRITE
         {
             public static LocString NAME = "Fix Wire Overwriting";
             public static LocString TOOLTIP = "If true, green signals will not make a red output port display as green.";
         }
 
-        public class DISPLAYLOGICSETTINGS : BaseOpt
+        public class DISPLAYLOGICSETTINGS
         {
             public static LocString NAME = "Display Logic Settings";
             public static LocString TOOLTIP = "If true, logic gate and sensor settings will be displayed in the automation overlay.";

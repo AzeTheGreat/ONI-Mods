@@ -4,7 +4,7 @@ namespace BetterDeselect
 {
     public class OPTIONS : RegisterStrings
     {
-        public class ClickOpt : BaseOpt
+        public class ClickOpt
         {
             public static LocString TOOLTIP = "What order to deslect items. The Cursor is deslected on First.";
         }
@@ -19,7 +19,7 @@ namespace BetterDeselect
             public static LocString NAME = "Deselect Build Menu";
         }
 
-        public class RESELECT : BaseOpt
+        public class RESELECT
         {
             public static LocString NAME = "Selection Mode";
             public static LocString TOOLTIP = "When reselecting a held tool, or opening a category, choose what to do with the selected tool.";

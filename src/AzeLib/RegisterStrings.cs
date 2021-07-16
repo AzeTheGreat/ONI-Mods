@@ -55,13 +55,5 @@ namespace AzeLib
                 LocString.CreateLocStringKeys(type, parentPath);
             }
         }
-
-        // String declaration classes inherit from this to avoid explicitly declaring an empty category.
-        // This is necessary so that "base" options are not given a "MISSING.STRINGS..." category.
-        // TODO: Remove when PLib updates to add implicit categories.
-        abstract public class BaseOpt
-        {
-            public static LocString CATEGORY = string.Empty;
-        } 
     }
 }

@@ -4,31 +4,31 @@ namespace DefaultBuildingSettings
 {
     public class OPTIONS : RegisterStrings
     {
-        public class VACANCYONLY : BaseOpt
+        public class VACANCYONLY
         {
             public static LocString NAME = "Vacancy Only";
             public static LocString TOOLTIP = "If checked, atmo and jet suit checkpoint are set to Vacancy Only by default.";
         }
 
-        public class SWEEPONLY : BaseOpt
+        public class SWEEPONLY
         {
             public static LocString NAME = "Sweep Only";
             public static LocString TOOLTIP = "If checked, storage receptacles are set to sweep only by default.";
         }
 
-        public class AUTOREPAIROFF : BaseOpt
+        public class AUTOREPAIROFF
         {
             public static LocString NAME = "Auto Repair Off";
             public static LocString TOOLTIP = "If checked, buildings will not allow repairs by default.";
         }
 
-        public class OPENDOORS : BaseOpt
+        public class OPENDOORS
         {
             public static LocString NAME = "Open Doors";
             public static LocString TOOLTIP = "If checked, Doors that allow airflow will immediately be opened after being built.";
         }
 
-        public class SWITCHESOFF : BaseOpt
+        public class SWITCHESOFF
         {
             public static LocString NAME = "Switches Start Off";
             public static LocString TOOLTIP = "If checked, automation and power switches will initialize in the inactive state.";

@@ -21,13 +21,13 @@ namespace CleanHUD
             public static LocString TOOLTIP = "Adjust the opacity of the warning vignettes (standard value = 30%) ";
         }
 
-        public class ISWATERMARKDISABLED : BaseOpt
+        public class ISWATERMARKDISABLED
         {
             public static LocString NAME = "Disable Watermark";
             public static LocString TOOLTIP = "When true, the build watermark is removed from the screen.";
         }
 
-        public class USESMALLBUTTONS : BaseOpt
+        public class USESMALLBUTTONS
         {
             public static LocString NAME = "Small Buttons";
             public static LocString TOOLTIP = "When true, the management buttons all use the small format.";

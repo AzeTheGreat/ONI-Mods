@@ -4,19 +4,19 @@ namespace DefaultSaveSettings
 {
     public class OPTIONS : RegisterStrings
     {
-        public class ENABLEPROXIMITY : BaseOpt
+        public class ENABLEPROXIMITY
         {
             public static LocString NAME = "Enable Proximity Default";
             public static LocString TOOLTIP = "If checked, the 'Enable Proximity' option is checked by default for new games.";
         }
 
-        public class AUTOSAVEINTERVAL : BaseOpt
+        public class AUTOSAVEINTERVAL
         {
             public static LocString NAME = "Default Auto Save Interval";
             public static LocString TOOLTIP = "Controls the default auto save interval.";
         }
 
-        public class TIMELAPSERESOLUTION : BaseOpt
+        public class TIMELAPSERESOLUTION
         {
             public static LocString NAME = "Default Timelapse Resolution";
             public static LocString TOOLTIP = "Controls the default timelapse resolution.";
