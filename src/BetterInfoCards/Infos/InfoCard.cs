@@ -102,7 +102,9 @@ namespace BetterInfoCards
                 }
             }
 
-            widthOverride = newWidthDelta + HoverTextScreen.Instance.drawer.skin.shadowBarBorder.x * 2f - Width;
+            var potentialWidthOverride = newWidthDelta + HoverTextScreen.Instance.drawer.skin.shadowBarBorder.x * 2f;
+            if (potentialWidthOverride > Width)
+                widthOverride = potentialWidthOverride - Width;
         }
     }
 }
