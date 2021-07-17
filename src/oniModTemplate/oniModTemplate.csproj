@@ -4,9 +4,8 @@
     <AssemblyTitle>$safeprojectname$</AssemblyTitle>
     <ShouldDistribute>false</ShouldDistribute>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Previews\**" />
-    <EmbeddedResource Remove="Previews\**" />
-    <None Remove="Previews\**" />
-  </ItemGroup>
+  <PropertyGroup>
+    <Title>Template Project</Title>
+    <Description>Default description.</Description>
+  </PropertyGroup>
 </Project>
