@@ -147,10 +147,9 @@ namespace BetterInfoCards
         {
             static void Postfix()
             {
-                Instance.intermediateInfoCard.AddSelectable(Instance.intermediateSelectable);
+                Instance.intermediateInfoCard.Finalize(Instance.intermediateSelectable);
                 Instance.infoCards.Add(Instance.intermediateInfoCard);
                 Instance.intermediateSelectable = null;
-                Instance.intermediateInfoCard = null;
             }
         }
 
@@ -161,7 +160,6 @@ namespace BetterInfoCards
             {
                 var displayCards = Instance.displayCardManager.UpdateData(Instance.infoCards);
                 ModifyHits.Update(displayCards);
-                displayCards.ForEach(x => x.Rename());
 
                 if (displayCards.Count == 0)
                     return;

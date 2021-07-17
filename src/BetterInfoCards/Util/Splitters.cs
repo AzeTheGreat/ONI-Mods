@@ -1,86 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BetterInfoCards.Util
 {
     public static class Splitters
     {
-        public static Dictionary<TKey, List<TVal>> SplitToDict<TKey, TVal>(this List<TVal> source, Func<TVal, TKey> getKey)
+        public static Dictionary<TKey, List<TVal>> SplitByKeyToDict<TKey, TVal>(this List<TVal> source, Func<TVal, TKey> getKey)
         {
             var splits = new Dictionary<TKey, List<TVal>>();
 
-            foreach (TVal item in source)
+            foreach (var item in source)
                 splits.TryAddToDict(getKey(item), item);
 
             return splits;
         }
 
-        public static Dictionary<TKey, List<TVal>> SplitToDict<TKey, TVal>(this Dictionary<TKey, List<TVal>> source, Func<TVal, TKey> getKey)
+        public static List<List<TVal>> SplitByKey<TKey, TVal>(this List<TVal> source, Func<TVal, TKey> getKey)
         {
-            var splits = new Dictionary<TKey, List<TVal>>();
-
-            foreach (var kvp in source)
-            {
-                if (kvp.Value.Count > 1)
-                {
-                    foreach (var item in kvp.Value)
-                        splits.TryAddToDict(getKey(item), item);
-                }
-                else
-                    splits[kvp.Key] = kvp.Value;
-            }
-
-            return splits;
+            if (source.Count <= 1)
+                return new() { source };
+            return source.SplitByKeyToDict(getKey).Values.ToList();
         }
 
-        public static List<List<TVal>> SplitToList<TKey, TVal>(this Dictionary<TKey, List<TVal>> source, Func<List<TVal>, List<List<TVal>>> splitter)
-        {
-            var splits = new List<List<TVal>>();
-
-            foreach (var kvp in source)
-            {
-                if (kvp.Value.Count > 1)
-                    splits.AddRange(splitter(kvp.Value));
-                else
-                    splits.Add(kvp.Value);
-            }
-                
-            return splits;
-        }
-
-        public static List<List<T>> SplitToList<T>(this List<List<T>> source, Func<List<T>, List<List<T>>> splitter)
+        public static List<List<T>> SplitMany<T>(this List<List<T>> source, Func<List<T>, List<List<T>>> getSplits)
         {
             var splits = new List<List<T>>();
 
             foreach (var group in source)
-                if (group.Count > 1)
-                    splits.AddRange(splitter(group));
-                else
+                if (group.Count <= 1)
                     splits.Add(group);
+                else
+                    splits.AddRange(getSplits(group));
 
             return splits;
         }
 
-        public static List<List<TVal>> SplitBySplitters<TVal, TSplit>(this List<TVal> source, List<TSplit> splitterDatas, Func<List<TVal>, TSplit, int, List<List<TVal>>> splitterFunc)
+        public static List<List<TVal>> SplitBySplitters<TVal, TSplit>(this List<TVal> source, List<TSplit> splitters, Func<List<TVal>, TSplit, List<List<TVal>>> getSplits)
         {
             var splits = new List<List<TVal>>() { source };
 
-            for (int i = 0; i < splitterDatas.Count; i++)
-            {
-                var splitterData = splitterDatas[i];
-                splits = splits.SplitToList((group) => splitterFunc(group, splitterData, i));
-            }
+            foreach (var splitter in splitters)
+                splits = splits.SplitMany(x => getSplits(x, splitter));
 
             return splits;
         }
 
         private static void TryAddToDict<TKey, TVal>(this Dictionary<TKey, List<TVal>> dict, TKey key, TVal item)
         {
-            if (!dict.TryGetValue(key, out List<TVal> value))
-                value = new List<TVal>();
-
+            if (!dict.TryGetValue(key, out var value))
+                dict[key] = value = new ();
+                
             value.Add(item);
-            dict[key] = value;
         }
     }
 }

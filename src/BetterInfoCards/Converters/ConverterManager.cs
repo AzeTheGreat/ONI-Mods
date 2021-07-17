@@ -26,7 +26,7 @@ namespace BetterInfoCards
             AddConverter<object>(
                 string.Empty,
                 data => null,
-                (original, o) => original,
+                null,
                 null,
                 ti => ti.GetText());
 
@@ -66,7 +66,7 @@ namespace BetterInfoCards
                 new() { (x => x, Options.Opts.TemperatureBandWidth) });
         }
 
-        public static void AddConverter<T>(string name, Func<object, T> getValue, Func<string, List<T>, string> getTextOverride, List<(Func<T, float>, float)> splitListDefs = null, Func<TextInfo, string> keyModifier = null)
+        public static void AddConverter<T>(string name, Func<object, T> getValue, Func<string, List<T>, string> getTextOverride = null, List<(Func<T, float>, float)> splitListDefs = null, Func<TextInfo, string> keyModifier = null)
         {
             if (converters.ContainsKey(name))
                 throw new Exception("Attempted to add converter with name: " + name + ", but converter with name is already present.");

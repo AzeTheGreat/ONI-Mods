@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Entry = HoverTextDrawer.Pool<UnityEngine.MonoBehaviour>.Entry;
@@ -9,47 +10,62 @@ namespace BetterInfoCards
     {
         public KSelectable selectable;
 
-        private Entry shadowBar;
-        private List<Entry> iconWidgets = new List<Entry>();
-        public List<TextInfo> textInfos = new List<TextInfo>();
+        public Dictionary<string, TextInfo> textInfos = new();
         public Entry selectBorder;
+        private Entry shadowBar;
+        private List<(Entry entry, string key, object data)> tiDatas = new();
+        private List<Entry> iconWidgets = new();
 
-        public float Width => shadowBar.rect.rect.width;
+        private float widthOverride;
+        public float Width => shadowBar.rect.rect.width + widthOverride;
         public float Height => shadowBar.rect.rect.height;
         public float YMax => shadowBar.rect.anchoredPosition.y;
         public float YMin => YMax - shadowBar.rect.rect.height;
 
-        public void AddSelectable(KSelectable selectable)
+        // The widget's text is not set until after Pool.Draw.
+        // So TIs must be added to a dict after so Text can be used as a Key if necessary.
+        public void Finalize(KSelectable selectable)
         {
             this.selectable = selectable;
+
+            foreach (var (entry, key, data) in tiDatas)
+            {
+                var ti = TextInfo.Create(entry, key, data);
+
+                // Klei keeps causing duplicate texts, so they must be checked for.
+                // This means duplicates won't be accounted for when grouping, but that should be fine.
+                if (!textInfos.TryGetValue(ti.Key, out _))
+                    textInfos[ti.Key] = ti;
+            }
         }
 
-        public void AddWidget(Entry entry, GameObject prefab, string name, object data)
+        public void AddWidget(Entry entry, GameObject prefab, string key, object data)
         {
             var skin = HoverTextScreen.Instance.drawer.skin;
 
-            if (prefab == skin.shadowBarWidget.gameObject)
-                shadowBar = entry;
+            if (prefab == skin.textWidget.gameObject)
+                tiDatas.Add((entry, key, data));
             else if (prefab == skin.iconWidget.gameObject)
                 iconWidgets.Add(entry);
-            else if (prefab == skin.textWidget.gameObject)
-                textInfos.Add(TextInfo.Create(entry, name, data));
+            else if (prefab == skin.shadowBarWidget.gameObject)
+                shadowBar = entry;
             else if (prefab == skin.selectBorderWidget.gameObject)
                 selectBorder = entry;
         }
 
         public void Translate(float x, float y)
         {
-            shadowBar.rect.anchoredPosition = new Vector2(shadowBar.rect.anchoredPosition.x + x, shadowBar.rect.anchoredPosition.y + y);
+            var shift = new Vector2(x, y);
+            shadowBar.rect.anchoredPosition += shift;
 
             if (selectBorder.rect != null)
-                selectBorder.rect.anchoredPosition = new Vector2(selectBorder.rect.anchoredPosition.x + x, selectBorder.rect.anchoredPosition.y + y);
+                selectBorder.rect.anchoredPosition += shift;
 
             foreach (var icon in iconWidgets)
-                icon.rect.anchoredPosition = new Vector2(icon.rect.anchoredPosition.x + x, icon.rect.anchoredPosition.y + y);
+                icon.rect.anchoredPosition += shift;
 
-            foreach (var text in textInfos)
-                text.TextEntry.rect.anchoredPosition = new Vector2(text.TextEntry.rect.anchoredPosition.x + x, text.TextEntry.rect.anchoredPosition.y + y);
+            foreach (var data in tiDatas)
+                data.entry.rect.anchoredPosition += shift;
         }
 
         public void Resize(float width)
@@ -62,67 +78,31 @@ namespace BetterInfoCards
 
         public string GetTitleKey()
         {
-            return textInfos[0].GetText().RemoveCountSuffix();
+            return textInfos.Values.FirstOrDefault()?.GetText().RemoveCountSuffix() ?? string.Empty;
         }
 
-        public string GetTextKey()
+        public void Rename(List<InfoCard> cards, int visCardIndex)
         {
-            var texts = new List<string>();
-            for (int i = 1; i < textInfos.Count; i++)
+            var newWidthDelta = 0f;
+            var titlePos = textInfos.Values.First().Widget.rectTransform.anchoredPosition.x;
+
+            foreach (var textInfo in textInfos.Values)
             {
-                texts.Add(textInfos[i].Key);
+                var textOverride = textInfo.GetTextOverride(cards);
+
+                if(textInfo.Key == ConverterManager.title && visCardIndex > 0)
+                    textOverride += " #" + (visCardIndex + 1);
+
+                var widget = textInfo.Widget;
+                if(widget.text != textOverride)
+                {
+                    widget.text = textOverride;
+                    var width = widget.preferredWidth + widget.rectTransform.anchoredPosition.x - titlePos;
+                    newWidthDelta = Math.Max(width, newWidthDelta);
+                }
             }
 
-            texts.Sort();
-            return string.Join(null, texts.ToArray());
-        }
-
-        public List<string> GetTextOverrides(List<InfoCard> cards)
-        {
-            var overrides = new List<string>();
-
-            for (int i = 0; i < textInfos.Count; i++)
-            {
-                var textInfo = textInfos[i];
-                overrides.Add(textInfo.GetTextOverride(cards.Select(x => x.textInfos[i].Result).ToList()));
-            }
-
-            return overrides;
-        }
-
-        public void Rename(List<string> overrides, bool forceUpdate = false)
-        { 
-            for (int i = 0; i < textInfos.Count; i++)
-            {
-                var widget = textInfos[i].TextEntry.widget as LocText;
-                widget.text = overrides[i];
-
-                if(forceUpdate)
-                    widget.KForceUpdateDirty(); 
-            }
-        }
-
-        public float GetWidthDelta(List<string> overrides)
-        {
-            Rename(overrides, true);
-
-            float largestWdith = 0f;
-            float indentWidth = 0f;
-
-            for (int i = 0; i < textInfos.Count; i++)
-            {
-                var widget = textInfos[i].TextEntry.widget as LocText;
-
-                float width = 0f;
-                if (i > 0)
-                    indentWidth = widget.rectTransform.anchoredPosition.x - ((LocText)textInfos[0].TextEntry.widget).rectTransform.anchoredPosition.x;
-                width = widget.renderedWidth + indentWidth;
-
-                if (width > largestWdith)
-                    largestWdith = width;
-            }
-
-            return largestWdith + HoverTextScreen.Instance.drawer.skin.shadowBarBorder.x * 2f - Width;
+            widthOverride = newWidthDelta + HoverTextScreen.Instance.drawer.skin.shadowBarBorder.x * 2f - Width;
         }
     }
 }
