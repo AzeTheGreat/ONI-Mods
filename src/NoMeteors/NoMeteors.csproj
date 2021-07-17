@@ -1,12 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    
     <AssemblyTitle>NoMeteors</AssemblyTitle>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Previews\**" />
-    <EmbeddedResource Remove="Previews\**" />
-    <None Remove="Previews\**" />
-  </ItemGroup>
+  <PropertyGroup>
+    <Title>No Meteors</Title>
+    <Description>Stops the game from spawning meteors.</Description>
+    <supportedContent>VANILLA_ID</supportedContent>
+  </PropertyGroup>
 </Project>
