@@ -11,8 +11,9 @@ namespace BetterInfoCards.Util
     {
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            var results = CollectHoverInfo.GetSelectInfo_Patch.ChildTranspiler(instructions);
-            return DetectRunStart_Patch.ChildTranspiler(results);
+            return DetectRunStart_Patch.ChildTranspiler(
+                CollectHoverInfo.GetSelectInfo_Patch.ChildTranspiler(
+                    HideElementCategory.ChildTranspiler(instructions)));
         }
     }
 }

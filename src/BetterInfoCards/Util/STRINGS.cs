@@ -33,5 +33,11 @@ namespace BetterInfoCards
             public static LocString NAME = "First Selection Hover";
             public static LocString TOOLTIP = "Limit the first selection to the hovered item, without further restricting future selections.";
         }
+
+        public class HIDEELEMENTCATEGORIES
+        {
+            public static LocString NAME = "Hide Element Categories";
+            public static LocString TOOLTIP = "When true, info cards will not include the element categories.";
+        }
     }
 }

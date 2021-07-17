@@ -13,6 +13,7 @@ namespace BetterInfoCards
         [Option] public float TemperatureBandWidth { get; set; }
         [Option] public bool UseBaseSelection { get; set; }
         [Option] public bool ForceFirstSelectionToHover { get; set; }
+        [Option] public bool HideElementCategories { get; set; }
 
         public Options()
         {
@@ -21,6 +22,7 @@ namespace BetterInfoCards
             TemperatureBandWidth = 10f;
             UseBaseSelection = false;
             ForceFirstSelectionToHover = true;
+            HideElementCategories = false;
 
             CustomCardSize = new CardSize
             {
