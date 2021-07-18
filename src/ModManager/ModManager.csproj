@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyTitle>ModManager</AssemblyTitle>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Title>Mod Manager</Title>
+    <Description>Manage mods.</Description>
+  </PropertyGroup>
+</Project>
