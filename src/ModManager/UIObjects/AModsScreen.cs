@@ -18,7 +18,7 @@ namespace ModManager
             db.Margin = null;
             db.Spacing = 0;
 
-            db.AddChild(new ModsPanelUI().GetUIComponent())
+            db.AddChild(new BrowserPanelUI().GetUIComponent())
                 .AddChild(new InfoPanelUI().GetUIComponent());
 
             return dialog.Build().GetComponent<KScreen>();
