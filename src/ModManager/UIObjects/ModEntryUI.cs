@@ -5,20 +5,36 @@ namespace ModManager
 {
     public class ModEntryUI : IUISource
     {
-        protected readonly KMod.Mod mod;
+        protected readonly ModUIExtract mod;
 
-        public ModEntryUI(KMod.Mod mod)
+        public ModEntryUI(ModUIExtract mod)
         {
             this.mod = mod;
         }
 
         public IUIComponent GetUIComponent()
         {
-            return new PLabel()
+            var title = new PLabel()
             {
                 FlexSize = Vector2.right,
-                Text = mod.title
+                Text = mod.Title.text,
+                TextAlignment = TextAnchor.MiddleLeft
             };
+
+            var version = new PLabel()
+            {
+                Text = mod.Version.text,
+                TextAlignment = TextAnchor.MiddleRight
+            };
+
+            return new PPanel()
+            {
+                FlexSize = Vector2.one,
+                Direction = PanelDirection.Horizontal,
+                Margin = new(1, 1, 1, 1)
+            }
+            .AddChild(title)
+            .AddChild(version);
         }
     }
 }

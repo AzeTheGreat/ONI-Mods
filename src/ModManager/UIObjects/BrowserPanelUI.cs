@@ -25,12 +25,12 @@ namespace ModManager
 
             var activeModsPanel = new ModsPanelUI()
             {
-                GetBaseChildren = () => Global.Instance.modManager.mods.Where(x => x.IsActive())
+                GetBaseChildren = () => OverrideModsScreen.ModUIExtractions.Where(x => x.Mod.IsActive())
             };
 
             var inactiveModsPanel = new ModsPanelUI()
             {
-                GetBaseChildren = () => Global.Instance.modManager.mods.Where(x => !x.IsActive())
+                GetBaseChildren = () => OverrideModsScreen.ModUIExtractions.Where(x => !x.Mod.IsActive())
             };
 
             var search = new SearchUI()

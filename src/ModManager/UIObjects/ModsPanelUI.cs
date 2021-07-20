@@ -7,9 +7,9 @@ using UnityEngine;
 
 namespace ModManager
 {
-    public partial class ModsPanelUI : IUISource
+    public class ModsPanelUI : IUISource
     {
-        public Func<IEnumerable<KMod.Mod>> GetBaseChildren { get; set; }
+        public Func<IEnumerable<ModUIExtract>> GetBaseChildren { get; set; }
 
         protected VirtualScrollPanel scrollContents;
 
@@ -32,11 +32,11 @@ namespace ModManager
             };
         }
 
-        public IEnumerable<IUISource> GetUISources(IEnumerable<KMod.Mod> children) => children.Select(x => new ModEntryUI(x));
+        public IEnumerable<IUISource> GetUISources(IEnumerable<ModUIExtract> children) => children.Select(x => new ModEntryUI(x));
 
         public void UpdateSearchResults(string text)
         {
-            var newChildren = GetBaseChildren().Where(x => CultureInfo.InvariantCulture.CompareInfo.IndexOf(x.title, text, CompareOptions.IgnoreCase) >= 0);
+            var newChildren = GetBaseChildren().Where(x => CultureInfo.InvariantCulture.CompareInfo.IndexOf(x.Title.text, text, CompareOptions.IgnoreCase) >= 0);
             scrollContents.UpdateChildren(GetUISources(newChildren));
         }
     }
