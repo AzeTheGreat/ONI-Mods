@@ -8,8 +8,6 @@ namespace ModManager
     {
         // Used to constrain scroll panes.
         public const float scrollPaneHeight = 600f;
-        // Used to force a min width.
-        public const float scrollPaneWidth = 300f;
 
         public IUIComponent GetUIComponent()
         {
@@ -48,7 +46,7 @@ namespace ModManager
                 FlexSize = Vector2.one
             }
             .AddRow(new()).AddRow(new()).AddRow(new()).AddRow(new(scrollPaneHeight))
-            .AddColumn(new(scrollPaneWidth)).AddColumn(new(scrollPaneWidth))
+            .AddColumn(new()).AddColumn(new())
             .AddChild(new PresetsUI().GetUIComponent(), new(0, 0) { ColumnSpan = 2 })
             .AddChild(search, new(1, 0) { ColumnSpan = 2 })
             .AddChild(inactiveTitle, new(2, 0))
