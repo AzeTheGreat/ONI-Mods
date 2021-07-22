@@ -21,7 +21,10 @@ namespace ModManager
             db.AddChild(new BrowserPanelUI().GetUIComponent())
                 .AddChild(new InfoPanelUI().GetUIComponent());
 
-            return dialog.Build().GetComponent<KScreen>();
+            return dialog
+                .Build()
+                .LockLayoutNested()
+                .GetComponent<KScreen>();
         }
     }
 }

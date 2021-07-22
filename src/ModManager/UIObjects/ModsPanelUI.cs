@@ -15,12 +15,19 @@ namespace ModManager
 
         public IUIComponent GetUIComponent()
         {
-            scrollContents = new VirtualScrollPanel()
+            //scrollContents = new VirtualScrollPanel()
+            var scrollContents = new PPanel
             {
                 Alignment = TextAnchor.UpperLeft,
                 FlexSize = Vector2.right,
-                Children = GetUISources(GetBaseChildren()),
+                Margin = new(5, 13, 5, 5),
+                //Children = GetUISources(GetBaseChildren()),
             };
+
+            foreach (var src in GetUISources(GetBaseChildren()))
+            {
+                scrollContents.AddChild(src.GetUIComponent());
+            }
 
             return new PScrollPane()
             {
@@ -37,7 +44,7 @@ namespace ModManager
         public void UpdateSearchResults(string text)
         {
             var newChildren = GetBaseChildren().Where(x => CultureInfo.InvariantCulture.CompareInfo.IndexOf(x.Title.text, text, CompareOptions.IgnoreCase) >= 0);
-            scrollContents.UpdateChildren(GetUISources(newChildren));
+            //scrollContents.UpdateChildren(GetUISources(newChildren));
         }
     }
 }
