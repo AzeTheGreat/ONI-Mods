@@ -26,13 +26,9 @@ namespace ModManager
             base.OnSpawn();
             scrollRect = GetComponentInParent<KScrollRect>();
             scrollRect.onValueChanged.AddListener(OnScrollValueChanged);
-
-            CacheRowHeights();
-            gameObject.SetMinUISize(GetUISize());
+            lastFirstActiveIndex = int.MaxValue;
             RefreshChildren();
         }
-
-        public void SetChildren(IEnumerable<IUISource> children) => this.children = children.ToList();
 
         public void OnScrollValueChanged(Vector2 pos) => RefreshChildren();
 
@@ -42,7 +38,8 @@ namespace ModManager
             this.children = children.ToList();;
             CacheRowHeights();
             gameObject.SetMinUISize(GetUISize());
-            scrollRect.verticalNormalizedPosition = 1;
+            if(scrollRect)
+                scrollRect.verticalNormalizedPosition = 1;
             lastFirstActiveIndex = int.MaxValue;
             RefreshChildren();
         }
@@ -51,13 +48,8 @@ namespace ModManager
 
         private void RefreshChildren()
         {
-            var ymin = scrollRect.content.localPosition.y;
-            var ymax = ymin + scrollRect.viewport.rect.height;
-
-            // Keep a buffer of one extra active child above and below.
-            var firstActiveIndex = cachedHeights.FindIndex(x => x > ymin) - 2;
-            var endIndex = cachedHeights.FindIndex(x => x > ymax);
-            var lastActiveIndex = (endIndex == -1 ? cachedHeights.Count - 1 : endIndex) + 1;
+            var (ymin, ymax) = scrollRect ? GetViewportVals(scrollRect) : (0f, 600f);
+            var (firstActiveIndex, lastActiveIndex) = GetChildIndexRange(ymin, ymax);
 
             // Early out if the active indices are the same.
             if (firstActiveIndex == lastFirstActiveIndex)
@@ -84,6 +76,22 @@ namespace ModManager
             spacer?.transform.SetAsLastSibling();
             foreach (var kvp in activeChildren.OrderBy(x => x.Key))
                 kvp.Value.transform.SetAsLastSibling();
+        }
+
+        private (float min, float max) GetViewportVals(ScrollRect scrollRect)
+        {
+            var ymin = scrollRect.content.localPosition.y;
+            var ymax = ymin + scrollRect.viewport.rect.height;
+            return (ymin, ymax);
+        }
+
+        private (int first, int last) GetChildIndexRange(float yMin, float yMax)
+        {
+            // Keep a buffer of one extra active child above and below.
+            var firstActiveIndex = cachedHeights.FindIndex(x => x > yMin) - 2;
+            var endIndex = cachedHeights.FindIndex(x => x > yMax);
+            var lastActiveIndex = (endIndex == -1 ? cachedHeights.Count - 1 : endIndex) + 1;
+            return (firstActiveIndex, lastActiveIndex);
         }
 
         private GameObject BuildChild(int i) => BuildChild(children.ElementAtOrDefault(i), i);

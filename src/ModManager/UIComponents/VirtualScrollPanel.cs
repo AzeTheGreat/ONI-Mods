@@ -45,7 +45,7 @@ namespace ModManager
             lg.flexibleHeight = FlexSize.y;
 
             manager = panel.AddComponent<VirtualPanelChildManager>();
-            manager.SetChildren(Children);
+            UpdateChildren(Children);
 
             InvokeRealize(panel);
             return panel;
