@@ -34,11 +34,16 @@ namespace ModManager
                 LogGO(displayedMod.rect_transform.gameObject);
         }
 
-        private static void LogGO(GameObject go)
+        private static void LogGO(GameObject go, int level = 0)
         {
-            Debug.Log(go.name);
+            Debug.Log(new string(' ', level * 3) + "GO: " + go.name);
+
+            foreach (var cmp in go.GetComponents<object>())
+                Debug.Log(new string(' ', level * 3 + 1) + cmp.GetType());
+
+            level++;
             foreach (Transform child in go.transform)
-                Debug.Log("   " + child.name);
+                LogGO(child.gameObject, level);
         }
     }
 }
