@@ -23,7 +23,7 @@ namespace ModManager
 
             return dialog
                 .Build()
-                //.LockLayoutNested()
+                .LockLayoutNested()
                 .GetComponent<KScreen>();
         }
     }

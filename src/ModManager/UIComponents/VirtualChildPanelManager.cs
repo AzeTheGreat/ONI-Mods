@@ -26,6 +26,11 @@ namespace ModManager
             base.OnSpawn();
             scrollRect = GetComponentInParent<KScrollRect>();
             scrollRect.onValueChanged.AddListener(OnScrollValueChanged);
+
+            // Ensure the layout group is never locked.
+            // A locked layout won't properly arrange children during scrolling.
+            gameObject.SetLayoutLockState(false);
+
             lastFirstActiveIndex = int.MaxValue;
             RefreshChildren();
         }

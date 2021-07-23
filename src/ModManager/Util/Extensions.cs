@@ -15,9 +15,18 @@ namespace ModManager
         {
             LayoutRebuilder.ForceRebuildLayoutImmediate(go.rectTransform());
             foreach (var cmp in go.GetComponentsInChildren<AbstractLayoutGroup>())
-                AccessTools.Field(cmp.GetType(), "locked").SetValue(cmp, true);
+                cmp.SetLayoutLockState(true);
             return go;
         }
+
+        public static GameObject SetLayoutLockState(this GameObject go, bool isLocked)
+        {
+            go.GetComponent<AbstractLayoutGroup>().SetLayoutLockState(isLocked);
+            return go;
+        }
+
+        public static void SetLayoutLockState(this AbstractLayoutGroup lg, bool isLocked) => 
+            Traverse.Create(lg).Field("locked").SetValue(isLocked);
 
         public static IUIComponent LockLayout(this IUIComponent cmp) => cmp.AddOnRealize(LockLayout);
         public static void LockLayout(this GameObject go)
