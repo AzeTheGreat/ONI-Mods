@@ -41,7 +41,7 @@ namespace ModManager
 
             return new PPanel()
             {
-                FlexSize = Vector2.one,
+                FlexSize = Vector2.right,
                 Direction = PanelDirection.Horizontal,
                 Margin = new(1, 1, 1, 1)
             }

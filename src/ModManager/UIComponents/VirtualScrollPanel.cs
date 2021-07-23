@@ -6,6 +6,8 @@ using UnityEngine;
 
 namespace ModManager
 {
+    // TODO: This assumes that children won't flex vertically.
+    // There should probably be some way of enforcing this, or xml documentation at minimum.
     public class VirtualScrollPanel : PContainer, IDynamicSizable
     {
         public TextAnchor Alignment { get; set; }
