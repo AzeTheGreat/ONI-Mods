@@ -36,8 +36,9 @@ namespace ModManager
         }
 
         public IEnumerable<IUISource> GetUISources(IEnumerable<ModUIExtract> children) => children.Select(
-            x => new ModEntryUI(x)
+            x => new ModEntryUI()
             {
+                Mod = x,
                 DragListener = dragListener
             });
 

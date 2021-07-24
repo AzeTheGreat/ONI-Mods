@@ -9,21 +9,15 @@ namespace ModManager
     {
         public const float entryTextMaxLength = 300f;
 
+        public ModUIExtract Mod { get; set; }
         public ADragMe.IDragListener DragListener { get; set; }
-
-        protected readonly ModUIExtract mod;
-
-        public ModEntryUI(ModUIExtract mod)
-        {
-            this.mod = mod;
-        }
 
         public IUIComponent GetUIComponent()
         {
             var title = new PButton()
             {
                 FlexSize = Vector2.right,
-                Text = mod.Title.text,
+                Text = Mod.Title.text,
                 TextAlignment = TextAnchor.MiddleLeft
             }
             .AddOnRealize(ConstrainTextLength)
