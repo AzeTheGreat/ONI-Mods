@@ -49,6 +49,9 @@ namespace ModManager
             RefreshChildren();
         }
 
+        public List<GameObject> GetBuiltChildren() => activeChildren.OrderBy(kvp => kvp.Key).Select(kvp => kvp.Value).ToList();
+        public IUISource GetUISourceForGO(GameObject go) => children[activeChildren.FirstOrDefault(kvp => kvp.Value == go).Key];
+
         private Vector2 GetUISize() => new Vector2(0f, cachedHeights.LastOrDefault());
 
         private void RefreshChildren()

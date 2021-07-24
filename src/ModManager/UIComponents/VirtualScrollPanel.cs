@@ -53,6 +53,9 @@ namespace ModManager
             return panel;
         }
 
-        public void UpdateChildren(IEnumerable<IUISource> children) => manager.UpdateChildren(children);
+        public void UpdateChildren(IEnumerable<IUISource> children) => manager.UpdateChildren(Children = children);
+
+        public List<GameObject> GetBuiltChildren() => manager.GetBuiltChildren();
+        public IUISource GetUISourceForGO(GameObject go) => manager.GetUISourceForGO(go);
     }
 }

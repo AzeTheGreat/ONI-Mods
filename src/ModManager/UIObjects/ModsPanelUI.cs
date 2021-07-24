@@ -8,12 +8,11 @@ using UnityEngine.EventSystems;
 
 namespace ModManager
 {
-    public class ModsPanelUI : IUISource
+    public class ModsPanelUI : IUISource, ADragMe.IDragListener
     {
         public Func<IEnumerable<ModUIExtract>> GetBaseChildren { get; set; }
 
         protected VirtualScrollPanel scrollContents;
-        protected ADragMe.IDragListener dragListener = new ModsPanelDragListener();
 
         public IUIComponent GetUIComponent()
         {
@@ -39,7 +38,7 @@ namespace ModManager
             x => new ModEntryUI()
             {
                 Mod = x,
-                DragListener = dragListener
+                DragListener = this
             });
 
         public void UpdateSearchResults(string text)
@@ -48,22 +47,43 @@ namespace ModManager
             scrollContents.UpdateChildren(GetUISources(newChildren));
         }
 
-        private class ModsPanelDragListener : ADragMe.IDragListener
+        private ModEntryUI modToMove;
+
+        public void OnBeginDrag(PointerEventData eventData)
         {
-            public void OnBeginDrag(PointerEventData eventData)
-            {
-                return;
-            }
+            modToMove = GetModAtPos(eventData.position);
+        }
 
-            public void OnDrag(PointerEventData eventData)
-            {
-                return;
-            }
+        public void OnDrag(PointerEventData eventData)
+        {
+            return;
+        }
 
-            public void OnEndDrag(PointerEventData eventData)
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            var modAtTarget = GetModAtPos(eventData.position);
+
+            var newChildren = scrollContents.Children
+                .Cast<ModEntryUI>()
+                .Where(x => x.Mod.Mod != modToMove.Mod.Mod)
+                .ToList();
+
+            var idx = modAtTarget != null ? newChildren.FindIndex(x => x.Mod.Mod == modAtTarget.Mod.Mod) : newChildren.Count - 1;
+            newChildren.Insert(idx, modToMove);
+
+            scrollContents.UpdateChildren(newChildren);
+        }
+
+        private ModEntryUI GetModAtPos(Vector2 pos)
+        {
+            GameObject lastChild = null;
+            foreach (var child in scrollContents.GetBuiltChildren())
             {
-                return;
+                if (child.rectTransform().position.y < pos.y)
+                    return scrollContents.GetUISourceForGO(lastChild) as ModEntryUI;
+                lastChild = child;
             }
+            return null;
         }
     }
 }
