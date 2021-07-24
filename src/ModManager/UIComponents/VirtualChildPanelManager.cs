@@ -13,7 +13,7 @@ namespace ModManager
         protected KScrollRect scrollRect; // Parent component
         [MyCmpGet] protected BoxLayoutGroup boxLayoutGroup;
 
-        protected List<IUISource> children;
+        protected List<UISource> children;
         protected Dictionary<int, GameObject> activeChildren = new();
 
         protected GameObject spacer;
@@ -37,7 +37,7 @@ namespace ModManager
 
         public void OnScrollValueChanged(Vector2 pos) => RefreshChildren();
 
-        public void UpdateChildren(IEnumerable<IUISource> children)
+        public void UpdateChildren(IEnumerable<UISource> children)
         {
             DestroyChildren(activeChildren);
             this.children = children.ToList();;
@@ -50,7 +50,7 @@ namespace ModManager
         }
 
         public List<GameObject> GetBuiltChildren() => activeChildren.OrderBy(kvp => kvp.Key).Select(kvp => kvp.Value).ToList();
-        public IUISource GetUISourceForGO(GameObject go) => children[activeChildren.FirstOrDefault(kvp => kvp.Value == go).Key];
+        public UISource GetUISourceForGO(GameObject go) => children[activeChildren.FirstOrDefault(kvp => kvp.Value == go).Key];
 
         private Vector2 GetUISize() => new Vector2(0f, cachedHeights.LastOrDefault());
 
@@ -103,13 +103,13 @@ namespace ModManager
         }
 
         private GameObject BuildChild(int i) => BuildChild(children.ElementAtOrDefault(i), i);
-        private GameObject BuildChild(IUISource child) => BuildChild(child, children.IndexOf(child));
-        private GameObject BuildChild(IUISource child, int i)
+        private GameObject BuildChild(UISource child) => BuildChild(child, children.IndexOf(child));
+        private GameObject BuildChild(UISource child, int i)
         {
             if (child is null)
                 return null;
 
-            var go = child.GetUIComponent().Build().SetParent(gameObject);
+            var go = child.CreateUIComponent().Build().SetParent(gameObject);
 
             activeChildren.Add(i, go);
             PUIElements.SetAnchors(go, PUIAnchoring.Stretch, PUIAnchoring.Stretch);
@@ -129,7 +129,7 @@ namespace ModManager
                 cachedHeights.Add(cachedHeights.LastOrDefault() + height);
             }
 
-            float GetRowHeight(IUISource child)
+            float GetRowHeight(UISource child)
             {
                 float rowHeight = 0f;
                 if (BuildChild(child)?.GetComponentsInChildren<ILayoutElement>() is ILayoutElement[] layoutElements)

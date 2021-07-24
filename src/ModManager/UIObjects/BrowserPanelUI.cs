@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace ModManager
 {
-    public class BrowserPanelUI : IUISource
+    public class BrowserPanelUI : UISource
     {
         // Used to constrain scroll panes.
         public const float scrollPaneHeight = 600f;
 
-        public IUIComponent GetUIComponent()
+        protected override IUIComponent GetUIComponent()
         {
             var inactiveTitle = new PLabel()
             {
@@ -39,7 +39,7 @@ namespace ModManager
                     inactiveModsPanel.UpdateSearchResults(text);
                 }
             }
-            .GetUIComponent();
+            .CreateUIComponent();
 
             return new PGridPanel()
             {
@@ -47,12 +47,12 @@ namespace ModManager
             }
             .AddRow(new()).AddRow(new()).AddRow(new()).AddRow(new(scrollPaneHeight))
             .AddColumn(new()).AddColumn(new())
-            .AddChild(new PresetsUI().GetUIComponent(), new(0, 0) { ColumnSpan = 2 })
+            .AddChild(new PresetsUI().CreateUIComponent(), new(0, 0) { ColumnSpan = 2 })
             .AddChild(search, new(1, 0) { ColumnSpan = 2 })
             .AddChild(inactiveTitle, new(2, 0))
             .AddChild(activeTitle, new(2, 1))
-            .AddChild(inactiveModsPanel.GetUIComponent(), new(3, 0))
-            .AddChild(activeModsPanel.GetUIComponent(), new(3, 1));
+            .AddChild(inactiveModsPanel.CreateUIComponent(), new(3, 0))
+            .AddChild(activeModsPanel.CreateUIComponent(), new(3, 1));
         }
     }
 }

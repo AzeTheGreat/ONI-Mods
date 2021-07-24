@@ -3,9 +3,9 @@ using UnityEngine.UI;
 
 namespace ModManager
 {
-    class InfoPanelUI : IUISource
+    class InfoPanelUI : UISource
     {
-        public IUIComponent GetUIComponent()
+        protected override IUIComponent GetUIComponent()
         {
             return new PPanel("InfoPanel")
             {

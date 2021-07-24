@@ -5,11 +5,11 @@ using UnityEngine.Events;
 
 namespace ModManager
 {
-    public class SearchUI : IUISource
+    public class SearchUI : UISource
     {
         public UnityAction<string> OnTextChanged { get; set; }
 
-        public IUIComponent GetUIComponent()
+        protected override IUIComponent GetUIComponent()
         {
             var tf = new PTextField()
             {

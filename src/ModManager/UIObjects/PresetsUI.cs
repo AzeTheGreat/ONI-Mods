@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace ModManager
 {
-    public class PresetsUI : IUISource
+    public class PresetsUI : UISource
     {
-        public IUIComponent GetUIComponent()
+        protected override IUIComponent GetUIComponent()
         {
             var textField = new PTextField()
             {

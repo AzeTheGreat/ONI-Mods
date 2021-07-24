@@ -5,14 +5,14 @@ using UnityEngine.UI;
 
 namespace ModManager
 {
-    public class ModEntryUI : IUISource
+    public class ModEntryUI : UISource
     {
         public const float entryTextMaxLength = 300f;
 
         public ModUIExtract Mod { get; set; }
         public ADragMe.IDragListener DragListener { get; set; }
 
-        public IUIComponent GetUIComponent()
+        protected override IUIComponent GetUIComponent()
         {
             var title = new PButton()
             {

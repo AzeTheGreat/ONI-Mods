@@ -14,7 +14,7 @@ namespace ModManager
         public PanelDirection Direction { get; set; }
         public bool DynamicSize { get; set; }
         public int Spacing { get; set; }
-        public IEnumerable<IUISource> Children { get; set; }
+        public IEnumerable<UISource> Children { get; set; }
 
         private VirtualPanelChildManager manager;
 
@@ -53,9 +53,9 @@ namespace ModManager
             return panel;
         }
 
-        public void UpdateChildren(IEnumerable<IUISource> children) => manager.UpdateChildren(Children = children);
+        public void UpdateChildren(IEnumerable<UISource> children) => manager.UpdateChildren(Children = children);
 
         public List<GameObject> GetBuiltChildren() => manager.GetBuiltChildren();
-        public IUISource GetUISourceForGO(GameObject go) => manager.GetUISourceForGO(go);
+        public UISource GetUISourceForGO(GameObject go) => manager.GetUISourceForGO(go);
     }
 }

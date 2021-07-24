@@ -18,8 +18,8 @@ namespace ModManager
             db.Margin = null;
             db.Spacing = 0;
 
-            db.AddChild(new BrowserPanelUI().GetUIComponent())
-                .AddChild(new InfoPanelUI().GetUIComponent());
+            db.AddChild(new BrowserPanelUI().CreateUIComponent())
+                .AddChild(new InfoPanelUI().CreateUIComponent());
 
             return dialog
                 .Build()

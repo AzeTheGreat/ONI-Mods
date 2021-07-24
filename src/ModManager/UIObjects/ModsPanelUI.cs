@@ -8,13 +8,13 @@ using UnityEngine.EventSystems;
 
 namespace ModManager
 {
-    public class ModsPanelUI : IUISource, ADragMe.IDragListener
+    public class ModsPanelUI : UISource, ADragMe.IDragListener
     {
         public Func<IEnumerable<ModUIExtract>> GetBaseChildren { get; set; }
 
         protected VirtualScrollPanel scrollContents;
 
-        public IUIComponent GetUIComponent()
+        protected override IUIComponent GetUIComponent()
         {
             scrollContents = new VirtualScrollPanel()
             {
@@ -34,7 +34,7 @@ namespace ModManager
             };
         }
 
-        public IEnumerable<IUISource> GetUISources(IEnumerable<ModUIExtract> children) => children.Select(
+        public IEnumerable<UISource> GetUISources(IEnumerable<ModUIExtract> children) => children.Select(
             x => new ModEntryUI()
             {
                 Mod = x,
