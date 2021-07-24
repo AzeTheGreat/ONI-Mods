@@ -37,6 +37,8 @@ namespace ModManager
 
         public void OnScrollValueChanged(Vector2 pos) => RefreshChildren();
 
+        public IEnumerable<UISource> GetChildren() => children;
+
         public void UpdateChildren(IEnumerable<UISource> children)
         {
             DestroyChildren(activeChildren);
@@ -48,9 +50,6 @@ namespace ModManager
             lastFirstActiveIndex = int.MaxValue;
             RefreshChildren();
         }
-
-        public List<GameObject> GetBuiltChildren() => activeChildren.OrderBy(kvp => kvp.Key).Select(kvp => kvp.Value).ToList();
-        public UISource GetUISourceForGO(GameObject go) => children[activeChildren.FirstOrDefault(kvp => kvp.Value == go).Key];
 
         private Vector2 GetUISize() => new Vector2(0f, cachedHeights.LastOrDefault());
 

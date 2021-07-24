@@ -9,6 +9,16 @@ namespace ModManager
 
         public IUIComponent CreateUIComponent() => GetUIComponent().AddOnRealize(go => GO = go);
 
+        public void DestroyGO()
+        {
+            if(GO != null)
+            {
+                Object.Destroy(GO);
+                // Explicitly setting to null helps avoid any issues with lingering managed objects.
+                GO = null;
+            }
+        }
+
         protected abstract IUIComponent GetUIComponent();
     }
 }

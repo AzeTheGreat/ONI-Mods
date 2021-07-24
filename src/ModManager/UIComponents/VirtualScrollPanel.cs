@@ -14,7 +14,7 @@ namespace ModManager
         public PanelDirection Direction { get; set; }
         public bool DynamicSize { get; set; }
         public int Spacing { get; set; }
-        public IEnumerable<UISource> Children { get; set; }
+        public IEnumerable<UISource> InitialChildren { get; set; }
 
         private VirtualPanelChildManager manager;
 
@@ -28,7 +28,7 @@ namespace ModManager
 
         public override GameObject Build()
         {
-            if (Children == null)
+            if (InitialChildren == null)
                 throw new InvalidOperationException("No Children set.");
 
             var panel = PUIElements.CreateUI(null, Name);
@@ -47,15 +47,13 @@ namespace ModManager
             lg.flexibleHeight = FlexSize.y;
 
             manager = panel.AddComponent<VirtualPanelChildManager>();
-            UpdateChildren(Children);
+            UpdateChildren(InitialChildren);
 
             InvokeRealize(panel);
             return panel;
         }
 
-        public void UpdateChildren(IEnumerable<UISource> children) => manager.UpdateChildren(Children = children);
-
-        public List<GameObject> GetBuiltChildren() => manager.GetBuiltChildren();
-        public UISource GetUISourceForGO(GameObject go) => manager.GetUISourceForGO(go);
+        public void UpdateChildren(IEnumerable<UISource> children) => manager.UpdateChildren(InitialChildren = children);
+        public IEnumerable<UISource> GetChildren() => manager.GetChildren();
     }
 }

@@ -21,7 +21,7 @@ namespace ModManager
                 Alignment = TextAnchor.UpperLeft,
                 FlexSize = Vector2.right,
                 Margin = new(5, 13, 5, 5),
-                Children = GetUISources(GetBaseChildren()),
+                InitialChildren = GetUISources(GetBaseChildren()),
             };
 
             return new PScrollPane()
@@ -54,16 +54,13 @@ namespace ModManager
             modToMove = GetModAtPos(eventData.position);
         }
 
-        public void OnDrag(PointerEventData eventData)
-        {
-            return;
-        }
+        public void OnDrag(PointerEventData eventData) { }
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            var modAtTarget = GetModAtPos(eventData.position);
+            var modAtTarget = GetModBelowPos(eventData.position);
 
-            var newChildren = scrollContents.Children
+            var newChildren = scrollContents.GetChildren()
                 .Cast<ModEntryUI>()
                 .Where(x => x.Mod.Mod != modToMove.Mod.Mod)
                 .ToList();
@@ -76,14 +73,16 @@ namespace ModManager
 
         private ModEntryUI GetModAtPos(Vector2 pos)
         {
-            GameObject lastChild = null;
-            foreach (var child in scrollContents.GetBuiltChildren())
-            {
-                if (child.rectTransform().position.y < pos.y)
-                    return scrollContents.GetUISourceForGO(lastChild) as ModEntryUI;
-                lastChild = child;
-            }
-            return null;
+            return scrollContents.GetChildren()
+                .Where(x => x.GO != null)
+                .FirstOrDefault(x => RectTransformUtility.RectangleContainsScreenPoint(x.GO.rectTransform(), pos)) as ModEntryUI;
+        }
+
+        private ModEntryUI GetModBelowPos(Vector2 pos)
+        {
+            return scrollContents.GetChildren()
+                .Where(x => x.GO != null)
+                .FirstOrDefault(x => x.GO.rectTransform().position.y < pos.y) as ModEntryUI;
         }
     }
 }
