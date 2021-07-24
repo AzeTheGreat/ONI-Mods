@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace ModManager
 {
@@ -12,6 +13,7 @@ namespace ModManager
         public Func<IEnumerable<ModUIExtract>> GetBaseChildren { get; set; }
 
         protected VirtualScrollPanel scrollContents;
+        protected ADragMe.IDragListener dragListener = new ModsPanelDragListener();
 
         public IUIComponent GetUIComponent()
         {
@@ -33,12 +35,34 @@ namespace ModManager
             };
         }
 
-        public IEnumerable<IUISource> GetUISources(IEnumerable<ModUIExtract> children) => children.Select(x => new ModEntryUI(x));
+        public IEnumerable<IUISource> GetUISources(IEnumerable<ModUIExtract> children) => children.Select(
+            x => new ModEntryUI(x)
+            {
+                DragListener = dragListener
+            });
 
         public void UpdateSearchResults(string text)
         {
             var newChildren = GetBaseChildren().Where(x => CultureInfo.InvariantCulture.CompareInfo.IndexOf(x.Title.text, text, CompareOptions.IgnoreCase) >= 0);
             scrollContents.UpdateChildren(GetUISources(newChildren));
+        }
+
+        private class ModsPanelDragListener : ADragMe.IDragListener
+        {
+            public void OnBeginDrag(PointerEventData eventData)
+            {
+                return;
+            }
+
+            public void OnDrag(PointerEventData eventData)
+            {
+                return;
+            }
+
+            public void OnEndDrag(PointerEventData eventData)
+            {
+                return;
+            }
         }
     }
 }
