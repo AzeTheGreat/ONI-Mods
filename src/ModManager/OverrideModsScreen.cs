@@ -14,7 +14,7 @@ namespace ModManager
         static void Postfix(ModsScreen __instance)
         {
             ModUIExtractions = ExtractFromMods(__instance.displayedMods);
-            LogDefaultScreen(__instance);
+            LogGO(__instance.gameObject);
 
             // Instantiate the custom mods screen.
             new AModsScreen().GetDialog().Activate();
@@ -27,14 +27,8 @@ namespace ModManager
         private static List<ModUIExtract> ExtractFromMods(List<ModsScreen.DisplayedMod> mods) =>
             mods.Select(x => new ModUIExtract(x)).ToList();
 
-        private static void LogDefaultScreen(ModsScreen modsScreen)
-        {
-            LogGO(modsScreen.entryPrefab);
-            foreach (var displayedMod in modsScreen.displayedMods)
-                LogGO(displayedMod.rect_transform.gameObject);
-        }
 
-        private static void LogGO(GameObject go, int level = 0)
+        public static void LogGO(GameObject go, int level = 0)
         {
             Debug.Log(new string(' ', level * 3) + "GO: " + go.name);
 
