@@ -22,6 +22,7 @@ namespace ModManager
                 FlexSize = Vector2.right,
                 Margin = new(5, 13, 5, 5),
                 InitialChildren = GetUISources(GetBaseChildren()),
+                Spacing = 4
             };
 
             return new PScrollPane()
@@ -52,6 +53,7 @@ namespace ModManager
         public void OnBeginDrag(PointerEventData eventData)
         {
             modToMove = GetModAtPos(eventData.position);
+            modToMove.SetDragState(true);
         }
 
         public void OnDrag(PointerEventData eventData) { }
@@ -68,6 +70,7 @@ namespace ModManager
             var idx = modAtTarget != null ? newChildren.FindIndex(x => x.Mod.Mod == modAtTarget.Mod.Mod) : newChildren.Count - 1;
             newChildren.Insert(idx, modToMove);
 
+            modToMove.SetDragState(false);
             scrollContents.UpdateChildren(newChildren);
         }
 

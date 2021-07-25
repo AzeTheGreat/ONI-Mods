@@ -12,13 +12,25 @@ namespace ModManager
         public ModUIExtract Mod { get; set; }
         public ADragMe.IDragListener DragListener { get; set; }
 
+        protected bool isBeingDragged;
+
+        public void SetDragState(bool isBeingDragged)
+        {
+            this.isBeingDragged = isBeingDragged;
+            GO.GetComponent<Image>().color = GetPanelColor();
+        }
+
         protected override IUIComponent GetUIComponent()
         {
+            var clearColorStyle = ScriptableObject.CreateInstance<ColorStyleSetting>();
+            clearColorStyle.activeColor = Color.clear;
+
             var title = new PButton()
             {
                 FlexSize = Vector2.right,
                 Text = Mod.Title.text,
-                TextAlignment = TextAnchor.MiddleLeft
+                TextAlignment = TextAnchor.MiddleLeft,
+                Color = clearColorStyle
             }
             .AddOnRealize(ConstrainTextLength)
             .AddOnRealize(AddDrag)
@@ -30,10 +42,13 @@ namespace ModManager
             {
                 FlexSize = Vector2.right,
                 Direction = PanelDirection.Horizontal,
-                Margin = new(1, 1, 1, 1)
+                Margin = new(1, 1, 1, 1),
+                BackColor = GetPanelColor()
             }
             .AddChild(title);
         }
+
+        protected Color GetPanelColor() => isBeingDragged ?  PUITuning.Colors.ComponentDarkStyle.disabledActiveColor : PUITuning.Colors.DialogDarkBackground;
 
         private void ConstrainTextLength(GameObject go)
         {
