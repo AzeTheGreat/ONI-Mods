@@ -14,7 +14,6 @@ namespace ModManager
         [MyCmpGet] protected BoxLayoutGroup boxLayoutGroup;
 
         protected List<UISource> children;
-        protected Dictionary<int, GameObject> activeChildren = new();
 
         protected GameObject spacer;
         protected List<float> cachedHeights = new();
@@ -41,7 +40,7 @@ namespace ModManager
 
         public void UpdateChildren(IEnumerable<UISource> children)
         {
-            DestroyChildren(activeChildren);
+            DestroyChildren(children);
             this.children = children.ToList();;
             CacheRowHeights();
             gameObject.SetMinUISize(GetUISize());
@@ -64,8 +63,7 @@ namespace ModManager
             lastFirstActiveIndex = firstActiveIndex;
 
             // Destroy active children outside the active index range.
-            DestroyChildren(activeChildren
-                .Where(x => x.Key < firstActiveIndex || x.Key > lastActiveIndex));
+            DestroyChildren(children.Where((x, i) => i < firstActiveIndex || i > lastActiveIndex));
 
             // Configure the spacer if there are hidden rows.
             if (firstActiveIndex >= 1)
@@ -74,15 +72,13 @@ namespace ModManager
                 spacer?.SetActive(false);
 
             // Build visible + buffer children not already active.
-            var activeIndices = activeChildren.Select(x => x.Key);
-            for (int i = firstActiveIndex; i <= lastActiveIndex; i++)
-                if (i >= 0 && i < children.Count() && !activeIndices.Contains(i))
-                    BuildChild(i);
+            foreach (var child in children.Where((x, i) => i >= firstActiveIndex && i <= lastActiveIndex && x.GO == null))
+                BuildChild(child);
 
             // Sort active children in hierarchy.
             spacer?.transform.SetAsLastSibling();
-            foreach (var kvp in activeChildren.OrderBy(x => x.Key))
-                kvp.Value.transform.SetAsLastSibling();
+            foreach (var child in children)
+                child.GO?.transform.SetAsLastSibling();
         }
 
         private (float min, float max) GetViewportVals(ScrollRect scrollRect)
@@ -110,7 +106,6 @@ namespace ModManager
 
             var go = child.CreateUIComponent().Build().SetParent(gameObject);
 
-            activeChildren.Add(i, go);
             PUIElements.SetAnchors(go, PUIAnchoring.Stretch, PUIAnchoring.Stretch);
             return go;
         }
@@ -128,6 +123,7 @@ namespace ModManager
                 cachedHeights.Add(cachedHeights.LastOrDefault() + height);
             }
 
+            // Build a temporary object for the type to get a row height.
             float GetRowHeight(UISource child)
             {
                 float rowHeight = 0f;
@@ -138,6 +134,7 @@ namespace ModManager
                         rowHeight = Mathf.Max(rowHeight, le.minHeight, le.preferredHeight);
                     rowHeight += boxLayoutGroup.Params.Spacing;
                 }
+                child.DestroyGO();
                 return rowHeight;
             }
         }
@@ -156,13 +153,10 @@ namespace ModManager
             .SetParent(gameObject);
         }
 
-        private void DestroyChildren(IEnumerable<KeyValuePair<int, GameObject>> toClear)
+        private void DestroyChildren(IEnumerable<UISource> toClear)
         {
-            foreach (var kvp in toClear.ToList())
-            {
-                activeChildren.Remove(kvp.Key);
-                Destroy(kvp.Value);
-            }
+            foreach (var child in toClear.ToList())
+                child.DestroyGO();
         }
     }
 }
