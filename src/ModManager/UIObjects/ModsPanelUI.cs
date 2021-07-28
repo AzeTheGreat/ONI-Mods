@@ -45,7 +45,7 @@ namespace ModManager
         public void UpdateSearchResults(string text)
         {
             var newChildren = GetBaseChildren().Where(x => CultureInfo.InvariantCulture.CompareInfo.IndexOf(x.Title.text, text, CompareOptions.IgnoreCase) >= 0);
-            scrollContents.UpdateChildren(GetUISources(newChildren));
+            scrollContents.UpdateChildren(GetUISources(newChildren), true);
         }
 
         private ModEntryUI modToMove;
@@ -71,7 +71,7 @@ namespace ModManager
             newChildren.Insert(idx, modToMove);
 
             modToMove.SetDragState(false);
-            scrollContents.UpdateChildren(newChildren);
+            scrollContents.UpdateChildren(newChildren, false);
         }
 
         private ModEntryUI GetModAtPos(Vector2 pos)

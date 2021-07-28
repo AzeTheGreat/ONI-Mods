@@ -47,13 +47,13 @@ namespace ModManager
             lg.flexibleHeight = FlexSize.y;
 
             manager = panel.AddComponent<VirtualPanelChildManager>();
-            UpdateChildren(InitialChildren);
+            UpdateChildren(InitialChildren, false);
 
             InvokeRealize(panel);
             return panel;
         }
 
-        public void UpdateChildren(IEnumerable<UISource> children) => manager.UpdateChildren(InitialChildren = children);
+        public void UpdateChildren(IEnumerable<UISource> children, bool scrollToTop) => manager.UpdateChildren(InitialChildren = children, scrollToTop);
         public IEnumerable<UISource> GetChildren() => manager.GetChildren();
     }
 }

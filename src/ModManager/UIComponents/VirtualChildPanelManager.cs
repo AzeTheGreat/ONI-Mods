@@ -40,14 +40,16 @@ namespace ModManager
 
         public IEnumerable<UISource> GetChildren() => children;
 
-        public void UpdateChildren(IEnumerable<UISource> children)
+        public void UpdateChildren(IEnumerable<UISource> children, bool scrollToTop)
         {
             DestroyChildren(this.children);
             this.children = children.ToList();
             CacheRowHeights();
             gameObject.SetMinUISize(GetUISize());
-            if (scrollRect)
+
+            if (scrollToTop && scrollRect)
                 scrollRect.verticalNormalizedPosition = 1;
+
             lastFirstActiveIndex = int.MaxValue;
             RefreshChildren();
         }
