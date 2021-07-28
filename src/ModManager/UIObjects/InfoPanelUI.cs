@@ -9,27 +9,25 @@ namespace ModManager
     {
         public const float titleMaxTextLength = 400f;
 
-        protected GameObject titleGO;
-        protected GameObject bodyGO;
+        public string TitleText { get; set; } = " ";
+        public string BodyText { get; set; } = " ";
 
         protected override IUIComponent GetUIComponent()
         {
             var title = new PLabel()
             {
                 FlexSize = Vector2.right,
-                Text = " ",
+                Text = TitleText,
                 TextAlignment = TextAnchor.MiddleCenter
             }
             .AddOnRealize(ConstrainTextLength)
-            .AddOnRealize(go => titleGO = go)
             .LockLayout();
 
             var body = new PTextArea()
             {
                 FlexSize = Vector2.one,
-                Text = " "
-            }
-            .AddOnRealize(go => bodyGO = go);
+                Text = BodyText
+            };
 
             return new PPanel("InfoPanel")
             {
@@ -65,8 +63,9 @@ namespace ModManager
 
             public void OnClick(ModUIExtract mod)
             {
-                PUIElements.SetText(Instance.titleGO, mod.Mod.title);
-                PUIElements.SetText(Instance.bodyGO, mod.Mod.description);
+                Instance.TitleText = mod.Mod.title;
+                Instance.BodyText = mod.Mod.description;
+                Instance.RebuildGO();
             }
         }
     }

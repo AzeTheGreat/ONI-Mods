@@ -19,14 +19,17 @@ namespace ModManager
             return go;
         }
 
+        public static void SetLayoutLockState(this AbstractLayoutGroup lg, bool isLocked) => GetLockStateTraverse(lg).SetValue(isLocked);
         public static GameObject SetLayoutLockState(this GameObject go, bool isLocked)
         {
             go.GetComponent<AbstractLayoutGroup>().SetLayoutLockState(isLocked);
             return go;
         }
 
-        public static void SetLayoutLockState(this AbstractLayoutGroup lg, bool isLocked) => 
-            Traverse.Create(lg).Field("locked").SetValue(isLocked);
+        public static bool GetLayoutLockState(this AbstractLayoutGroup lg) => GetLockStateTraverse(lg).GetValue<bool>();
+        public static bool GetLayoutLockState(this GameObject go) => go.GetComponent<AbstractLayoutGroup>().GetLayoutLockState();
+
+        private static Traverse GetLockStateTraverse(AbstractLayoutGroup lg) => Traverse.Create(lg).Field("locked");
 
         public static IUIComponent LockLayout(this IUIComponent cmp) => cmp.AddOnRealize(LockLayout);
         public static void LockLayout(this GameObject go)
