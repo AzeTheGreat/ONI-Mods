@@ -13,12 +13,14 @@ namespace ModManager
         protected KScrollRect scrollRect; // Parent component
         [MyCmpGet] protected BoxLayoutGroup boxLayoutGroup;
 
-        protected List<UISource> children;
-
+        protected List<UISource> children = new();
         protected GameObject spacer;
-        protected List<float> cachedHeights = new();
-        protected Dictionary<Type, float> rowHeights = new();
         protected int lastFirstActiveIndex = 0;
+
+        // Represents the height from the top of the panel to the bottom of each element.
+        protected List<float> cachedHeights = new();
+        // Caches the height of each UISource type so that initialization doesn't need to build all children.
+        protected Dictionary<Type, float> uiSourceHeights = new();
 
         public override void OnSpawn()
         {
@@ -40,17 +42,17 @@ namespace ModManager
 
         public void UpdateChildren(IEnumerable<UISource> children)
         {
-            DestroyChildren(children);
-            this.children = children.ToList();;
+            DestroyChildren(this.children);
+            this.children = children.ToList();
             CacheRowHeights();
             gameObject.SetMinUISize(GetUISize());
-            if(scrollRect)
+            if (scrollRect)
                 scrollRect.verticalNormalizedPosition = 1;
             lastFirstActiveIndex = int.MaxValue;
             RefreshChildren();
         }
 
-        private Vector2 GetUISize() => new Vector2(0f, cachedHeights.LastOrDefault());
+        private Vector2 GetUISize() => new(-1f, cachedHeights.LastOrDefault() + boxLayoutGroup.Params.Margin.bottom);
 
         private void RefreshChildren()
         {
@@ -67,7 +69,7 @@ namespace ModManager
 
             // Configure the spacer if there are hidden rows.
             if (firstActiveIndex >= 1)
-                SetSpacerHeight(cachedHeights[firstActiveIndex - 1]);
+                SetSpacerHeight(cachedHeights[firstActiveIndex - 1] - boxLayoutGroup.Params.Margin.top);
             else
                 spacer?.SetActive(false);
 
@@ -91,49 +93,54 @@ namespace ModManager
         private (int first, int last) GetChildIndexRange(float yMin, float yMax)
         {
             // Keep a buffer of one extra active child above and below.
-            var firstActiveIndex = cachedHeights.FindIndex(x => x > yMin) - 2;
+            var firstActiveIndex = cachedHeights.FindIndex(x => x > yMin) - 1;
             var endIndex = cachedHeights.FindIndex(x => x > yMax);
-            var lastActiveIndex = (endIndex == -1 ? cachedHeights.Count - 1 : endIndex) + 1;
+            var lastActiveIndex = endIndex == -1 ? cachedHeights.Count - 1 : endIndex + 1;
             return (firstActiveIndex, lastActiveIndex);
         }
 
-        private GameObject BuildChild(int i) => BuildChild(children.ElementAtOrDefault(i), i);
-        private GameObject BuildChild(UISource child) => BuildChild(child, children.IndexOf(child));
-        private GameObject BuildChild(UISource child, int i)
+        private void BuildChild(UISource child)
         {
             if (child is null)
-                return null;
+                return;
 
             var go = child.CreateUIComponent().Build().SetParent(gameObject);
-
             PUIElements.SetAnchors(go, PUIAnchoring.Stretch, PUIAnchoring.Stretch);
-            return go;
         }
 
         private void CacheRowHeights()
         {
             cachedHeights.Clear();
-
             foreach (var child in children)
             {
-                var childType = child.GetType();
-                if (!rowHeights.TryGetValue(childType, out var height))
-                    rowHeights[childType] = height = GetRowHeight(child);
+                var height = GetCachedObjectHeight(child);
+
+                if (child == children.First())
+                    height += boxLayoutGroup.Params.Margin.top;
+                else
+                    height += boxLayoutGroup.Params.Spacing;
 
                 cachedHeights.Add(cachedHeights.LastOrDefault() + height);
             }
 
-            // Build a temporary object for the type to get a row height.
-            float GetRowHeight(UISource child)
+            float GetCachedObjectHeight(UISource child)
             {
-                float rowHeight = 0f;
-                if (BuildChild(child)?.GetComponentsInChildren<ILayoutElement>() is ILayoutElement[] layoutElements)
-                {
-                    // Row height is the largest preferred or min height of all layout elements, plus layout spacing.
-                    foreach (var le in layoutElements)
-                        rowHeight = Mathf.Max(rowHeight, le.minHeight, le.preferredHeight);
-                    rowHeight += boxLayoutGroup.Params.Spacing;
-                }
+                var childType = child.GetType();
+                if (!uiSourceHeights.TryGetValue(childType, out var height))
+                    uiSourceHeights[childType] = height = GetObjectHeight(child);
+                return height;
+            }
+
+            // Build a temporary object for the type to get a row height.
+            float GetObjectHeight(UISource child)
+            {
+                BuildChild(child);
+                LayoutRebuilder.ForceRebuildLayoutImmediate(gameObject.rectTransform());
+
+                var rowHeight = 0f;
+                foreach (var le in child.GO.GetComponents<ILayoutElement>())
+                    rowHeight = Mathf.Max(rowHeight, le.minHeight, le.preferredHeight);
+
                 child.DestroyGO();
                 return rowHeight;
             }
