@@ -15,7 +15,6 @@ namespace ModManager
 
         protected List<UISource> children = new();
         protected GameObject spacer;
-        protected int lastFirstActiveIndex = 0;
 
         // Represents the height from the top of the panel to the bottom of each element.
         protected List<float> cachedHeights = new();
@@ -32,7 +31,6 @@ namespace ModManager
             // A locked layout won't properly arrange children during scrolling.
             gameObject.SetLayoutLockState(false);
 
-            lastFirstActiveIndex = int.MaxValue;
             RefreshChildren();
         }
 
@@ -50,7 +48,6 @@ namespace ModManager
             if (scrollToTop && scrollRect)
                 scrollRect.verticalNormalizedPosition = 1;
 
-            lastFirstActiveIndex = int.MaxValue;
             RefreshChildren();
         }
 
@@ -60,11 +57,6 @@ namespace ModManager
         {
             var (ymin, ymax) = scrollRect ? GetViewportVals(scrollRect) : (0f, 600f);
             var (firstActiveIndex, lastActiveIndex) = GetChildIndexRange(ymin, ymax);
-
-            // Early out if the active indices are the same.
-            if (firstActiveIndex == lastFirstActiveIndex)
-                return;
-            lastFirstActiveIndex = firstActiveIndex;
 
             // Destroy active children outside the active index range.
             DestroyChildren(children.Where((x, i) => i < firstActiveIndex || i > lastActiveIndex));
