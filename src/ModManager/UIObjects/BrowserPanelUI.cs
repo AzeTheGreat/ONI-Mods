@@ -31,16 +31,6 @@ namespace ModManager
                 GetBaseChildren = () => AModsScreen.Instance.ModUIExtractions.Where(x => !x.Mod.IsActive())
             };
 
-            var search = new SearchUI()
-            {
-                OnTextChanged = text =>
-                {
-                    activeModsPanel.UpdateSearchResults(text);
-                    inactiveModsPanel.UpdateSearchResults(text);
-                }
-            }
-            .CreateUIComponent();
-
             return new PGridPanel()
             {
                 FlexSize = Vector2.one
@@ -48,7 +38,7 @@ namespace ModManager
             .AddRow(new()).AddRow(new()).AddRow(new()).AddRow(new(scrollPaneHeight))
             .AddColumn(new()).AddColumn(new())
             .AddChild(new PresetsUI().CreateUIComponent(), new(0, 0) { ColumnSpan = 2 })
-            .AddChild(search, new(1, 0) { ColumnSpan = 2 })
+            .AddChild(new SearchUI().CreateUIComponent(), new(1, 0) { ColumnSpan = 2 })
             .AddChild(inactiveTitle, new(2, 0))
             .AddChild(activeTitle, new(2, 1))
             .AddChild(inactiveModsPanel.CreateUIComponent(), new(3, 0))

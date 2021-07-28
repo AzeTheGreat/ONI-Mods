@@ -32,7 +32,14 @@ namespace ModManager
                 ScrollVertical = true,
                 FlexSize = Vector2.one,
                 TrackSize = 8f
-            };
+            }
+            .AddOnRealize(AddSearchListener);
+
+            void AddSearchListener(GameObject go)
+            {
+                var target = go.AddComponent<SearchFieldChangedTarget>();
+                target.Instance = this;
+            }
         }
 
         public IEnumerable<UISource> GetUISources(IEnumerable<ModUIExtract> children) => children.Select(
@@ -41,12 +48,6 @@ namespace ModManager
                 Mod = x,
                 DragListener = this
             });
-
-        public void UpdateSearchResults(string text)
-        {
-            var newChildren = GetBaseChildren().Where(x => CultureInfo.InvariantCulture.CompareInfo.IndexOf(x.Title.text, text, CompareOptions.IgnoreCase) >= 0);
-            scrollContents.UpdateChildren(GetUISources(newChildren), true);
-        }
 
         private ModEntryUI modToMove;
 
@@ -86,6 +87,18 @@ namespace ModManager
             return scrollContents.GetChildren()
                 .Where(x => x.GO != null)
                 .FirstOrDefault(x => x.GO.rectTransform().position.y < pos.y) as ModEntryUI;
+        }
+
+        private class SearchFieldChangedTarget : MonoBehaviour, SearchUI.ITextChanged
+        {
+            public ModsPanelUI Instance { get; set; }
+
+            public void OnSeachFieldChanged(string text)
+            {
+                var newChildren = Instance.GetBaseChildren()
+                    .Where(x => CultureInfo.InvariantCulture.CompareInfo.IndexOf(x.Title.text, text, CompareOptions.IgnoreCase) >= 0);
+                Instance.scrollContents.UpdateChildren(Instance.GetUISources(newChildren), true);
+            }
         }
     }
 }

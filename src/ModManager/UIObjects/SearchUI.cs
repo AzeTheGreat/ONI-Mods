@@ -1,14 +1,12 @@
 ﻿using PeterHan.PLib.UI;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 namespace ModManager
 {
     public class SearchUI : UISource
     {
-        public UnityAction<string> OnTextChanged { get; set; }
-
         protected override IUIComponent GetUIComponent()
         {
             var tf = new PTextField()
@@ -18,14 +16,7 @@ namespace ModManager
             }
             // PTextField's OnTextChanged only triggers when the user hits enter.
             // TMP's triggers on every character change, giving a more responsive search.
-            .AddOnRealize((GameObject realized) =>
-            {
-                if(OnTextChanged != null)
-                {
-                    var textField = realized.GetComponent<TMP_InputField>();
-                    textField.onValueChanged.AddListener(OnTextChanged);
-                }
-            });
+            .AddOnRealize(AddTextFieldListener);
 
             return new PPanel()
             {
@@ -33,6 +24,18 @@ namespace ModManager
                 FlexSize = Vector2.one
             }
             .AddChild(tf);
+
+            void AddTextFieldListener(GameObject go)
+            {
+                var textField = go.GetComponent<TMP_InputField>();
+                textField.onValueChanged.AddListener(
+                    t => AExecuteEvents.ExecuteOnEntireHierarchy<ITextChanged>(go, x => x.OnSeachFieldChanged(t)));
+            }
+        }
+
+        public interface ITextChanged : IEventSystemHandler
+        {
+            void OnSeachFieldChanged(string text);
         }
     }
 }
