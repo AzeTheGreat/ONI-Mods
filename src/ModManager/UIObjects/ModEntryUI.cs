@@ -1,6 +1,7 @@
 ﻿using PeterHan.PLib.UI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace ModManager
@@ -29,6 +30,7 @@ namespace ModManager
                 FlexSize = Vector2.right,
                 Text = Mod.Title.text,
                 TextAlignment = TextAnchor.MiddleLeft,
+                OnClick = go => AExecuteEvents.ExecuteOnEntireHierarchy<IOnClick>(go, x => x.OnClick(Mod)),
                 Color = clearColorStyle
             }
             .AddOnRealize(ConstrainTextLength)
@@ -71,6 +73,11 @@ namespace ModManager
             // Set preferred width so that the LocText knows where to truncate.
             // Set min width so that even if no strings are long, UI is sized correctly.
             le.preferredWidth = le.minWidth = entryTextMaxLength;
+        }
+
+        public interface IOnClick : IEventSystemHandler
+        {
+            void OnClick(ModUIExtract mod);
         }
     }
 }
