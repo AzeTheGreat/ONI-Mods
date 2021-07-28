@@ -34,6 +34,10 @@ namespace ModManager
         {
             if(GO != null)
             {
+                // Unparent extracted GOs so they are not destroyed with the rest of the object.
+                foreach (var go in GO.GetComponentsInChildren<ExtractedGO>())
+                    go.transform.SetParent(null);
+
                 Object.Destroy(GO);
                 // Explicitly setting to null helps avoid any issues with lingering managed objects.
                 GO = null;

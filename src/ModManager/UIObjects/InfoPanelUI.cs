@@ -1,4 +1,5 @@
 ﻿using PeterHan.PLib.UI;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +12,7 @@ namespace ModManager
 
         public string TitleText { get; set; } = " ";
         public string BodyText { get; set; } = " ";
+        public List<GameObject> CustomGOs { get; set; } = new();
 
         protected override IUIComponent GetUIComponent()
         {
@@ -29,12 +31,20 @@ namespace ModManager
                 Text = BodyText
             };
 
+            var extractionPanel = new PPanel()
+            {
+                FlexSize = Vector2.right,
+                Direction = PanelDirection.Horizontal
+            }
+            .AddOnRealize(AddCustomGOsToPanel);
+
             return new PPanel("InfoPanel")
             {
                 FlexSize = Vector2.one,
                 Direction = PanelDirection.Vertical
             }
             .AddChild(title)
+            .AddChild(extractionPanel)
             .AddChild(body)
             .AddOnRealize(AddModEntrySelectedTarget);
 
@@ -42,6 +52,12 @@ namespace ModManager
             {
                 var target = go.AddComponent<ModEntrySelectedTarget>();
                 target.Instance = this;
+            }
+
+            void AddCustomGOsToPanel(GameObject go)
+            {
+                foreach (var cGO in CustomGOs)
+                    cGO.transform.SetParent(go.transform);  
             }
         }
 
@@ -65,6 +81,7 @@ namespace ModManager
             {
                 Instance.TitleText = mod.Mod.title;
                 Instance.BodyText = mod.Mod.description;
+                Instance.CustomGOs = mod.CustomGOs;
                 Instance.RebuildGO();
             }
         }

@@ -16,7 +16,7 @@ namespace ModManager
             // Instantiate the custom mods screen.
             new AModsScreen()
             {
-                ModUIExtractions = __instance.displayedMods.Select(x => new ModUIExtract(x)).ToList(),
+                ModUIExtractions = __instance.displayedMods.Select(x => new ModUIExtract(x, __instance)).ToList(),
                 // Need to reinstantiate to ensure the the "prefab" doesn't get destroyed.
                 DragElementPrefab = Object.Instantiate(__instance.entryPrefab.transform.Find("DragReorderIndicator").gameObject)
             }
