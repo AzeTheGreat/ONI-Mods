@@ -7,10 +7,8 @@ namespace ModManager
     // DragMe instantiates a new object as a child of the canvas when dragging.
     // When using virtual scroll, this child is set by the layout group, and thus fights with the dragging.
     // This class enables this behavior to be fixed, and for additional custom behavior to be implemented.
-    public class ADragMe : MonoBehaviour, IBeginDragHandler, IEventSystemHandler, IDragHandler, IEndDragHandler
+    public class ADragMe : MonoBehaviour, IEventSystemHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        public IDragListener Listener { get; set; }
-
         private GameObject dragObj;
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -25,18 +23,18 @@ namespace ModManager
                 rc.enabled = false;
 
             SetDraggedPosition(eventData);
-            Listener.OnBeginDrag(eventData);
+            AExecuteEvents.ExecuteHierarchy<IDragTarget>(gameObject, x => x.OnBeginDrag(eventData));
         }
 
         public void OnDrag(PointerEventData eventData)
         { 
             SetDraggedPosition(eventData);
-            Listener.OnDrag(eventData);
+            AExecuteEvents.ExecuteHierarchy<IDragTarget>(gameObject, x => x.OnDrag(eventData));
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            Listener.OnEndDrag(eventData);
+            AExecuteEvents.ExecuteHierarchy<IDragTarget>(gameObject, x => x.OnEndDrag(eventData));
             if (dragObj != null)
                 Destroy(dragObj);
         }
@@ -50,6 +48,14 @@ namespace ModManager
             rt.position = new(rt.position.x, eventData.position.y);
         }
 
-        public interface IDragListener : IBeginDragHandler, IDragHandler, IEndDragHandler { }
+        // A custom target is needed, rather than just reusing the drag handlers, to prevent passing the drag up the chain.
+        // That causes weirdness like the panel using drag scrolling while trying to drag an entry.
+        // Interface can't just inherit from drag handlers, because then listeners of this target, will also respond to the parent targets.
+        public interface IDragTarget : IEventSystemHandler
+        {
+            void OnBeginDrag(PointerEventData data);
+            void OnDrag(PointerEventData data);
+            void OnEndDrag(PointerEventData data);
+        }
     }
 }

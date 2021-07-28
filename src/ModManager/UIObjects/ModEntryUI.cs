@@ -10,7 +10,6 @@ namespace ModManager
         public const float entryTextMaxLength = 300f;
 
         public ModUIExtract Mod { get; set; }
-        public ADragMe.IDragListener DragListener { get; set; }
 
         protected bool isBeingDragged;
 
@@ -47,6 +46,17 @@ namespace ModManager
             }
             .AddChild(title)
             .AddOnRealize(AddDragElement);
+
+            void AddDragMe(GameObject go)
+            {
+                go.AddComponent<ADragMe>();
+            }
+
+            void AddDragElement(GameObject go)
+            {
+                var de = Object.Instantiate(AModsScreen.Instance.DragElementPrefab, go.transform, false);
+                de.transform.SetAsFirstSibling();
+            }
         }
 
         protected Color GetPanelColor() => isBeingDragged ?  PUITuning.Colors.ComponentDarkStyle.disabledActiveColor : PUITuning.Colors.DialogDarkBackground;
@@ -61,18 +71,6 @@ namespace ModManager
             // Set preferred width so that the LocText knows where to truncate.
             // Set min width so that even if no strings are long, UI is sized correctly.
             le.preferredWidth = le.minWidth = entryTextMaxLength;
-        }
-
-        private void AddDragMe(GameObject go)
-        {
-            var dm = go.AddComponent<ADragMe>();
-            dm.Listener = DragListener;
-        }
-
-        private void AddDragElement(GameObject go)
-        {
-            var de = Object.Instantiate(AModsScreen.Instance.DragElementPrefab, go.transform, false);
-            de.transform.SetAsFirstSibling();
         }
     }
 }

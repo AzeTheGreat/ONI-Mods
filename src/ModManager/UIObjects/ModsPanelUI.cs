@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 namespace ModManager
 {
-    public class ModsPanelUI : UISource, ADragMe.IDragListener
+    public class ModsPanelUI : UISource
     {
         public Func<IEnumerable<ModUIExtract>> GetBaseChildren { get; set; }
 
@@ -33,11 +33,18 @@ namespace ModManager
                 FlexSize = Vector2.one,
                 TrackSize = 8f
             }
-            .AddOnRealize(AddSearchListener);
+            .AddOnRealize(AddSearchListener)
+            .AddOnRealize(AddDragListener);
 
             void AddSearchListener(GameObject go)
             {
                 var target = go.AddComponent<SearchFieldChangedTarget>();
+                target.Instance = this;
+            }
+
+            void AddDragListener(GameObject go)
+            {
+                var target = go.AddComponent<EntryDraggedTarget>();
                 target.Instance = this;
             }
         }
@@ -45,49 +52,8 @@ namespace ModManager
         public IEnumerable<UISource> GetUISources(IEnumerable<ModUIExtract> children) => children.Select(
             x => new ModEntryUI()
             {
-                Mod = x,
-                DragListener = this
+                Mod = x
             });
-
-        private ModEntryUI modToMove;
-
-        public void OnBeginDrag(PointerEventData eventData)
-        {
-            modToMove = GetModAtPos(eventData.position);
-            modToMove.SetDragState(true);
-        }
-
-        public void OnDrag(PointerEventData eventData) { }
-
-        public void OnEndDrag(PointerEventData eventData)
-        {
-            var modAtTarget = GetModBelowPos(eventData.position);
-
-            var newChildren = scrollContents.GetChildren()
-                .Cast<ModEntryUI>()
-                .Where(x => x.Mod.Mod != modToMove.Mod.Mod)
-                .ToList();
-
-            var idx = modAtTarget != null ? newChildren.FindIndex(x => x.Mod.Mod == modAtTarget.Mod.Mod) : newChildren.Count - 1;
-            newChildren.Insert(idx, modToMove);
-
-            modToMove.SetDragState(false);
-            scrollContents.UpdateChildren(newChildren, false);
-        }
-
-        private ModEntryUI GetModAtPos(Vector2 pos)
-        {
-            return scrollContents.GetChildren()
-                .Where(x => x.GO != null)
-                .FirstOrDefault(x => RectTransformUtility.RectangleContainsScreenPoint(x.GO.rectTransform(), pos)) as ModEntryUI;
-        }
-
-        private ModEntryUI GetModBelowPos(Vector2 pos)
-        {
-            return scrollContents.GetChildren()
-                .Where(x => x.GO != null)
-                .FirstOrDefault(x => x.GO.rectTransform().position.y < pos.y) as ModEntryUI;
-        }
 
         private class SearchFieldChangedTarget : MonoBehaviour, SearchUI.ITextChanged
         {
@@ -98,6 +64,51 @@ namespace ModManager
                 var newChildren = Instance.GetBaseChildren()
                     .Where(x => CultureInfo.InvariantCulture.CompareInfo.IndexOf(x.Title.text, text, CompareOptions.IgnoreCase) >= 0);
                 Instance.scrollContents.UpdateChildren(Instance.GetUISources(newChildren), true);
+            }
+        }
+
+        private class EntryDraggedTarget : MonoBehaviour, ADragMe.IDragTarget
+        {
+            public ModsPanelUI Instance { get; set; }
+
+            private ModEntryUI modToMove;
+
+            public void OnBeginDrag(PointerEventData eventData)
+            {
+                modToMove = GetModAtPos(eventData.position);
+                modToMove.SetDragState(true);
+            }
+
+            public void OnDrag(PointerEventData eventData) { }
+
+            public void OnEndDrag(PointerEventData eventData)
+            {
+                var modAtTarget = GetModBelowPos(eventData.position);
+
+                var newChildren = Instance.scrollContents.GetChildren()
+                    .Cast<ModEntryUI>()
+                    .Where(x => x.Mod.Mod != modToMove.Mod.Mod)
+                    .ToList();
+
+                var idx = modAtTarget != null ? newChildren.FindIndex(x => x.Mod.Mod == modAtTarget.Mod.Mod) : newChildren.Count - 1;
+                newChildren.Insert(idx, modToMove);
+
+                modToMove.SetDragState(false);
+                Instance.scrollContents.UpdateChildren(newChildren, false);
+            }
+
+            private ModEntryUI GetModAtPos(Vector2 pos)
+            {
+                return Instance.scrollContents.GetChildren()
+                    .Where(x => x.GO != null)
+                    .FirstOrDefault(x => RectTransformUtility.RectangleContainsScreenPoint(x.GO.rectTransform(), pos)) as ModEntryUI;
+            }
+
+            private ModEntryUI GetModBelowPos(Vector2 pos)
+            {
+                return Instance.scrollContents.GetChildren()
+                    .Where(x => x.GO != null)
+                    .FirstOrDefault(x => x.GO.rectTransform().position.y < pos.y) as ModEntryUI;
             }
         }
     }

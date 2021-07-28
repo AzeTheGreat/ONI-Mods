@@ -21,5 +21,7 @@ namespace ModManager
                 }
             }
         }
+
+        public static void ExecuteHierarchy<T>(GameObject go, System.Action<T> functor) where T : IEventSystemHandler => ExecuteEvents.ExecuteHierarchy<T>(go, null, (x, d) => functor(x));
     }
 }
