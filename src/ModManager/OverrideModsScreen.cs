@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -9,24 +8,25 @@ namespace ModManager
     [HarmonyPriority(Priority.Last)]
     public class OverrideModsScreen
     {
-        public static List<ModUIExtract> ModUIExtractions { get; set; }
-
         static void Postfix(ModsScreen __instance)
         {
-            ModUIExtractions = ExtractFromMods(__instance.displayedMods);
+            // TODO: Remove for release.
             LogGO(__instance.gameObject);
 
             // Instantiate the custom mods screen.
-            new AModsScreen().GetDialog().Activate();
+            new AModsScreen()
+            {
+                ModUIExtractions = __instance.displayedMods.Select(x => new ModUIExtract(x)).ToList(),
+                // Need to reinstantiate to ensure the the "prefab" doesn't get destroyed.
+                DragElementPrefab = Object.Instantiate(__instance.entryPrefab.transform.Find("DragReorderIndicator").gameObject)
+            }
+            .GetDialog()
+            .Activate();
 
             // This is allowed to activate so that necessary information can be extracted.
             // But it must be deactivated so that there aren't two UIs.
             __instance.Deactivate();
         }
-
-        private static List<ModUIExtract> ExtractFromMods(List<ModsScreen.DisplayedMod> mods) =>
-            mods.Select(x => new ModUIExtract(x)).ToList();
-
 
         public static void LogGO(GameObject go, int level = 0)
         {

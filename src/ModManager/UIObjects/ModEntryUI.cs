@@ -33,7 +33,7 @@ namespace ModManager
                 Color = clearColorStyle
             }
             .AddOnRealize(ConstrainTextLength)
-            .AddOnRealize(AddDrag)
+            .AddOnRealize(AddDragMe)
             // Locking the layout here ensures that nothing can override the widths just before.
             // Without this, the UI will try to flex to fit the largest text string.
             .LockLayout();
@@ -45,7 +45,8 @@ namespace ModManager
                 Margin = new(1, 1, 1, 1),
                 BackColor = GetPanelColor()
             }
-            .AddChild(title);
+            .AddChild(title)
+            .AddOnRealize(AddDragElement);
         }
 
         protected Color GetPanelColor() => isBeingDragged ?  PUITuning.Colors.ComponentDarkStyle.disabledActiveColor : PUITuning.Colors.DialogDarkBackground;
@@ -62,10 +63,16 @@ namespace ModManager
             le.preferredWidth = le.minWidth = entryTextMaxLength;
         }
 
-        private void AddDrag(GameObject go)
+        private void AddDragMe(GameObject go)
         {
             var dm = go.AddComponent<ADragMe>();
             dm.Listener = DragListener;
+        }
+
+        private void AddDragElement(GameObject go)
+        {
+            var de = Object.Instantiate(AModsScreen.Instance.DragElementPrefab, go.transform, false);
+            de.transform.SetAsFirstSibling();
         }
     }
 }
