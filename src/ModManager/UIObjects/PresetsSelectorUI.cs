@@ -9,18 +9,22 @@ namespace ModManager
     {
         public int ActivePresetIdx { get; set; }
         public List<Preset> Presets { get; set; } = new();
+        public bool IsRenaming { get; set; }
 
-        protected override IUIComponent GetUIComponent()
+        protected override IUIComponent GetUIComponent() => IsRenaming ? GetRenamer() : GetSelector();
+
+        private IUIComponent GetSelector()
         {
             return new PComboBox<Preset>()
             {
                 FlexSize = Vector2.one,
-                InitialItem = Presets.ElementAtOrDefault(ActivePresetIdx),
+                InitialItem = GetCurPreset(),
                 Content = Presets,
                 OnOptionSelected = OnOptionSelected
             }
             .AddOnRealize(AddPresetListener)
-            .AddOnRealize(AddDelCurPresetListener);
+            .AddOnRealize(AddDelCurPresetListener)
+            .AddOnRealize(AddRenameCurPresetListener);
 
             void AddPresetListener(GameObject go)
             {
@@ -33,7 +37,34 @@ namespace ModManager
                 var target = go.AddComponent<DelCurPresetTarget>();
                 target.Instance = this;
             }
+
+            void AddRenameCurPresetListener(GameObject go)
+            {
+                var target = go.AddComponent<RenameCurPresetTarget>();
+                target.Instance = this;
+            }
         }
+
+        private IUIComponent GetRenamer()
+        {
+            return new PTextField()
+            {
+                FlexSize = Vector2.one,
+                Text = GetCurPreset()?.Name,
+                OnTextChanged = OnTextChanged
+            };
+
+            void OnTextChanged(GameObject _, string text)
+            {
+                IsRenaming = false;
+                if (GetCurPreset() is var preset)
+                    preset.Name = text;
+
+                RebuildGO();
+            }
+        }
+
+        private Preset GetCurPreset() => Presets.ElementAtOrDefault(ActivePresetIdx);
 
         private void OnOptionSelected(GameObject _, Preset preset)
         {
@@ -73,6 +104,18 @@ namespace ModManager
                 Instance.Presets.Remove(
                     Instance.Presets.ElementAtOrDefault(Instance.ActivePresetIdx));
                 Instance.ActivePresetIdx = 0;
+
+                Instance.RebuildGO();
+            }
+        }
+
+        private class RenameCurPresetTarget : MonoBehaviour, PresetsUI.IRenameCurPresetTarget
+        {
+            public PresetsSelectorUI Instance { get; set; }
+
+            public void OnRenameCurPreset()
+            {
+                Instance.IsRenaming = true;
 
                 Instance.RebuildGO();
             }

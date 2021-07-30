@@ -6,11 +6,15 @@ namespace ModManager
 {
     public class PresetsUI : UISource
     {
+        public bool IsRenaming { get; set; }
+
         protected override IUIComponent GetUIComponent()
         {
             var renameButton = new PButton()
             {
-                Text = "I"
+                Text = "I",
+                ToolTip = "Rename this preset.",
+                OnClick = go => AExecuteEvents.ExecuteOnEntireHierarchy<IRenameCurPresetTarget>(go, x => x.OnRenameCurPreset())
             };
 
             var addButton = new PButton()
@@ -48,6 +52,11 @@ namespace ModManager
         public interface IDelCurPresetTarget : IEventSystemHandler
         {
             void OnDelCurPreset();
+        }
+
+        public interface IRenameCurPresetTarget : IEventSystemHandler
+        {
+            void OnRenameCurPreset();
         }
     }
 }
