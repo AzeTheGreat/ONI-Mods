@@ -23,18 +23,18 @@ namespace ModManager
                 rc.enabled = false;
 
             SetDraggedPosition(eventData);
-            AExecuteEvents.ExecuteHierarchy<IDragTarget>(gameObject, x => x.OnBeginDrag(eventData));
+            AExecuteEvents.ExecuteHierarchy<IDragHandler>(gameObject, x => x.OnBeginDrag(eventData));
         }
 
         public void OnDrag(PointerEventData eventData)
         { 
             SetDraggedPosition(eventData);
-            AExecuteEvents.ExecuteHierarchy<IDragTarget>(gameObject, x => x.OnDrag(eventData));
+            AExecuteEvents.ExecuteHierarchy<IDragHandler>(gameObject, x => x.OnDrag(eventData));
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            AExecuteEvents.ExecuteHierarchy<IDragTarget>(gameObject, x => x.OnEndDrag(eventData));
+            AExecuteEvents.ExecuteHierarchy<IDragHandler>(gameObject, x => x.OnEndDrag(eventData));
             if (dragObj != null)
                 Destroy(dragObj);
         }
@@ -51,7 +51,7 @@ namespace ModManager
         // A custom target is needed, rather than just reusing the drag handlers, to prevent passing the drag up the chain.
         // That causes weirdness like the panel using drag scrolling while trying to drag an entry.
         // Interface can't just inherit from drag handlers, because then listeners of this target, will also respond to the parent targets.
-        public interface IDragTarget : IEventSystemHandler
+        public interface IDragHandler : IEventSystemHandler
         {
             void OnBeginDrag(PointerEventData data);
             void OnDrag(PointerEventData data);

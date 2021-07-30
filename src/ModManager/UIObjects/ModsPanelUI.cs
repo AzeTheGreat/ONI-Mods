@@ -37,8 +37,8 @@ namespace ModManager
 
             void AddListeners(GameObject go)
             {
-                var search = go.AddComponent<SearchFieldChangedTarget>();
-                var entryDrag = go.AddComponent<EntryDraggedTarget>();
+                var search = go.AddComponent<SearchTextChangeListener>();
+                var entryDrag = go.AddComponent<ModEntryDragListener>();
                 search.Instance = entryDrag.Instance = this;
             }
         }
@@ -49,11 +49,11 @@ namespace ModManager
                 Mod = x
             });
 
-        private class SearchFieldChangedTarget : MonoBehaviour, SearchUI.ITextChanged
+        private class SearchTextChangeListener : MonoBehaviour, SearchUI.ITextChangeHandler
         {
             public ModsPanelUI Instance { get; set; }
 
-            public void OnSeachFieldChanged(string text)
+            public void OnTextChange(string text)
             {
                 var newChildren = Instance.GetBaseChildren()
                     .Where(x => CultureInfo.InvariantCulture.CompareInfo.IndexOf(x.Title.text, text, CompareOptions.IgnoreCase) >= 0);
@@ -61,7 +61,7 @@ namespace ModManager
             }
         }
 
-        private class EntryDraggedTarget : MonoBehaviour, ADragMe.IDragTarget
+        private class ModEntryDragListener : MonoBehaviour, ADragMe.IDragHandler
         {
             public ModsPanelUI Instance { get; set; }
 

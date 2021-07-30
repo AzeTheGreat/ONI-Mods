@@ -14,21 +14,21 @@ namespace ModManager
             {
                 Text = "I",
                 ToolTip = "Rename this preset.",
-                OnClick = go => AExecuteEvents.ExecuteOnEntireHierarchy<IRenameCurPresetTarget>(go, x => x.OnRenameCurPreset())
+                OnClick = go => AExecuteEvents.ExecuteOnEntireHierarchy<IRenamePresetHandler>(go, x => x.OnRenamePreset())
             };
 
             var addButton = new PButton()
             {
                 Text = "+",
                 ToolTip = "Add a new preset.",
-                OnClick = go => AExecuteEvents.ExecuteOnEntireHierarchy<IAddNewPresetTarget>(go, x => x.OnAddNewPreset())
+                OnClick = go => AExecuteEvents.ExecuteOnEntireHierarchy<IAddPresetHandler>(go, x => x.OnAddPreset())
             };
 
             var delButton = new PButton()
             {
                 Text = "-",
                 ToolTip = "Remove this preset.",
-                OnClick = go => AExecuteEvents.ExecuteOnEntireHierarchy<IDelCurPresetTarget>(go, x => x.OnDelCurPreset())
+                OnClick = go => AExecuteEvents.ExecuteOnEntireHierarchy<IDelPresetHandler>(go, x => x.OnDelPreset())
             };
 
             return new PPanel()
@@ -44,19 +44,19 @@ namespace ModManager
             .AddChild(delButton);
         }
 
-        public interface IAddNewPresetTarget : IEventSystemHandler
+        public interface IAddPresetHandler : IEventSystemHandler
         {
-            void OnAddNewPreset();
+            void OnAddPreset();
         }
 
-        public interface IDelCurPresetTarget : IEventSystemHandler
+        public interface IDelPresetHandler : IEventSystemHandler
         {
-            void OnDelCurPreset();
+            void OnDelPreset();
         }
 
-        public interface IRenameCurPresetTarget : IEventSystemHandler
+        public interface IRenamePresetHandler : IEventSystemHandler
         {
-            void OnRenameCurPreset();
+            void OnRenamePreset();
         }
     }
 }

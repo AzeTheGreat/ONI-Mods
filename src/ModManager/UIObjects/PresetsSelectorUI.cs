@@ -26,9 +26,9 @@ namespace ModManager
 
             void AddListeners(GameObject go)
             {
-                var newPre = go.AddComponent<AddNewPresetTarget>();
-                var delPre = go.AddComponent<DelCurPresetTarget>();
-                var renamePre = go.AddComponent<RenameCurPresetTarget>();
+                var newPre = go.AddComponent<AddPresetListener>();
+                var delPre = go.AddComponent<DelPresetListener>();
+                var renamePre = go.AddComponent<RenamePresetListener>();
                 newPre.Instance = delPre.Instance = renamePre.Instance = this;
             }
         }
@@ -66,11 +66,11 @@ namespace ModManager
             public string GetProperName() => Name;
         }
 
-        private class AddNewPresetTarget : MonoBehaviour, PresetsUI.IAddNewPresetTarget
+        private class AddPresetListener : MonoBehaviour, PresetsUI.IAddPresetHandler
         {
             public PresetsSelectorUI Instance { get; set; }
 
-            public void OnAddNewPreset()
+            public void OnAddPreset()
             {
                 var count = Instance.Presets.Count;
                 Instance.Presets.Add(new()
@@ -83,11 +83,11 @@ namespace ModManager
             }
         }
 
-        private class DelCurPresetTarget : MonoBehaviour, PresetsUI.IDelCurPresetTarget
+        private class DelPresetListener : MonoBehaviour, PresetsUI.IDelPresetHandler
         {
             public PresetsSelectorUI Instance { get; set; }
 
-            public void OnDelCurPreset()
+            public void OnDelPreset()
             {
                 Instance.Presets.Remove(
                     Instance.Presets.ElementAtOrDefault(Instance.ActivePresetIdx));
@@ -97,11 +97,11 @@ namespace ModManager
             }
         }
 
-        private class RenameCurPresetTarget : MonoBehaviour, PresetsUI.IRenameCurPresetTarget
+        private class RenamePresetListener : MonoBehaviour, PresetsUI.IRenamePresetHandler
         {
             public PresetsSelectorUI Instance { get; set; }
 
-            public void OnRenameCurPreset()
+            public void OnRenamePreset()
             {
                 Instance.IsRenaming = true;
 

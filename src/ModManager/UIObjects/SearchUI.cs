@@ -29,13 +29,13 @@ namespace ModManager
             {
                 var textField = go.GetComponent<TMP_InputField>();
                 textField.onValueChanged.AddListener(
-                    t => AExecuteEvents.ExecuteOnEntireHierarchy<ITextChanged>(go, x => x.OnSeachFieldChanged(t)));
+                    t => AExecuteEvents.ExecuteOnEntireHierarchy<ITextChangeHandler>(go, x => x.OnTextChange(t)));
             }
         }
 
-        public interface ITextChanged : IEventSystemHandler
+        public interface ITextChangeHandler : IEventSystemHandler
         {
-            void OnSeachFieldChanged(string text);
+            void OnTextChange(string text);
         }
     }
 }

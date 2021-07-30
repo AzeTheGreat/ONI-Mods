@@ -30,7 +30,7 @@ namespace ModManager
                 FlexSize = Vector2.right,
                 Text = Mod.Title.text,
                 TextAlignment = TextAnchor.MiddleLeft,
-                OnClick = go => AExecuteEvents.ExecuteOnEntireHierarchy<IOnClick>(go, x => x.OnClick(Mod)),
+                OnClick = go => AExecuteEvents.ExecuteOnEntireHierarchy<IClickHandler>(go, x => x.OnClick(Mod)),
                 Color = clearColorStyle
             }
             .AddOnRealize(ConstrainTextLength)
@@ -75,7 +75,7 @@ namespace ModManager
             le.preferredWidth = le.minWidth = entryTextMaxLength;
         }
 
-        public interface IOnClick : IEventSystemHandler
+        public interface IClickHandler : IEventSystemHandler
         {
             void OnClick(ModUIExtract mod);
         }

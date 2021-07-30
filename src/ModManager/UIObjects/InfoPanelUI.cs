@@ -50,7 +50,7 @@ namespace ModManager
 
             void AddModEntrySelectedTarget(GameObject go)
             {
-                var target = go.AddComponent<ModEntrySelectedTarget>();
+                var target = go.AddComponent<ModEntryClickListener>();
                 target.Instance = this;
             }
 
@@ -73,7 +73,7 @@ namespace ModManager
             le.preferredWidth = le.minWidth = titleMaxTextLength;
         }
 
-        private class ModEntrySelectedTarget : MonoBehaviour, ModEntryUI.IOnClick
+        private class ModEntryClickListener : MonoBehaviour, ModEntryUI.IClickHandler
         {
             public InfoPanelUI Instance { get; set; }
 
