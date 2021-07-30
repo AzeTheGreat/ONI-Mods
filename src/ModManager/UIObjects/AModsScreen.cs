@@ -20,8 +20,11 @@ namespace ModManager
         {
             var dialog = new PDialog("ModsScreen")
             {
-                Title = "Mods"
-            };
+                Title = "Mods",
+                DialogClosed = onDialogClosed
+            }
+            .AddButton("ok", "Confirm", null)
+            .AddButton("close", "Cancel", null);
 
             var db = dialog.Body;
             db.FlexSize = Vector2.right;
@@ -36,6 +39,24 @@ namespace ModManager
                 .Build()
                 .LockLayoutNested()
                 .GetComponent<KScreen>();
+        }
+
+        private void onDialogClosed(string key)
+        {
+            if (key == "ok")
+                Confirm();
+            else if (key == "close")
+                Cancel();
+
+            void Confirm()
+            {
+
+            }
+
+            void Cancel()
+            {
+
+            }
         }
     }
 }
