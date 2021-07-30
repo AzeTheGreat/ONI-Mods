@@ -22,26 +22,14 @@ namespace ModManager
                 Content = Presets,
                 OnOptionSelected = OnOptionSelected
             }
-            .AddOnRealize(AddPresetListener)
-            .AddOnRealize(AddDelCurPresetListener)
-            .AddOnRealize(AddRenameCurPresetListener);
+            .AddOnRealize(AddListeners);
 
-            void AddPresetListener(GameObject go)
+            void AddListeners(GameObject go)
             {
-                var target = go.AddComponent<AddNewPresetTarget>();
-                target.Instance = this;
-            }
-
-            void AddDelCurPresetListener(GameObject go)
-            {
-                var target = go.AddComponent<DelCurPresetTarget>();
-                target.Instance = this;
-            }
-
-            void AddRenameCurPresetListener(GameObject go)
-            {
-                var target = go.AddComponent<RenameCurPresetTarget>();
-                target.Instance = this;
+                var newPre = go.AddComponent<AddNewPresetTarget>();
+                var delPre = go.AddComponent<DelCurPresetTarget>();
+                var renamePre = go.AddComponent<RenameCurPresetTarget>();
+                newPre.Instance = delPre.Instance = renamePre.Instance = this;
             }
         }
 

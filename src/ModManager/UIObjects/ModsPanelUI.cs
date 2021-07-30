@@ -33,19 +33,13 @@ namespace ModManager
                 FlexSize = Vector2.one,
                 TrackSize = 8f
             }
-            .AddOnRealize(AddSearchListener)
-            .AddOnRealize(AddDragListener);
+            .AddOnRealize(AddListeners);
 
-            void AddSearchListener(GameObject go)
+            void AddListeners(GameObject go)
             {
-                var target = go.AddComponent<SearchFieldChangedTarget>();
-                target.Instance = this;
-            }
-
-            void AddDragListener(GameObject go)
-            {
-                var target = go.AddComponent<EntryDraggedTarget>();
-                target.Instance = this;
+                var search = go.AddComponent<SearchFieldChangedTarget>();
+                var entryDrag = go.AddComponent<EntryDraggedTarget>();
+                search.Instance = entryDrag.Instance = this;
             }
         }
 
