@@ -1,5 +1,6 @@
 ﻿using PeterHan.PLib.UI;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace ModManager
 {
@@ -14,7 +15,9 @@ namespace ModManager
 
             var addButton = new PButton()
             {
-                Text = "+"
+                Text = "+",
+                ToolTip = "Add a new preset.",
+                OnClick = go => AExecuteEvents.ExecuteOnEntireHierarchy<IAddNewPresetTarget>(go, x => x.OnAddNewPreset())
             };
 
             var delButton = new PButton()
@@ -33,6 +36,11 @@ namespace ModManager
             .AddChild(renameButton)
             .AddChild(addButton)
             .AddChild(delButton);
+        }
+
+        public interface IAddNewPresetTarget : IEventSystemHandler
+        {
+            void OnAddNewPreset();
         }
     }
 }
