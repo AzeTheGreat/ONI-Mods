@@ -7,15 +7,9 @@ namespace ModManager
     {
         protected override IUIComponent GetUIComponent()
         {
-            var textField = new PTextField()
+            var renameButton = new PButton()
             {
-                Text = "Preset name",
-                FlexSize = Vector2.one
-            };
-
-            var dropButton = new PButton()
-            {
-                Text = "v"
+                Text = "I"
             };
 
             var addButton = new PButton()
@@ -35,8 +29,8 @@ namespace ModManager
                 Margin = new(2, 2, 2, 2),
                 FlexSize = Vector2.one
             }
-            .AddChild(textField)
-            .AddChild(dropButton)
+            .AddChild(new PresetsSelectorUI().CreateUIComponent())
+            .AddChild(renameButton)
             .AddChild(addButton)
             .AddChild(delButton);
         }
