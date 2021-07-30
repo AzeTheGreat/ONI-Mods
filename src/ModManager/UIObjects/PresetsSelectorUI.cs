@@ -16,15 +16,28 @@ namespace ModManager
             {
                 FlexSize = Vector2.one,
                 InitialItem = Presets.ElementAtOrDefault(ActivePresetIdx),
-                Content = Presets
+                Content = Presets,
+                OnOptionSelected = OnOptionSelected
             }
-            .AddOnRealize(AddPresetListener);
+            .AddOnRealize(AddPresetListener)
+            .AddOnRealize(AddDelCurPresetListener);
 
             void AddPresetListener(GameObject go)
             {
                 var target = go.AddComponent<AddNewPresetTarget>();
                 target.Instance = this;
             }
+
+            void AddDelCurPresetListener(GameObject go)
+            {
+                var target = go.AddComponent<DelCurPresetTarget>();
+                target.Instance = this;
+            }
+        }
+
+        private void OnOptionSelected(GameObject _, Preset preset)
+        {
+            ActivePresetIdx = Presets.IndexOf(preset);
         }
 
         public class Preset : IListableOption
@@ -46,6 +59,20 @@ namespace ModManager
                     Name = "Preset #" + (count + 1)
                 });
                 Instance.ActivePresetIdx = count;
+
+                Instance.RebuildGO();
+            }
+        }
+
+        private class DelCurPresetTarget : MonoBehaviour, PresetsUI.IDelCurPresetTarget
+        {
+            public PresetsSelectorUI Instance { get; set; }
+
+            public void OnDelCurPreset()
+            {
+                Instance.Presets.Remove(
+                    Instance.Presets.ElementAtOrDefault(Instance.ActivePresetIdx));
+                Instance.ActivePresetIdx = 0;
 
                 Instance.RebuildGO();
             }

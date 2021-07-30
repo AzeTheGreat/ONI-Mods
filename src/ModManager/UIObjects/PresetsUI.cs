@@ -22,7 +22,9 @@ namespace ModManager
 
             var delButton = new PButton()
             {
-                Text = "-"
+                Text = "-",
+                ToolTip = "Remove this preset.",
+                OnClick = go => AExecuteEvents.ExecuteOnEntireHierarchy<IDelCurPresetTarget>(go, x => x.OnDelCurPreset())
             };
 
             return new PPanel()
@@ -41,6 +43,11 @@ namespace ModManager
         public interface IAddNewPresetTarget : IEventSystemHandler
         {
             void OnAddNewPreset();
+        }
+
+        public interface IDelCurPresetTarget : IEventSystemHandler
+        {
+            void OnDelCurPreset();
         }
     }
 }
