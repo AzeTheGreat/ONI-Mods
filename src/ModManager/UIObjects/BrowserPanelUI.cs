@@ -23,12 +23,12 @@ namespace ModManager
 
             var activeModsPanel = new ModsPanelUI()
             {
-                GetBaseChildren = () => AModsScreen.Instance.ModUIExtractions.Where(x => x.Mod.IsActive())
+                GetBaseChildren = () => AModsScreen.Instance.ModUIExtractions.Where(x => x.Mod.IsEnabled())
             };
 
             var inactiveModsPanel = new ModsPanelUI()
             {
-                GetBaseChildren = () => AModsScreen.Instance.ModUIExtractions.Where(x => !x.Mod.IsActive())
+                GetBaseChildren = () => AModsScreen.Instance.ModUIExtractions.Where(x => !x.Mod.IsEnabled())
             };
 
             return new PGridPanel()

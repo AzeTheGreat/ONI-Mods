@@ -39,7 +39,8 @@ namespace ModManager
             {
                 var search = go.AddComponent<SearchTextChangeListener>();
                 var entryDrag = go.AddComponent<ModEntryDragListener>();
-                search.Instance = entryDrag.Instance = this;
+                var doubleClick = go.AddComponent<ModEntryDoubleClickListener>();
+                search.Instance = entryDrag.Instance = doubleClick.Instance = this;
             }
         }
 
@@ -103,6 +104,16 @@ namespace ModManager
                 return Instance.scrollContents.GetChildren()
                     .Where(x => x.GO != null)
                     .FirstOrDefault(x => x.GO.rectTransform().position.y < pos.y) as ModEntryUI;
+            }
+        }
+
+        private class ModEntryDoubleClickListener : MonoBehaviour, ModEntryUI.IDoubleClickHandler
+        {
+            public ModsPanelUI Instance { get; set; }
+
+            public void OnDoubleClick(ModUIExtract mod)
+            {
+                Instance.scrollContents.UpdateChildren(Instance.GetUISources(Instance.GetBaseChildren()), false);
             }
         }
     }

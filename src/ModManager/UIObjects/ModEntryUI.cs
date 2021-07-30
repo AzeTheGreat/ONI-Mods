@@ -35,6 +35,7 @@ namespace ModManager
             }
             .AddOnRealize(ConstrainTextLength)
             .AddOnRealize(AddDragMe)
+            .AddOnRealize(AddDoubleClick)
             // Locking the layout here ensures that nothing can override the widths just before.
             // Without this, the UI will try to flex to fit the largest text string.
             .LockLayout();
@@ -59,6 +60,21 @@ namespace ModManager
                 var de = Object.Instantiate(AModsScreen.Instance.DragElementPrefab, go.transform, false);
                 de.transform.SetAsFirstSibling();
             }
+
+            void AddDoubleClick(GameObject go)
+            {
+                var kb = go.GetComponent<KButton>();
+                kb.onDoubleClick += OnDoubleClick;
+                    
+                void OnDoubleClick()
+                {
+                    var manager = Global.Instance.modManager;
+                    var label = Mod.Mod.label;
+                    Global.Instance.modManager.EnableMod(label, !Mod.Mod.IsEnabled(), null);
+
+                    AExecuteEvents.ExecuteOnEntireHierarchy<IDoubleClickHandler>(go, x => x.OnDoubleClick(Mod));
+                }
+            }
         }
 
         protected Color GetPanelColor() => isBeingDragged ?  PUITuning.Colors.ComponentDarkStyle.disabledActiveColor : PUITuning.Colors.DialogDarkBackground;
@@ -78,6 +94,11 @@ namespace ModManager
         public interface IClickHandler : IEventSystemHandler
         {
             void OnClick(ModUIExtract mod);
+        }
+
+        public interface IDoubleClickHandler : IEventSystemHandler
+        {
+            void OnDoubleClick(ModUIExtract mod);
         }
     }
 }

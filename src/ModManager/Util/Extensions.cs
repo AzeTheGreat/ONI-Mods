@@ -43,5 +43,11 @@ namespace ModManager
             cmp.OnRealize += onRealize;
             return cmp;
         }
+
+        public static bool IsEnabled(this KMod.Mod mod)
+        {
+            var manager = Global.Instance.modManager;
+            return manager.IsModEnabled(mod.label);
+        }
     }
 }
