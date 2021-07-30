@@ -16,13 +16,17 @@ namespace ModManager
             var parent = GO.transform.parent;
             var index = GO.transform.GetSiblingIndex();
 
-            // get new comp, set GO, build new comp
+            // Get new comp, set GO, build new comp
             CreateUIComponent().Build();
             GO.transform.SetParent(parent);
             GO.transform.SetSiblingIndex(index);
 
             // Unlock the parent, rebuild its layout, then restore its lock state.
             var parentGO = parent.gameObject;
+
+            if (parentGO.GetComponent<PGridLayoutGroup>())
+                Debug.LogWarning("Parent GO has PGridLayoutGroup; RebuildGO does not currently support this parent type and layouts may behave unexpectedly.");
+
             var state = parentGO.GetLayoutLockState();
             parentGO.SetLayoutLockState(false);
             LayoutRebuilder.ForceRebuildLayoutImmediate(parentGO.rectTransform());
