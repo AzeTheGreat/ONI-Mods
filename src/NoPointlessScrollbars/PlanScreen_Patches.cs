@@ -1,52 +1,43 @@
 ﻿using AzeLib.Extensions;
 using HarmonyLib;
 using System.Collections.Generic;
-using System.Reflection;
+using System.Linq;
 using System.Reflection.Emit;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace NoPointlessScrollbars
 {
-    [HarmonyPatch(typeof(PlanScreen), "ConfigurePanelSize")]
+    [HarmonyPatch(typeof(PlanScreen), nameof(PlanScreen.ConfigurePanelSize))]
     class DisableScrollbar_Patch
     {
-        private static int rows;
-
-        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> codes)
         {
-            var ceilMethod = AccessTools.Method(typeof(Mathf), nameof(Mathf.CeilToInt));
+            var setActiveMethod = AccessTools.Method(typeof(GameObject), nameof(GameObject.SetActive));
+            var subtractTarget = codes
+                .First(i => i.Calls(setActiveMethod))
+                .FindPrior(codes, i => i.OpCodeIs(OpCodes.Sub));
 
-            foreach (var i in instructions)
-            {
-                yield return i;
-                if (i.Is(OpCodes.Call, ceilMethod))
-                    yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(DisableScrollbar_Patch), nameof(DisableScrollbar_Patch.Patch)));    
-            }
+            // Source is rows >= max - 1, but for ideal functionality should be rows > max.
+            // This is the simplest way to achieve the same results (rows >= max + 1).
+            return codes
+                .Manipulator(
+                    i => i == subtractTarget,
+                    _ => new CodeInstruction(OpCodes.Add));
         }
 
-        static void Postfix(PlanScreen __instance, int ___buildGrid_maxRowsBeforeScroll)
+        // The size delta is set at the end of the method, so this has to occur after that does.
+        static void Postfix(PlanScreen __instance)
         {
-            bool shouldShowScroll = rows >= ___buildGrid_maxRowsBeforeScroll + 1;
+            var scrollRect = __instance.BuildingGroupContentsRect.GetComponent<ScrollRect>();
+            var shouldShowScroll = scrollRect.verticalScrollbar.IsActive();
 
-            __instance.BuildingGroupContentsRect.GetComponent<ScrollRect>().vertical = shouldShowScroll;
+            scrollRect.vertical = shouldShowScroll;
 
+            // If we remove the scrollbar, have to manually adjust the size to account for it.
+            // I am not sure why this rect dimension is negative, but I'll take it.
             if (!shouldShowScroll)
-                // Couldn't find any relevant numbers in the source so I guess I too get to use magic numbers...
-                __instance.buildingGroupsRoot.sizeDelta += new Vector2(-13f, 0f);
-        }
-
-        private static int Patch(int rowCount) => rows = rowCount;
-    }
-
-    [HarmonyPatch(typeof(PlanScreen), "OnSpawn")]
-    class FixHeight_Patch
-    {
-        private static void Postfix(ref float ___buildGrid_bg_borderHeight)
-        {
-            // I have no idea why * 1.5 looks right, logically it should be * 2...
-            // Unless the very top header is included, then it makes sense...
-            ___buildGrid_bg_borderHeight *= 1.5f;
+                __instance.buildingGroupsRoot.sizeDelta += new Vector2(scrollRect.verticalScrollbar.rectTransform().rect.x, 0f);
         }
     }
 }
