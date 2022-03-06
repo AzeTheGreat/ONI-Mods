@@ -38,7 +38,9 @@ namespace BetterInfoCards
 
                 return groups.SplitMany(cards =>
                 {
-                    var textInfos = cards.First().textInfos.Keys.Except(history);
+                    // ToList is necessary to force immediate evaluation instead of lazy.
+                    // If it lazy evaluates, then when the TIs are added to history, they prevent anything from actually being split.
+                    var textInfos = cards.First().textInfos.Keys.Except(history).ToList();
                     if (!textInfos.Any())
                         return new() { cards };
 
