@@ -1,26 +1,21 @@
-﻿using AzeLib.Extensions;
-using BetterInfoCards.Util;
+﻿using BetterInfoCards.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Entry = HoverTextDrawer.Pool<UnityEngine.MonoBehaviour>.Entry;
 
 namespace BetterInfoCards
 {
     public abstract class TextInfo
     {
-        public Entry TextEntry { get; protected set; }
-        public LocText Widget { get; protected set; }
-        public string Key { get; protected set; }
-        
-        public static TextInfo Create(Entry textEntry, string name, object data)
-        {
-            var converter = ConverterManager.GetConverter(name);
-            return converter(textEntry, name, data);
-        }
+        public string Text { get; protected set; }
+        public string ID { get; protected set; }
 
-        public string GetText() => Widget.text;
+        public static TextInfo Create(string id, string text, object data)
+        {
+            id = ConverterManager.TryGetConverter(id, out var converter) ? id : text;
+            return converter(id, text, data);
+        }
 
         public abstract string GetTextOverride(List<InfoCard> cards);
         public abstract List<List<InfoCard>> SplitByTIDefs(List<InfoCard> cards);
@@ -32,30 +27,33 @@ namespace BetterInfoCards
         private T _result;
         private T Result => _isResultCached ? _result : ((_result, _isResultCached) = (getValue(data), true))._result;
 
-        private readonly object data;
-        private readonly Func<object, T> getValue;
-        private readonly Func<string, List<T>, string> getTextOverride;
-        private readonly List<(Func<T, float>, float)> splitListDefs;
+        private object data;
+        private Func<object, T> getValue;
+        private Func<string, List<T>, string> getTextOverride;
+        private List<(Func<T, float>, float)> splitListDefs;
 
-        public TextInfo(Entry textEntry, string key, object data, Func<object, T> getValue, Func<string, List<T>, string> getTextOverride, List<(Func<T, float>, float)> splitListDefs, Func<TextInfo, string> keyModifier)
+        public TextInfo Set(string key, string text, object data, Func<object, T> getValue, Func<string, List<T>, string> getTextOverride, List<(Func<T, float>, float)> splitListDefs)
         {
-            this.TextEntry = textEntry;
-            this.Widget = textEntry.widget as LocText;
             this.data = data;
             this.getValue = getValue;
             this.getTextOverride = getTextOverride;
             this.splitListDefs = splitListDefs;
+            this.Text = text;
+            this.ID = key;
 
-            this.Key = keyModifier is null ? key : keyModifier(this).NullIfEmpty() ?? key;
+            _result = default;
+            _isResultCached = false;
+
+            return this;
         }
 
         public override string GetTextOverride(List<InfoCard> cards)
         {
-            if (getTextOverride is null)
-                return GetText();
+            if (getTextOverride is null || cards.Count <= 1)
+                return Text;
 
-            var results = cards.Select(x => ((TextInfo<T>)x.textInfos[Key]).Result);
-            return getTextOverride(GetText(), results.ToList());
+            var results = cards.Select(x => ((TextInfo<T>)x.textInfos[ID]).Result);
+            return getTextOverride(Text, results.ToList());
         }
 
         public override List<List<InfoCard>> SplitByTIDefs(List<InfoCard> cards)
@@ -100,7 +98,7 @@ namespace BetterInfoCards
                 .OrderBy(x => x.Key).Select(x=> x.Value).ToList();
 
             // Round the value to simplify the calculations since negligible differences are common.
-            float GetTIValue(InfoCard ic) => Mathf.Round(def.Item1(((TextInfo<T>)ic.textInfos[Key]).Result));
+            float GetTIValue(InfoCard ic) => Mathf.Round(def.Item1(((TextInfo<T>)ic.textInfos[ID]).Result));
             int GetBreakIndex(float f) => breakPoints.FindIndex(bp => f <= bp);
         }
     }

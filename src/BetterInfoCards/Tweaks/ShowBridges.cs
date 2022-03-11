@@ -1,6 +1,6 @@
 ﻿using HarmonyLib;
 
-namespace BetterInfoCards.Tweaks
+namespace BetterInfoCards
 {
     // By default the game doesn't show bridges in the gas or liquid overlays, but then you can't select them due to hit modification
     // This fixes both issues

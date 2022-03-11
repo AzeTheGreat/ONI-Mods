@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace BetterInfoCards
 {
-    public class GridInfo
+    public class Grid
     {
         private const float shadowBarSpacing = 4f;
 
-        List<ColumnInfo> columnInfos = new List<ColumnInfo>();
+        List<Column> columns = new();
 
         // The HoverTextScreen is initialized before CameraController
         private float _minY = float.MaxValue;
@@ -20,57 +20,57 @@ namespace BetterInfoCards
                     var canvas = HoverTextScreen.Instance.gameObject.GetComponentInParent<Canvas>();
                     _minY = -canvas.pixelRect.height / canvas.scaleFactor;
                 }
-                   
+
                 return _minY;
             }
         }
 
-        public GridInfo(List<DisplayCard> displayCards, float topY)
+        public Grid(List<InfoCardWidgets> cards, float topY)
         {
-            if (displayCards.Count == 0)
+            if (cards.Count == 0)
                 return;
 
             var offset = new Vector2(0f, topY);
 
-            columnInfos.Clear();
-            var colInfo = new ColumnInfo();
+            columns.Clear();
+            var col = new Column();
 
-            for (int i = 0; i < displayCards.Count; i++)
+            for (int i = 0; i < cards.Count; i++)
             {
-                DisplayCard card = displayCards[i];
+                var card = cards[i];
 
                 // If the first one can't fit, put it down anyways otherwise they all get shifted over by the shadow bar spacing.
                 if (offset.y - card.Height < MinY && i > 0)
                 {
-                    offset.x += colInfo.maxXInCol + shadowBarSpacing;
+                    offset.x += col.maxXInCol + shadowBarSpacing;
 
-                    columnInfos.Add(colInfo);
-                    colInfo = new ColumnInfo { offsetX = offset.x };
+                    columns.Add(col);
+                    col = new() { offsetX = offset.x };
                     offset.y = topY;
                 }
 
                 card.offset.y = offset.y - card.YMax;
                 offset.y -= card.Height + shadowBarSpacing;
 
-                if (card.Width > colInfo.maxXInCol)
-                    colInfo.maxXInCol = card.Width;
+                if (card.Width > col.maxXInCol)
+                    col.maxXInCol = card.Width;
 
-                colInfo.displayCards.Add(card);
+                col.cards.Add(card);
             }
 
-            columnInfos.Add(colInfo);
+            columns.Add(col);
         }
 
         public void MoveAndResizeInfoCards()
         {
-            for (int i = columnInfos.Count - 1; i >= 0; i--)
+            for (int i = columns.Count - 1; i >= 0; i--)
             {
                 float colToRightYMin = float.MaxValue;
 
-                if (i != columnInfos.Count - 1)
-                    colToRightYMin = columnInfos[i + 1].YMin;
+                if (i != columns.Count - 1)
+                    colToRightYMin = columns[i + 1].YMin;
 
-                columnInfos[i].MoveAndResize(colToRightYMin);
+                columns[i].MoveAndResize(colToRightYMin);
             }
         }
     }

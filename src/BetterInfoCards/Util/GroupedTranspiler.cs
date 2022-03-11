@@ -12,7 +12,7 @@ namespace BetterInfoCards.Util
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             return DetectRunStart_Patch.ChildTranspiler(
-                CollectHoverInfo.GetSelectInfo_Patch.ChildTranspiler(
+                ExportSelectToolData.GetSelectInfo_Patch.ChildTranspiler(
                     HideElementCategory.ChildTranspiler(instructions)));
         }
     }

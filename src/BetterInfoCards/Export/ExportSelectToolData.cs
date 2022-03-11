@@ -9,21 +9,23 @@ using UnityEngine;
 
 namespace BetterInfoCards
 {
-    public class CollectHoverInfo
+    public class ExportSelectToolData
     {
-        public static CollectHoverInfo Instance { get; set; }
+        private static KSelectable curSelectable;
+        private static (string id, object data) curTextInfo = (string.Empty, null);
 
-        private List<InfoCard> infoCards = new List<InfoCard>();
-        private DisplayCards displayCardManager = new DisplayCards();
-
-        private InfoCard intermediateInfoCard;
-        private KSelectable intermediateSelectable;
-        private (string name, object data) intermediateTextInfo = (string.Empty, null);
-
-        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginShadowBar))]
-        private class BeginShadowBar_Patch
+        public static KSelectable ConsumeSelectable()
         {
-            static void Postfix() => Instance.intermediateInfoCard = new();
+            var sel = curSelectable;
+            curSelectable = null;
+            return sel;
+        }
+
+        public static (string id, object data) ConsumeTextInfo()
+        {
+            var ti = curTextInfo;
+            curTextInfo = (string.Empty, null);
+            return ti;
         }
 
         public class GetSelectInfo_Patch
@@ -126,48 +128,10 @@ namespace BetterInfoCards
             }
 
             private static void ExportSelectableFromList(List<KSelectable> selectables) => ExportSelectable(selectables.LastOrDefault());
-            private static void ExportSelectable(KSelectable selectable) => Instance.intermediateSelectable = selectable;
-            private static void Export(string name, object data) => Instance.intermediateTextInfo = (name, data);
-            private static void ExportGO(string name) => Export(name, Instance.intermediateSelectable.gameObject);
+            private static void ExportSelectable(KSelectable selectable) => curSelectable = selectable;
+            private static void Export(string name, object data) => curTextInfo = (name, data);
+            private static void ExportGO(string name) => Export(name, curSelectable.gameObject);
             private static void ExportStatus(StatusItemGroup.Entry entry) => Export(entry.item.Id, entry.data);
-        }
-
-        [HarmonyPatch(typeof(HoverTextDrawer.Pool<MonoBehaviour>), nameof(HoverTextDrawer.Pool<MonoBehaviour>.Draw))]
-        private class GetWidget_Patch
-        {
-            static void Postfix(HoverTextDrawer.Pool<MonoBehaviour>.Entry __result, GameObject ___prefab)
-            {
-                Instance.intermediateInfoCard.AddWidget(__result, ___prefab, Instance.intermediateTextInfo.name, Instance.intermediateTextInfo.data);
-                Instance.intermediateTextInfo = (string.Empty, null);
-            }
-        }
-
-        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.EndShadowBar))]
-        private class EndShadowBar_Patch
-        {
-            static void Postfix()
-            {
-                Instance.intermediateInfoCard.Finalize(Instance.intermediateSelectable);
-                Instance.infoCards.Add(Instance.intermediateInfoCard);
-                Instance.intermediateSelectable = null;
-            }
-        }
-
-        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.EndDrawing))]
-        private class EditWidgets_Patch
-        {
-            static void Postfix()
-            {
-                var displayCards = Instance.displayCardManager.UpdateData(Instance.infoCards);
-                ModifyHits.Update(displayCards);
-
-                if (displayCards.Count == 0)
-                    return;
-                var gridInfo = new GridInfo(displayCards, Instance.infoCards[0].YMax);
-                gridInfo.MoveAndResizeInfoCards();
-
-                Instance.infoCards.Clear();
-            }
         }
     }
 }

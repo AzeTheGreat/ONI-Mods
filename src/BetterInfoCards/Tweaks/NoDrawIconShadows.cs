@@ -7,8 +7,11 @@ using UnityEngine;
 
 namespace BetterInfoCards
 {
-    [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.DrawIcon), new System.Type[] { typeof(Sprite), typeof(Color), typeof(int), typeof(int) })]
-    class RemoveShadow_Patch
+    // DrawIcon draws two separate icons, one standard, and one "shadow".
+    // The shadow appears to change nothing visually, and will decrease performance.
+    // Transpiler removes the code that draws these.
+    [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.DrawIcon), new[] { typeof(Sprite), typeof(Color), typeof(int), typeof(int) })]
+    class NoDrawIconShadows
     {
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
