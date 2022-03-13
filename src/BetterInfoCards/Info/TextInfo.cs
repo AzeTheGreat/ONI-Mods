@@ -99,7 +99,15 @@ namespace BetterInfoCards
 
             // Round the value to simplify the calculations since negligible differences are common.
             float GetTIValue(InfoCard ic) => Mathf.Round(def.Item1(((TextInfo<T>)ic.textInfos[ID]).Result));
-            int GetBreakIndex(float f) => breakPoints.FindIndex(bp => f <= bp);
+            
+            // Instead of .FindIndex, doing this prevents an inner closure, saving in allocations.
+            int GetBreakIndex(float f)
+            {
+                for (int i = 0; i < breakPoints.Count; i++)
+                    if (f <= breakPoints[i])
+                        return i;
+                return -1;
+            }
         }
     }
 }
