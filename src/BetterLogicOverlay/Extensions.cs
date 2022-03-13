@@ -1,4 +1,5 @@
 ﻿using AzeLib.Extensions;
+using UnityEngine;
 
 namespace BetterLogicOverlay
 {
@@ -27,6 +28,12 @@ namespace BetterLogicOverlay
             if (!(element.GetAbbreviation() is string abbreviation))
                 abbreviation = STRINGS.UI.StripLinkFormatting(TagManager.GetProperName(tag)).Truncate(5);
             return abbreviation;
+        }
+
+        public static GameObject GetGO(this ILogicUIElement logicUIElement)
+        {
+            var cell = logicUIElement.GetLogicUICell();
+            return Grid.Objects[cell, (int)ObjectLayer.LogicGate] ?? Grid.Objects[cell, (int)ObjectLayer.Building];
         }
     }
 }

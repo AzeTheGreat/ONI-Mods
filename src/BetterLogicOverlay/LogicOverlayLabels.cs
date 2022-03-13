@@ -11,15 +11,13 @@ namespace BetterLogicOverlay
         private static Dictionary<GameObject, LogicSettingUIInfo> logicSettingUIs = new Dictionary<GameObject, LogicSettingUIInfo>();
         private static UIPool<LocText> uiGOPool;
 
-        [HarmonyPatch()]
+        [HarmonyPatch(typeof(OverlayModes.Logic), nameof(OverlayModes.Logic.FreeUI))]
         static class Remove
         {
-            static MethodBase TargetMethod() => AccessTools.Method(AccessTools.TypeByName("OverlayModes+Logic+<>c__DisplayClass37_0"), "<Update>b__0");
-
-            static void Postfix(SaveLoadRoot root)
+            static void Postfix(ILogicUIElement item)
             {
-                var go = root.gameObject;
-                if (logicSettingUIs.TryGetValue(go, out LogicSettingUIInfo logicSettingUIInfo))
+                var go = item.GetGO();
+                if (go != null && logicSettingUIs.TryGetValue(go, out LogicSettingUIInfo logicSettingUIInfo))
                 {
                     logicSettingUIs.Remove(go);
                     uiGOPool.ClearElement(logicSettingUIInfo.cachedLocText);
@@ -27,15 +25,13 @@ namespace BetterLogicOverlay
             }
         }
 
-        [HarmonyPatch()]
+        [HarmonyPatch(typeof(OverlayModes.Logic), nameof(OverlayModes.Logic.AddUI))]
         static class Add
         {
-            static MethodBase TargetMethod() => AccessTools.Method(AccessTools.TypeByName("OverlayModes+Logic+<>c"), "<Update>b__37_4");
-
-            static void Postfix(SaveLoadRoot root)
+            static void Postfix(ILogicUIElement ui_elem)
             {
-                var go = root.gameObject;
-                if (go.GetComponent<LogicLabelSetting>() is LogicLabelSetting dispComp)
+                var go = ui_elem.GetGO();
+                if (go != null && !logicSettingUIs.ContainsKey(go) && go.GetComponent<LogicLabelSetting>() is LogicLabelSetting dispComp)
                     logicSettingUIs.Add(go, new LogicSettingUIInfo(uiGOPool.GetFreeElement(GameScreenManager.Instance.worldSpaceCanvas), dispComp));
             }
         }
