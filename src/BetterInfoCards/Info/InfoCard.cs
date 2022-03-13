@@ -50,7 +50,9 @@ namespace BetterInfoCards
             if (titleDrawer.ti == null)
                 titleDrawer = (drawActions.Count, ti);
 
-            textInfos.Add(ti.ID, ti);
+            // This can allow multiple draw actions to exist for the same text info.
+            // Because Klei cannot be trusted to prevent duplcate lines on info cards, this is necessary.
+            textInfos[ti.ID] = ti;
             AddDraw(drawAction);
         }
     }
