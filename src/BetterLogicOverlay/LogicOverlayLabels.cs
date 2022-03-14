@@ -2,7 +2,6 @@
 using HarmonyLib;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using UnityEngine;
 
 namespace BetterLogicOverlay
@@ -38,8 +37,8 @@ namespace BetterLogicOverlay
 
                 if (!logicSettingUIs.Values.Any(x => x.go == go) && go.GetComponent<LogicLabelSetting>() is LogicLabelSetting dispComp)
                 {
-                    var uiGOPair = (new LogicSettingUIInfo(uiGOPool.GetFreeElement(GameScreenManager.Instance.worldSpaceCanvas), dispComp), go);
-                    logicSettingUIs.Add(ui_elem, uiGOPair);
+                    var uiInfo = new LogicSettingUIInfo(uiGOPool.GetFreeElement(GameScreenManager.Instance.worldSpaceCanvas), dispComp);
+                    logicSettingUIs.Add(ui_elem, (uiInfo, go));
                 }
             }
         }
