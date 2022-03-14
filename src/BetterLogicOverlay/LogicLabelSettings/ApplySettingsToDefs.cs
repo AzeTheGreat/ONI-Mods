@@ -13,8 +13,9 @@ namespace BetterLogicOverlay.LogicSettingDisplay
             {
                 var go = def.BuildingComplete;
 
-                // If there are no output logic ports skip this def.
-                if (def.LogicOutputPorts == null && !go.GetComponent<LogicGateBase>())
+                // If there are no logic ports: skip this def.
+                // The LogicPorts fields are not reliable; some configs don't set them, but still yield a LogicPorts component.
+                if (!go.GetComponent<LogicPorts>() && !go.GetComponent<LogicGateBase>())
                     continue;
 
                 // Add the correct setting component for the building.
