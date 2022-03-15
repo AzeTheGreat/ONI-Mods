@@ -1,42 +1,45 @@
 ﻿using BetterLogicOverlay.LogicSettingDisplay;
 using HarmonyLib;
 using System.Collections.Generic;
-using System.Reflection;
+using System.Linq;
 using UnityEngine;
 
 namespace BetterLogicOverlay
 {
     static class LogicOverlayLabels
     {
-        private static Dictionary<GameObject, LogicSettingUIInfo> logicSettingUIs = new Dictionary<GameObject, LogicSettingUIInfo>();
+        private static Dictionary<ILogicUIElement, (LogicSettingUIInfo uiInfo, GameObject go)> logicSettingUIs = new();
         private static UIPool<LocText> uiGOPool;
 
-        [HarmonyPatch()]
+        [HarmonyPatch(typeof(OverlayModes.Logic), nameof(OverlayModes.Logic.FreeUI))]
         static class Remove
         {
-            static MethodBase TargetMethod() => AccessTools.Method(AccessTools.TypeByName("OverlayModes+Logic+<>c__DisplayClass37_0"), "<Update>b__0");
-
-            static void Postfix(SaveLoadRoot root)
+            static void Postfix(ILogicUIElement item)
             {
-                var go = root.gameObject;
-                if (logicSettingUIs.TryGetValue(go, out LogicSettingUIInfo logicSettingUIInfo))
+                if (item == null)
+                    return;
+
+                if (logicSettingUIs.TryGetValue(item, out var uiGOPair))
                 {
-                    logicSettingUIs.Remove(go);
-                    uiGOPool.ClearElement(logicSettingUIInfo.cachedLocText);
+                    logicSettingUIs.Remove(item);
+                    uiGOPool.ClearElement(uiGOPair.uiInfo.cachedLocText);
                 }
             }
         }
 
-        [HarmonyPatch()]
+        [HarmonyPatch(typeof(OverlayModes.Logic), nameof(OverlayModes.Logic.AddUI))]
         static class Add
         {
-            static MethodBase TargetMethod() => AccessTools.Method(AccessTools.TypeByName("OverlayModes+Logic+<>c"), "<Update>b__37_4");
-
-            static void Postfix(SaveLoadRoot root)
+            static void Postfix(ILogicUIElement ui_elem)
             {
-                var go = root.gameObject;
-                if (go.GetComponent<LogicLabelSetting>() is LogicLabelSetting dispComp)
-                    logicSettingUIs.Add(go, new LogicSettingUIInfo(uiGOPool.GetFreeElement(GameScreenManager.Instance.worldSpaceCanvas), dispComp));
+                if (ui_elem?.GetGO() is not GameObject go)
+                    return;
+
+                if (!logicSettingUIs.Values.Any(x => x.go == go) && go.GetComponent<LogicLabelSetting>() is LogicLabelSetting dispComp)
+                {
+                    var uiInfo = new LogicSettingUIInfo(uiGOPool.GetFreeElement(GameScreenManager.Instance.worldSpaceCanvas), dispComp);
+                    logicSettingUIs.Add(ui_elem, (uiInfo, go));
+                }
             }
         }
 
@@ -46,7 +49,7 @@ namespace BetterLogicOverlay
             static void Postfix()
             {
                 foreach (var logicSettingUI in logicSettingUIs.Values)
-                    logicSettingUI.UpdateText();
+                    logicSettingUI.uiInfo.UpdateText();
             }
         }
 
