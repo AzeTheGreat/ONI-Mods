@@ -20,12 +20,12 @@ namespace NoResearchAlerts
     {
         static bool Prepare() => Options.Opts.AlertMode == Options.Mode.FastClear;
 
-        static void Prefix(Dictionary<BuildingDef, KToggle> ___ActiveToggles, Dictionary<Tag, HashedString> ___tagCategoryMap)
+        static void Prefix(Dictionary<BuildingDef, PlanBuildingToggle> ___ActiveCategoryBuildingToggles, Dictionary<Tag, HashedString> ___tagCategoryMap)
         {
-            if (___ActiveToggles == null || ___ActiveToggles.Count == 0)
+            if (___ActiveCategoryBuildingToggles == null || ___ActiveCategoryBuildingToggles.Count == 0)
                 return;
 
-            var item = ___ActiveToggles.First();
+            var item = ___ActiveCategoryBuildingToggles.First();
             HashedString category = ___tagCategoryMap[item.Key.Tag];
 
             PlanScreen.Instance.GetToggleEntryForCategory(category, out PlanScreen.ToggleEntry toggleEntry);
