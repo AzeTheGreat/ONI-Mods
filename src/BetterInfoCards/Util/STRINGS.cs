@@ -57,16 +57,16 @@ namespace BetterInfoCards
             public static LocString TOOLTIP = "Controls how much to increase/decrease the font size.";
         }
 
-        public class MINHEIGHT
+        public class LINESPACING
         {
-            public static LocString NAME = "Line Height";
+            public static LocString NAME = "Line Spacing";
             public static LocString TOOLTIP = "Controls the space between lines.";
         }
 
-        public class MAXIMAGESIZE
+        public class ICONSIZECHANGE
         {
             public static LocString NAME = "Icon Size";
-            public static LocString TOOLTIP = "Controls the maximum size of icons.";
+            public static LocString TOOLTIP = "Controls how much to increase/decrease the icon size.";
         }
 
         public class YPADDING

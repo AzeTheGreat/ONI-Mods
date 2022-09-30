@@ -20,8 +20,8 @@ namespace BetterInfoCards
             {
                 ShouldOverride = true,
                 FontSizeChange = -2,
-                MinHeight = 16,
-                MaxImageSize = 16,
+                LineSpacing = 3,
+                IconSizeChange = -3,
                 YPadding = 6
             };
 
@@ -37,8 +37,8 @@ namespace BetterInfoCards
         {
             [Option] public bool ShouldOverride { get; set; }
             [Option] [Limit(-5, 5)] public int FontSizeChange { get; set; }
-            [Option] [Limit(1, 20)] public int MinHeight { get; set; }
-            [Option] [Limit(5, 20)] public int MaxImageSize { get; set; }
+            [Option] [Limit(0, 20)] public int LineSpacing { get; set; }
+            [Option] [Limit(-10, 10)] public int IconSizeChange { get; set; }
             [Option] [Limit(1, 20)] public int YPadding { get; set; }
         }
     }
