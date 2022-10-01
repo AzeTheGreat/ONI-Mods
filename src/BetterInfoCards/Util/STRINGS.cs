@@ -4,12 +4,6 @@ namespace BetterInfoCards
 {
     class OPTIONS : RegisterStrings
     {
-        public class COMPACTNESS
-        {
-            public static LocString NAME = "Info Card Compactness";
-            public static LocString TOOLTIP = "How compact the info cards should be.";
-        }
-
         public class INFOCARDOPACITY
         {
             public static LocString NAME = "Info Card Opacity";
