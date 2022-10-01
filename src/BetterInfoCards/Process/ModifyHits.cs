@@ -34,8 +34,9 @@ namespace BetterInfoCards
 
                 __result = priorSelected = newSelected;
 
+                // Other modifiers will not work easily, because OnLeftClickDown is not invoked if other modifiers are held.
                 KSelectable GetGroupedSel() => 
-                    Input.GetKey(KeyCode.LeftShift) ? GetNextSelectable(selectables, index) : null;
+                    Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? GetNextSelectable(selectables, index) : null;
                 KSelectable GetHoverSel() => 
                     index == -1 && Options.Opts.ForceFirstSelectionToHover ? SelectTool.Instance.hover : null;
                 KSelectable GetCardSel() => GetNextCard(selectables, index);
