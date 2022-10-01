@@ -7,15 +7,21 @@ namespace BetterInfoCards
     [RestartRequired]
     public class Options : BaseOptions<Options>
     {
-        [Option] public CardSize InfoCardSize { get; set; }
-        [Option] public float InfoCardOpacity { get; set; }
-        [Option] public float TemperatureBandWidth { get; set; }
+        [Option] [Limit(0, 100)] public int InfoCardOpacity { get; set; }
+        [Option] public bool HideElementCategories { get; set; }
         [Option] public bool UseBaseSelection { get; set; }
         [Option] public bool ForceFirstSelectionToHover { get; set; }
-        [Option] public bool HideElementCategories { get; set; }
+        [Option] public float TemperatureBandWidth { get; set; }
+        [Option] public CardSize InfoCardSize { get; set; }
 
         public Options()
         {
+            InfoCardOpacity = 80;
+            HideElementCategories = false;
+            UseBaseSelection = false;
+            ForceFirstSelectionToHover = true;
+            TemperatureBandWidth = 10f;
+
             InfoCardSize = new()
             {
                 ShouldOverride = true,
@@ -24,12 +30,6 @@ namespace BetterInfoCards
                 IconSizeChange = -3,
                 YPadding = 6
             };
-
-            InfoCardOpacity = 0.8f;
-            TemperatureBandWidth = 10f;
-            UseBaseSelection = false;
-            ForceFirstSelectionToHover = true;
-            HideElementCategories = false;
         }
 
         [JsonObject(MemberSerialization.OptOut)]

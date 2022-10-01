@@ -16,7 +16,7 @@ namespace BetterInfoCards
         {
             // It is unclear where this magic number "+2" came from.
             private static readonly Vector2 border = new(Options.Opts.InfoCardSize.YPadding + 2, Options.Opts.InfoCardSize.YPadding);
-            private static readonly float opacity = Options.Opts.InfoCardOpacity;
+            private static readonly float opacity = Options.Opts.InfoCardOpacity / 100f;
 
             static void Prefix(ref HoverTextDrawer.Skin skin)
             {
