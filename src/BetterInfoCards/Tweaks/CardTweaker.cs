@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using System;
 using UnityEngine;
 
 namespace BetterInfoCards
@@ -17,7 +16,7 @@ namespace BetterInfoCards
         {
             // It is unclear where this magic number "+2" came from.
             private static readonly Vector2 border = new(Options.Opts.InfoCardSize.YPadding + 2, Options.Opts.InfoCardSize.YPadding);
-            private static readonly float opacity = Options.Opts.InfoCardOpacity;
+            private static readonly float opacity = Options.Opts.InfoCardOpacity / 100f;
 
             static void Prefix(ref HoverTextDrawer.Skin skin)
             {
@@ -56,25 +55,42 @@ namespace BetterInfoCards
             }
         }
 
+        // Instead of a min line height, switch to a fixed line spacing.
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.NewLine))]
         class TweakNewLineHeight
         {
-            private static readonly int minHeight = Options.Opts.InfoCardSize.MinHeight;
+            private static readonly int lineSpacing = Options.Opts.InfoCardSize.LineSpacing;
             static bool Prepare() => ShouldTweak;
 
-            static void Prefix(ref int min_height)
+            static void Prefix(HoverTextDrawer __instance, ref int min_height)
             {
-                min_height = minHeight;
+                min_height = 0;
+               __instance.currentPos.y -= lineSpacing;
+            }
+        }
+
+        // EndShadowBar calls NewLine to encompass the previously drawn text.
+        // This removes the excess line spacing that is added due to that.
+        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.EndShadowBar))]
+        class FixupLineHeight
+        {
+            private static readonly int lineSpacing = Options.Opts.InfoCardSize.LineSpacing;
+            static bool Prepare() => ShouldTweak;
+
+            static void Prefix(HoverTextDrawer __instance)
+            {
+                if (!InterceptHoverDrawer.IsInterceptMode)
+                    __instance.currentPos.y += lineSpacing;
             }
         }
 
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.DrawIcon), new[] { typeof(Sprite), typeof(Color), typeof(int), typeof(int) })]
         class TweakIconSize
         {
-            private static readonly int maxImageSize = Options.Opts.InfoCardSize.MaxImageSize;
+            private static readonly int iconSizeChange = Options.Opts.InfoCardSize.IconSizeChange;
             static bool Prepare() => ShouldTweak;
 
-            static void Prefix(ref int image_size) => image_size = Math.Min(image_size, maxImageSize);
+            static void Prefix(ref int image_size) => image_size += iconSizeChange;
         }
     }
 }
