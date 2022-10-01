@@ -69,6 +69,21 @@ namespace BetterInfoCards
             }
         }
 
+        // EndShadowBar calls NewLine to encompass the previously drawn text.
+        // This removes the excess line spacing that is added due to that.
+        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.EndShadowBar))]
+        class FixupLineHeight
+        {
+            private static readonly int lineSpacing = Options.Opts.InfoCardSize.LineSpacing;
+            static bool Prepare() => ShouldTweak;
+
+            static void Prefix(HoverTextDrawer __instance)
+            {
+                if (!InterceptHoverDrawer.IsInterceptMode)
+                    __instance.currentPos.y += lineSpacing;
+            }
+        }
+
         [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.DrawIcon), new[] { typeof(Sprite), typeof(Color), typeof(int), typeof(int) })]
         class TweakIconSize
         {
