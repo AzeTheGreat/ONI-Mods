@@ -8,6 +8,7 @@ If you can't download through the Steam Workshop, zipped releases are available 
 
 |**Name**|**Description**|
 |---|---|
+|[Adjustable Camera Speed](https://steamcommunity.com/sharedfiles/filedetails/?id=1845747605)|Allows camera pan speed to be configured.|
 |[Better Deselect](https://steamcommunity.com/sharedfiles/filedetails/?id=1870696175)|Requires separate clicks to: deselect the cursor item, close the building menu, and close the overlay.|
 |[Better Info Cards](https://steamcommunity.com/sharedfiles/filedetails/?id=1960947963)|Overhauls info cards to be more powerful and user friendly.|
 |[Better Automation Overlay](https://steamcommunity.com/sharedfiles/filedetails/?id=1878896484)|Improves the automation overlay.|
@@ -17,7 +18,6 @@ If you can't download through the Steam Workshop, zipped releases are available 
 |[Default Building Settings](https://steamcommunity.com/sharedfiles/filedetails/?id=1989737447)|Provides config options to change the default settings many buildings spawn with.|
 |[Default Save Settings](https://steamcommunity.com/sharedfiles/filedetails/?id=2033314981)|Provides config options to change the default settings new saves start with.|
 |[Don't Idle in Doors](https://steamcommunity.com/sharedfiles/filedetails/?id=2154537340)|Provides options to prevent idle dupes from standing in / crossing through doors.|
-|[Fixed Camera Pan](https://steamcommunity.com/sharedfiles/filedetails/?id=1845747605)|Makes camera pan speed independent of frame rate and configurable.|
 |[Endless Science](https://steamcommunity.com/sharedfiles/filedetails/?id=1964613307)|Allows dupes to train science even after research is complete.|
 |[No Pointless Scrollbars](https://steamcommunity.com/sharedfiles/filedetails/?id=1959130035)|Removes scrollbars from plan screen windows that don't need them.|
 |[No Research Alerts](https://steamcommunity.com/sharedfiles/filedetails/?id=1872885565)|Prevents notification icons from showing newly unlocked buildings.|

@@ -7,7 +7,7 @@ namespace FixedCameraPan.Pan
     {
         static void Postfix(ref float ___keyPanningSpeed)
         {
-            ___keyPanningSpeed *= Options.Opts.PanSpeed;
+            ___keyPanningSpeed *= Options.Opts.PanSpeed / 100f;
         }
     }
 }

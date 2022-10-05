@@ -5,11 +5,11 @@ namespace FixedCameraPan
 {
     public class Options : BaseOptions<Options>
     {
-        [Option] [Limit(1, 999)] public float PanSpeed { get; set; }
+        [Option] [Limit(20, 500)] public int PanSpeed { get; set; }
 
         public Options()
         {
-            PanSpeed = 80f;
+            PanSpeed = 130;
         }
     }
 }
