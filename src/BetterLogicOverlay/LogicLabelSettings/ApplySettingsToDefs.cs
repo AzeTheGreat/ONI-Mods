@@ -56,6 +56,8 @@ namespace BetterLogicOverlay.LogicSettingDisplay
             (typeof(LogicCounter), typeof(LogicCounterSetting)),
             (typeof(LogicTimerSensor), typeof(LogicTimerSensorSetting)),
             (typeof(LogicTimeOfDaySensor), typeof(LogicTimeOfDaySensorSetting)),
+            (typeof(LogicBroadcaster), typeof(LogicBroadcasterSetting)),
+            (typeof(LogicBroadcastReceiver), typeof(LogicBroadcasterSetting.Receiver)),
 
             // Specific mod buildings
             (typeof(TreeFilterable), typeof(SolidElementSetting))
