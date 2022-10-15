@@ -1,6 +1,8 @@
-﻿using HarmonyLib;
+﻿using AzeLib.Extensions;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace BetterLogicOverlay.LogicSettingDisplay
 {
@@ -21,12 +23,14 @@ namespace BetterLogicOverlay.LogicSettingDisplay
                 // Add the correct setting component for the building.
                 foreach (var (building, setting) in buildingToLabelMap)
                 {
-                    if (building != null && go.GetComponent(building))
+                    if (building != null && HasComponentOrDef(building, go))
                     {
                         go.AddComponent(setting);
                         break;
                     }
                 }
+
+                bool HasComponentOrDef(Type building, GameObject go) => go.GetComponent(building) ?? go.GetDef(building) != null;
             }
         }
 
@@ -58,6 +62,8 @@ namespace BetterLogicOverlay.LogicSettingDisplay
             (typeof(LogicTimeOfDaySensor), typeof(LogicTimeOfDaySensorSetting)),
             (typeof(LogicBroadcaster), typeof(LogicBroadcasterSetting)),
             (typeof(LogicBroadcastReceiver), typeof(LogicBroadcasterSetting.Receiver)),
+            (typeof(CometDetector.Def), typeof(CometDetectorSetting)),
+            (typeof(ClusterCometDetector.Def), typeof(ClusterCometDetectorSetting)),
 
             // Specific mod buildings
             (typeof(TreeFilterable), typeof(SolidElementSetting))

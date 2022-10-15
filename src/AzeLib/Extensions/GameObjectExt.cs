@@ -1,4 +1,6 @@
 ﻿using HarmonyLib;
+using System;
+using System.Linq;
 using UnityEngine;
 
 namespace AzeLib.Extensions
@@ -12,6 +14,12 @@ namespace AzeLib.Extensions
                 return null;
             else
                 return go.GetComponent(type);
+        }
+
+        public static StateMachine.BaseDef GetDef(this GameObject go, Type type)
+        {
+            var defs = go.GetComponent<StateMachineController>().cmpdef.defs;
+            return defs.FirstOrDefault(x => x.GetType() == type);
         }
     }
 }
