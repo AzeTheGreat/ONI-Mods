@@ -14,7 +14,7 @@ namespace BetterLogicOverlay
             logicSettingDisplay = logicSettingDispComp;
             cachedLocText = prefab;
 
-            prefab.transform.position = logicSettingDisplay.position + LabelPrefab.offset;
+            prefab.transform.position = logicSettingDisplay.position + LabelPrefab.boundsYOffset;
             var rectTransform = prefab.GetComponent<RectTransform>();
             rectTransform.sizeDelta = logicSettingDisplay.sizeDelta * rectTransform.InverseLocalScale();
             prefab.gameObject.SetActive(true);

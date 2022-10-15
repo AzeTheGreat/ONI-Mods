@@ -31,9 +31,10 @@ namespace BetterLogicOverlay.LogicSettingDisplay
             var lastCell = longestPorts.Last();
             float width = (lastCell - firstCell + 1) * cellSize;
 
-            position = Grid.CellToPosCTC(firstCell, Grid.SceneLayer.Front)              // First cell to pos.
-                + new Vector3((width - cellSize) * cellSize / 2f, portSize / 2f, 0f);   // Offset pos to center of span, just above the port.    
-            sizeDelta = new Vector2(width, cellSize - portSize);
+            // Offset pos to center of logic ports span, just above the port icon.
+            position = Grid.CellToPosCTC(firstCell, Grid.SceneLayer.Front)
+                + new Vector3((width - cellSize) / 2f, -(cellSize - portSize) / 2, 0f);
+            sizeDelta = new Vector2(width, cellSize - portSize + LabelPrefab.boundsHeightDelta);
         }
     }
 }
