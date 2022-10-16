@@ -5,7 +5,6 @@
 Compiling this solution is fairly simple.  If you run into issues, feel free to contact me for support.
 
 - Clone the repo and install ONI.
-- Select the [proper branch](#branches).
 - If ONI is not installed in the default Steam location (or your environment differs from the default):
   - In the `Solution Items` folder, add a new `.xml` file named `Directory.Build.props.user`.
   - Copy the contents of `.default` to `.user`.
@@ -15,17 +14,6 @@ Compiling this solution is fairly simple.  If you run into issues, feel free to 
   - Creates publicized assemblies.
 - If Visual Studio can't find the `_public.dll` assemblies:
   - Restart VS and reopen the solution.
-
-## Branches
-
-Because Vanilla and Spaced Out! use different assemblies, some mods have custom versions through branches:  
-- `master`: built against SO
-- `vanilla`: built against Vanilla
-
-The publicized assemblies are created based on the current Steam install.  
-When switching branches, remember to switch your game version:
-- Maintain a folder for each game configuration.
-- Rename folders to switch active configuration.
 
 ## Building
 
