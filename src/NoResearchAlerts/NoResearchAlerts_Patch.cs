@@ -1,40 +1,43 @@
 ﻿using HarmonyLib;
-using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace NoResearchAlerts
 {
     [HarmonyPatch(typeof(PlanCategoryNotifications), nameof(PlanCategoryNotifications.ToggleAttention))]
-    public class NoResearchAlerts_Patch
+    public class NoAlerts
     {
         static bool Prepare() => Options.Opts.AlertMode == Options.Mode.None;
 
-        static void Prefix(ref bool active)
-        {
-            active = false;
-        }
+        static void Prefix(ref bool active) => active = false;
     }
 
     [HarmonyPatch(typeof(PlanScreen), nameof(PlanScreen.ClearButtons))]
-    public class FastClearAlerts_Patch
+    public class FastClearAlerts
     {
         static bool Prepare() => Options.Opts.AlertMode == Options.Mode.FastClear;
 
-        static void Prefix(Dictionary<BuildingDef, PlanBuildingToggle> ___ActiveCategoryBuildingToggles, Dictionary<Tag, HashedString> ___tagCategoryMap)
+        static void Prefix()
         {
-            if (___ActiveCategoryBuildingToggles == null || ___ActiveCategoryBuildingToggles.Count == 0)
+            var bToggles = PlanScreen.Instance.ActiveCategoryBuildingToggles;
+            if (bToggles?.Count == 0)
                 return;
 
-            var item = ___ActiveCategoryBuildingToggles.First();
-            HashedString category = ___tagCategoryMap[item.Key.Tag];
+            var category = PlanScreen.Instance.tagCategoryMap[bToggles.First().Key.Tag];
+            PlanScreen.Instance.GetToggleEntryForCategory(category, out var toggleEntry);
 
-            PlanScreen.Instance.GetToggleEntryForCategory(category, out PlanScreen.ToggleEntry toggleEntry);
+            ClearCategoryAlert();
+            ClearBuildingAlerts();
 
-            toggleEntry.pendingResearchAttentions.Clear();
-            foreach (var kvp in ___ActiveCategoryBuildingToggles)
-                kvp.Value.GetComponent<PlanCategoryNotifications>().ToggleAttention(false);
+            void ClearCategoryAlert() => ClearAlert(toggleEntry.toggleInfo.toggle);
+            void ClearBuildingAlerts()
+            {
+                toggleEntry.pendingResearchAttentions.Clear();
+                foreach (var (_, tog) in bToggles)
+                    ClearAlert(tog);
+            }
 
-            toggleEntry.toggleInfo.toggle.GetComponent<PlanCategoryNotifications>().ToggleAttention(false);
+            void ClearAlert(Component cmp) => cmp.GetComponent<PlanCategoryNotifications>().ToggleAttention(false);
         }
     }
 }
