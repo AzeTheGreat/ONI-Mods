@@ -36,7 +36,7 @@ namespace BetterLogicOverlay.LogicSettingDisplay
 
         // Maps a component on the def to the correct type of setting to add.
         // Processed first to last, so interface fallbacks should be after specific implementations.
-        static readonly List<(Type building, Type setting)> buildingToLabelMap = new List<(Type, Type)>()
+        static readonly List<(Type building, Type setting)> buildingToLabelMap = new()
         {
             // IThresholdSwitch
             (typeof(ConduitTemperatureSensor), typeof(ThresholdSwitchSetting.ConduitTemp)),

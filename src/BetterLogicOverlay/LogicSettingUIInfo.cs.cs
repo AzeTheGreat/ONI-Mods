@@ -21,6 +21,7 @@ namespace BetterLogicOverlay
 
             var rectTransform = prefab.GetComponent<RectTransform>();
             rectTransform.sizeDelta = logicSettingDisplay.sizeDelta * rectTransform.InverseLocalScale();
+
             prefab.gameObject.SetActive(true);
         }
 
