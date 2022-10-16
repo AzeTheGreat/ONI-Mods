@@ -31,6 +31,9 @@ namespace NoResearchAlerts
             PlanScreen.Instance.GetToggleEntryForCategory(category, out PlanScreen.ToggleEntry toggleEntry);
 
             toggleEntry.pendingResearchAttentions.Clear();
+            foreach (var kvp in ___ActiveCategoryBuildingToggles)
+                kvp.Value.GetComponent<PlanCategoryNotifications>().ToggleAttention(false);
+
             toggleEntry.toggleInfo.toggle.GetComponent<PlanCategoryNotifications>().ToggleAttention(false);
         }
     }
