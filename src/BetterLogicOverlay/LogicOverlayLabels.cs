@@ -1,5 +1,4 @@
-﻿using BetterLogicOverlay.LogicSettingDisplay;
-using HarmonyLib;
+﻿using HarmonyLib;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -32,14 +31,14 @@ namespace BetterLogicOverlay
         {
             static void Postfix(ILogicUIElement ui_elem)
             {
-                var go = ui_elem?.GetGO();
-                if (go == null)
+                var label = ui_elem?.GetLogicLabelSetting();
+                if (label == null)
                     return;
 
-                if (!logicSettingUIs.Values.Any(x => x.go == go) && go.GetComponent<LogicLabelSetting>() is LogicLabelSetting dispComp)
+                if (!logicSettingUIs.Values.Any(x => x.go == label.gameObject))
                 {
-                    var uiInfo = new LogicSettingUIInfo(uiGOPool.GetFreeElement(GameScreenManager.Instance.worldSpaceCanvas), dispComp);
-                    logicSettingUIs.Add(ui_elem, (uiInfo, go));
+                    var uiInfo = new LogicSettingUIInfo(uiGOPool.GetFreeElement(GameScreenManager.Instance.worldSpaceCanvas), label);
+                    logicSettingUIs.Add(ui_elem, (uiInfo, label.gameObject));
                 }
             }
         }
