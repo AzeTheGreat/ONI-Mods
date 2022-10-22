@@ -1,4 +1,5 @@
 ﻿using AzeLib.Extensions;
+using BetterLogicOverlay.LogicSettingDisplay;
 using UnityEngine;
 
 namespace BetterLogicOverlay
@@ -26,10 +27,21 @@ namespace BetterLogicOverlay
             return element.GetAbbreviation() ?? STRINGS.UI.StripLinkFormatting(TagManager.GetProperName(tag)).Truncate(5);
         }
 
-        public static GameObject GetGO(this ILogicUIElement logicUIElement)
+        public static LogicLabelSetting GetLogicLabelSetting(this ILogicUIElement logicUIElement)
         {
             var cell = logicUIElement.GetLogicUICell();
-            return Grid.Objects[cell, (int)ObjectLayer.LogicGate] ?? Grid.Objects[cell, (int)ObjectLayer.Building];
+
+            var logic = Grid.Objects[cell, (int)ObjectLayer.LogicGate];
+            if (logic && TryGetLabel(logic, out var logicLabel))
+                return logicLabel;
+
+            var building = Grid.Objects[cell, (int)ObjectLayer.Building];
+            if (building && TryGetLabel(building, out var buildingLabel))
+                return buildingLabel;
+
+            return null;
+
+            bool TryGetLabel(GameObject go, out LogicLabelSetting label) => go.TryGetComponent(out label) && label.ContainsLogicCell(cell);
         }
     }
 }

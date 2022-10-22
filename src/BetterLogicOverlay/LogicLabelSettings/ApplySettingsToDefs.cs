@@ -46,9 +46,11 @@ namespace BetterLogicOverlay.LogicSettingDisplay
             (typeof(IThresholdSwitch), typeof(ThresholdSwitchSetting)),
 
             // ISliderControl
+            // Applies to many buildings that shouldn't have labels, so whitelisting is the easiest approach.
             (AccessTools.TypeByName("WirelessSignalReceiver"), typeof(SliderControlSetting.WirelessSignalRecieverSetting)),
             (AccessTools.TypeByName("WirelessSignalEmitter"), typeof(SliderControlSetting.WirelessSignalEmitterSetting)),
-            (typeof(ISliderControl), typeof(SliderControlSetting)),
+            (typeof(LogicGateFilter), typeof(SliderControlSetting)),
+            (typeof(LogicGateBuffer), typeof(SliderControlSetting)),
 
             // General categories
             (typeof(IActivationRangeTarget), typeof(ActivationRangeTargetSetting)),
