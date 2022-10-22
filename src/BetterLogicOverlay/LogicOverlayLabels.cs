@@ -32,7 +32,8 @@ namespace BetterLogicOverlay
         {
             static void Postfix(ILogicUIElement ui_elem)
             {
-                if (ui_elem?.GetGO() is not GameObject go)
+                var go = ui_elem?.GetGO();
+                if (go == null)
                     return;
 
                 if (!logicSettingUIs.Values.Any(x => x.go == go) && go.GetComponent<LogicLabelSetting>() is LogicLabelSetting dispComp)
