@@ -8,12 +8,12 @@ namespace BetterLogicOverlay.LogicSettingDisplay
 {
     abstract class LogicLabelSetting : AMonoBehaviour
     {
-        public abstract string GetSetting();
-
         public Vector2 position;
         public Vector2 sizeDelta;
 
         private IEnumerable<int> logicCells;
+
+        public abstract string GetSetting();
 
         public bool ContainsLogicCell(int cell) => logicCells.Contains(cell);
 
