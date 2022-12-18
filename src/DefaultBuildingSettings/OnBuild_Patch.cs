@@ -1,4 +1,6 @@
 ﻿using HarmonyLib;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace DefaultBuildingSettings
@@ -13,9 +15,15 @@ namespace DefaultBuildingSettings
     //  LoadGeneratedBuildings - Preferred if it allows mutliple to be handled, requires that data be copied between GOs.
     //  Build - Last resort.
 
-    [HarmonyPatch(typeof(BuildingDef), nameof(BuildingDef.Build))]
+    [HarmonyPatch]
     internal class OnBuild_Patch
     {
+        // Patch the "base" BuildingDef.Build overload.
+        // TODO: If needed again, break this behavior out into an attribute.
+        static MethodInfo TargetMethod() => typeof(BuildingDef).GetMethods()
+            .Where(x => x.Name == nameof(BuildingDef.Build))
+            .OrderBy(x => x.GetParameters().Count()).FirstOrDefault();
+
         static void Postfix(GameObject __result)
         {
             // Early outs to reduce unnecessary testing.  If it's a door it can't be a reservoir.
