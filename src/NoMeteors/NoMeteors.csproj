@@ -6,6 +6,5 @@
   <PropertyGroup>
     <Title>No Meteors</Title>
     <Description>Stops the game from spawning meteors.</Description>
-    <supportedContent>VANILLA_ID</supportedContent>
   </PropertyGroup>
 </Project>
