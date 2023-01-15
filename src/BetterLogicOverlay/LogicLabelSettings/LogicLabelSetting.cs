@@ -1,6 +1,5 @@
 ﻿using AzeLib.Attributes;
 using AzeLib.Extensions;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -8,23 +7,22 @@ namespace BetterLogicOverlay.LogicSettingDisplay
 {
     abstract class LogicLabelSetting : AMonoBehaviour
     {
+        [MyCmpGet] private LogicPorts logicPorts;
+        [MyCmpGet] private LogicGateBase logicGateBase;
+
         public Vector2 position;
         public Vector2 sizeDelta;
 
-        private IEnumerable<int> logicCells;
-
         public abstract string GetSetting();
 
-        public bool ContainsLogicCell(int cell) => logicCells.Contains(cell);
+        public bool ContainsLogicCell(int cell) => (logicPorts?.TryGetPortAtCell(cell, out _, out _) ?? false) || (logicGateBase?.TryGetPortAtCell(cell, out _) ?? false);
 
         public override void OnSpawn()
         {
             base.OnSpawn();
 
-            logicCells = GetComponent<LogicPorts>()?.GetLogicCells() ?? GetComponent<LogicGateBase>()?.GetLogicCells();
-
             // Could be optimized if it causes performance issues.
-            var longestPorts = logicCells
+            var longestPorts = (logicPorts?.GetLogicCells() ?? logicGateBase?.GetLogicCells())
                 .GroupBy(x => Grid.CellToXY(x).y)
                 //.SelectMany(x => x.GroupConsecutive()) only necessary if a mod adds a building with non adjacent ports in a row.
                 .LinqByValue((s, r) => s.Where(x => x.Count() == r), s => s.Min(x => x.Count()))
