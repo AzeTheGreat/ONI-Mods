@@ -52,5 +52,7 @@ namespace AzeLib.Extensions
         public static IEnumerable<Tout> LinqByValue<Tsrc, Tcomp, Tout>(this IEnumerable<Tsrc> source, 
             Func<IEnumerable<Tsrc>, Tcomp, IEnumerable<Tout>> linqFunction, 
             Func<IEnumerable<Tsrc>, Tcomp> getValue) => linqFunction(source, getValue(source));
+
+        public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> source) => source ?? Array.Empty<T>();
     }
 }
