@@ -12,8 +12,7 @@ namespace BetterLogicOverlay.LogicSettingDisplay
         [MyCmpGet] private LogicGateBase logicGateBase;
 
         public Vector2 Position => (Vector2)transform.position + offset;
-        
-        public Vector2 sizeDelta;
+        public Vector2 SizeDelta;
 
         private Vector2 offset;
 
@@ -30,19 +29,19 @@ namespace BetterLogicOverlay.LogicSettingDisplay
                 .GroupBy(x => x.y)
                 //.SelectMany(x => x.GroupConsecutive()) only necessary if a mod adds a building with non adjacent ports in a row.
                 .LinqByValue((s, r) => s.Where(x => x.Count() == r), s => s.Min(x => x.Count()))
-                .LinqByValue((s, r) => s.First(x => x.Key == r) , s => s.Max(x => x.Key))
+                .LinqByValue((s, r) => s.First(x => x.Key == r), s => s.Max(x => x.Key))
                 .OrderBy(x => x.x);
 
-            float cellSize = Grid.CellSizeInMeters;
-            float portSize = Assets.instance.logicModeUIData.prefab.GetComponent<RectTransform>().sizeDelta.y;
+            var cellSize = Grid.CellSizeInMeters;
+            var portSize = Assets.instance.logicModeUIData.prefab.GetComponent<RectTransform>().sizeDelta.y;
 
             var firstCell = longestPorts.First();
             var lastCell = longestPorts.Last();
-            float width = (lastCell.x - firstCell.x + 1) * cellSize;
+            var width = (lastCell.x - firstCell.x + 1) * cellSize;
 
             // Offset pos to center of logic ports span, just above the port icon.
             offset = firstCell.ToVector2I() + new Vector2((width - cellSize) / 2f, (cellSize + portSize) / 2);
-            sizeDelta = new Vector2(width, cellSize - portSize + LabelPrefab.boundsHeightDelta);
+            SizeDelta = new Vector2(width, cellSize - portSize + LabelPrefab.boundsHeightDelta);
 
             IEnumerable<CellOffset> GetCelloffsets()
             {
@@ -56,5 +55,3 @@ namespace BetterLogicOverlay.LogicSettingDisplay
         }
     }
 }
-
-
