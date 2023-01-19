@@ -55,6 +55,7 @@ namespace BetterLogicOverlay.LogicSettingDisplay
             // General categories
             (typeof(IActivationRangeTarget), typeof(ActivationRangeTargetSetting)),
             (typeof(ILogicRibbonBitSelector), typeof(LogicRibbonBitSelectorSetting)),
+            (typeof(IUserControlledCapacity), typeof(UserControlledCapacitySetting)),
 
             // Specific buildings
             (typeof(Filterable), typeof(ConduitElementSensorSetting)),
