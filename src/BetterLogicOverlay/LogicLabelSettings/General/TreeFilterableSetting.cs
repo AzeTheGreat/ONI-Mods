@@ -2,7 +2,7 @@
 
 namespace BetterLogicOverlay.LogicSettingDisplay
 {
-    class SolidElementSetting : LogicLabelSetting
+    class TreeFilterableSetting : LogicLabelSetting
     {
         [MyCmpGet] private TreeFilterable treeFilterable;
 

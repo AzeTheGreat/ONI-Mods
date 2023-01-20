@@ -55,8 +55,15 @@ namespace BetterLogicOverlay.LogicSettingDisplay
         // Processed first to last, so interface fallbacks should be after specific implementations.
         static readonly List<(Type building, Type setting, PortFilter filter)> buildingToLabelMap = new()
         {
-            // Blocklist
-            (typeof(SpiceGrinder.Def), null, PortFilter.Input),
+            // Specific buildings
+            (typeof(LogicElementSensor), typeof(LogicElementSensorSetting), PortFilter.Output),
+            (typeof(LogicCounter), typeof(LogicCounterSetting), PortFilter.Output),
+            (typeof(LogicTimerSensor), typeof(LogicTimerSensorSetting), PortFilter.Output),
+            (typeof(LogicTimeOfDaySensor), typeof(LogicTimeOfDaySensorSetting), PortFilter.Output),
+            (typeof(LogicBroadcaster), typeof(LogicBroadcasterSetting), PortFilter.Input),
+            (typeof(LogicBroadcastReceiver), typeof(LogicBroadcasterSetting.Receiver), PortFilter.Output),
+            (typeof(CometDetector.Def), typeof(CometDetectorSetting), PortFilter.Output),
+            (typeof(ClusterCometDetector.Def), typeof(ClusterCometDetectorSetting), PortFilter.Output),
 
             // IThresholdSwitch
             (typeof(ConduitTemperatureSensor), typeof(ThresholdSwitchSetting.ConduitTemp), PortFilter.Output),
@@ -72,21 +79,12 @@ namespace BetterLogicOverlay.LogicSettingDisplay
             (typeof(LogicGateFilter), typeof(SliderControlSetting), PortFilter.Output),
             (typeof(LogicGateBuffer), typeof(SliderControlSetting), PortFilter.Output),
 
-            // Specific buildings
-            (typeof(Filterable), typeof(ConduitElementSensorSetting), PortFilter.InputOutput),
-            (typeof(LogicElementSensor), typeof(LogicElementSensorSetting), PortFilter.Output),
-            (typeof(LogicCounter), typeof(LogicCounterSetting), PortFilter.Output),
-            (typeof(LogicTimerSensor), typeof(LogicTimerSensorSetting), PortFilter.Output),
-            (typeof(LogicTimeOfDaySensor), typeof(LogicTimeOfDaySensorSetting), PortFilter.Output),
-            (typeof(LogicBroadcaster), typeof(LogicBroadcasterSetting), PortFilter.Input),
-            (typeof(LogicBroadcastReceiver), typeof(LogicBroadcasterSetting.Receiver), PortFilter.Output),
-            (typeof(CometDetector.Def), typeof(CometDetectorSetting), PortFilter.Output),
-            (typeof(ClusterCometDetector.Def), typeof(ClusterCometDetectorSetting), PortFilter.Output),
-
-            // Specific mod buildings
-            (typeof(TreeFilterable), typeof(SolidElementSetting), PortFilter.InputOutput),
+            // TreeFilterable
+            (typeof(SpiceGrinder.Def), null, PortFilter.Input),
+            (typeof(TreeFilterable), typeof(TreeFilterableSetting), PortFilter.InputOutput),
 
             // General categories
+            (typeof(Filterable), typeof(FilterableSetting), PortFilter.InputOutput),
             (typeof(IActivationRangeTarget), typeof(ActivationRangeTargetSetting), PortFilter.Output),
             (typeof(ILogicRibbonBitSelector), typeof(LogicRibbonBitSelectorSetting), PortFilter.Output),
             (typeof(IUserControlledCapacity), typeof(UserControlledCapacitySetting), PortFilter.Output)
