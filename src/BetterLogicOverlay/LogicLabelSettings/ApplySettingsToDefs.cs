@@ -56,7 +56,6 @@ namespace BetterLogicOverlay.LogicSettingDisplay
         static readonly List<(Type building, Type setting, PortFilter filter)> buildingToLabelMap = new()
         {
             // Specific buildings
-            (typeof(LogicElementSensor), typeof(LogicElementSensorSetting), PortFilter.Output),
             (typeof(LogicCounter), typeof(LogicCounterSetting), PortFilter.Output),
             (typeof(LogicTimerSensor), typeof(LogicTimerSensorSetting), PortFilter.Output),
             (typeof(LogicTimeOfDaySensor), typeof(LogicTimeOfDaySensorSetting), PortFilter.Output),
