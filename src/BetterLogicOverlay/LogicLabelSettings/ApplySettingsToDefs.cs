@@ -63,6 +63,8 @@ namespace BetterLogicOverlay.LogicSettingDisplay
             (typeof(LogicBroadcastReceiver), typeof(LogicBroadcasterSetting.Receiver), PortFilter.Output),
             (typeof(CometDetector.Def), typeof(CometDetectorSetting), PortFilter.Output),
             (typeof(ClusterCometDetector.Def), typeof(ClusterCometDetectorSetting), PortFilter.Output),
+            (typeof(LogicClusterLocationSensor), typeof(LogicClusterLocationSensorSetting), PortFilter.Output),
+            (typeof(LimitValve), typeof(LimitValveSetting), PortFilter.Output),
 
             // IThresholdSwitch
             (typeof(ConduitTemperatureSensor), typeof(ThresholdSwitchSetting.ConduitTemp), PortFilter.Output),
