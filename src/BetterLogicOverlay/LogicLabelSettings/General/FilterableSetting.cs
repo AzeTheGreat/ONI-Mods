@@ -1,6 +1,6 @@
 ﻿namespace BetterLogicOverlay.LogicSettingDisplay
 {
-    class ConduitElementSensorSetting : LogicLabelSetting
+    class FilterableSetting : LogicLabelSetting
     {
         [MyCmpGet] private Filterable filterable;
 

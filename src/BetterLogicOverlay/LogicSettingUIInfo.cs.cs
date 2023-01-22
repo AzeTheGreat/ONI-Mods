@@ -14,13 +14,13 @@ namespace BetterLogicOverlay
             logicSettingDisplay = logicSettingDispComp;
             cachedLocText = prefab;
 
-            prefab.transform.position = logicSettingDisplay.position + LabelPrefab.boundsYOffset;
+            prefab.transform.position = logicSettingDisplay.Position + LabelPrefab.boundsYOffset;
 
             // Set as last sibling so that labels are always drawn over port icons.
             prefab.transform.SetAsLastSibling();
 
             var rectTransform = prefab.GetComponent<RectTransform>();
-            rectTransform.sizeDelta = logicSettingDisplay.sizeDelta * rectTransform.InverseLocalScale();
+            rectTransform.sizeDelta = logicSettingDisplay.SizeDelta * rectTransform.InverseLocalScale();
 
             prefab.gameObject.SetActive(true);
         }
