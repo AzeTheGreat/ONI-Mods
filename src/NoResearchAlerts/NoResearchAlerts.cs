@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using System.Linq;
 using UnityEngine;
 
 namespace NoResearchAlerts
@@ -12,18 +11,18 @@ namespace NoResearchAlerts
         static void Prefix(ref bool active) => active = false;
     }
 
-    [HarmonyPatch(typeof(PlanScreen), nameof(PlanScreen.ClearButtons))]
+    [HarmonyPatch(typeof(PlanScreen), nameof(PlanScreen.CloseCategoryPanel))]
     public class FastClearAlerts
     {
         static bool Prepare() => Options.Opts.AlertMode == Options.Mode.FastClear;
 
         static void Prefix()
         {
-            var bToggles = PlanScreen.Instance.ActiveCategoryBuildingToggles;
+            var bToggles = PlanScreen.Instance.activeCategoryBuildingToggles;
             if (bToggles?.Count == 0)
                 return;
 
-            var category = PlanScreen.Instance.tagCategoryMap[bToggles.First().Key.Tag];
+            var category = (HashedString)PlanScreen.Instance.ActiveCategoryToggleInfo.userData;
             PlanScreen.Instance.GetToggleEntryForCategory(category, out var toggleEntry);
 
             ClearCategoryAlert();
