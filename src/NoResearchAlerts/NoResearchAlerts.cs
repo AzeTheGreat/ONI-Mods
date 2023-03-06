@@ -18,11 +18,12 @@ namespace NoResearchAlerts
 
         static void Prefix()
         {
+            var toggleInfo = PlanScreen.Instance.ActiveCategoryToggleInfo;
             var bToggles = PlanScreen.Instance.activeCategoryBuildingToggles;
-            if (bToggles?.Count == 0)
+            if (toggleInfo == null || bToggles?.Count == 0)
                 return;
 
-            var category = (HashedString)PlanScreen.Instance.ActiveCategoryToggleInfo.userData;
+            var category = (HashedString)toggleInfo.userData;
             PlanScreen.Instance.GetToggleEntryForCategory(category, out var toggleEntry);
 
             ClearCategoryAlert();
