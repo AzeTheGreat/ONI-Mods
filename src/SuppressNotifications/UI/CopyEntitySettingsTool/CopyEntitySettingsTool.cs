@@ -59,6 +59,8 @@ namespace SuppressNotifications
                 CopyCritterSettings();
             if (sourceGameObject.GetComponent<CropSuppressionButton>() != null)
                 CopyCropSettings();
+            if (sourceGameObject.GetComponent<MinionSuppressionButton>() != null)
+                CopyMinionSettings();
         }
 
         private void CopyCritterSettings()
@@ -95,6 +97,24 @@ namespace SuppressNotifications
                     {
                         crop.gameObject.Trigger((int)GameHashes.CopySettings, sourceGameObject);
                         PopFXManager.Instance.SpawnFX(PopFXManager.Instance.sprite_Plus, UI.COPIED_SETTINGS, crop.gameObject.transform, new Vector3(0f, 0.5f, 0f), 1.5f, false, false);
+                    }
+                }
+            }
+        }
+
+        private void CopyMinionSettings()
+        {
+            var enumerator = Components.MinionIdentities.GetEnumerator();
+            using(enumerator as IDisposable)
+            {
+                while (enumerator.MoveNext())
+                {
+                    var minion = enumerator.Current as MinionIdentity;
+
+                    if(minion != null && cells.Contains(Grid.PosToCell(minion)))
+                    {
+                        minion.gameObject.Trigger((int)GameHashes.CopySettings, sourceGameObject);
+                        PopFXManager.Instance.SpawnFX(PopFXManager.Instance.sprite_Plus, UI.COPIED_SETTINGS, minion.gameObject.transform, new Vector3(0f, 0.5f, 0f), 1.5f, false, false);
                     }
                 }
             }
