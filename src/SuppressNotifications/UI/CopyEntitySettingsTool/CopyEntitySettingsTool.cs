@@ -1,5 +1,6 @@
 ﻿using STRINGS;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -63,60 +64,23 @@ namespace SuppressNotifications
                 CopyMinionSettings();
         }
 
-        private void CopyCritterSettings()
-        {
-            var enumerator = Components.Brains.GetEnumerator();
-            using (enumerator as IDisposable)
-            {
-                while (enumerator.MoveNext())
-                {
-                    var creatureBrain = enumerator.Current as CreatureBrain;
+        private void CopyCritterSettings() => CopySettings<CreatureBrain>(Components.Brains, kmb => kmb.isSpawned && !kmb.HasTag(GameTags.Dead));
+        private void CopyCropSettings() => CopySettings<Crop>(Components.Crops);
+        private void CopyMinionSettings() => CopySettings<MinionIdentity>(Components.MinionIdentities);
 
-                    if (creatureBrain != null &&
-                           creatureBrain.isSpawned &&
-                           !creatureBrain.HasTag(GameTags.Dead) &&
-                           cells.Contains(Grid.PosToCell(creatureBrain)))
-                    {
-                        creatureBrain.gameObject.Trigger((int)GameHashes.CopySettings, sourceGameObject);
-                        PopFXManager.Instance.SpawnFX(PopFXManager.Instance.sprite_Plus, UI.COPIED_SETTINGS, creatureBrain.gameObject.transform, new Vector3(0f, 0.5f, 0f), 1.5f, false, false);
-                    }
-                }
+        private void CopySettings<T>(IEnumerable cmps, Func<KMonoBehaviour, bool> predicate = null) where T : KMonoBehaviour
+        {
+            foreach (var cmp in cmps)
+            {
+                var kmb = cmp as T;
+                if (kmb != null && (predicate?.Invoke(kmb) ?? true) && cells.Contains(Grid.PosToCell(kmb)))
+                    CopyTo(kmb.gameObject);
             }
-        }
 
-        private void CopyCropSettings()
-        {
-            var enumerator = Components.Crops.GetEnumerator();
-            using(enumerator as IDisposable)
+            void CopyTo(GameObject go)
             {
-                while (enumerator.MoveNext())
-                {
-                    var crop = enumerator.Current as Crop;
-
-                    if(crop != null && cells.Contains(Grid.PosToCell(crop)))
-                    {
-                        crop.gameObject.Trigger((int)GameHashes.CopySettings, sourceGameObject);
-                        PopFXManager.Instance.SpawnFX(PopFXManager.Instance.sprite_Plus, UI.COPIED_SETTINGS, crop.gameObject.transform, new Vector3(0f, 0.5f, 0f), 1.5f, false, false);
-                    }
-                }
-            }
-        }
-
-        private void CopyMinionSettings()
-        {
-            var enumerator = Components.MinionIdentities.GetEnumerator();
-            using(enumerator as IDisposable)
-            {
-                while (enumerator.MoveNext())
-                {
-                    var minion = enumerator.Current as MinionIdentity;
-
-                    if(minion != null && cells.Contains(Grid.PosToCell(minion)))
-                    {
-                        minion.gameObject.Trigger((int)GameHashes.CopySettings, sourceGameObject);
-                        PopFXManager.Instance.SpawnFX(PopFXManager.Instance.sprite_Plus, UI.COPIED_SETTINGS, minion.gameObject.transform, new Vector3(0f, 0.5f, 0f), 1.5f, false, false);
-                    }
-                }
+                go.Trigger((int)GameHashes.CopySettings, sourceGameObject);
+                PopFXManager.Instance.SpawnFX(PopFXManager.Instance.sprite_Plus, UI.COPIED_SETTINGS, go.transform, new Vector3(0f, 0.5f, 0f), 1.5f, false, false);
             }
         }
 
