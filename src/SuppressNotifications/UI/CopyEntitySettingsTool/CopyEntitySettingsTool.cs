@@ -11,7 +11,7 @@ namespace SuppressNotifications
     {
         public static CopyEntitySettingsTool instance;
 
-        private List<int> cells;
+        private List<int> cells = new();
         private GameObject sourceGameObject;
 
         public override void OnPrefabInit()
@@ -94,10 +94,10 @@ namespace SuppressNotifications
             PlayerController.Instance.ActivateTool(this);
         }
 
-        public override void OnActivateTool()
+        public override void OnLeftClickDown(Vector3 cursor_pos)
         {
-            base.OnActivateTool();
-            cells = new List<int>();
+            base.OnLeftClickDown(cursor_pos);
+            cells.Clear();
         }
 
         public override void OnDeactivateTool(InterfaceTool new_tool)
