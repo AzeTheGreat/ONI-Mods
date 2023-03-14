@@ -2,7 +2,6 @@
 {
     class CropSuppressionButton : SuppressionButton
     {
-        [MyCmpAdd]
-        private CopyEntitySettings copyEntitySettings;
+        [MyCmpAdd] private CopyEntitySettings copyEntitySettings;
     }
 }

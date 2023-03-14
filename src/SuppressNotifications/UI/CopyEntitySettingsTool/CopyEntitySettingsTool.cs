@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace SuppressNotifications
 {
     class CopyEntitySettingsTool : DragTool
@@ -13,6 +12,9 @@ namespace SuppressNotifications
 
         private List<int> cells = new();
         private GameObject sourceGameObject;
+
+        public void SetSourceObject(GameObject go) => sourceGameObject = go;
+        public void Activate() => PlayerController.Instance.ActivateTool(this);
 
         public override void OnPrefabInit()
         {
@@ -25,8 +27,7 @@ namespace SuppressNotifications
 
             // Set the area visualizer
             var avTemplate = CopySettingsTool.Instance.areaVisualizer;
-            var areaVisualizer = Util.KInstantiate(avTemplate, gameObject,
-                typeof(CopyEntitySettingsTool).Name + "AreaVisualizer");
+            var areaVisualizer = Util.KInstantiate(avTemplate, gameObject, nameof(CopyEntitySettingsTool) + "AreaVisualizer");
             areaVisualizer.SetActive(false);
             areaVisualizerSpriteRenderer = areaVisualizer.GetComponent<SpriteRenderer>();
 
@@ -56,12 +57,24 @@ namespace SuppressNotifications
 
         public override void OnDragComplete(Vector3 cursorDown, Vector3 cursorUp)
         {
-            if(sourceGameObject.GetComponent<CritterSuppressionButton>() != null)
+            if (sourceGameObject.GetComponent<CritterSuppressionButton>() != null)
                 CopyCritterSettings();
             if (sourceGameObject.GetComponent<CropSuppressionButton>() != null)
                 CopyCropSettings();
             if (sourceGameObject.GetComponent<MinionSuppressionButton>() != null)
                 CopyMinionSettings();
+        }
+
+        public override void OnLeftClickDown(Vector3 cursor_pos)
+        {
+            base.OnLeftClickDown(cursor_pos);
+            cells.Clear();
+        }
+
+        public override void OnDeactivateTool(InterfaceTool new_tool)
+        {
+            base.OnDeactivateTool(new_tool);
+            sourceGameObject = null;
         }
 
         private void CopyCritterSettings() => CopySettings<CreatureBrain>(Components.Brains, kmb => kmb.isSpawned && !kmb.HasTag(GameTags.Dead));
@@ -82,28 +95,6 @@ namespace SuppressNotifications
                 go.Trigger((int)GameHashes.CopySettings, sourceGameObject);
                 PopFXManager.Instance.SpawnFX(PopFXManager.Instance.sprite_Plus, UI.COPIED_SETTINGS, go.transform, new Vector3(0f, 0.5f, 0f), 1.5f, false, false);
             }
-        }
-
-        public void SetSourceObject(GameObject go)
-        {
-            sourceGameObject = go;
-        }
-
-        public void Activate()
-        {
-            PlayerController.Instance.ActivateTool(this);
-        }
-
-        public override void OnLeftClickDown(Vector3 cursor_pos)
-        {
-            base.OnLeftClickDown(cursor_pos);
-            cells.Clear();
-        }
-
-        public override void OnDeactivateTool(InterfaceTool new_tool)
-        {
-            base.OnDeactivateTool(new_tool);
-            sourceGameObject = null;
         }
     }
 }

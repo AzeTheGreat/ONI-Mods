@@ -2,12 +2,9 @@
 {
     class BuildingSuppressionButton : SuppressionButton
     {
-        [MyCmpAdd]
-        private CopyBuildingSettings copyBuildingSettings;
-        [MyCmpAdd]
-        private BuildingHealthSuppressedComp buildingHealthSuppressedComp;
-        [MyCmpGet]
-        private BuildingHP buildingHP;
+        [MyCmpAdd] private CopyBuildingSettings copyBuildingSettings;
+        [MyCmpAdd] private BuildingHealthSuppressedComp buildingHealthSuppressedComp;
+        [MyCmpGet] private BuildingHP buildingHP;
 
         internal override bool AreSuppressable()
         {
