@@ -5,7 +5,7 @@ using UnityEngine;
 namespace SuppressNotifications.Patches
 {
     [HarmonyPatch(typeof(PlayerController), nameof(PlayerController.OnPrefabInit))]
-    public static class PlayerController_OnPrefabInit_Patch
+    public static class RegisterCopyEntitySettingsTool
     {
         static void Postfix(PlayerController __instance)
         {
