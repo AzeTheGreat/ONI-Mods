@@ -63,7 +63,7 @@
         Exclude ="$(TargetPath); **/System.*"/>
     </ItemGroup>
     <ILRepack
-      TargetPlatformVersion="v2"
+      TargetPlatformVersion="v4"
 			TargetKind="SameAsPrimaryAssembly"
 			OutputFile="$(TargetPath)"
 			InputAssemblies="@(InputAssemblies)"
