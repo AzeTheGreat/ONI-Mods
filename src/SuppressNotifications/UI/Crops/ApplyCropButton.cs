@@ -2,10 +2,10 @@
 
 namespace SuppressNotifications.Patches
 {
-    [HarmonyPatch(typeof(Crop), nameof(Crop.OnPrefabInit))]
+    [HarmonyPatch(typeof(Uprootable), nameof(Uprootable.OnPrefabInit))]
     class ApplyCropButton
     {
-        static void Postfix(Crop __instance)
+        static void Postfix(Uprootable __instance)
         {
             __instance.gameObject.AddComponent<CropSuppressionButton>();
         }

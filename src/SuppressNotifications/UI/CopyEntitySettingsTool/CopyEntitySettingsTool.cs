@@ -78,7 +78,7 @@ namespace SuppressNotifications
         }
 
         private void CopyCritterSettings() => CopySettings<CreatureBrain>(Components.Brains, kmb => kmb.isSpawned && !kmb.HasTag(GameTags.Dead));
-        private void CopyCropSettings() => CopySettings<Crop>(Components.Crops);
+        private void CopyCropSettings() => CopySettings<Uprootable>(Components.Uprootables);
         private void CopyMinionSettings() => CopySettings<MinionIdentity>(Components.MinionIdentities);
 
         private void CopySettings<T>(IEnumerable cmps, Func<KMonoBehaviour, bool> predicate = null) where T : KMonoBehaviour
