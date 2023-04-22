@@ -3,11 +3,11 @@
 namespace SuppressNotifications.Patches
 {
     [HarmonyPatch(typeof(Uprootable), nameof(Uprootable.OnPrefabInit))]
-    class ApplyCropButton
+    class ApplyPlantButton
     {
         static void Postfix(Uprootable __instance)
         {
-            __instance.gameObject.AddComponent<CropSuppressionButton>();
+            __instance.gameObject.AddComponent<PlantSuppressionButton>();
         }
     }
 }
