@@ -5,7 +5,7 @@ using UnityEngine;
 namespace SuppressNotifications.Patches
 {
     [HarmonyPatch(typeof(Amount), nameof(Amount.Copy))]
-    class Patch_Amount_Copy
+    class TriggerAmountCopy
     {
         static void Postfix(GameObject to, GameObject from)
         {

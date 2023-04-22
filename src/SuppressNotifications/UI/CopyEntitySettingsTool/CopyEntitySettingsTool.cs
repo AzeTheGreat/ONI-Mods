@@ -1,8 +1,8 @@
 ﻿using STRINGS;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 
 namespace SuppressNotifications
 {
@@ -10,8 +10,11 @@ namespace SuppressNotifications
     {
         public static CopyEntitySettingsTool instance;
 
-        private List<int> cells;
+        private List<int> cells = new();
         private GameObject sourceGameObject;
+
+        public void SetSourceObject(GameObject go) => sourceGameObject = go;
+        public void Activate() => PlayerController.Instance.ActivateTool(this);
 
         public override void OnPrefabInit()
         {
@@ -24,8 +27,7 @@ namespace SuppressNotifications
 
             // Set the area visualizer
             var avTemplate = CopySettingsTool.Instance.areaVisualizer;
-            var areaVisualizer = Util.KInstantiate(avTemplate, gameObject,
-                typeof(CopyEntitySettingsTool).Name + "AreaVisualizer");
+            var areaVisualizer = Util.KInstantiate(avTemplate, gameObject, nameof(CopyEntitySettingsTool) + "AreaVisualizer");
             areaVisualizer.SetActive(false);
             areaVisualizerSpriteRenderer = areaVisualizer.GetComponent<SpriteRenderer>();
 
@@ -55,71 +57,44 @@ namespace SuppressNotifications
 
         public override void OnDragComplete(Vector3 cursorDown, Vector3 cursorUp)
         {
-            if(sourceGameObject.GetComponent<CritterSuppressionButton>() != null)
+            if (sourceGameObject.GetComponent<CritterSuppressionButton>() != null)
                 CopyCritterSettings();
             if (sourceGameObject.GetComponent<CropSuppressionButton>() != null)
                 CopyCropSettings();
+            if (sourceGameObject.GetComponent<MinionSuppressionButton>() != null)
+                CopyMinionSettings();
         }
 
-        private void CopyCritterSettings()
+        public override void OnLeftClickDown(Vector3 cursor_pos)
         {
-            var enumerator = Components.Brains.GetEnumerator();
-            using (enumerator as IDisposable)
-            {
-                while (enumerator.MoveNext())
-                {
-                    var creatureBrain = enumerator.Current as CreatureBrain;
-
-                    if (creatureBrain != null &&
-                           creatureBrain.isSpawned &&
-                           !creatureBrain.HasTag(GameTags.Dead) &&
-                           cells.Contains(Grid.PosToCell(creatureBrain)))
-                    {
-                        creatureBrain.gameObject.Trigger((int)GameHashes.CopySettings, sourceGameObject);
-                        PopFXManager.Instance.SpawnFX(PopFXManager.Instance.sprite_Plus, UI.COPIED_SETTINGS, creatureBrain.gameObject.transform, new Vector3(0f, 0.5f, 0f), 1.5f, false, false);
-                    }
-                }
-            }
-        }
-
-        private void CopyCropSettings()
-        {
-            var enumerator = Components.Crops.GetEnumerator();
-            using(enumerator as IDisposable)
-            {
-                while (enumerator.MoveNext())
-                {
-                    var crop = enumerator.Current as Crop;
-
-                    if(crop != null && cells.Contains(Grid.PosToCell(crop)))
-                    {
-                        crop.gameObject.Trigger((int)GameHashes.CopySettings, sourceGameObject);
-                        PopFXManager.Instance.SpawnFX(PopFXManager.Instance.sprite_Plus, UI.COPIED_SETTINGS, crop.gameObject.transform, new Vector3(0f, 0.5f, 0f), 1.5f, false, false);
-                    }
-                }
-            }
-        }
-
-        public void SetSourceObject(GameObject go)
-        {
-            sourceGameObject = go;
-        }
-
-        public void Activate()
-        {
-            PlayerController.Instance.ActivateTool(this);
-        }
-
-        public override void OnActivateTool()
-        {
-            base.OnActivateTool();
-            cells = new List<int>();
+            base.OnLeftClickDown(cursor_pos);
+            cells.Clear();
         }
 
         public override void OnDeactivateTool(InterfaceTool new_tool)
         {
             base.OnDeactivateTool(new_tool);
             sourceGameObject = null;
+        }
+
+        private void CopyCritterSettings() => CopySettings<CreatureBrain>(Components.Brains, kmb => kmb.isSpawned && !kmb.HasTag(GameTags.Dead));
+        private void CopyCropSettings() => CopySettings<Crop>(Components.Crops);
+        private void CopyMinionSettings() => CopySettings<MinionIdentity>(Components.MinionIdentities);
+
+        private void CopySettings<T>(IEnumerable cmps, Func<KMonoBehaviour, bool> predicate = null) where T : KMonoBehaviour
+        {
+            foreach (var cmp in cmps)
+            {
+                var kmb = cmp as T;
+                if (kmb != null && (predicate?.Invoke(kmb) ?? true) && cells.Contains(Grid.PosToCell(kmb)))
+                    CopyTo(kmb.gameObject);
+            }
+
+            void CopyTo(GameObject go)
+            {
+                go.Trigger((int)GameHashes.CopySettings, sourceGameObject);
+                PopFXManager.Instance.SpawnFX(PopFXManager.Instance.sprite_Plus, UI.COPIED_SETTINGS, go.transform, new Vector3(0f, 0.5f, 0f), 1.5f, false, false);
+            }
         }
     }
 }

@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace SuppressNotifications
 {
-    [HarmonyPatch(typeof(BuildingConfigManager), "OnPrefabInit")]
-    class Patch_BuildingConfigManager_OnPrefabInit
+    [HarmonyPatch(typeof(BuildingConfigManager), nameof(BuildingConfigManager.OnPrefabInit))]
+    class ApplyBuildingButton
     {
         static void Postfix(ref GameObject ___baseTemplate)
         {

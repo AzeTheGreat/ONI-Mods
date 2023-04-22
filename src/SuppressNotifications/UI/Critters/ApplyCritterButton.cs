@@ -2,8 +2,8 @@
 
 namespace SuppressNotifications
 {
-    [HarmonyPatch(typeof(Capturable), "OnPrefabInit")]
-    class Patch_Capturable_OnPrefabInit
+    [HarmonyPatch(typeof(Capturable), nameof(Capturable.OnPrefabInit))]
+    class ApplyCritterButton
     {
         static void Postfix(Capturable __instance)
         {

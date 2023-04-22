@@ -1,6 +1,6 @@
 ﻿namespace SuppressNotifications
 {
-    class CropSuppressionButton : SuppressionButton
+    class MinionSuppressionButton : SuppressionButton
     {
         [MyCmpAdd] private CopyEntitySettings copyEntitySettings;
     }

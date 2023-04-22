@@ -2,8 +2,8 @@
 
 namespace SuppressNotifications.Patches
 {
-    [HarmonyPatch(typeof(Crop), "OnPrefabInit")]
-    class Patch_Crop_OnPrefabInit
+    [HarmonyPatch(typeof(Crop), nameof(Crop.OnPrefabInit))]
+    class ApplyCropButton
     {
         static void Postfix(Crop __instance)
         {
