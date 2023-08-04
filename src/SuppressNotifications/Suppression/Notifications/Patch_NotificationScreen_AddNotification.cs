@@ -17,8 +17,8 @@ namespace SuppressNotifications
     class Patch_NotificationScreen_RemoveNotification
     {
         static void Prefix(Notification notification)
-        {                
-            notification.Notifier?.gameObject.GetComponent<NotificationsSuppressedComp>()?.notifications.Remove(notification);
+        {     
+            notification?.Notifier?.gameObject.GetComponent<NotificationsSuppressedComp>()?.notifications.Remove(notification);
         }
     }
 }
