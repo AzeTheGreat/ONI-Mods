@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static STRINGS.MISC;
 
 namespace SuppressNotifications
 {
@@ -65,49 +66,19 @@ namespace SuppressNotifications
             Game.Instance.userMenu.Refresh(base.gameObject);
         }
 
-        private string GetStatusItemListText(List<StatusItem> statusItems)
-        {
-            string text = MYSTRINGS.LINE_DIVIDER;
+        private string GetStatusItemListText(List<StatusItem> statusItems) => GetStatusItemListText(statusItems.Select(x => x.Name).ToList());
+        private string GetStatusItemListText(List<string> statusItems) => GetItemListText(MYSTRINGS.STATUS_LABEL, statusItems);
 
-            foreach (var statusItem in statusItems)
-            {
-                text = text + MYSTRINGS.STATUS_LABEL + statusItem.Name + "\n";
-            }
+        private string GetNotificationListText(List<Notification> notifications) => GetNotificationListText(notifications.Select(x => x.titleText).ToList());
+        private string GetNotificationListText(List<string> notifications) => GetItemListText(MYSTRINGS.NOTIFICATION_LABEL, notifications);
 
-            return text;
-        }
-
-        private string GetStatusItemListText(List<string> statusItems)
+        private string GetItemListText(string label, List<string> items)
         {
             string text = "";
 
-            foreach (var statusItem in statusItems)
+            foreach (var item in items)
             {
-                text = text + MYSTRINGS.STATUS_LABEL + statusItem + "\n";
-            }
-
-            return text;
-        }
-
-        private string GetNotificationListText(List<Notification> notifications)
-        {
-            string text = "";
-
-            foreach (var notification in notifications)
-            {
-                text = text + MYSTRINGS.NOTIFICATION_LABEL + notification.titleText + "\n";
-            }
-
-            return text;
-        }
-
-        private string GetNotificationListText(List<string> notifications)
-        {
-            string text = "";
-
-            foreach (var notification in notifications)
-            {
-                text = text + MYSTRINGS.NOTIFICATION_LABEL + notification + "\n";
+                text = text + label + item + "\n";
             }
 
             return text;
