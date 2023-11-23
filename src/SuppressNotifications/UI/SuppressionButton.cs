@@ -22,9 +22,9 @@ namespace SuppressNotifications
             Enum.TryParse(nameof(Action.NumActions), out Action action);
 
             if (AreSuppressable())
-                Game.Instance.userMenu.AddButton(gameObject, new KIconButtonMenu.ButtonInfo("action_building_disabled", "Suppress Current", new System.Action(OnSuppressClick), action, tooltipText: GetSuppressableString()));
+                Game.Instance.userMenu.AddButton(gameObject, new KIconButtonMenu.ButtonInfo("action_building_disabled", MYSTRINGS.SUPPRESSBUTTON.NAME, new System.Action(OnSuppressClick), action, tooltipText: GetSuppressableString()));
             else if (AreSuppressed())
-                Game.Instance.userMenu.AddButton(gameObject, new KIconButtonMenu.ButtonInfo("action_building_disabled", "Clear Suppressed", new System.Action(OnClearClick), action, tooltipText: GetSuppressedString()));
+                Game.Instance.userMenu.AddButton(gameObject, new KIconButtonMenu.ButtonInfo("action_building_disabled", MYSTRINGS.CLEARBUTTON.NAME, new System.Action(OnClearClick), action, tooltipText: GetSuppressedString()));
         }
 
         internal virtual bool AreSuppressable()
@@ -39,14 +39,14 @@ namespace SuppressNotifications
 
         internal virtual string GetSuppressableString()
         {
-            return "Suppress the following status items and notifications:\n"
+            return MYSTRINGS.SUPPRESSBUTTON.TOOLTIP + "\n"
                     + GetStatusItemListText(statusItemsSuppressedComp.GetSuppressableStatusItems())
                     + GetNotificationListText(notificationsSuppressedComp.GetSuppressableNotifications());
         }
 
         internal virtual string GetSuppressedString()
         {
-            return "Stop the following status items and notifications from being suppressed:\n"
+            return MYSTRINGS.CLEARBUTTON.TOOLTIP + "\n"
                     + GetStatusItemListText(statusItemsSuppressedComp.suppressedStatusItemTitles)
                     + GetNotificationListText(notificationsSuppressedComp.suppressedNotifications);
         }
@@ -67,11 +67,11 @@ namespace SuppressNotifications
 
         private string GetStatusItemListText(List<StatusItem> statusItems)
         {
-            string text = "--------------------\n";
+            string text = MYSTRINGS.LINE_DIVIDER;
 
             foreach (var statusItem in statusItems)
             {
-                text = text + "Status: " + statusItem.Name + "\n";
+                text = text + MYSTRINGS.STATUS_LABEL + statusItem.Name + "\n";
             }
 
             return text;
@@ -83,7 +83,7 @@ namespace SuppressNotifications
 
             foreach (var statusItem in statusItems)
             {
-                text = text + "Status: " + statusItem + "\n";
+                text = text + MYSTRINGS.STATUS_LABEL + statusItem + "\n";
             }
 
             return text;
@@ -95,7 +95,7 @@ namespace SuppressNotifications
 
             foreach (var notification in notifications)
             {
-                text = text + "Notification: " + notification.titleText + "\n";
+                text = text + MYSTRINGS.NOTIFICATION_LABEL + notification.titleText + "\n";
             }
 
             return text;
@@ -107,7 +107,7 @@ namespace SuppressNotifications
 
             foreach (var notification in notifications)
             {
-                text = text + "Notification: " + notification + "\n";
+                text = text + MYSTRINGS.NOTIFICATION_LABEL + notification + "\n";
             }
 
             return text;
