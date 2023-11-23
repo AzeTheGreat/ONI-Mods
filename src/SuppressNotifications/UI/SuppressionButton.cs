@@ -74,11 +74,14 @@ namespace SuppressNotifications
 
         private string GetItemListText(string label, List<string> items)
         {
-            string text = "";
+            if (!items.Any())
+                return string.Empty;
+
+            string text = Environment.NewLine + label + Environment.NewLine;
 
             foreach (var item in items)
             {
-                text = text + label + item + "\n";
+                text = text + item + "\n";
             }
 
             return text;
