@@ -39,14 +39,12 @@ namespace SuppressNotifications
         {
             notificationsSuppressedComp.SuppressNotifications();
             statusItemsSuppressedComp.SuppressStatusItems();
-            Game.Instance.userMenu.Refresh(gameObject);
         }
 
         internal virtual void OnClearClick()
         {
             notificationsSuppressedComp.UnsupressNotifications();
             statusItemsSuppressedComp.UnsuppressStatusItems();
-            Game.Instance.userMenu.Refresh(gameObject);
         }
 
         internal virtual string GetSuppressableString()
