@@ -57,11 +57,11 @@ namespace SuppressNotifications
 
         public override void OnDragComplete(Vector3 cursorDown, Vector3 cursorUp)
         {
-            if (sourceGameObject.GetComponent<CritterSuppressionButton>() != null)
+            if (sourceGameObject.GetComponent<CreatureBrain>() != null)
                 CopyCritterSettings();
-            if (sourceGameObject.GetComponent<PlantSuppressionButton>() != null)
+            if (sourceGameObject.GetComponent<Uprootable>() != null)
                 CopyPlantSettings();
-            if (sourceGameObject.GetComponent<MinionSuppressionButton>() != null)
+            if (sourceGameObject.GetComponent<MinionIdentity>() != null)
                 CopyMinionSettings();
         }
 

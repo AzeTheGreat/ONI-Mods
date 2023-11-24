@@ -2,10 +2,8 @@
 
 namespace SuppressNotifications
 {
-    class CritterSuppressionButton : SuppressionButton
+    class CritterSuppressionButton : EntitySuppressionButton
     {
-        [MyCmpAdd] private CopyEntitySettings copyCritterSettings;
-
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();

@@ -11,8 +11,8 @@ namespace BetterLogicOverlay.LogicSettingDisplay
         {
             var cmpMap = new ComponentMapper(new()
             {
-                (typeof(Uprootable), typeof(PlantSuppressionButton)),
-                (typeof(MinionBrain), typeof(MinionSuppressionButton)),
+                (typeof(Uprootable), typeof(EntitySuppressionButton)),
+                (typeof(MinionBrain), typeof(EntitySuppressionButton)),
                 (typeof(Capturable), typeof(CritterSuppressionButton)),
                 (typeof(BuildingComplete), typeof(BuildingSuppressionButton))
             });
