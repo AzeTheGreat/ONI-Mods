@@ -57,12 +57,14 @@ namespace SuppressNotifications
 
         public override void OnDragComplete(Vector3 cursorDown, Vector3 cursorUp)
         {
-            if (sourceGameObject.GetComponent<CritterSuppressionButton>() != null)
+            if (sourceGameObject.GetComponent<CreatureBrain>() != null)
                 CopyCritterSettings();
-            if (sourceGameObject.GetComponent<PlantSuppressionButton>() != null)
+            if (sourceGameObject.GetComponent<Uprootable>() != null)
                 CopyPlantSettings();
-            if (sourceGameObject.GetComponent<MinionSuppressionButton>() != null)
+            if (sourceGameObject.GetComponent<MinionIdentity>() != null)
                 CopyMinionSettings();
+            if (sourceGameObject.GetComponent<Geyser>() != null)
+                CopyGeyserSettings();
         }
 
         public override void OnLeftClickDown(Vector3 cursor_pos)
@@ -80,6 +82,7 @@ namespace SuppressNotifications
         private void CopyCritterSettings() => CopySettings<CreatureBrain>(Components.Brains, kmb => kmb.isSpawned && !kmb.HasTag(GameTags.Dead));
         private void CopyPlantSettings() => CopySettings<Uprootable>(Components.Uprootables);
         private void CopyMinionSettings() => CopySettings<MinionIdentity>(Components.MinionIdentities);
+        private void CopyGeyserSettings() => CopySettings<Geyser>(Components.Geysers.GetItems(sourceGameObject.GetMyWorldId()));
 
         private void CopySettings<T>(IEnumerable cmps, Func<KMonoBehaviour, bool> predicate = null) where T : KMonoBehaviour
         {

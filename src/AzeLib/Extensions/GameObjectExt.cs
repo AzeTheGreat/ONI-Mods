@@ -18,8 +18,11 @@ namespace AzeLib.Extensions
 
         public static StateMachine.BaseDef GetDef(this GameObject go, Type type)
         {
-            var defs = go.GetComponent<StateMachineController>().cmpdef.defs;
-            return defs.FirstOrDefault(x => x.GetType() == type);
+            var smc = go.GetComponent<StateMachineController>();
+            if (smc == null)
+                return null;
+
+            return smc.cmpdef.defs.FirstOrDefault(x => x.GetType() == type);
         }
     }
 }

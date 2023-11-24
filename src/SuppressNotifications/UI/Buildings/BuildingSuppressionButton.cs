@@ -21,7 +21,7 @@
             string suppressable = base.GetSuppressableString();
 
             if (buildingHP.NeedsRepairs && !buildingHealthSuppressedComp.HideDmgBar)
-                suppressable += "Damage Bar";
+                suppressable += MYSTRINGS.BUILDINGS.DAMAGE_BAR;
             return suppressable;
         }
 
@@ -30,7 +30,7 @@
             string suppressed = base.GetSuppressedString();
 
             if(buildingHealthSuppressedComp.HideDmgBar)
-                suppressed += "Damage Bar";
+                suppressed += MYSTRINGS.BUILDINGS.DAMAGE_BAR;
             return suppressed;
         }
 
