@@ -6,6 +6,6 @@ namespace SuppressNotifications
     [HarmonyPatch(typeof(NotificationScreen), nameof(NotificationScreen.AddNotification))]
     class NotificationInterceptor
     {
-        static bool Prefix(Notification notification) => notification?.Notifier?.gameObject.GetComponent<NotificationsSuppressedComp>()?.ShouldNotify(notification) ?? true;
+        static bool Prefix(Notification notification) => notification.GetSuppressedComp()?.ShouldNotify(notification) ?? true;
     }
 }

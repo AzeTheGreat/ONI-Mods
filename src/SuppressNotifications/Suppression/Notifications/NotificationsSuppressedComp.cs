@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SuppressNotifications
 {
-    class NotificationsSuppressedComp : KMonoBehaviour, ISaveLoadable
+    public class NotificationsSuppressedComp : KMonoBehaviour, ISaveLoadable
     {
         [Serialize]
         public List<string> suppressedNotifications;
