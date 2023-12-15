@@ -59,6 +59,9 @@ namespace AzeLib
         [System.Diagnostics.Conditional("DEBUG")]
         private static void GeneratePOTemplate(Type rootType)
         {
+            if (Localization.GetSelectedLanguageType() != Localization.SelectedLanguageType.None)
+                return;
+
             // There's really no way to access MSBuild properties in C#.
             // This is the best we get: up three directories to get to ONI-Mods, then to the Translations folder.
             var transDir = Path.GetFullPath(Path.Combine(GetCallerPath(), "..", "..", "..", "Translations", rootType.Namespace));
