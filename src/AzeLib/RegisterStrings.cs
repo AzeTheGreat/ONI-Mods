@@ -1,9 +1,7 @@
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace AzeLib
 {
@@ -31,16 +29,15 @@ namespace AzeLib
 
                 LoadStrings();
                 UpdateStrings();
-                GeneratePOTemplate(rootType);
+                AzeLocalization.GeneratePOTemplate(rootType);
             }
         }
 
         // Must manually load from "translations" because files in "strings" are always overloaded, even if they don't match the current locale.
         private static void LoadStrings()
         {
-            var path = Path.Combine(AzeMod.UserMod.path, "translations", Localization.GetLocale()?.Code + ".po");
-            if (File.Exists(path))
-                Localization.OverloadStrings(Localization.LoadStringsFile(path, false));
+            if (AzeLocalization.TryLoadTranslations(out var translations))
+                Localization.OverloadStrings(translations);
         }
 
         // When strings are translated, the value of the LocString field is set, but the strings are never re-registered.
@@ -53,22 +50,6 @@ namespace AzeLib
                 var parentPath = "STRINGS." + type.Namespace.ToUpper() + ".";
                 LocString.CreateLocStringKeys(type, parentPath);
             }
-        }
-
-        // PO templates are generated only for Debug builds to save load time and reduce clutter for end users.
-        [System.Diagnostics.Conditional("DEBUG")]
-        private static void GeneratePOTemplate(Type rootType)
-        {
-            if (Localization.GetSelectedLanguageType() != Localization.SelectedLanguageType.None)
-                return;
-
-            // There's really no way to access MSBuild properties in C#.
-            // This is the best we get: up three directories to get to ONI-Mods, then to the Translations folder.
-            var transDir = Path.GetFullPath(Path.Combine(GetCallerPath(), "..", "..", "..", "Translations", rootType.Namespace));
-            Localization.GenerateStringsTemplate(rootType, transDir);
-
-            // This uses Roslyn to inject the path of this .cs file at compile time.
-            static string GetCallerPath([CallerFilePath] string path = null) => path;
         }
     }
 }

@@ -79,7 +79,7 @@
       <WorldGenFiles Include="$(ProjectDir)\worldgen\**\*.*" />
       <YamlFiles Include="$(ProjectDir)\*.yaml" />
       <SpriteFiles Include="$(ProjectDir)\*.dds" />
-      <TranslateFiles Include="..\..\Translations\$(MSBuildProjectName)\*.po" /> <!--This must be changed in AzeLib.RegisterStrings.GeneratePOTemplates as well.-->
+      <TranslateFiles Include="..\..\Translations\$(MSBuildProjectName)\*.po" /> <!--This must be changed in AzeLib.AzeLocalization.GeneratePOTemplates as well.-->
       <InfoFiles Include="$(TargetDir)\*.yaml" />
     </ItemGroup>
     <Copy SourceFiles="@(AnimFiles)" DestinationFiles="@(AnimFiles->'$(InstallFolder)\anim\%(RecursiveDir)%(Filename)%(Extension)')" />
