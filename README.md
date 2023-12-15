@@ -1,6 +1,6 @@
 # Aze's Mods for Oxygen Not Included</p>
 
-If you are attempting to compile this solution, see [here](https://github.com/AzeTheGreat/ONI-Mods/tree/master/src/README.md).  End users, continue reading below.
+This is a collection of mods for Oxygen Not Included, written by Aze.
 
 ## [Steam Workshop](https://steamcommunity.com/profiles/76561198044590606/myworkshopfiles/?appid=457140)
 
@@ -35,3 +35,6 @@ These mods are all very simple mods that I made for requests that I don't person
 |[Drink Tea Not Coffee](https://steamcommunity.com/sharedfiles/filedetails/?id=1969458444)|A silly mod that changes references to espresso to tea.|
 |[No Meteors](https://steamcommunity.com/sharedfiles/filedetails/?id=1962090267)|Stops the game from spawning meteors.|
 |[No Notification Sounds](https://steamcommunity.com/sharedfiles/filedetails/?id=1882035088)|Removes sounds from notifications for those who just hate noise.|
+
+## [Contribute to Translations](Translations/TRANSLATING.md)
+## [Compile the Solution](src/README.md)
