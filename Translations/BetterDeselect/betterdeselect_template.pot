@@ -1,0 +1,30 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included"
+"POT Version: 2.0"
+
+#. BetterDeselect.OPTIONS.BUILDMENU.NAME
+msgctxt "BetterDeselect.OPTIONS.BUILDMENU.NAME"
+msgid "Deselect Build Menu"
+msgstr ""
+
+#. BetterDeselect.OPTIONS.ClickOpt.TOOLTIP
+msgctxt "BetterDeselect.OPTIONS.ClickOpt.TOOLTIP"
+msgid "What order to deslect items. The Cursor is deslected on First."
+msgstr ""
+
+#. BetterDeselect.OPTIONS.OVERLAY.NAME
+msgctxt "BetterDeselect.OPTIONS.OVERLAY.NAME"
+msgid "Deselect Overlay"
+msgstr ""
+
+#. BetterDeselect.OPTIONS.RESELECT.NAME
+msgctxt "BetterDeselect.OPTIONS.RESELECT.NAME"
+msgid "Selection Mode"
+msgstr ""
+
+#. BetterDeselect.OPTIONS.RESELECT.TOOLTIP
+msgctxt "BetterDeselect.OPTIONS.RESELECT.TOOLTIP"
+msgid "When reselecting a held tool, or opening a category, choose what to do with the selected tool."
+msgstr ""
+

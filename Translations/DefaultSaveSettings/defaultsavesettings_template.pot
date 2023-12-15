@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included"
+"POT Version: 2.0"
+
+#. DefaultSaveSettings.OPTIONS.AUTOSAVEINTERVAL.NAME
+msgctxt "DefaultSaveSettings.OPTIONS.AUTOSAVEINTERVAL.NAME"
+msgid "Default Auto Save Interval"
+msgstr ""
+
+#. DefaultSaveSettings.OPTIONS.AUTOSAVEINTERVAL.TOOLTIP
+msgctxt "DefaultSaveSettings.OPTIONS.AUTOSAVEINTERVAL.TOOLTIP"
+msgid "Controls the default auto save interval."
+msgstr ""
+
+#. DefaultSaveSettings.OPTIONS.DISINFECTMINGERMCOUNT.NAME
+msgctxt "DefaultSaveSettings.OPTIONS.DISINFECTMINGERMCOUNT.NAME"
+msgid "Default Germ Count for Disinfect"
+msgstr ""
+
+#. DefaultSaveSettings.OPTIONS.DISINFECTMINGERMCOUNT.TOOLTIP
+msgctxt "DefaultSaveSettings.OPTIONS.DISINFECTMINGERMCOUNT.TOOLTIP"
+msgid "Controls the default minimum germ count for auto disinfection."
+msgstr ""
+
+#. DefaultSaveSettings.OPTIONS.ENABLEAUTODISINFECT.NAME
+msgctxt "DefaultSaveSettings.OPTIONS.ENABLEAUTODISINFECT.NAME"
+msgid "Enable Auto Disinfect Default"
+msgstr ""
+
+#. DefaultSaveSettings.OPTIONS.ENABLEAUTODISINFECT.TOOLTIP
+msgctxt "DefaultSaveSettings.OPTIONS.ENABLEAUTODISINFECT.TOOLTIP"
+msgid "If checked, the 'Disinfect At' option will default to true for new games."
+msgstr ""
+
+#. DefaultSaveSettings.OPTIONS.ENABLEPROXIMITY.NAME
+msgctxt "DefaultSaveSettings.OPTIONS.ENABLEPROXIMITY.NAME"
+msgid "Enable Proximity Default"
+msgstr ""
+
+#. DefaultSaveSettings.OPTIONS.ENABLEPROXIMITY.TOOLTIP
+msgctxt "DefaultSaveSettings.OPTIONS.ENABLEPROXIMITY.TOOLTIP"
+msgid "If checked, the 'Enable Proximity' option is checked by default for new games."
+msgstr ""
+
+#. DefaultSaveSettings.OPTIONS.Germs.CATEGORY
+msgctxt "DefaultSaveSettings.OPTIONS.Germs.CATEGORY"
+msgid "Disease"
+msgstr ""
+
+#. DefaultSaveSettings.OPTIONS.TIMELAPSERESOLUTION.NAME
+msgctxt "DefaultSaveSettings.OPTIONS.TIMELAPSERESOLUTION.NAME"
+msgid "Default Timelapse Resolution"
+msgstr ""
+
+#. DefaultSaveSettings.OPTIONS.TIMELAPSERESOLUTION.TOOLTIP
+msgctxt "DefaultSaveSettings.OPTIONS.TIMELAPSERESOLUTION.TOOLTIP"
+msgid "Controls the default timelapse resolution."
+msgstr ""
+

@@ -79,6 +79,7 @@
       <WorldGenFiles Include="$(ProjectDir)\worldgen\**\*.*" />
       <YamlFiles Include="$(ProjectDir)\*.yaml" />
       <SpriteFiles Include="$(ProjectDir)\*.dds" />
+      <TranslateFiles Include="..\..\Translations\$(MSBuildProjectName)\*.po" /> <!--This must be changed in AzeLib.RegisterStrings.GeneratePOTemplates as well.-->
       <InfoFiles Include="$(TargetDir)\*.yaml" />
     </ItemGroup>
     <Copy SourceFiles="@(AnimFiles)" DestinationFiles="@(AnimFiles->'$(InstallFolder)\anim\%(RecursiveDir)%(Filename)%(Extension)')" />
@@ -87,6 +88,7 @@
     <Copy SourceFiles="@(SpriteFiles)" DestinationFolder="$(InstallFolder)" />
     <Copy SourceFiles="$(TargetPath)" DestinationFiles="$(InstallFolder)\$(TargetFileName)" />
     <Copy SourceFiles="@(InfoFiles)" DestinationFolder="$(InstallFolder)" />
+    <Copy SourceFiles="@(TranslateFiles)" DestinationFolder="$(InstallFolder)\Translations" />
   </Target>
 
   <!--If releasing, create a zipped version of the mod to distribute for manual downloads.-->
