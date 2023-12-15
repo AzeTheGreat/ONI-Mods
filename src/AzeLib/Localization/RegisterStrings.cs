@@ -8,9 +8,6 @@ namespace AzeLib
     [HarmonyPatch(typeof(Localization), nameof(Localization.Initialize))]
     public abstract class RegisterStrings
     {
-        protected const string d = ".";
-        protected const string parentPath = "STRINGS.AZE.";
-
         private static List<Type> locStringRoots;
 
         // Only patch if the assembly actually has anything to translate.
