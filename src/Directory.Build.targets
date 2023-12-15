@@ -79,7 +79,7 @@
       <WorldGenFiles Include="$(ProjectDir)\worldgen\**\*.*" />
       <YamlFiles Include="$(ProjectDir)\*.yaml" />
       <SpriteFiles Include="$(ProjectDir)\*.dds" />
-      <TranslateFiles Include="..\..\Translations\$(MSBuildProjectName)\*.po" /> <!--This must be changed in AzeLib.AzeLocalization.GeneratePOTemplates as well.-->
+      <TranslateFiles Include="$(TranslationsFolder)\$(MSBuildProjectName)\*.po" />
       <InfoFiles Include="$(TargetDir)\*.yaml" />
     </ItemGroup>
     <Copy SourceFiles="@(AnimFiles)" DestinationFiles="@(AnimFiles->'$(InstallFolder)\anim\%(RecursiveDir)%(Filename)%(Extension)')" />
@@ -104,6 +104,22 @@
       ZipFileName="$(DistributeFolder)\$(ProjectName).zip"
       WorkingDirectory="$(InstallFolder)"
       Files="@(ZipFiles)"
+      Flatten="false" />
+  </Target>
+
+  <!--If releasing, create a zipped version of the translations for manual downloads.-->
+  <Target Name="ZipTranslations" AfterTargets="Zip" Condition="'$(Configuration)' == 'Release'" >
+    <CreateItem
+      Include="$(TranslationsFolder)\**\*.*"
+      Exclude="$(TranslationsFolder)\*.zip">
+      <Output
+        ItemName="ZipTranslationFiles"
+        TaskParameter="Include"/>
+    </CreateItem>
+    <Zip
+      ZipFileName="$(TranslationsFolder)\Translations.zip"
+      WorkingDirectory="$(TranslationsFolder)"
+      Files="@(ZipTranslationFiles)"
       Flatten="false" />
   </Target>
 
