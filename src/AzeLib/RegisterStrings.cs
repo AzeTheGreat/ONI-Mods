@@ -38,10 +38,7 @@ namespace AzeLib
         // Must manually load from "translations" because files in "strings" are always overloaded, even if they don't match the current locale.
         private static void LoadStrings()
         {
-            // This is needed, instead of just Localization.GetLocale()?.Code, to work around the lack of locale declaration in the Russian translation.
-            var code = Localization.GetLocaleForCode(Localization.GetCurrentLanguageCode())?.Code;
-
-            var path = Path.Combine(AzeMod.UserMod.path, "translations", code + ".po");
+            var path = Path.Combine(AzeMod.UserMod.path, "translations", Localization.GetLocale()?.Code + ".po");
             if (File.Exists(path))
                 Localization.OverloadStrings(Localization.LoadStringsFile(path, false));
         }
