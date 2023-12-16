@@ -43,10 +43,7 @@ namespace AzeLib
         static void UpdateStrings()
         {
             foreach (var type in locStringRoots)
-            {
-                var parentPath = "STRINGS." + type.Namespace.ToUpper() + ".";
-                LocString.CreateLocStringKeys(type, parentPath);
-            }
+                LocString.CreateLocStringKeys(type, AzeStrings.GetParentPath(type));
         }
     }
 }

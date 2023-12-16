@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using AzeLib;
+using HarmonyLib;
 using System.Collections.Generic;
 
 namespace BetterLogicOverlay
@@ -6,13 +7,13 @@ namespace BetterLogicOverlay
     [HarmonyPatch(typeof(ElementLoader), nameof(ElementLoader.CopyEntryToElement))]
     public static class ElementAbbreviation
     {
-        public static Dictionary<SimHashes, LocString> abbreviations = new Dictionary<SimHashes, LocString>();
+        public static Dictionary<SimHashes, string> abbreviations = [];
 
         static void Postfix(ElementLoader.ElementEntry entry, Element elem)
         {
             var id = GetRootElementID(entry.elementId);
-            var abbreviation = Traverse.Create(typeof(MYSTRINGS.ABBREVIATIONS)).Field(id)?.GetValue<LocString>() ?? string.Empty;
-            abbreviations.Add(elem.id, abbreviation);
+            AzeStrings.TryGet<MYSTRINGS.ABBREVIATIONS>(id, out var abbreviation);
+            abbreviations.Add(elem.id, abbreviation ?? string.Empty);
         }
 
         private static string GetRootElementID(string id)
