@@ -12,8 +12,13 @@ namespace BetterLogicOverlay
         static void Postfix(ElementLoader.ElementEntry entry, Element elem)
         {
             var id = GetRootElementID(entry.elementId);
-            AzeStrings.TryGet<MYSTRINGS.ABBREVIATIONS>(id, out var abbreviation);
-            abbreviations.Add(elem.id, abbreviation ?? string.Empty);
+            AzeStrings.TryGet<MYSTRINGS.ABBREVIATIONS>(id, out var result);
+            var abbreviation = result?.String;
+
+            if (abbreviation.IsNullOrWhiteSpace() || !Options.Opts.isTranslated)
+                abbreviation = elem.name;
+
+            abbreviations.Add(elem.id, abbreviation);
         }
 
         private static string GetRootElementID(string id)
