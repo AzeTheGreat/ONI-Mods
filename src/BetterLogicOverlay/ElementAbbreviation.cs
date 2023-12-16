@@ -7,7 +7,9 @@ namespace BetterLogicOverlay
     [HarmonyPatch(typeof(ElementLoader), nameof(ElementLoader.CopyEntryToElement))]
     public static class ElementAbbreviation
     {
-        public static Dictionary<SimHashes, string> abbreviations = [];
+        private static Dictionary<SimHashes, string> abbreviations = [];
+
+        public static string GetAbbreviation(SimHashes hash) => abbreviations[hash];
 
         static void Postfix(ElementLoader.ElementEntry entry, Element elem)
         {
