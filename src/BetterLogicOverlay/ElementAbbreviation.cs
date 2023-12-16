@@ -10,8 +10,18 @@ namespace BetterLogicOverlay
 
         static void Postfix(ElementLoader.ElementEntry entry, Element elem)
         {
-            LocString abbreviation = Traverse.Create(typeof(MYSTRINGS.ABBREVIATIONS)).Field(entry.elementId)?.GetValue<LocString>() ?? string.Empty;
+            var id = GetRootElementID(entry.elementId);
+            var abbreviation = Traverse.Create(typeof(MYSTRINGS.ABBREVIATIONS)).Field(id)?.GetValue<LocString>() ?? string.Empty;
             abbreviations.Add(elem.id, abbreviation);
+        }
+
+        private static string GetRootElementID(string id)
+        {
+            var toStrip = new List<string>() { "Molten", "Liquid", "Solid", "Gas" };
+
+            foreach (var str in toStrip)
+                id = id.Replace(str, string.Empty);
+            return id;
         }
     }
 }
