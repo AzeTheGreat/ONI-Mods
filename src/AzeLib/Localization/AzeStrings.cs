@@ -10,6 +10,6 @@ namespace AzeLib
 
         public static bool TryGet<T>(string partialKey, out StringEntry result) => Strings.TryGet(GetFullKey(typeof(T), partialKey), out result);
 
-        private static string GetFullKey(Type type, string partialKey) => pathPrefix + type.FullName.Replace("+", ".").ToUpper() + "." + partialKey;
+        public static string GetFullKey(Type type, string partialKey) => pathPrefix + type.FullName.Replace("+", ".").ToUpper() + "." + partialKey;
     }
 }

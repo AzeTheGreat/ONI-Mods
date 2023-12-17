@@ -3,11 +3,6 @@ msgstr ""
 "Application: Oxygen Not Included"
 "POT Version: 2.0"
 
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Algae
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Algae"
-msgid ""
-msgstr ""
-
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Aluminum
 msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Aluminum"
 msgid "Al"
@@ -16,16 +11,6 @@ msgstr ""
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.AluminumOre
 msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.AluminumOre"
 msgid "Al"
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Bitumen
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Bitumen"
-msgid ""
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.BleachStone
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.BleachStone"
-msgid ""
 msgstr ""
 
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Brine
@@ -48,19 +33,9 @@ msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.CarbonDioxide"
 msgid "CO<sub>2</sub>"
 msgstr ""
 
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Ceramic
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Ceramic"
-msgid ""
-msgstr ""
-
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Chlorine
 msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Chlorine"
 msgid "Cl"
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Clay
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Clay"
-msgid ""
 msgstr ""
 
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.ContaminatedOxygen
@@ -71,11 +46,6 @@ msgstr ""
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Copper
 msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Copper"
 msgid "Cu"
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Creature
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Creature"
-msgid ""
 msgstr ""
 
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.CrudeOil
@@ -91,16 +61,6 @@ msgstr ""
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.CrushedRock
 msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.CrushedRock"
 msgid "Rock"
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Cuprite
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Cuprite"
-msgid ""
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Diamond
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Diamond"
-msgid ""
 msgstr ""
 
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Dirt
@@ -123,34 +83,9 @@ msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.DirtyWater"
 msgid "P-H<sub>2</sub>O"
 msgstr ""
 
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Electrum
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Electrum"
-msgid ""
-msgstr ""
-
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Ethanol
 msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Ethanol"
 msgid "EtOH"
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Fertilizer
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Fertilizer"
-msgid ""
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.FoolSGold
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.FoolSGold"
-msgid ""
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Fossil
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Fossil"
-msgid ""
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Fullerene
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Fullerene"
-msgid ""
 msgstr ""
 
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Glass
@@ -168,11 +103,6 @@ msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.GoldAmalgam"
 msgid "AuAmal"
 msgstr ""
 
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Granite
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Granite"
-msgid ""
-msgstr ""
-
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Hydrogen
 msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Hydrogen"
 msgid "H"
@@ -181,11 +111,6 @@ msgstr ""
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Ice
 msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Ice"
 msgid "Ice"
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.IgneousRock
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.IgneousRock"
-msgid ""
 msgstr ""
 
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Iron
@@ -198,34 +123,9 @@ msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.IronOre"
 msgid "FeOre"
 msgstr ""
 
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Isoresin
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Isoresin"
-msgid ""
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Katairite
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Katairite"
-msgid ""
-msgstr ""
-
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Lead
 msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Lead"
 msgid "Pb"
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Lime
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Lime"
-msgid ""
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.MaficRock
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.MaficRock"
-msgid ""
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Magma
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Magma"
-msgid ""
 msgstr ""
 
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Methane
@@ -243,19 +143,9 @@ msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Niobium"
 msgid "Nb"
 msgstr ""
 
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Obsidian
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Obsidian"
-msgid ""
-msgstr ""
-
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Oxygen
 msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Oxygen"
 msgid "O<sub>2</sub>"
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.OxyRock
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.OxyRock"
-msgid ""
 msgstr ""
 
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Petroleum
@@ -273,11 +163,6 @@ msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Phosphorus"
 msgid "P"
 msgstr ""
 
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Polypropylene
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Polypropylene"
-msgid ""
-msgstr ""
-
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Propane
 msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Propane"
 msgid "C<sub>3</sub>H<sub>8</sub>"
@@ -293,19 +178,9 @@ msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.RefinedCarbon"
 msgid "C"
 msgstr ""
 
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Regolith
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Regolith"
-msgid ""
-msgstr ""
-
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.RockGas
 msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.RockGas"
 msgid "Rock"
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Rust
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Rust"
-msgid ""
 msgstr ""
 
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Salt
@@ -316,31 +191,6 @@ msgstr ""
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.SaltWater
 msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.SaltWater"
 msgid "S-H<sub>2</sub>O"
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Sand
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Sand"
-msgid ""
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.SandStone
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.SandStone"
-msgid ""
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.SedimentaryRock
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.SedimentaryRock"
-msgid ""
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.SlimeMold
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.SlimeMold"
-msgid ""
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Snow
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Snow"
-msgid ""
 msgstr ""
 
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.SourGas
@@ -368,16 +218,6 @@ msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.SuperCoolant"
 msgid "S-Cool"
 msgstr ""
 
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.SuperInsulator
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.SuperInsulator"
-msgid ""
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.TempConductorSolid
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.TempConductorSolid"
-msgid ""
-msgstr ""
-
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.ToxicSand
 msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.ToxicSand"
 msgid "P-"
@@ -388,34 +228,14 @@ msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Tungsten"
 msgid "W"
 msgstr ""
 
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Unobtanium
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Unobtanium"
-msgid ""
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Vacuum
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Vacuum"
-msgid ""
-msgstr ""
-
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.ViscoGel
 msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.ViscoGel"
 msgid "V-Gel"
 msgstr ""
 
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Void
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Void"
-msgid ""
-msgstr ""
-
 #. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Water
 msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Water"
 msgid "H<sub>2</sub>O"
-msgstr ""
-
-#. BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Wolframite
-msgctxt "BetterLogicOverlay.MYSTRINGS.ABBREVIATIONS.Wolframite"
-msgid ""
 msgstr ""
 
 #. BetterLogicOverlay.MYSTRINGS.UNITMODIFIERS.thousand
