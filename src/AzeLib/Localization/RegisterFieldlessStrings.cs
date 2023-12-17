@@ -18,8 +18,16 @@ namespace AzeLib
 
         static void Postfix()
         {
+            if(Localization.GetSelectedLanguageType() == Localization.SelectedLanguageType.None)
+                SetStringsDBEntries();
             if (AzeLocalization.TryLoadTranslations(out var translations))
                 SetFieldlessStringsDBEntries(translations);
+        }
+
+        static void SetStringsDBEntries()
+        {
+            foreach (var type in fieldlessStringRoots)
+                LocString.CreateLocStringKeys(type, AzeStrings.GetParentPath(type));
         }
 
         private static void SetFieldlessStringsDBEntries(Dictionary<string, string> translations)

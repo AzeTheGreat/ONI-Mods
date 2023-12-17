@@ -14,7 +14,7 @@ namespace BetterLogicOverlay
         static void Postfix(ElementLoader.ElementEntry entry, Element elem)
         {
             var id = StripElementModifiers(entry.elementId);
-            AzeStrings.TryGet<MYSTRINGS.ABBREVIATIONS>(id, out var result);
+            AzeStrings.TryGet<ABBREVIATIONS>(id, out var result);
             var abbreviation = result?.String;
 
             if (abbreviation.IsNullOrWhiteSpace() || !Options.Opts.isTranslated)
