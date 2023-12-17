@@ -24,14 +24,14 @@ namespace AzeLib
                 // Manually add the assembly, instead of calling Localization.RegisterForTranslation, to avoid the pointless CreateLocStringKeys call.
                 Localization.AddAssembly(rootType.Namespace, rootType.Assembly);
 
-                LoadStrings();
-                UpdateStrings();
+                SetLocStringFields();
+                SetStringsDBEntries();
                 AzeLocalization.GeneratePOTemplate(rootType);
             }
         }
 
         // Must manually load from "translations" because files in "strings" are always overloaded, even if they don't match the current locale.
-        private static void LoadStrings()
+        private static void SetLocStringFields()
         {
             if (AzeLocalization.TryLoadTranslations(out var translations))
                 Localization.OverloadStrings(translations);
@@ -40,7 +40,7 @@ namespace AzeLib
         // When strings are translated, the value of the LocString field is set, but the strings are never re-registered.
         // Thus any uses of Strings.Get return the untranslated value.
         // This calls LocString.CreateLocStringKeys to re-register the strings.
-        static void UpdateStrings()
+        static void SetStringsDBEntries()
         {
             foreach (var type in locStringRoots)
                 LocString.CreateLocStringKeys(type, AzeStrings.GetParentPath(type));
