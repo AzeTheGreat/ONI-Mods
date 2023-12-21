@@ -2,7 +2,7 @@
 
 namespace BetterDeselect
 {
-    public class OPTIONS : RegisterStrings
+    public class OPTIONS : AStrings<OPTIONS>
     {
         public class ClickOpt
         {

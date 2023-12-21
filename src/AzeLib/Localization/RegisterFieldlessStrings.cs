@@ -5,14 +5,27 @@ using System.Linq;
 
 namespace AzeLib
 {
+    public abstract class AFieldlessStrings<T> : SingletonBase<T>, IAFieldlessStrings where T : AFieldlessStrings<T>
+    {
+
+    }
+
+    interface IAFieldlessStrings
+    {
+
+    }
+
     [HarmonyPatch(typeof(Localization), nameof(Localization.Initialize))]
-    public abstract class RegisterFieldlessStrings
+    static class RegisterFieldlessStrings
     {
         private static List<Type> fieldlessStringRoots;
+        private static List<IAFieldlessStrings> fieldlessStrings;
 
         static bool Prepare()
         {
-            fieldlessStringRoots = ReflectionHelpers.GetChildTypesOfType<RegisterFieldlessStrings>().ToList();
+            fieldlessStringRoots = ReflectionHelpers.GetChildTypesOfGenericType(typeof(AFieldlessStrings<>)).ToList();
+            fieldlessStrings = fieldlessStringRoots.Select(SingletonHelper<IAFieldlessStrings>.GetInstance).ToList();
+
             return fieldlessStringRoots.Count >= 1;
         }
 

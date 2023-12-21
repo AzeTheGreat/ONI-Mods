@@ -2,7 +2,7 @@
 
 namespace NoDoorIdle
 {
-    class OPTIONS : RegisterStrings
+    class OPTIONS : AStrings<OPTIONS>
     {
         public class CANIDLEINDOORS
         {

@@ -2,7 +2,7 @@
 
 namespace BetterLogicOverlay
 {
-    public class MYSTRINGS : RegisterStrings
+    public class MYSTRINGS : AStrings<MYSTRINGS>
     {
         public class UNITMODIFIERS
         {
@@ -10,7 +10,7 @@ namespace BetterLogicOverlay
         }
     }
 
-    public class ABBREVIATIONS : RegisterFieldlessStrings
+    public class ABBREVIATIONS : AFieldlessStrings<ABBREVIATIONS>
     {
         public static LocString DirtyPrefix = "P-";
 
@@ -91,7 +91,7 @@ namespace BetterLogicOverlay
         public static LocString DirtyIce = DirtyPrefix + Ice;
     }
 
-    public class OPTIONS : RegisterStrings
+    public class OPTIONS : AStrings<OPTIONS>
     {
         public class FIXWIREOVERWRITE
         {

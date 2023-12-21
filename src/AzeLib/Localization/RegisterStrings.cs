@@ -5,15 +5,20 @@ using System.Linq;
 
 namespace AzeLib
 {
+    public abstract class AStrings<T> where T : AStrings<T>
+    {
+
+    }
+
     [HarmonyPatch(typeof(Localization), nameof(Localization.Initialize))]
-    public abstract class RegisterStrings
+    static class RegisterStrings
     {
         private static List<Type> locStringRoots;
 
         // Only patch if the assembly actually has anything to translate.
         static bool Prepare()
         {
-            locStringRoots = ReflectionHelpers.GetChildTypesOfType<RegisterStrings>().ToList();
+            locStringRoots = ReflectionHelpers.GetChildTypesOfGenericType(typeof(AStrings<>)).ToList();
             return locStringRoots.Count >= 1;
         }
 

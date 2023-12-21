@@ -2,7 +2,7 @@
 
 namespace FixedCameraPan
 {
-    class OPTIONS : RegisterStrings
+    class OPTIONS : AStrings<OPTIONS>
     {
         public class PANSPEED
         {

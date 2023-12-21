@@ -3,7 +3,7 @@ using STRINGS;
 
 namespace SuppressNotifications
 {
-    public class MYSTRINGS : RegisterStrings
+    public class MYSTRINGS : AStrings<MYSTRINGS>
     {
         public static LocString STATUS_LABEL = "<b>Status Items:</b>";
         public static LocString NOTIFICATION_LABEL = "<b>Notifications:</b>";

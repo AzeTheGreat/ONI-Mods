@@ -2,7 +2,7 @@
 
 namespace SufficientOxygenGeneration
 {
-    class OPTIONS : RegisterStrings
+    class OPTIONS : AStrings<OPTIONS>
     {
         public class MODE
         {

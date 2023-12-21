@@ -2,7 +2,7 @@
 
 namespace BetterInfoCards
 {
-    class OPTIONS : RegisterStrings
+    class OPTIONS : AStrings<OPTIONS>
     {
         public class INFOCARDOPACITY
         {
