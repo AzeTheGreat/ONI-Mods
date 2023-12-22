@@ -32,7 +32,7 @@ namespace AzeLib
             // There's really no way to access MSBuild properties in C#.
             // This is the best we get: up three directories to get to ONI-Mods, then to the Translations folder.
             var transDir = Path.GetFullPath(Path.Combine(GetCallerPath(), "..", "..", "..", "..", TranslationFolder, rootType.Namespace));
-            Localization.GenerateStringsTemplate(rootType, transDir);
+            POTemplateGenerator.GeneratePOT(rootType, transDir);
 
             // This uses Roslyn to inject the path of this .cs file at compile time.
             static string GetCallerPath([CallerFilePath] string path = null) => path;
