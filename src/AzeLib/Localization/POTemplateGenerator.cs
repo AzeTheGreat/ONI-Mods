@@ -12,14 +12,29 @@ namespace AzeLib
 {
     internal class POTemplateGenerator
     {
-        internal static void GeneratePOT(Type locStringRoot, string outputDir)
+        internal static void GeneratePOT(Type locStringRoot, List<IAFieldlessStrings> fieldlessStrings, string outputDir)
         {
             outputDir = FileSystem.Normalize(outputDir);
             if (!FileUtil.CreateDirectory(outputDir, 5))
                 return;
 
             var outputPath = FileSystem.Normalize(Path.Combine(outputDir, $"{locStringRoot.Namespace.ToLower()}_template.pot"));
-            GeneratePOT(locStringRoot.Namespace, Assembly.GetAssembly(locStringRoot), outputPath, null);
+            GeneratePOT(locStringRoot.Namespace, Assembly.GetAssembly(locStringRoot), outputPath, GetExtraStringsTree());
+
+            Dictionary<string, object> GetExtraStringsTree()
+            {
+                var extraStringsTree = new Dictionary<string, object>();
+                foreach (var instance in fieldlessStrings)
+                {
+                    var instanceStringsTree = new Dictionary<string, object>();
+                    foreach (var ls in instance.GetLocStrings())
+                        instanceStringsTree[ls.key.String] = ls.text;
+
+                    if(instanceStringsTree.Any())
+                        extraStringsTree[instance.GetType().Name] = instanceStringsTree;
+                }
+                return extraStringsTree;
+            }
         }
 
         private static void GeneratePOT(string lsNamespace, Assembly lsAssembly, string outputDir, Dictionary<string, object> extraStringsTree)

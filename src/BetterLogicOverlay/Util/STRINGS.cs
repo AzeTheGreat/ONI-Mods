@@ -1,4 +1,7 @@
 ﻿using AzeLib;
+using STRINGS;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BetterLogicOverlay
 {
@@ -12,83 +15,92 @@ namespace BetterLogicOverlay
 
     public class ABBREVIATIONS : AFieldlessStrings<ABBREVIATIONS>
     {
-        public static LocString DirtyPrefix = "P-";
+        public override List<LocString> GetLocStrings()
+        {
+            return ElementLoader.CollectElementsFromYAML()
+                .Select(entry => new LocString(
+                    UI.StripLinkFormatting(Strings.Get(entry.localizationID)), 
+                    entry.elementId))
+                .ToList();
+        }
 
-        public static LocString Aluminum = "Al";
-        public static LocString AluminumOre = Aluminum;
+        static LocString DirtyPrefix = "P-";
 
-        public static LocString Carbon = "C";
-        public static LocString RefinedCarbon = Carbon;
+        static LocString Aluminum = "Al";
+        static LocString AluminumOre = Aluminum;
 
-        public static LocString CarbonDioxide = "CO<sub>2</sub>";
+        static LocString Carbon = "C";
+        static LocString RefinedCarbon = Carbon;
 
-        public static LocString Chlorine = "Cl";
+        static LocString CarbonDioxide = "CO<sub>2</sub>";
 
-        public static LocString Copper = "Cu";
+        static LocString Chlorine = "Cl";
 
-        public static LocString CrudeOil = "C-Oil";
+        static LocString Copper = "Cu";
 
-        public static LocString Dirt = string.Empty;
-        public static LocString ToxicSand = DirtyPrefix + Dirt;
+        static LocString CrudeOil = "C-Oil";
 
-        public static LocString Ethanol = "EtOH";
+        static LocString Dirt = string.Empty;
+        static LocString ToxicSand = DirtyPrefix + Dirt;
 
-        public static LocString Glass = "Glass";
+        static LocString Ethanol = "EtOH";
 
-        public static LocString Gold = "Au";
-        public static LocString GoldAmalgam = Gold + "Amal";
+        static LocString Glass = "Glass";
 
-        public static LocString Hydrogen = "H";
+        static LocString Gold = "Au";
+        static LocString GoldAmalgam = Gold + "Amal";
 
-        public static LocString Iron = "Fe";
-        public static LocString IronOre = Iron + "Ore";
+        static LocString Hydrogen = "H";
 
-        public static LocString Lead = "Pb";
+        static LocString Iron = "Fe";
+        static LocString IronOre = Iron + "Ore";
 
-        public static LocString Methane = "CH<sub>4</sub>";
+        static LocString Lead = "Pb";
 
-        public static LocString Naphtha = "Nap";
+        static LocString Methane = "CH<sub>4</sub>";
 
-        public static LocString Oxygen = "O<sub>2</sub>";
-        public static LocString ContaminatedOxygen = DirtyPrefix + Oxygen;
+        static LocString Naphtha = "Nap";
 
-        public static LocString Petroleum = "Petrol";
+        static LocString Oxygen = "O<sub>2</sub>";
+        static LocString ContaminatedOxygen = DirtyPrefix + Oxygen;
 
-        public static LocString Phosphorus = "P";
-        public static LocString Phosphorite = Phosphorus + "-rite";
+        static LocString Petroleum = "Petrol";
 
-        public static LocString Propane = "C<sub>3</sub>H<sub>8</sub>";
+        static LocString Phosphorus = "P";
+        static LocString Phosphorite = Phosphorus + "-rite";
 
-        public static LocString Radium = "Ra";
+        static LocString Propane = "C<sub>3</sub>H<sub>8</sub>";
 
-        public static LocString RockGas = "Rock";
-        public static LocString CrushedRock = "Rock";
+        static LocString Radium = "Ra";
 
-        public static LocString Salt = "NaCl";
+        static LocString RockGas = "Rock";
+        static LocString CrushedRock = "Rock";
 
-        public static LocString SourGas = "Sour";
+        static LocString Salt = "NaCl";
 
-        public static LocString Steel = "Steel";
+        static LocString SourGas = "Sour";
 
-        public static LocString Sulfur = "S";
+        static LocString Steel = "Steel";
 
-        public static LocString SuperCoolant = "S-Cool";
+        static LocString Sulfur = "S";
 
-        public static LocString Tungsten = "W";
+        static LocString SuperCoolant = "S-Cool";
 
-        public static LocString Niobium = "Nb";
+        static LocString Tungsten = "W";
 
-        public static LocString ViscoGel = "V-Gel";
+        static LocString Niobium = "Nb";
 
-        public static LocString Water = "H<sub>2</sub>O";
-        public static LocString Steam = Water;
-        public static LocString SaltWater = "S-" + Water;
-        public static LocString Brine = "Brine";
-        public static LocString DirtyWater = DirtyPrefix + Water;
-        public static LocString Ice = "Ice";
-        public static LocString BrineIce = "B-" + Ice;
-        public static LocString CrushedIce = "C-" + Ice;
-        public static LocString DirtyIce = DirtyPrefix + Ice;
+        static LocString ViscoGel = "V-Gel";
+
+        static LocString Water = "H<sub>2</sub>O";
+        static LocString Steam = Water;
+        static LocString SaltWater = "S-" + Water;
+        static LocString Brine = "Brine";
+        static LocString DirtyWater = DirtyPrefix + Water;
+        static LocString Ice = "Ice";
+        static LocString BrineIce = "B-" + Ice;
+        static LocString CrushedIce = "C-" + Ice;
+        static LocString DirtyIce = DirtyPrefix + Ice;
     }
 
     public class OPTIONS : AStrings<OPTIONS>

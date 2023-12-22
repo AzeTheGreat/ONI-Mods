@@ -12,12 +12,12 @@ namespace AzeLib
 
     public abstract class AFieldlessStrings<T> : SingletonBase<T>, IAFieldlessStrings where T : AFieldlessStrings<T>
     {
-
+        public virtual List<LocString> GetLocStrings() => [];
     }
 
     interface IAFieldlessStrings
     {
-
+        List<LocString> GetLocStrings();
     }
 
     [HarmonyPatch(typeof(Localization), nameof(Localization.Initialize))]
@@ -60,7 +60,7 @@ namespace AzeLib
             else if (translationsLoaded)
                 SetFieldlessStringsDBEntries(translations);
 
-            AzeLocalization.GeneratePOTemplate(rootType);
+            AzeLocalization.GeneratePOTemplate(rootType, fieldlessStrings);
         }
 
         // Must manually load from "translations" because files in "strings" are always overloaded, even if they don't match the current locale.
