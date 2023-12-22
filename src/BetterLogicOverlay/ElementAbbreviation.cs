@@ -23,7 +23,7 @@ namespace BetterLogicOverlay
             abbreviations.Add(elem.id, abbreviation);
         }
 
-        private static string StripElementModifiers(string id)
+        public static string StripElementModifiers(string id)
         {
             var toStrip = new List<string>() { "Molten", "Liquid", "Solid", "Gas" };
 

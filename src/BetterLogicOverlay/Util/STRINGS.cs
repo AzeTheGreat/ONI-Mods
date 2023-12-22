@@ -17,7 +17,11 @@ namespace BetterLogicOverlay
     {
         public override List<LocString> GetLocStrings()
         {
-            return ElementLoader.CollectElementsFromYAML()
+            var elementEntries = ElementLoader.CollectElementsFromYAML();
+            var uniqueIDs = elementEntries.Select(entry => ElementAbbreviation.StripElementModifiers(entry.elementId)).Distinct();
+
+            return elementEntries
+                .Where(entry => uniqueIDs.Contains(entry.elementId))
                 .Select(entry => new LocString(
                     UI.StripLinkFormatting(Strings.Get(entry.localizationID)), 
                     entry.elementId))

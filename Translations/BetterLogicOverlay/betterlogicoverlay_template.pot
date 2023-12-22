@@ -15,10 +15,6 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.Aluminum"
 msgid "Aluminum"
 msgstr ""
 
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.AluminumGas"
-msgid "Aluminum Gas"
-msgstr ""
-
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.AluminumOre"
 msgid "Aluminum Ore"
 msgstr ""
@@ -55,10 +51,6 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.CarbonFibre"
 msgid "Carbon Fiber"
 msgstr ""
 
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.CarbonGas"
-msgid "Carbon Gas"
-msgstr ""
-
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Cement"
 msgid "Cement"
 msgstr ""
@@ -75,20 +67,12 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.Chlorine"
 msgid "Liquid Chlorine"
 msgstr ""
 
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.ChlorineGas"
-msgid "Chlorine Gas"
-msgstr ""
-
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Clay"
 msgid "Clay"
 msgstr ""
 
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Cobalt"
 msgid "Cobalt"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.CobaltGas"
-msgid "Cobalt Gas"
 msgstr ""
 
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Cobaltite"
@@ -105,10 +89,6 @@ msgstr ""
 
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Copper"
 msgid "Copper"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.CopperGas"
-msgid "Copper Gas"
 msgstr ""
 
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Corium"
@@ -167,10 +147,6 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.Ethanol"
 msgid "Ethanol"
 msgstr ""
 
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.EthanolGas"
-msgid "Ethanol Gas"
-msgstr ""
-
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Fallout"
 msgid "Nuclear Fallout"
 msgstr ""
@@ -201,10 +177,6 @@ msgstr ""
 
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.GoldAmalgam"
 msgid "Gold Amalgam"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.GoldGas"
-msgid "Gold Gas"
 msgstr ""
 
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Granite"
@@ -239,10 +211,6 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.Iron"
 msgid "Iron"
 msgstr ""
 
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.IronGas"
-msgid "Iron Gas"
-msgstr ""
-
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.IronOre"
 msgid "Iron Ore"
 msgstr ""
@@ -259,44 +227,8 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.Lead"
 msgid "Lead"
 msgstr ""
 
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.LeadGas"
-msgid "Lead Gas"
-msgstr ""
-
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Lime"
 msgid "Lime"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.LiquidCarbonDioxide"
-msgid "Liquid Carbon Dioxide"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.LiquidHelium"
-msgid "Helium"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.LiquidHydrogen"
-msgid "Liquid Hydrogen"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.LiquidMethane"
-msgid "Liquid Methane"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.LiquidOxygen"
-msgid "Liquid Oxygen"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.LiquidPhosphorus"
-msgid "Liquid Phosphorus"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.LiquidPropane"
-msgid "Liquid Propane"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.LiquidSulfur"
-msgid "Liquid Sulfur"
 msgstr ""
 
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.MaficRock"
@@ -308,10 +240,6 @@ msgid "Magma"
 msgstr ""
 
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Mercury"
-msgid "Mercury"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.MercuryGas"
 msgid "Mercury"
 msgstr ""
 
@@ -331,66 +259,6 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.MilkIce"
 msgid "Frozen Brackene"
 msgstr ""
 
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.MoltenAluminum"
-msgid "Molten Aluminum"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.MoltenCarbon"
-msgid "Liquid Carbon"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.MoltenCobalt"
-msgid "Molten Cobalt"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.MoltenCopper"
-msgid "Molten Copper"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.MoltenGlass"
-msgid "Molten Glass"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.MoltenGold"
-msgid "Molten Gold"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.MoltenIron"
-msgid "Molten Iron"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.MoltenLead"
-msgid "Molten Lead"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.MoltenNiobium"
-msgid "Molten Niobium"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.MoltenSalt"
-msgid "Molten Salt"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.MoltenSteel"
-msgid "Molten Steel"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.MoltenSucrose"
-msgid "Liquid Sucrose"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.MoltenSyngas"
-msgid "Molten Synthesis Gas"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.MoltenTungsten"
-msgid "Molten Tungsten"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.MoltenUranium"
-msgid "Liquid Uranium"
-msgstr ""
-
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Mud"
 msgid "Mud"
 msgstr ""
@@ -401,10 +269,6 @@ msgstr ""
 
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Niobium"
 msgid "Niobium"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.NiobiumGas"
-msgid "Niobium Gas"
 msgstr ""
 
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.NuclearWaste"
@@ -439,10 +303,6 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.Phosphorus"
 msgid "Refined Phosphorus"
 msgstr ""
 
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.PhosphorusGas"
-msgid "Phosphorus Gas"
-msgstr ""
-
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Polypropylene"
 msgid "Plastic"
 msgstr ""
@@ -467,20 +327,12 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.Resin"
 msgid "Liquid Resin"
 msgstr ""
 
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.RockGas"
-msgid "Rock Gas"
-msgstr ""
-
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Rust"
 msgid "Rust"
 msgstr ""
 
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Salt"
 msgid "Salt"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.SaltGas"
-msgid "Salt Gas"
 msgstr ""
 
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.SaltWater"
@@ -515,84 +367,12 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.Snow"
 msgid "Snow"
 msgstr ""
 
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.SolidCarbonDioxide"
-msgid "Solid Carbon Dioxide"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.SolidChlorine"
-msgid "Solid Chlorine"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.SolidCrudeOil"
-msgid "Solid Crude Oil"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.SolidEthanol"
-msgid "Solid Ethanol"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.SolidHydrogen"
-msgid "Solid Hydrogen"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.SolidMercury"
-msgid "Mercury"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.SolidMethane"
-msgid "Solid Methane"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.SolidNaphtha"
-msgid "Solid Naphtha"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.SolidNuclearWaste"
-msgid "Solid Nuclear Waste"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.SolidOxygen"
-msgid "Solid Oxygen"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.SolidPetroleum"
-msgid "Solid Petroleum"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.SolidPropane"
-msgid "Solid Propane"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.SolidResin"
-msgid "Solid Resin"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.SolidSuperCoolant"
-msgid "Solid Super Coolant"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.SolidSyngas"
-msgid "Solid Synthesis Gas"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.SolidViscoGel"
-msgid "Solid Visco-Gel"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.SourGas"
-msgid "Sour Gas"
-msgstr ""
-
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Steam"
 msgid "Steam"
 msgstr ""
 
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Steel"
 msgid "Steel"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.SteelGas"
-msgid "Steel Gas"
 msgstr ""
 
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Sucrose"
@@ -603,16 +383,8 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.Sulfur"
 msgid "Sulfur"
 msgstr ""
 
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.SulfurGas"
-msgid "Sulfur Gas"
-msgstr ""
-
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.SuperCoolant"
 msgid "Super Coolant"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.SuperCoolantGas"
-msgid "Super Coolant Gas"
 msgstr ""
 
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.SuperInsulator"
@@ -621,10 +393,6 @@ msgstr ""
 
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Syngas"
 msgid "Synthesis Gas"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.TempConductorSolid"
-msgid "Thermium"
 msgstr ""
 
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.ToxicMud"
@@ -637,10 +405,6 @@ msgstr ""
 
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Tungsten"
 msgid "Tungsten"
-msgstr ""
-
-msgctxt "BetterLogicOverlay.ABBREVIATIONS.TungstenGas"
-msgid "Tungsten Gas"
 msgstr ""
 
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Unobtanium"
