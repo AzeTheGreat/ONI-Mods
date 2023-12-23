@@ -5,11 +5,11 @@ using System.Runtime.CompilerServices;
 
 namespace AzeLib
 {
-    public static class AzeLocalization
+    internal static class AzeLocalization
     {
         const string TranslationFolder = "Translations";
 
-        public static bool TryLoadTranslations(out Dictionary<string, string> translations)
+        internal static bool TryLoadTranslations(out Dictionary<string, string> translations)
         {
             var path = Path.Combine(AzeMod.UserMod.path, TranslationFolder, Localization.GetLocale()?.Code + ".po");
             if (File.Exists(path))
