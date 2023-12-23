@@ -70,10 +70,10 @@ namespace AzeLib
                 var fullKey = path + "." + key;
 
                 if (value is string defaultTranslation)
-                    WriteEntry(sw, fullKey, FixupString(defaultTranslation));
+                    WriteEntry(sw, fullKey, defaultTranslation);
                 else if (value is POTEntry potEntry)
-                    WriteEntry(sw, fullKey, 
-                        FixupString(Strings.TryGet(AzeStrings.GetFullKey(fullKey), out var s) ? s : string.Empty), 
+                    WriteEntry(sw, fullKey,
+                        Strings.TryGet(AzeStrings.GetFullKey(fullKey), out var s) ? s : string.Empty,
                         potEntry.comment);
                 else
                     WritePOT(fullKey, sw, value as Dictionary<string, object>);
@@ -81,17 +81,15 @@ namespace AzeLib
 
             static void WriteEntry(StreamWriter sw, string fullKey, string defaultTranslation, string comment = null)
             {
-                if(!comment.IsNullOrWhiteSpace())
+                if (!comment.IsNullOrWhiteSpace())
                     sw.WriteLine("#. " + comment);
                 sw.WriteLine("msgctxt \"{0}\"", fullKey);
-                sw.WriteLine("msgid \"" + defaultTranslation + "\"");
+                sw.WriteLine("msgid \"" + FixupString(defaultTranslation) + "\"");
                 sw.WriteLine("msgstr \"\"");
                 sw.WriteLine();
-            }
 
-            static string FixupString(string str)
-            {
-                return str.Replace("\\", "\\\\")
+                static string FixupString(string str) =>
+                    str.Replace("\\", "\\\\")
                     .Replace("\"", "\\\"")
                     .Replace("\n", "\\n")
                     .Replace("’", "'")
