@@ -3,440 +3,549 @@ msgstr ""
 "Application: Oxygen Not Included"
 "POT Version: 2.0"
 
+#. Aerogel
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Aerogel"
-msgid "Aerogel"
+msgid ""
 msgstr ""
 
+#. Algae
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Algae"
-msgid "Algae"
+msgid ""
 msgstr ""
 
+#. Aluminum
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Aluminum"
-msgid "Aluminum"
+msgid ""
 msgstr ""
 
+#. Aluminum Ore
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.AluminumOre"
-msgid "Aluminum Ore"
+msgid ""
 msgstr ""
 
+#. Bitumen
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Bitumen"
-msgid "Bitumen"
+msgid ""
 msgstr ""
 
+#. Bleach Stone
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.BleachStone"
-msgid "Bleach Stone"
+msgid ""
 msgstr ""
 
+#. Brick
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Brick"
-msgid "Brick"
+msgid ""
 msgstr ""
 
+#. Brine
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Brine"
-msgid "Brine"
+msgid ""
 msgstr ""
 
+#. Brine Ice
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.BrineIce"
-msgid "Brine Ice"
+msgid ""
 msgstr ""
 
+#. Coal
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Carbon"
-msgid "Coal"
+msgid ""
 msgstr ""
 
+#. Carbon Dioxide
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.CarbonDioxide"
-msgid "Carbon Dioxide"
+msgid ""
 msgstr ""
 
+#. Carbon Fiber
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.CarbonFibre"
-msgid "Carbon Fiber"
+msgid ""
 msgstr ""
 
+#. Cement
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Cement"
-msgid "Cement"
+msgid ""
 msgstr ""
 
+#. Cement Mix
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.CementMix"
-msgid "Cement Mix"
+msgid ""
 msgstr ""
 
+#. Ceramic
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Ceramic"
-msgid "Ceramic"
+msgid ""
 msgstr ""
 
+#. Liquid Chlorine
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Chlorine"
-msgid "Liquid Chlorine"
+msgid ""
 msgstr ""
 
+#. Clay
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Clay"
-msgid "Clay"
+msgid ""
 msgstr ""
 
+#. Cobalt
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Cobalt"
-msgid "Cobalt"
+msgid ""
 msgstr ""
 
+#. Cobalt Ore
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Cobaltite"
-msgid "Cobalt Ore"
+msgid ""
 msgstr ""
 
+#. Composition
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.COMPOSITION"
-msgid "Composition"
+msgid ""
 msgstr ""
 
+#. Polluted Oxygen
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.ContaminatedOxygen"
-msgid "Polluted Oxygen"
+msgid ""
 msgstr ""
 
+#. Copper
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Copper"
-msgid "Copper"
+msgid ""
 msgstr ""
 
+#. Corium
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Corium"
-msgid "Corium"
+msgid ""
 msgstr ""
 
+#. Genetic Ooze
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Creature"
-msgid "Genetic Ooze"
+msgid ""
 msgstr ""
 
+#. Crude Oil
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.CrudeOil"
-msgid "Crude Oil"
+msgid ""
 msgstr ""
 
+#. Crushed Ice
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.CrushedIce"
-msgid "Crushed Ice"
+msgid ""
 msgstr ""
 
+#. Crushed Rock
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.CrushedRock"
-msgid "Crushed Rock"
+msgid ""
 msgstr ""
 
+#. Copper Ore
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Cuprite"
-msgid "Copper Ore"
+msgid ""
 msgstr ""
 
+#. Depleted Uranium
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.DepletedUranium"
-msgid "Depleted Uranium"
+msgid ""
 msgstr ""
 
+#. Diamond
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Diamond"
-msgid "Diamond"
+msgid ""
 msgstr ""
 
+#. Dirt
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Dirt"
-msgid "Dirt"
+msgid ""
 msgstr ""
 
+#. Polluted Ice
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.DirtyIce"
-msgid "Polluted Ice"
+msgid ""
 msgstr ""
 
+#. Polluted Water
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.DirtyWater"
-msgid "Polluted Water"
+msgid ""
 msgstr ""
 
+#. Electrum
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Electrum"
-msgid "Electrum"
+msgid ""
 msgstr ""
 
+#. Enriched Uranium
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.EnrichedUranium"
-msgid "Enriched Uranium"
+msgid ""
 msgstr ""
 
+#. Ethanol
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Ethanol"
-msgid "Ethanol"
+msgid ""
 msgstr ""
 
+#. Nuclear Fallout
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Fallout"
-msgid "Nuclear Fallout"
+msgid ""
 msgstr ""
 
+#. Fertilizer
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Fertilizer"
-msgid "Fertilizer"
+msgid ""
 msgstr ""
 
+#. Pyrite
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.FoolsGold"
-msgid "Pyrite"
+msgid ""
 msgstr ""
 
+#. Fossil
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Fossil"
-msgid "Fossil"
+msgid ""
 msgstr ""
 
+#. Fullerene
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Fullerene"
-msgid "Fullerene"
+msgid ""
 msgstr ""
 
+#. Glass
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Glass"
-msgid "Glass"
+msgid ""
 msgstr ""
 
+#. Gold
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Gold"
-msgid "Gold"
+msgid ""
 msgstr ""
 
+#. Gold Amalgam
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.GoldAmalgam"
-msgid "Gold Amalgam"
+msgid ""
 msgstr ""
 
+#. Granite
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Granite"
-msgid "Granite"
+msgid ""
 msgstr ""
 
+#. Graphite
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Graphite"
-msgid "Graphite"
+msgid ""
 msgstr ""
 
+#. Plastium
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.HardPolypropylene"
-msgid "Plastium"
+msgid ""
 msgstr ""
 
+#. Helium
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Helium"
-msgid "Helium"
+msgid ""
 msgstr ""
 
+#. Hydrogen Gas
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Hydrogen"
-msgid "Hydrogen Gas"
+msgid ""
 msgstr ""
 
+#. Ice
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Ice"
-msgid "Ice"
+msgid ""
 msgstr ""
 
+#. Igneous Rock
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.IgneousRock"
-msgid "Igneous Rock"
+msgid ""
 msgstr ""
 
+#. Iron
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Iron"
-msgid "Iron"
+msgid ""
 msgstr ""
 
+#. Iron Ore
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.IronOre"
-msgid "Iron Ore"
+msgid ""
 msgstr ""
 
+#. Isoresin
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Isoresin"
-msgid "Isoresin"
+msgid ""
 msgstr ""
 
+#. Abyssalite
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Katairite"
-msgid "Abyssalite"
+msgid ""
 msgstr ""
 
+#. Lead
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Lead"
-msgid "Lead"
+msgid ""
 msgstr ""
 
+#. Lime
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Lime"
-msgid "Lime"
+msgid ""
 msgstr ""
 
+#. Mafic Rock
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.MaficRock"
-msgid "Mafic Rock"
+msgid ""
 msgstr ""
 
+#. Magma
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Magma"
-msgid "Magma"
+msgid ""
 msgstr ""
 
+#. Mercury
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Mercury"
-msgid "Mercury"
+msgid ""
 msgstr ""
 
+#. Natural Gas
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Methane"
-msgid "Natural Gas"
+msgid ""
 msgstr ""
 
+#. Brackene
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Milk"
-msgid "Brackene"
+msgid ""
 msgstr ""
 
+#. Brackwax
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.MilkFat"
-msgid "Brackwax"
+msgid ""
 msgstr ""
 
+#. Frozen Brackene
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.MilkIce"
-msgid "Frozen Brackene"
+msgid ""
 msgstr ""
 
+#. Mud
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Mud"
-msgid "Mud"
+msgid ""
 msgstr ""
 
+#. Liquid Naphtha
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Naphtha"
-msgid "Liquid Naphtha"
+msgid ""
 msgstr ""
 
+#. Niobium
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Niobium"
-msgid "Niobium"
+msgid ""
 msgstr ""
 
+#. Liquid Nuclear Waste
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.NuclearWaste"
-msgid "Liquid Nuclear Waste"
+msgid ""
 msgstr ""
 
+#. Obsidian
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Obsidian"
-msgid "Obsidian"
+msgid ""
 msgstr ""
 
+#. Oxygen
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Oxygen"
-msgid "Oxygen"
+msgid ""
 msgstr ""
 
+#. Oxylite
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.OxyRock"
-msgid "Oxylite"
+msgid ""
 msgstr ""
 
+#. Petroleum
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Petroleum"
-msgid "Petroleum"
+msgid ""
 msgstr ""
 
+#. Phosphate Nodules
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.PhosphateNodules"
-msgid "Phosphate Nodules"
+msgid ""
 msgstr ""
 
+#. Phosphorite
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Phosphorite"
-msgid "Phosphorite"
+msgid ""
 msgstr ""
 
+#. Refined Phosphorus
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Phosphorus"
-msgid "Refined Phosphorus"
+msgid ""
 msgstr ""
 
+#. Plastic
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Polypropylene"
-msgid "Plastic"
+msgid ""
 msgstr ""
 
+#. Propane Gas
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Propane"
-msgid "Propane Gas"
+msgid ""
 msgstr ""
 
+#. Radium
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Radium"
-msgid "Radium"
+msgid ""
 msgstr ""
 
+#. Refined Carbon
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.RefinedCarbon"
-msgid "Refined Carbon"
+msgid ""
 msgstr ""
 
+#. Regolith
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Regolith"
-msgid "Regolith"
+msgid ""
 msgstr ""
 
+#. Liquid Resin
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Resin"
-msgid "Liquid Resin"
+msgid ""
 msgstr ""
 
+#. Rust
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Rust"
-msgid "Rust"
+msgid ""
 msgstr ""
 
+#. Salt
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Salt"
-msgid "Salt"
+msgid ""
 msgstr ""
 
+#. Salt Water
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.SaltWater"
-msgid "Salt Water"
+msgid ""
 msgstr ""
 
+#. Sand
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Sand"
-msgid "Sand"
+msgid ""
 msgstr ""
 
+#. Sand Cement
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.SandCement"
-msgid "Sand Cement"
+msgid ""
 msgstr ""
 
+#. Sandstone
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.SandStone"
-msgid "Sandstone"
+msgid ""
 msgstr ""
 
+#. Sedimentary Rock
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.SedimentaryRock"
-msgid "Sedimentary Rock"
+msgid ""
 msgstr ""
 
+#. Building Slab
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Slabs"
-msgid "Building Slab"
+msgid ""
 msgstr ""
 
+#. Slime
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.SlimeMold"
-msgid "Slime"
+msgid ""
 msgstr ""
 
+#. Snow
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Snow"
-msgid "Snow"
+msgid ""
 msgstr ""
 
+#. Steam
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Steam"
-msgid "Steam"
+msgid ""
 msgstr ""
 
+#. Steel
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Steel"
-msgid "Steel"
+msgid ""
 msgstr ""
 
+#. Sucrose
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Sucrose"
-msgid "Sucrose"
+msgid ""
 msgstr ""
 
+#. Sulfur
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Sulfur"
-msgid "Sulfur"
+msgid ""
 msgstr ""
 
+#. Super Coolant
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.SuperCoolant"
-msgid "Super Coolant"
+msgid ""
 msgstr ""
 
+#. Insulation
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.SuperInsulator"
-msgid "Insulation"
+msgid ""
 msgstr ""
 
+#. Synthesis Gas
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Syngas"
-msgid "Synthesis Gas"
+msgid ""
 msgstr ""
 
+#. Polluted Mud
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.ToxicMud"
-msgid "Polluted Mud"
+msgid ""
 msgstr ""
 
+#. Polluted Dirt
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.ToxicSand"
-msgid "Polluted Dirt"
+msgid ""
 msgstr ""
 
+#. Tungsten
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Tungsten"
-msgid "Tungsten"
+msgid ""
 msgstr ""
 
+#. Neutronium
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Unobtanium"
-msgid "Neutronium"
+msgid ""
 msgstr ""
 
+#. Uranium Ore
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.UraniumOre"
-msgid "Uranium Ore"
+msgid ""
 msgstr ""
 
+#. Vacuum
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Vacuum"
-msgid "Vacuum"
+msgid ""
 msgstr ""
 
+#. Visco-Gel Fluid
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.ViscoGel"
-msgid "Visco-Gel Fluid"
+msgid ""
 msgstr ""
 
+#. Void
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Void"
-msgid "Void"
+msgid ""
 msgstr ""
 
+#. Water
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Water"
-msgid "Water"
+msgid ""
 msgstr ""
 
+#. Wolframite
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Wolframite"
-msgid "Wolframite"
+msgid ""
 msgstr ""
 
+#. Yellowcake
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Yellowcake"
-msgid "Yellowcake"
+msgid ""
 msgstr ""
 
 msgctxt "BetterLogicOverlay.MYSTRINGS.UNITMODIFIERS.thousand"

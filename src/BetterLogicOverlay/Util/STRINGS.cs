@@ -24,6 +24,7 @@ namespace BetterLogicOverlay
                 .Where(entry => uniqueIDs.Contains(entry.elementId))
                 .Select(entry => new POTEntry(
                     entry.elementId,
+                    string.Empty,
                     UI.StripLinkFormatting(Strings.Get(entry.localizationID))))
                 .ToList();
         }
