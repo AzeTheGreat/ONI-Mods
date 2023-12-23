@@ -23,9 +23,9 @@ namespace AzeLib
         }
 
         // PO templates are generated only for Debug builds to save load time and reduce clutter for end users.
-        [System.Diagnostics.Conditional("DEBUG")]
         internal static void GeneratePOTemplate(Type rootType, List<IAFieldlessStrings> fieldlessStrings)
         {
+        #if DEBUG
             if (Localization.GetSelectedLanguageType() != Localization.SelectedLanguageType.None)
                 return;
 
@@ -36,6 +36,7 @@ namespace AzeLib
 
             // This uses Roslyn to inject the path of this .cs file at compile time.
             static string GetCallerPath([CallerFilePath] string path = null) => path;
+        #endif
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿#if DEBUG
-
-using AzeLib.Extensions;
+﻿using AzeLib.Extensions;
 using Klei;
 using System;
 using System.Collections.Generic;
@@ -17,6 +15,7 @@ namespace AzeLib
         public string comment = comment;
     }
 
+#if DEBUG
     internal class POTemplateGenerator
     {
         internal static void GeneratePOT(Type locStringRoot, List<IAFieldlessStrings> fieldlessStrings, string outputDir)
@@ -109,6 +108,5 @@ namespace AzeLib
             static bool isNullOrEmpty(object val) => val == null || (val is Dictionary<string, object> dict && !dict.Any());
         }
     }
-}
-
 #endif
+}
