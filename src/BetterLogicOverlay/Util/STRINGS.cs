@@ -15,16 +15,16 @@ namespace BetterLogicOverlay
 
     public class ABBREVIATIONS : AFieldlessStrings<ABBREVIATIONS>
     {
-        public override List<LocString> GetLocStrings()
+        public override List<POTEntry> GetPOTEntries()
         {
             var elementEntries = ElementLoader.CollectElementsFromYAML();
             var uniqueIDs = elementEntries.Select(entry => ElementAbbreviation.StripElementModifiers(entry.elementId)).Distinct();
 
             return elementEntries
                 .Where(entry => uniqueIDs.Contains(entry.elementId))
-                .Select(entry => new LocString(
-                    UI.StripLinkFormatting(Strings.Get(entry.localizationID)), 
-                    entry.elementId))
+                .Select(entry => new POTEntry(
+                    entry.elementId,
+                    UI.StripLinkFormatting(Strings.Get(entry.localizationID))))
                 .ToList();
         }
 

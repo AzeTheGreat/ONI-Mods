@@ -12,12 +12,12 @@ namespace AzeLib
 
     public abstract class AFieldlessStrings<T> : SingletonBase<T>, IAFieldlessStrings where T : AFieldlessStrings<T>
     {
-        public virtual List<LocString> GetLocStrings() => [];
+        public virtual List<POTEntry> GetPOTEntries() => [];
     }
 
     interface IAFieldlessStrings
     {
-        List<LocString> GetLocStrings();
+        List<POTEntry> GetPOTEntries();
     }
 
     [HarmonyPatch(typeof(Localization), nameof(Localization.Initialize))]

@@ -11,6 +11,13 @@ using System.Text;
 
 namespace AzeLib
 {
+    public class POTEntry(string key, string defaultTranslation, string comment = null)
+    {
+        public string key = key;
+        public string defaultTranslation = defaultTranslation;
+        public string comment = comment;
+    }
+
     internal class POTemplateGenerator
     {
         internal static void GeneratePOT(Type locStringRoot, List<IAFieldlessStrings> fieldlessStrings, string outputDir)
@@ -25,7 +32,7 @@ namespace AzeLib
             Dictionary<string, object> GetExtraStringsTree() =>
                 CreateStringsTree(
                     fieldlessStrings,
-                    fs => fs.GetLocStrings().ToDictionary(ls => ls.key.String, ls => ls.text as object),
+                    fs => fs.GetPOTEntries().ToDictionary(entry => entry.key, entry => entry as object),
                     fs => fs.GetType().Name);
         }
 
@@ -65,12 +72,16 @@ namespace AzeLib
 
                 if (value is string defaultTranslation)
                     WriteEntry(sw, fullKey, FixupString(defaultTranslation));
+                else if (value is POTEntry potEntry)
+                    WriteEntry(sw, fullKey, FixupString(potEntry.defaultTranslation), potEntry.comment);
                 else
                     WritePOT(fullKey, sw, value as Dictionary<string, object>);
             }
 
-            static void WriteEntry(StreamWriter sw, string fullKey, string defaultTranslation)
+            static void WriteEntry(StreamWriter sw, string fullKey, string defaultTranslation, string comment = null)
             {
+                if(!comment.IsNullOrWhiteSpace())
+                    sw.WriteLine("#. " + comment);
                 sw.WriteLine("msgctxt \"{0}\"", fullKey);
                 sw.WriteLine("msgid \"" + defaultTranslation + "\"");
                 sw.WriteLine("msgstr \"\"");
