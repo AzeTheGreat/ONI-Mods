@@ -1,5 +1,6 @@
 ﻿#if DEBUG
 
+using AzeLib.Extensions;
 using Klei;
 using System;
 using System.Collections.Generic;
@@ -21,20 +22,11 @@ namespace AzeLib
             var outputPath = FileSystem.Normalize(Path.Combine(outputDir, $"{locStringRoot.Namespace.ToLower()}_template.pot"));
             GeneratePOT(locStringRoot.Namespace, Assembly.GetAssembly(locStringRoot), outputPath, GetExtraStringsTree());
 
-            Dictionary<string, object> GetExtraStringsTree()
-            {
-                var extraStringsTree = new Dictionary<string, object>();
-                foreach (var instance in fieldlessStrings)
-                {
-                    var instanceStringsTree = new Dictionary<string, object>();
-                    foreach (var ls in instance.GetLocStrings())
-                        instanceStringsTree[ls.key.String] = ls.text;
-
-                    if(instanceStringsTree.Any())
-                        extraStringsTree[instance.GetType().Name] = instanceStringsTree;
-                }
-                return extraStringsTree;
-            }
+            Dictionary<string, object> GetExtraStringsTree() =>
+                CreateStringsTree(
+                    fieldlessStrings,
+                    fs => fs.GetLocStrings().ToDictionary(ls => ls.key.String, ls => ls.text as object),
+                    fs => fs.GetType().Name);
         }
 
         private static void GeneratePOT(string lsNamespace, Assembly lsAssembly, string outputDir, Dictionary<string, object> extraStringsTree)
@@ -56,21 +48,13 @@ namespace AzeLib
                 sw.WriteLine();
             }
 
-            Dictionary<string, object> GetStringsTree()
-            {
-                var stringsTree = new Dictionary<string, object>();
-                foreach (var rootType in Localization.CollectLocStringTreeRoots(lsNamespace, lsAssembly))
-                {
-                    var rootStringsTree = Localization.MakeRuntimeLocStringTree(rootType);
-                    if (rootStringsTree.Any())
-                        stringsTree[rootType.Name] = rootStringsTree;
-                }
-
-                if (extraStringsTree != null)
-                    stringsTree = stringsTree.Concat(extraStringsTree).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-
-                return stringsTree;
-            }
+            Dictionary<string, object> GetStringsTree() =>
+                CreateStringsTree(
+                    Localization.CollectLocStringTreeRoots(lsNamespace, lsAssembly).ToList(),
+                    Localization.MakeRuntimeLocStringTree,
+                    type => type.Name)
+                .Concat(extraStringsTree.EmptyIfNull())
+                .ToDictionary();
         }
 
         private static void WritePOT(string path, StreamWriter sw, Dictionary<string, object> stringsTree)
@@ -103,6 +87,16 @@ namespace AzeLib
                     .Replace("”", "\\\"")
                     .Replace("…", "...");
             }
+        }
+
+        private static Dictionary<string, object> CreateStringsTree<T>(List<T> collection, Func<T, Dictionary<string, object>> getTree, Func<T, string> getKey)
+        {
+            return collection
+                .ToDictionary(x => getKey(x), x => getTree(x) as object)
+                .Where(kvp => !isNullOrEmpty(kvp.Value))
+                .ToDictionary();
+
+            static bool isNullOrEmpty(object val) => val == null || (val is Dictionary<string, object> dict && !dict.Any());
         }
     }
 }

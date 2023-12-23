@@ -54,5 +54,7 @@ namespace AzeLib.Extensions
             Func<IEnumerable<Tsrc>, Tcomp> getValue) => linqFunction(source, getValue(source));
 
         public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> source) => source ?? Array.Empty<T>();
+
+        public static Dictionary<TKey, TVal> ToDictionary<TKey, TVal>(this IEnumerable<KeyValuePair<TKey, TVal>> source) => source.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
     }
 }
