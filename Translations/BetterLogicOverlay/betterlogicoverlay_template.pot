@@ -20,7 +20,7 @@ msgstr ""
 
 #. Aluminum Ore
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.AluminumOre"
-msgid "Al"
+msgid "Al Ore"
 msgstr ""
 
 #. Bitumen
@@ -40,7 +40,7 @@ msgstr ""
 
 #. Brine
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Brine"
-msgid "Brine"
+msgid ""
 msgstr ""
 
 #. Brine Ice
@@ -90,12 +90,12 @@ msgstr ""
 
 #. Cobalt
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Cobalt"
-msgid ""
+msgid "Co"
 msgstr ""
 
 #. Cobalt Ore
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Cobaltite"
-msgid ""
+msgid "Co Ore"
 msgstr ""
 
 #. Composition
@@ -135,17 +135,17 @@ msgstr ""
 
 #. Crushed Rock
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.CrushedRock"
-msgid "Rock"
+msgid "C-Rock"
 msgstr ""
 
 #. Copper Ore
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Cuprite"
-msgid ""
+msgid "Cu Ore"
 msgstr ""
 
 #. Depleted Uranium
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.DepletedUranium"
-msgid ""
+msgid "D-U"
 msgstr ""
 
 #. Diamond
@@ -175,7 +175,7 @@ msgstr ""
 
 #. Enriched Uranium
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.EnrichedUranium"
-msgid ""
+msgid "E-U"
 msgstr ""
 
 #. Ethanol
@@ -265,7 +265,7 @@ msgstr ""
 
 #. Iron Ore
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.IronOre"
-msgid "FeOre"
+msgid "Fe Ore"
 msgstr ""
 
 #. Isoresin
@@ -395,7 +395,7 @@ msgstr ""
 
 #. Refined Carbon
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.RefinedCarbon"
-msgid "C"
+msgid "R-C"
 msgstr ""
 
 #. Regolith
@@ -495,12 +495,12 @@ msgstr ""
 
 #. Polluted Mud
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.ToxicMud"
-msgid ""
+msgid "P-Mud"
 msgstr ""
 
 #. Polluted Dirt
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.ToxicSand"
-msgid "P-"
+msgid "P-Dirt"
 msgstr ""
 
 #. Tungsten
@@ -515,7 +515,7 @@ msgstr ""
 
 #. Uranium Ore
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.UraniumOre"
-msgid ""
+msgid "U Ore"
 msgstr ""
 
 #. Vacuum

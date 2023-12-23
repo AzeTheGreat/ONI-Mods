@@ -28,24 +28,30 @@ namespace BetterLogicOverlay
                 .ToList();
         }
 
+        // Modifiers
         static LocString DirtyPrefix = "P-";
+        static LocString OreSuffix = " Ore";
 
+        // Abbreviations
         static LocString Aluminum = "Al";
-        static LocString AluminumOre = Aluminum;
+        static LocString AluminumOre = Aluminum + OreSuffix;
 
         static LocString Carbon = "C";
-        static LocString RefinedCarbon = Carbon;
+        static LocString RefinedCarbon = "R-" + Carbon;
 
         static LocString CarbonDioxide = "CO<sub>2</sub>";
 
         static LocString Chlorine = "Cl";
 
+        static LocString Cobalt = "Co";
+        static LocString Cobaltite = Cobalt + OreSuffix;
+
         static LocString Copper = "Cu";
+        static LocString Cuprite = Copper + OreSuffix;
 
         static LocString CrudeOil = "C-Oil";
 
-        static LocString Dirt = string.Empty;
-        static LocString ToxicSand = DirtyPrefix + Dirt;
+        static LocString CrushedRock = "C-Rock";
 
         static LocString Ethanol = "EtOH";
 
@@ -57,7 +63,7 @@ namespace BetterLogicOverlay
         static LocString Hydrogen = "H";
 
         static LocString Iron = "Fe";
-        static LocString IronOre = Iron + "Ore";
+        static LocString IronOre = Iron + OreSuffix;
 
         static LocString Lead = "Pb";
 
@@ -77,12 +83,9 @@ namespace BetterLogicOverlay
 
         static LocString Radium = "Ra";
 
-        static LocString RockGas = "Rock";
-        static LocString CrushedRock = "Rock";
-
         static LocString Salt = "NaCl";
 
-        static LocString SourGas = "Sour";
+        static LocString Sour = "Sour";
 
         static LocString Steel = "Steel";
 
@@ -90,7 +93,15 @@ namespace BetterLogicOverlay
 
         static LocString SuperCoolant = "S-Cool";
 
+        static LocString ToxicSand = DirtyPrefix + "Dirt";
+        static LocString ToxicMud = DirtyPrefix + "Mud";
+
         static LocString Tungsten = "W";
+
+        static LocString Uranium = "U";
+        static LocString UraniumOre = Uranium + OreSuffix;
+        static LocString DepletedUranium = "D-" + Uranium;
+        static LocString EnrichedUranium = "E-" + Uranium;
 
         static LocString Niobium = "Nb";
 
@@ -99,7 +110,6 @@ namespace BetterLogicOverlay
         static LocString Water = "H<sub>2</sub>O";
         static LocString Steam = Water;
         static LocString SaltWater = "S-" + Water;
-        static LocString Brine = "Brine";
         static LocString DirtyWater = DirtyPrefix + Water;
         static LocString Ice = "Ice";
         static LocString BrineIce = "B-" + Ice;
