@@ -41,7 +41,7 @@ namespace AzeLib
             using (var sw = new StreamWriter(outputDir, false, new UTF8Encoding(false)))
             {
                 WriteHeader(sw);
-                WritePOT(lsNamespace, sw, GetStringsTree());
+                WritePOT(lsNamespace.ToUpper(), sw, GetStringsTree());
             }
 
             Debug.Log("Generated AzePOT at " + outputDir);
