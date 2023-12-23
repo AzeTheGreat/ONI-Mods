@@ -11,10 +11,9 @@ using System.Text;
 
 namespace AzeLib
 {
-    public class POTEntry(string key, string defaultTranslation, string comment = null)
+    public class POTEntry(string key, string comment = null)
     {
         public string key = key;
-        public string defaultTranslation = defaultTranslation;
         public string comment = comment;
     }
 
@@ -73,7 +72,9 @@ namespace AzeLib
                 if (value is string defaultTranslation)
                     WriteEntry(sw, fullKey, FixupString(defaultTranslation));
                 else if (value is POTEntry potEntry)
-                    WriteEntry(sw, fullKey, FixupString(potEntry.defaultTranslation), potEntry.comment);
+                    WriteEntry(sw, fullKey, 
+                        FixupString(Strings.TryGet(AzeStrings.GetFullKey(fullKey), out var s) ? s : string.Empty), 
+                        potEntry.comment);
                 else
                     WritePOT(fullKey, sw, value as Dictionary<string, object>);
             }

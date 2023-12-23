@@ -15,12 +15,12 @@ msgstr ""
 
 #. Aluminum
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Aluminum"
-msgid ""
+msgid "Al"
 msgstr ""
 
 #. Aluminum Ore
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.AluminumOre"
-msgid ""
+msgid "Al"
 msgstr ""
 
 #. Bitumen
@@ -40,22 +40,22 @@ msgstr ""
 
 #. Brine
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Brine"
-msgid ""
+msgid "Brine"
 msgstr ""
 
 #. Brine Ice
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.BrineIce"
-msgid ""
+msgid "B-Ice"
 msgstr ""
 
 #. Coal
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Carbon"
-msgid ""
+msgid "C"
 msgstr ""
 
 #. Carbon Dioxide
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.CarbonDioxide"
-msgid ""
+msgid "CO<sub>2</sub>"
 msgstr ""
 
 #. Carbon Fiber
@@ -80,7 +80,7 @@ msgstr ""
 
 #. Liquid Chlorine
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Chlorine"
-msgid ""
+msgid "Cl"
 msgstr ""
 
 #. Clay
@@ -105,12 +105,12 @@ msgstr ""
 
 #. Polluted Oxygen
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.ContaminatedOxygen"
-msgid ""
+msgid "P-O<sub>2</sub>"
 msgstr ""
 
 #. Copper
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Copper"
-msgid ""
+msgid "Cu"
 msgstr ""
 
 #. Corium
@@ -125,17 +125,17 @@ msgstr ""
 
 #. Crude Oil
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.CrudeOil"
-msgid ""
+msgid "C-Oil"
 msgstr ""
 
 #. Crushed Ice
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.CrushedIce"
-msgid ""
+msgid "C-Ice"
 msgstr ""
 
 #. Crushed Rock
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.CrushedRock"
-msgid ""
+msgid "Rock"
 msgstr ""
 
 #. Copper Ore
@@ -160,12 +160,12 @@ msgstr ""
 
 #. Polluted Ice
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.DirtyIce"
-msgid ""
+msgid "P-Ice"
 msgstr ""
 
 #. Polluted Water
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.DirtyWater"
-msgid ""
+msgid "P-H<sub>2</sub>O"
 msgstr ""
 
 #. Electrum
@@ -180,7 +180,7 @@ msgstr ""
 
 #. Ethanol
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Ethanol"
-msgid ""
+msgid "EtOH"
 msgstr ""
 
 #. Nuclear Fallout
@@ -210,17 +210,17 @@ msgstr ""
 
 #. Glass
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Glass"
-msgid ""
+msgid "Glass"
 msgstr ""
 
 #. Gold
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Gold"
-msgid ""
+msgid "Au"
 msgstr ""
 
 #. Gold Amalgam
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.GoldAmalgam"
-msgid ""
+msgid "AuAmal"
 msgstr ""
 
 #. Granite
@@ -245,12 +245,12 @@ msgstr ""
 
 #. Hydrogen Gas
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Hydrogen"
-msgid ""
+msgid "H"
 msgstr ""
 
 #. Ice
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Ice"
-msgid ""
+msgid "Ice"
 msgstr ""
 
 #. Igneous Rock
@@ -260,12 +260,12 @@ msgstr ""
 
 #. Iron
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Iron"
-msgid ""
+msgid "Fe"
 msgstr ""
 
 #. Iron Ore
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.IronOre"
-msgid ""
+msgid "FeOre"
 msgstr ""
 
 #. Isoresin
@@ -280,7 +280,7 @@ msgstr ""
 
 #. Lead
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Lead"
-msgid ""
+msgid "Pb"
 msgstr ""
 
 #. Lime
@@ -305,7 +305,7 @@ msgstr ""
 
 #. Natural Gas
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Methane"
-msgid ""
+msgid "CH<sub>4</sub>"
 msgstr ""
 
 #. Brackene
@@ -330,12 +330,12 @@ msgstr ""
 
 #. Liquid Naphtha
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Naphtha"
-msgid ""
+msgid "Nap"
 msgstr ""
 
 #. Niobium
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Niobium"
-msgid ""
+msgid "Nb"
 msgstr ""
 
 #. Liquid Nuclear Waste
@@ -350,7 +350,7 @@ msgstr ""
 
 #. Oxygen
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Oxygen"
-msgid ""
+msgid "O<sub>2</sub>"
 msgstr ""
 
 #. Oxylite
@@ -360,7 +360,7 @@ msgstr ""
 
 #. Petroleum
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Petroleum"
-msgid ""
+msgid "Petrol"
 msgstr ""
 
 #. Phosphate Nodules
@@ -370,12 +370,12 @@ msgstr ""
 
 #. Phosphorite
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Phosphorite"
-msgid ""
+msgid "P-rite"
 msgstr ""
 
 #. Refined Phosphorus
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Phosphorus"
-msgid ""
+msgid "P"
 msgstr ""
 
 #. Plastic
@@ -385,17 +385,17 @@ msgstr ""
 
 #. Propane Gas
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Propane"
-msgid ""
+msgid "C<sub>3</sub>H<sub>8</sub>"
 msgstr ""
 
 #. Radium
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Radium"
-msgid ""
+msgid "Ra"
 msgstr ""
 
 #. Refined Carbon
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.RefinedCarbon"
-msgid ""
+msgid "C"
 msgstr ""
 
 #. Regolith
@@ -415,12 +415,12 @@ msgstr ""
 
 #. Salt
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Salt"
-msgid ""
+msgid "NaCl"
 msgstr ""
 
 #. Salt Water
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.SaltWater"
-msgid ""
+msgid "S-H<sub>2</sub>O"
 msgstr ""
 
 #. Sand
@@ -460,12 +460,12 @@ msgstr ""
 
 #. Steam
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Steam"
-msgid ""
+msgid "H<sub>2</sub>O"
 msgstr ""
 
 #. Steel
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Steel"
-msgid ""
+msgid "Steel"
 msgstr ""
 
 #. Sucrose
@@ -475,12 +475,12 @@ msgstr ""
 
 #. Sulfur
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Sulfur"
-msgid ""
+msgid "S"
 msgstr ""
 
 #. Super Coolant
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.SuperCoolant"
-msgid ""
+msgid "S-Cool"
 msgstr ""
 
 #. Insulation
@@ -500,12 +500,12 @@ msgstr ""
 
 #. Polluted Dirt
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.ToxicSand"
-msgid ""
+msgid "P-"
 msgstr ""
 
 #. Tungsten
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Tungsten"
-msgid ""
+msgid "W"
 msgstr ""
 
 #. Neutronium
@@ -525,7 +525,7 @@ msgstr ""
 
 #. Visco-Gel Fluid
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.ViscoGel"
-msgid ""
+msgid "V-Gel"
 msgstr ""
 
 #. Void
@@ -535,7 +535,7 @@ msgstr ""
 
 #. Water
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Water"
-msgid ""
+msgid "H<sub>2</sub>O"
 msgstr ""
 
 #. Wolframite
