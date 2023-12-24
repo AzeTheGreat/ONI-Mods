@@ -5,12 +5,9 @@ using System.Linq;
 
 namespace AzeLib
 {
-    public abstract class AStrings<T> where T : AStrings<T>
-    {
+    public abstract class AStrings<T> : AStringsBase<T> where T : AStrings<T> { }
 
-    }
-
-    public abstract class AFieldlessStrings<T> : SingletonBase<T>, IAFieldlessStrings where T : AFieldlessStrings<T>
+    public abstract class AFieldlessStrings<T> : AStringsBase<T>, IAFieldlessStrings where T : AFieldlessStrings<T>
     {
         public virtual List<POTEntry> GetPOTEntries() => [];
     }
@@ -18,6 +15,11 @@ namespace AzeLib
     interface IAFieldlessStrings
     {
         List<POTEntry> GetPOTEntries();
+    }
+
+    public abstract class AStringsBase<T> : SingletonBase<T> where T : AStringsBase<T>
+    {
+        public static bool TryGet(string partialKey, out StringEntry result) => Strings.TryGet(AzeStrings.GetFullKey(typeof(T), partialKey), out result);
     }
 
     [HarmonyPatch(typeof(Localization), nameof(Localization.Initialize))]
