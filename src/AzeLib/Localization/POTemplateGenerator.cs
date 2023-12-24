@@ -93,7 +93,8 @@ namespace AzeLib
                 sw.WriteLine();
 
                 static string FixupString(string str) =>
-                    str.Replace("\\", "\\\\")
+                    (str.IsNullOrWhiteSpace() ? AzeLocalization.EmptyTranslationPlaceholder : str)
+                    .Replace("\\", "\\\\")
                     .Replace("\"", "\\\"")
                     .Replace("\n", "\\n")
                     .Replace("’", "'")

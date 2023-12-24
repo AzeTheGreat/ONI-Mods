@@ -5,12 +5,12 @@ msgstr ""
 
 #. Aerogel
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Aerogel"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Algae
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Algae"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Aluminum
@@ -25,22 +25,22 @@ msgstr ""
 
 #. Bitumen
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Bitumen"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Bleach Stone
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.BleachStone"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Brick
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Brick"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Brine
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Brine"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Brine Ice
@@ -60,22 +60,22 @@ msgstr ""
 
 #. Carbon Fiber
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.CarbonFibre"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Cement
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Cement"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Cement Mix
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.CementMix"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Ceramic
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Ceramic"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Liquid Chlorine
@@ -85,7 +85,7 @@ msgstr ""
 
 #. Clay
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Clay"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Cobalt
@@ -100,7 +100,7 @@ msgstr ""
 
 #. Composition
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.COMPOSITION"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Polluted Oxygen
@@ -115,12 +115,12 @@ msgstr ""
 
 #. Corium
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Corium"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Genetic Ooze
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Creature"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Crude Oil
@@ -150,12 +150,12 @@ msgstr ""
 
 #. Diamond
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Diamond"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Dirt
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Dirt"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Polluted Ice
@@ -170,7 +170,7 @@ msgstr ""
 
 #. Electrum
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Electrum"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Enriched Uranium
@@ -185,27 +185,27 @@ msgstr ""
 
 #. Nuclear Fallout
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Fallout"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Fertilizer
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Fertilizer"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Pyrite
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.FoolsGold"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Fossil
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Fossil"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Fullerene
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Fullerene"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Glass
@@ -225,22 +225,22 @@ msgstr ""
 
 #. Granite
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Granite"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Graphite
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Graphite"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Plastium
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.HardPolypropylene"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Helium
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Helium"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Hydrogen Gas
@@ -255,7 +255,7 @@ msgstr ""
 
 #. Igneous Rock
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.IgneousRock"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Iron
@@ -270,12 +270,12 @@ msgstr ""
 
 #. Isoresin
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Isoresin"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Abyssalite
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Katairite"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Lead
@@ -285,22 +285,22 @@ msgstr ""
 
 #. Lime
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Lime"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Mafic Rock
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.MaficRock"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Magma
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Magma"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Mercury
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Mercury"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Natural Gas
@@ -310,22 +310,22 @@ msgstr ""
 
 #. Brackene
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Milk"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Brackwax
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.MilkFat"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Frozen Brackene
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.MilkIce"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Mud
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Mud"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Liquid Naphtha
@@ -340,12 +340,12 @@ msgstr ""
 
 #. Liquid Nuclear Waste
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.NuclearWaste"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Obsidian
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Obsidian"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Oxygen
@@ -355,7 +355,7 @@ msgstr ""
 
 #. Oxylite
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.OxyRock"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Petroleum
@@ -365,7 +365,7 @@ msgstr ""
 
 #. Phosphate Nodules
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.PhosphateNodules"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Phosphorite
@@ -380,7 +380,7 @@ msgstr ""
 
 #. Plastic
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Polypropylene"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Propane Gas
@@ -400,17 +400,17 @@ msgstr ""
 
 #. Regolith
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Regolith"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Liquid Resin
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Resin"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Rust
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Rust"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Salt
@@ -425,37 +425,37 @@ msgstr ""
 
 #. Sand
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Sand"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Sand Cement
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.SandCement"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Sandstone
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.SandStone"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Sedimentary Rock
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.SedimentaryRock"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Building Slab
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Slabs"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Slime
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.SlimeMold"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Snow
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Snow"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Steam
@@ -470,7 +470,7 @@ msgstr ""
 
 #. Sucrose
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Sucrose"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Sulfur
@@ -485,12 +485,12 @@ msgstr ""
 
 #. Insulation
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.SuperInsulator"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Synthesis Gas
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Syngas"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Polluted Mud
@@ -510,7 +510,7 @@ msgstr ""
 
 #. Neutronium
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Unobtanium"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Uranium Ore
@@ -520,7 +520,7 @@ msgstr ""
 
 #. Vacuum
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Vacuum"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Visco-Gel Fluid
@@ -530,7 +530,7 @@ msgstr ""
 
 #. Void
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Void"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Water
@@ -540,12 +540,12 @@ msgstr ""
 
 #. Wolframite
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Wolframite"
-msgid ""
+msgid "-"
 msgstr ""
 
 #. Yellowcake
 msgctxt "BETTERLOGICOVERLAY.ABBREVIATIONS.Yellowcake"
-msgid ""
+msgid "-"
 msgstr ""
 
 msgctxt "BETTERLOGICOVERLAY.MYSTRINGS.UNITMODIFIERS.thousand"

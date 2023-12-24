@@ -1,12 +1,17 @@
-﻿using System;
+﻿using AzeLib.Extensions;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace AzeLib
 {
     internal static class AzeLocalization
     {
+        // Empty strings in POTs causes editor issues; this works around the issue.
+        internal const string EmptyTranslationPlaceholder = "-";
+
         const string TranslationFolder = "Translations";
 
         internal static bool TryLoadTranslations(out Dictionary<string, string> translations)
@@ -14,7 +19,9 @@ namespace AzeLib
             var path = Path.Combine(AzeMod.UserMod.path, TranslationFolder, Localization.GetLocale()?.Code + ".po");
             if (File.Exists(path))
             {
-                translations = Localization.LoadStringsFile(path, false);
+                translations = Localization.LoadStringsFile(path, false)
+                    .Where(kvp => kvp.Value != EmptyTranslationPlaceholder)
+                    .ToDictionary();
                 return true;
             }
 
