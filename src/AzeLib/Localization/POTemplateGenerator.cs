@@ -9,10 +9,15 @@ using System.Text;
 
 namespace AzeLib
 {
-    public class POTEntry(string key, string comment = null)
+    /// <summary>Defines a PO template entry.</summary>
+    /// <param name="partialKey"><inheritdoc cref="PartialKey" path="/summary"/></param>
+    /// <param name="comment"><inheritdoc cref="Comment" path="/summary"/></param>
+    public class POTEntry(string partialKey, string comment = null)
     {
-        public string key = key;
-        public string comment = comment;
+        /// <summary>A partial key.  This should not include <see cref="Type"/> and <see cref="namespace"/> information.  Corresponds to "msgctxt" line in POTs.</summary>
+        public string PartialKey { get; } = partialKey;
+        /// <summary>An optional comment.  Corresponds to "#. " line in POTs.</summary>
+        public string Comment { get; } = comment;
     }
 
 #if DEBUG
@@ -30,7 +35,7 @@ namespace AzeLib
             Dictionary<string, object> GetExtraStringsTree() =>
                 CreateStringsTree(
                     fieldlessStrings,
-                    fs => fs.GetPOTEntries().ToDictionary(entry => entry.key, entry => entry as object),
+                    fs => fs.GetPOTEntries().ToDictionary(entry => entry.PartialKey, entry => entry as object),
                     fs => fs.GetType().Name);
         }
 
@@ -73,7 +78,7 @@ namespace AzeLib
                 else if (value is POTEntry potEntry)
                     WriteEntry(sw, fullKey,
                         Strings.TryGet(AzeStrings.GetFullKey(fullKey), out var s) ? s : string.Empty,
-                        potEntry.comment);
+                        potEntry.Comment);
                 else
                     WritePOT(fullKey, sw, value as Dictionary<string, object>);
             }
