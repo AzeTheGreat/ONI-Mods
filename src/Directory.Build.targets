@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <!--Publicise the game's assemblies on rebuilds.-->
-  <Target Name="Publicise" AfterTargets="Clean">
+  <Target Name="Publicise" AfterTargets="Clean" Condition="'$(MSBuildProjectName)' == 'AzeLib'">
     <Publicise
       InputAssemblies="@(PubliciseInputAssemblies)"
       OutputPath="../lib/"/>
@@ -108,7 +108,7 @@
   </Target>
 
   <!--If releasing, create a zipped version of the translations for manual downloads.-->
-  <Target Name="ZipTranslations" AfterTargets="Zip" Condition="'$(Configuration)' == 'Release'" >
+  <Target Name="ZipTranslations" AfterTargets="Zip" Condition="'$(Configuration)' == 'Release' And '$(MSBuildProjectName)' == 'AzeLib'" >
     <CreateItem
       Include="$(TranslationsFolder)\**\*.*"
       Exclude="$(TranslationsFolder)\*.zip">
