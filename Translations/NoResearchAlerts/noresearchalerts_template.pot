@@ -3,23 +3,19 @@ msgstr ""
 "Application: Oxygen Not Included"
 "POT Version: 2.0"
 
-#. NoResearchAlerts.OPTIONS.ALERTMODE.NAME
-msgctxt "NoResearchAlerts.OPTIONS.ALERTMODE.NAME"
+msgctxt "NORESEARCHALERTS.OPTIONS.ALERTMODE.NAME"
 msgid "Mode"
 msgstr ""
 
-#. NoResearchAlerts.OPTIONS.ALERTMODE.TOOLTIP
-msgctxt "NoResearchAlerts.OPTIONS.ALERTMODE.TOOLTIP"
+msgctxt "NORESEARCHALERTS.OPTIONS.ALERTMODE.TOOLTIP"
 msgid "The mode to use."
 msgstr ""
 
-#. NoResearchAlerts.OPTIONS.SUPPRESSMESSAGE.NAME
-msgctxt "NoResearchAlerts.OPTIONS.SUPPRESSMESSAGE.NAME"
+msgctxt "NORESEARCHALERTS.OPTIONS.SUPPRESSMESSAGE.NAME"
 msgid "Prevent Notification"
 msgstr ""
 
-#. NoResearchAlerts.OPTIONS.SUPPRESSMESSAGE.TOOLTIP
-msgctxt "NoResearchAlerts.OPTIONS.SUPPRESSMESSAGE.TOOLTIP"
+msgctxt "NORESEARCHALERTS.OPTIONS.SUPPRESSMESSAGE.TOOLTIP"
 msgid "If true, prevents notifications in the top left due to completed research."
 msgstr ""
 

@@ -3,33 +3,27 @@ msgstr ""
 "Application: Oxygen Not Included"
 "POT Version: 2.0"
 
-#. SufficientOxygenGeneration.OPTIONS.CONSTANTTHRESHOLD.NAME
-msgctxt "SufficientOxygenGeneration.OPTIONS.CONSTANTTHRESHOLD.NAME"
+msgctxt "SUFFICIENTOXYGENGENERATION.OPTIONS.CONSTANTTHRESHOLD.NAME"
 msgid "Constant Threshold"
 msgstr ""
 
-#. SufficientOxygenGeneration.OPTIONS.CONSTANTTHRESHOLD.TOOLTIP
-msgctxt "SufficientOxygenGeneration.OPTIONS.CONSTANTTHRESHOLD.TOOLTIP"
+msgctxt "SUFFICIENTOXYGENGENERATION.OPTIONS.CONSTANTTHRESHOLD.TOOLTIP"
 msgid "Set to oxygen deficit in kg below which you'd like to be notified."
 msgstr ""
 
-#. SufficientOxygenGeneration.OPTIONS.MODE.NAME
-msgctxt "SufficientOxygenGeneration.OPTIONS.MODE.NAME"
+msgctxt "SUFFICIENTOXYGENGENERATION.OPTIONS.MODE.NAME"
 msgid "Mode"
 msgstr ""
 
-#. SufficientOxygenGeneration.OPTIONS.MODE.TOOLTIP
-msgctxt "SufficientOxygenGeneration.OPTIONS.MODE.TOOLTIP"
+msgctxt "SUFFICIENTOXYGENGENERATION.OPTIONS.MODE.TOOLTIP"
 msgid "Switch between constant or ratio threshold."
 msgstr ""
 
-#. SufficientOxygenGeneration.OPTIONS.RATIOTHRESHOLD.NAME
-msgctxt "SufficientOxygenGeneration.OPTIONS.RATIOTHRESHOLD.NAME"
+msgctxt "SUFFICIENTOXYGENGENERATION.OPTIONS.RATIOTHRESHOLD.NAME"
 msgid "Ratio Threshold"
 msgstr ""
 
-#. SufficientOxygenGeneration.OPTIONS.RATIOTHRESHOLD.TOOLTIP
-msgctxt "SufficientOxygenGeneration.OPTIONS.RATIOTHRESHOLD.TOOLTIP"
+msgctxt "SUFFICIENTOXYGENGENERATION.OPTIONS.RATIOTHRESHOLD.TOOLTIP"
 msgid "Set to the ratio of oxygen produced to consumed, below which you'd like to be notified."
 msgstr ""
 
