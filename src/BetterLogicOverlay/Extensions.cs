@@ -10,12 +10,7 @@ namespace BetterLogicOverlay
         {
             if (element == null)
                 return null;
-
-            var abbreviation = ElementAbbreviation.abbreviations[element.id];
-
-            if (abbreviation == string.Empty || !Options.Opts.isTranslated)
-                abbreviation = element.name;
-            return abbreviation;
+            return ElementAbbreviation.GetAbbreviation(element.id);
         }
 
         public static string GetAbbreviation(this Tag tag)

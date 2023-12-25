@@ -1,0 +1,33 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included"
+"POT Version: 2.0"
+
+msgctxt "SUPPRESSNOTIFICATIONS.MYSTRINGS.BUILDINGS.DAMAGE_BAR"
+msgid "Damage Bar"
+msgstr ""
+
+msgctxt "SUPPRESSNOTIFICATIONS.MYSTRINGS.CLEARBUTTON.NAME"
+msgid "Clear Suppressed"
+msgstr ""
+
+msgctxt "SUPPRESSNOTIFICATIONS.MYSTRINGS.CLEARBUTTON.TOOLTIP"
+msgid "<style=\"KKeyword\">Stop suppressing</style> the following items."
+msgstr ""
+
+msgctxt "SUPPRESSNOTIFICATIONS.MYSTRINGS.NOTIFICATION_LABEL"
+msgid "<b>Notifications:</b>"
+msgstr ""
+
+msgctxt "SUPPRESSNOTIFICATIONS.MYSTRINGS.STATUS_LABEL"
+msgid "<b>Status Items:</b>"
+msgstr ""
+
+msgctxt "SUPPRESSNOTIFICATIONS.MYSTRINGS.SUPPRESSBUTTON.NAME"
+msgid "Suppress Current"
+msgstr ""
+
+msgctxt "SUPPRESSNOTIFICATIONS.MYSTRINGS.SUPPRESSBUTTON.TOOLTIP"
+msgid "<style=\"KKeyword\">Suppress</style> the following items."
+msgstr ""
+

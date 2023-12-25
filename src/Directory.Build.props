@@ -54,6 +54,10 @@
     <Reference Include="UnityEngine.UIModule" HintPath="$(GameFolder)/UnityEngine.UIModule.dll" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <TranslationsFolder>..\..\Translations</TranslationsFolder> <!--This must be changed in AzeLib.AzeLocalization.GeneratePOTemplates as well.-->
+  </PropertyGroup>
+  
   <!--Direct the output locations based on build configuration.-->
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <InstallFolder>..\..\Release\$(MSBuildProjectName)</InstallFolder>

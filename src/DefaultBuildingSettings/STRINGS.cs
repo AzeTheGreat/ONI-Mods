@@ -2,7 +2,7 @@
 
 namespace DefaultBuildingSettings
 {
-    public class OPTIONS : RegisterStrings
+    public class OPTIONS : AStrings<OPTIONS>
     {
         public class VACANCYONLY
         {

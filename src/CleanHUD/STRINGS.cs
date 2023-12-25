@@ -2,7 +2,7 @@
 
 namespace CleanHUD
 {
-    class OPTIONS : RegisterStrings
+    class OPTIONS : AStrings<OPTIONS>
     {
         public class Vignette
         {

@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <!--Publicise the game's assemblies on rebuilds.-->
-  <Target Name="Publicise" AfterTargets="Clean">
+  <Target Name="Publicise" AfterTargets="Clean" Condition="'$(MSBuildProjectName)' == 'AzeLib'">
     <Publicise
       InputAssemblies="@(PubliciseInputAssemblies)"
       OutputPath="../lib/"/>
@@ -79,6 +79,7 @@
       <WorldGenFiles Include="$(ProjectDir)\worldgen\**\*.*" />
       <YamlFiles Include="$(ProjectDir)\*.yaml" />
       <SpriteFiles Include="$(ProjectDir)\*.dds" />
+      <TranslateFiles Include="$(TranslationsFolder)\$(MSBuildProjectName)\*.po" />
       <InfoFiles Include="$(TargetDir)\*.yaml" />
     </ItemGroup>
     <Copy SourceFiles="@(AnimFiles)" DestinationFiles="@(AnimFiles->'$(InstallFolder)\anim\%(RecursiveDir)%(Filename)%(Extension)')" />
@@ -87,6 +88,7 @@
     <Copy SourceFiles="@(SpriteFiles)" DestinationFolder="$(InstallFolder)" />
     <Copy SourceFiles="$(TargetPath)" DestinationFiles="$(InstallFolder)\$(TargetFileName)" />
     <Copy SourceFiles="@(InfoFiles)" DestinationFolder="$(InstallFolder)" />
+    <Copy SourceFiles="@(TranslateFiles)" DestinationFolder="$(InstallFolder)\Translations" />
   </Target>
 
   <!--If releasing, create a zipped version of the mod to distribute for manual downloads.-->
@@ -102,6 +104,22 @@
       ZipFileName="$(DistributeFolder)\$(ProjectName).zip"
       WorkingDirectory="$(InstallFolder)"
       Files="@(ZipFiles)"
+      Flatten="false" />
+  </Target>
+
+  <!--If releasing, create a zipped version of the translations for manual downloads.-->
+  <Target Name="ZipTranslations" AfterTargets="Zip" Condition="'$(Configuration)' == 'Release' And '$(MSBuildProjectName)' == 'AzeLib'" >
+    <CreateItem
+      Include="$(TranslationsFolder)\**\*.*"
+      Exclude="$(TranslationsFolder)\*.zip">
+      <Output
+        ItemName="ZipTranslationFiles"
+        TaskParameter="Include"/>
+    </CreateItem>
+    <Zip
+      ZipFileName="$(TranslationsFolder)\Translations.zip"
+      WorkingDirectory="$(TranslationsFolder)"
+      Files="@(ZipTranslationFiles)"
       Flatten="false" />
   </Target>
 

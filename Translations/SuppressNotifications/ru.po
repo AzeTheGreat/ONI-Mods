@@ -1,0 +1,40 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included"
+"POT Version: 2.0"
+
+#. SuppressNotifications.MYSTRINGS.BUILDINGS.DAMAGE_BAR
+msgctxt "SuppressNotifications.MYSTRINGS.BUILDINGS.DAMAGE_BAR"
+msgid "Damage Bar"
+msgstr "Полоса повреждений"
+
+#. SuppressNotifications.MYSTRINGS.CLEARBUTTON.NAME
+msgctxt "SuppressNotifications.MYSTRINGS.CLEARBUTTON.NAME"
+msgid "Clear Suppressed"
+msgstr "Очистить подавление"
+
+#. SuppressNotifications.MYSTRINGS.CLEARBUTTON.TOOLTIP
+msgctxt "SuppressNotifications.MYSTRINGS.CLEARBUTTON.TOOLTIP"
+msgid "<style=\"KKeyword\">Stop suppressing</style> the following items."
+msgstr "<style=\"KKeyword\">Остановить подавление</style> следующих предметов."
+
+#. SuppressNotifications.MYSTRINGS.NOTIFICATION_LABEL
+msgctxt "SuppressNotifications.MYSTRINGS.NOTIFICATION_LABEL"
+msgid "<b>Notifications:</b>"
+msgstr "<b>Уведомления:</b>"
+
+#. SuppressNotifications.MYSTRINGS.STATUS_LABEL
+msgctxt "SuppressNotifications.MYSTRINGS.STATUS_LABEL"
+msgid "<b>Status Items:</b>"
+msgstr "<b>Статус предметов:</b>"
+
+#. SuppressNotifications.MYSTRINGS.SUPPRESSBUTTON.NAME
+msgctxt "SuppressNotifications.MYSTRINGS.SUPPRESSBUTTON.NAME"
+msgid "Suppress Current"
+msgstr "Подавить текущее"
+
+#. SuppressNotifications.MYSTRINGS.SUPPRESSBUTTON.TOOLTIP
+msgctxt "SuppressNotifications.MYSTRINGS.SUPPRESSBUTTON.TOOLTIP"
+msgid "<style=\"KKeyword\">Suppress</style> the following items."
+msgstr "<style=\"KKeyword\">Подавить</style> следующие предметы."
+

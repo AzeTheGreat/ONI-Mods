@@ -3,7 +3,7 @@ using STRINGS;
 
 namespace DrinkTeaNotCoffee
 {
-    class MYSTRINGS : RegisterStrings
+    class MYSTRINGS : AStrings<MYSTRINGS>
     {
         public class TEAMACHINE
         {

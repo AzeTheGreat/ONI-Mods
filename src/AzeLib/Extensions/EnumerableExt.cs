@@ -54,5 +54,9 @@ namespace AzeLib.Extensions
             Func<IEnumerable<Tsrc>, Tcomp> getValue) => linqFunction(source, getValue(source));
 
         public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> source) => source ?? Array.Empty<T>();
+
+        /// <summary>Creates a <see cref="Dictionary{TKey, TValue}"/> from an <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey, TValue}"/>.</summary>
+        /// <returns>A <see cref="Dictionary{TKey, TValue}"/> that contains all source <see cref="KeyValuePair{TKey, TValue}"/>.</returns>
+        public static Dictionary<TKey, TVal> ToDictionary<TKey, TVal>(this IEnumerable<KeyValuePair<TKey, TVal>> source) => source.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
     }
 }

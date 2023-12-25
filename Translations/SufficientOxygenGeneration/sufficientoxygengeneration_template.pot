@@ -1,0 +1,29 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included"
+"POT Version: 2.0"
+
+msgctxt "SUFFICIENTOXYGENGENERATION.OPTIONS.CONSTANTTHRESHOLD.NAME"
+msgid "Constant Threshold"
+msgstr ""
+
+msgctxt "SUFFICIENTOXYGENGENERATION.OPTIONS.CONSTANTTHRESHOLD.TOOLTIP"
+msgid "Set to oxygen deficit in kg below which you'd like to be notified."
+msgstr ""
+
+msgctxt "SUFFICIENTOXYGENGENERATION.OPTIONS.MODE.NAME"
+msgid "Mode"
+msgstr ""
+
+msgctxt "SUFFICIENTOXYGENGENERATION.OPTIONS.MODE.TOOLTIP"
+msgid "Switch between constant or ratio threshold."
+msgstr ""
+
+msgctxt "SUFFICIENTOXYGENGENERATION.OPTIONS.RATIOTHRESHOLD.NAME"
+msgid "Ratio Threshold"
+msgstr ""
+
+msgctxt "SUFFICIENTOXYGENGENERATION.OPTIONS.RATIOTHRESHOLD.TOOLTIP"
+msgid "Set to the ratio of oxygen produced to consumed, below which you'd like to be notified."
+msgstr ""
+
