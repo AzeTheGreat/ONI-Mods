@@ -3,103 +3,103 @@ msgstr ""
 "Application: Oxygen Not Included"
 "POT Version: 2.0"
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.ActivateValues.NAME"
+msgctxt "DefaultBuildingSettings.OPTIONS.ActivateValues.NAME"
 msgid "Activate Value"
 msgstr ""
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.ActivateValues.TOOLTIP"
+msgctxt "DefaultBuildingSettings.OPTIONS.ActivateValues.TOOLTIP"
 msgid "The value at which the signal will turn green.  The left/lower value in the UI."
 msgstr ""
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.AUTOREPAIROFF.NAME"
+msgctxt "DefaultBuildingSettings.OPTIONS.AUTOREPAIROFF.NAME"
 msgid "Auto Repair Off"
 msgstr ""
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.AUTOREPAIROFF.TOOLTIP"
+msgctxt "DefaultBuildingSettings.OPTIONS.AUTOREPAIROFF.TOOLTIP"
 msgid "If checked, buildings will not allow repairs by default."
 msgstr ""
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.Batteries.CATEGORY"
+msgctxt "DefaultBuildingSettings.OPTIONS.Batteries.CATEGORY"
 msgid "Smart Batteries"
 msgstr ""
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.DeactivateValues.NAME"
+msgctxt "DefaultBuildingSettings.OPTIONS.DeactivateValues.NAME"
 msgid "Deactivate Value"
 msgstr ""
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.DeactivateValues.TOOLTIP"
+msgctxt "DefaultBuildingSettings.OPTIONS.DeactivateValues.TOOLTIP"
 msgid "The value at which the signal will turn red.  The right/upper value in the UI."
 msgstr ""
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.DELIVERGENVALUE.NAME"
+msgctxt "DefaultBuildingSettings.OPTIONS.DELIVERGENVALUE.NAME"
 msgid "Delivery Generator Threshold"
 msgstr ""
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.DELIVERGENVALUE.TOOLTIP"
+msgctxt "DefaultBuildingSettings.OPTIONS.DELIVERGENVALUE.TOOLTIP"
 msgid "The threshold at which the generators that require manual delivery will request more fuel."
 msgstr ""
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.Generators.CATEGORY"
+msgctxt "DefaultBuildingSettings.OPTIONS.Generators.CATEGORY"
 msgid "Generators"
 msgstr ""
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.MANUALGENVALUE.NAME"
+msgctxt "DefaultBuildingSettings.OPTIONS.MANUALGENVALUE.NAME"
 msgid "Manual Generator Threshold"
 msgstr ""
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.MANUALGENVALUE.TOOLTIP"
+msgctxt "DefaultBuildingSettings.OPTIONS.MANUALGENVALUE.TOOLTIP"
 msgid "The threshold at which a duplicant will be requested to run on the manual generator."
 msgstr ""
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.OPENDOORS.NAME"
+msgctxt "DefaultBuildingSettings.OPTIONS.OPENDOORS.NAME"
 msgid "Open Doors"
 msgstr ""
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.OPENDOORS.TOOLTIP"
+msgctxt "DefaultBuildingSettings.OPTIONS.OPENDOORS.TOOLTIP"
 msgid "If checked, Doors that allow airflow will immediately be opened after being built."
 msgstr ""
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.RESERVOIRACTIVATEVALUE.CATEGORY"
+msgctxt "DefaultBuildingSettings.OPTIONS.RESERVOIRACTIVATEVALUE.CATEGORY"
 msgid "Reservoirs"
 msgstr ""
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.RESERVOIRDEACTIVATEVALUE.CATEGORY"
+msgctxt "DefaultBuildingSettings.OPTIONS.RESERVOIRDEACTIVATEVALUE.CATEGORY"
 msgid "Reservoirs"
 msgstr ""
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.Reservoirs.CATEGORY"
+msgctxt "DefaultBuildingSettings.OPTIONS.Reservoirs.CATEGORY"
 msgid "Reservoirs"
 msgstr ""
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.SMARTBATTERYACTIVATEVALUE.CATEGORY"
+msgctxt "DefaultBuildingSettings.OPTIONS.SMARTBATTERYACTIVATEVALUE.CATEGORY"
 msgid "Smart Batteries"
 msgstr ""
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.SMARTBATTERYDEACTIVATEVALUE.CATEGORY"
+msgctxt "DefaultBuildingSettings.OPTIONS.SMARTBATTERYDEACTIVATEVALUE.CATEGORY"
 msgid "Smart Batteries"
 msgstr ""
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.SWEEPONLY.NAME"
+msgctxt "DefaultBuildingSettings.OPTIONS.SWEEPONLY.NAME"
 msgid "Sweep Only"
 msgstr ""
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.SWEEPONLY.TOOLTIP"
+msgctxt "DefaultBuildingSettings.OPTIONS.SWEEPONLY.TOOLTIP"
 msgid "If checked, storage receptacles are set to sweep only by default."
 msgstr ""
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.SWITCHESOFF.NAME"
+msgctxt "DefaultBuildingSettings.OPTIONS.SWITCHESOFF.NAME"
 msgid "Switches Start Off"
 msgstr ""
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.SWITCHESOFF.TOOLTIP"
+msgctxt "DefaultBuildingSettings.OPTIONS.SWITCHESOFF.TOOLTIP"
 msgid "If checked, automation and power switches will initialize in the inactive state."
 msgstr ""
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.VACANCYONLY.NAME"
+msgctxt "DefaultBuildingSettings.OPTIONS.VACANCYONLY.NAME"
 msgid "Vacancy Only"
 msgstr ""
 
-msgctxt "DEFAULTBUILDINGSETTINGS.OPTIONS.VACANCYONLY.TOOLTIP"
+msgctxt "DefaultBuildingSettings.OPTIONS.VACANCYONLY.TOOLTIP"
 msgid "If checked, atmo and jet suit checkpoint are set to Vacancy Only by default."
 msgstr ""
 

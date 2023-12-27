@@ -3,47 +3,47 @@ msgstr ""
 "Application: Oxygen Not Included"
 "POT Version: 2.0"
 
-msgctxt "DEFAULTSAVESETTINGS.OPTIONS.AUTOSAVEINTERVAL.NAME"
+msgctxt "DefaultSaveSettings.OPTIONS.AUTOSAVEINTERVAL.NAME"
 msgid "Default Auto Save Interval"
 msgstr ""
 
-msgctxt "DEFAULTSAVESETTINGS.OPTIONS.AUTOSAVEINTERVAL.TOOLTIP"
+msgctxt "DefaultSaveSettings.OPTIONS.AUTOSAVEINTERVAL.TOOLTIP"
 msgid "Controls the default auto save interval."
 msgstr ""
 
-msgctxt "DEFAULTSAVESETTINGS.OPTIONS.DISINFECTMINGERMCOUNT.NAME"
+msgctxt "DefaultSaveSettings.OPTIONS.DISINFECTMINGERMCOUNT.NAME"
 msgid "Default Germ Count for Disinfect"
 msgstr ""
 
-msgctxt "DEFAULTSAVESETTINGS.OPTIONS.DISINFECTMINGERMCOUNT.TOOLTIP"
+msgctxt "DefaultSaveSettings.OPTIONS.DISINFECTMINGERMCOUNT.TOOLTIP"
 msgid "Controls the default minimum germ count for auto disinfection."
 msgstr ""
 
-msgctxt "DEFAULTSAVESETTINGS.OPTIONS.ENABLEAUTODISINFECT.NAME"
+msgctxt "DefaultSaveSettings.OPTIONS.ENABLEAUTODISINFECT.NAME"
 msgid "Enable Auto Disinfect Default"
 msgstr ""
 
-msgctxt "DEFAULTSAVESETTINGS.OPTIONS.ENABLEAUTODISINFECT.TOOLTIP"
+msgctxt "DefaultSaveSettings.OPTIONS.ENABLEAUTODISINFECT.TOOLTIP"
 msgid "If checked, the 'Disinfect At' option will default to true for new games."
 msgstr ""
 
-msgctxt "DEFAULTSAVESETTINGS.OPTIONS.ENABLEPROXIMITY.NAME"
+msgctxt "DefaultSaveSettings.OPTIONS.ENABLEPROXIMITY.NAME"
 msgid "Enable Proximity Default"
 msgstr ""
 
-msgctxt "DEFAULTSAVESETTINGS.OPTIONS.ENABLEPROXIMITY.TOOLTIP"
+msgctxt "DefaultSaveSettings.OPTIONS.ENABLEPROXIMITY.TOOLTIP"
 msgid "If checked, the 'Enable Proximity' option is checked by default for new games."
 msgstr ""
 
-msgctxt "DEFAULTSAVESETTINGS.OPTIONS.Germs.CATEGORY"
+msgctxt "DefaultSaveSettings.OPTIONS.Germs.CATEGORY"
 msgid "Disease"
 msgstr ""
 
-msgctxt "DEFAULTSAVESETTINGS.OPTIONS.TIMELAPSERESOLUTION.NAME"
+msgctxt "DefaultSaveSettings.OPTIONS.TIMELAPSERESOLUTION.NAME"
 msgid "Default Timelapse Resolution"
 msgstr ""
 
-msgctxt "DEFAULTSAVESETTINGS.OPTIONS.TIMELAPSERESOLUTION.TOOLTIP"
+msgctxt "DefaultSaveSettings.OPTIONS.TIMELAPSERESOLUTION.TOOLTIP"
 msgid "Controls the default timelapse resolution."
 msgstr ""
 

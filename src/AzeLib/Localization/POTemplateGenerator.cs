@@ -44,7 +44,7 @@ namespace AzeLib
             using (var sw = new StreamWriter(outputDir, false, new UTF8Encoding(false)))
             {
                 WriteHeader(sw);
-                WritePOT(lsNamespace.ToUpper(), sw, GetStringsTree());
+                WritePOT(lsNamespace, lsNamespace, sw, GetStringsTree());
             }
 
             Debug.Log("Generated AzePOT at " + outputDir);
@@ -67,7 +67,7 @@ namespace AzeLib
                 .ToDictionary();
         }
 
-        private static void WritePOT(string path, StreamWriter sw, Dictionary<string, object> stringsTree)
+        private static void WritePOT(string path, string lsNamespace, StreamWriter sw, Dictionary<string, object> stringsTree)
         {
             foreach (var (key, value) in stringsTree.OrderBy(k => k.Key))
             {
@@ -77,10 +77,10 @@ namespace AzeLib
                     WriteEntry(sw, fullKey, defaultTranslation);
                 else if (value is POTEntry potEntry)
                     WriteEntry(sw, fullKey,
-                        Strings.TryGet(AzeStrings.GetFullKey(fullKey), out var s) ? s : string.Empty,
+                        Strings.TryGet(AzeStrings.GetFullKey(lsNamespace, fullKey), out var s) ? s : string.Empty,
                         potEntry.Comment);
                 else
-                    WritePOT(fullKey, sw, value as Dictionary<string, object>);
+                    WritePOT(fullKey, lsNamespace, sw, value as Dictionary<string, object>);
             }
 
             static void WriteEntry(StreamWriter sw, string fullKey, string defaultTranslation, string comment = null)

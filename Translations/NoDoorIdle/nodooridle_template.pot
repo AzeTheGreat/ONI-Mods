@@ -3,27 +3,27 @@ msgstr ""
 "Application: Oxygen Not Included"
 "POT Version: 2.0"
 
-msgctxt "NODOORIDLE.OPTIONS.CANIDLEINDOORS.NAME"
+msgctxt "NoDoorIdle.OPTIONS.CANIDLEINDOORS.NAME"
 msgid "Idle In Doors"
 msgstr ""
 
-msgctxt "NODOORIDLE.OPTIONS.CANIDLEINDOORS.TOOLTIP"
+msgctxt "NoDoorIdle.OPTIONS.CANIDLEINDOORS.TOOLTIP"
 msgid "When true, duplicants can idle inside of doors."
 msgstr ""
 
-msgctxt "NODOORIDLE.OPTIONS.CANIDLETRAVERSEDOORS.NAME"
+msgctxt "NoDoorIdle.OPTIONS.CANIDLETRAVERSEDOORS.NAME"
 msgid "Idle Traverse Doors"
 msgstr ""
 
-msgctxt "NODOORIDLE.OPTIONS.CANIDLETRAVERSEDOORS.TOOLTIP"
+msgctxt "NoDoorIdle.OPTIONS.CANIDLETRAVERSEDOORS.TOOLTIP"
 msgid "When true, duplicants can cross doors while idling."
 msgstr ""
 
-msgctxt "NODOORIDLE.OPTIONS.FIXIDLETRAPPING.NAME"
+msgctxt "NoDoorIdle.OPTIONS.FIXIDLETRAPPING.NAME"
 msgid "Fix Idle Trapping"
 msgstr ""
 
-msgctxt "NODOORIDLE.OPTIONS.FIXIDLETRAPPING.TOOLTIP"
+msgctxt "NoDoorIdle.OPTIONS.FIXIDLETRAPPING.TOOLTIP"
 msgid "When true, fixes a base game bug that causes dupes to get stuck at checkpoints when idle."
 msgstr ""
 

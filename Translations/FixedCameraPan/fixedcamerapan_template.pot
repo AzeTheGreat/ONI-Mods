@@ -3,13 +3,11 @@ msgstr ""
 "Application: Oxygen Not Included"
 "POT Version: 2.0"
 
-#. FixedCameraPan.OPTIONS.PANSPEED.NAME
 msgctxt "FixedCameraPan.OPTIONS.PANSPEED.NAME"
 msgid "Pan Speed"
 msgstr ""
 
-#. FixedCameraPan.OPTIONS.PANSPEED.TOOLTIP
 msgctxt "FixedCameraPan.OPTIONS.PANSPEED.TOOLTIP"
-msgid "Set to the framerate at which you find the speed comfortable.  At 60, the camera will always move at the same speed as it moves when the game is at 60 FPS."
+msgid "Pan speed multiplier.  (Base game = 100%)"
 msgstr ""
 

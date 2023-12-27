@@ -3,59 +3,59 @@ msgstr ""
 "Application: Oxygen Not Included"
 "POT Version: 2.0"
 
-msgctxt "CLEANHUD.OPTIONS.ALERTVIGNETTEALPHA.NAME"
+msgctxt "CleanHUD.OPTIONS.ALERTVIGNETTEALPHA.NAME"
 msgid "Warning Vignette Opacity"
 msgstr ""
 
-msgctxt "CLEANHUD.OPTIONS.ALERTVIGNETTEALPHA.TOOLTIP"
+msgctxt "CleanHUD.OPTIONS.ALERTVIGNETTEALPHA.TOOLTIP"
 msgid "Adjust the opacity of the warning vignettes (standard value = 30%) "
 msgstr ""
 
-msgctxt "CLEANHUD.OPTIONS.InvalidArea.CATEGORY"
+msgctxt "CleanHUD.OPTIONS.InvalidArea.CATEGORY"
 msgid "Out-of-Bounds Warning"
 msgstr ""
 
-msgctxt "CLEANHUD.OPTIONS.INVALIDAREAOPACITY.NAME"
+msgctxt "CleanHUD.OPTIONS.INVALIDAREAOPACITY.NAME"
 msgid "Warning Opacity"
 msgstr ""
 
-msgctxt "CLEANHUD.OPTIONS.INVALIDAREAOPACITY.TOOLTIP"
+msgctxt "CleanHUD.OPTIONS.INVALIDAREAOPACITY.TOOLTIP"
 msgid "Sets the opacity of the warning."
 msgstr ""
 
-msgctxt "CLEANHUD.OPTIONS.ISSOLIDINVALIDAREA.NAME"
+msgctxt "CleanHUD.OPTIONS.ISSOLIDINVALIDAREA.NAME"
 msgid "Solid Warning"
 msgstr ""
 
-msgctxt "CLEANHUD.OPTIONS.ISSOLIDINVALIDAREA.TOOLTIP"
+msgctxt "CleanHUD.OPTIONS.ISSOLIDINVALIDAREA.TOOLTIP"
 msgid "When true, the warning will be solid, rather than striped."
 msgstr ""
 
-msgctxt "CLEANHUD.OPTIONS.ISWATERMARKDISABLED.NAME"
+msgctxt "CleanHUD.OPTIONS.ISWATERMARKDISABLED.NAME"
 msgid "Disable Watermark"
 msgstr ""
 
-msgctxt "CLEANHUD.OPTIONS.ISWATERMARKDISABLED.TOOLTIP"
+msgctxt "CleanHUD.OPTIONS.ISWATERMARKDISABLED.TOOLTIP"
 msgid "When true, the build watermark is removed from the screen."
 msgstr ""
 
-msgctxt "CLEANHUD.OPTIONS.USESMALLBUTTONS.NAME"
+msgctxt "CleanHUD.OPTIONS.USESMALLBUTTONS.NAME"
 msgid "Small Buttons"
 msgstr ""
 
-msgctxt "CLEANHUD.OPTIONS.USESMALLBUTTONS.TOOLTIP"
+msgctxt "CleanHUD.OPTIONS.USESMALLBUTTONS.TOOLTIP"
 msgid "When true, the management buttons all use the small format."
 msgstr ""
 
-msgctxt "CLEANHUD.OPTIONS.Vignette.CATEGORY"
+msgctxt "CleanHUD.OPTIONS.Vignette.CATEGORY"
 msgid "Vignettes"
 msgstr ""
 
-msgctxt "CLEANHUD.OPTIONS.VIGNETTEALPHA.NAME"
+msgctxt "CleanHUD.OPTIONS.VIGNETTEALPHA.NAME"
 msgid "Vignette Opacity"
 msgstr ""
 
-msgctxt "CLEANHUD.OPTIONS.VIGNETTEALPHA.TOOLTIP"
+msgctxt "CleanHUD.OPTIONS.VIGNETTEALPHA.TOOLTIP"
 msgid "Adjust the opacity of the vignette (standard value = 47%)"
 msgstr ""
 
