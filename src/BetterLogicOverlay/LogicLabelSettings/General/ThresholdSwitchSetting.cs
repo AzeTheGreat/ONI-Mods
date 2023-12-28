@@ -16,7 +16,7 @@ namespace BetterLogicOverlay.LogicSettingDisplay
         public class ConduitTemp : ThresholdSwitchSetting
         {
             protected override string GetUnits() => string.Empty;
-            protected override string GetValue() => GameUtil.GetFormattedTemperature(thresholdSwitch.Threshold, GameUtil.TimeSlice.None, GameUtil.TemperatureInterpretation.Absolute, true, true);
+            protected override string GetValue() => GameUtil.AddTemperatureUnitSuffix(LabelUtil.GetFormattedNum(GameUtil.GetConvertedTemperature(thresholdSwitch.Threshold, false)));
         }
 
         public class Germs : ThresholdSwitchSetting

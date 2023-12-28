@@ -6,7 +6,7 @@ namespace BetterLogicOverlay.LogicSettingDisplay
     {
         [MyIntGet] protected ISliderControl sliderControl;
 
-        public override string GetSetting() => sliderControl.GetSliderValue(0) + sliderControl.SliderUnits;
+        public override string GetSetting() => LabelUtil.GetFormattedNum(sliderControl.GetSliderValue(0)) + sliderControl.SliderUnits;
 
         public class WirelessSignalRecieverSetting : SliderControlSetting
         {
