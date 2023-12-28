@@ -28,6 +28,8 @@ namespace BetterLogicOverlay.LogicSettingDisplay
                 (typeof(LogicDiseaseSensor), typeof(ThresholdSwitchSetting.Germs), PortFilter.Output),
                 (typeof(ConduitDiseaseSensor), typeof(ThresholdSwitchSetting.Germs), PortFilter.Output),
                 (typeof(LogicCritterCountSensor), typeof(ThresholdSwitchSetting.CritterCount), PortFilter.Output),
+                (typeof(LogicRadiationSensor), typeof(ThresholdSwitchSetting.RadiationSensor), PortFilter.Output),
+                (typeof(LogicHEPSensor), typeof(ThresholdSwitchSetting.HEPSensor), PortFilter.Output),
                 (typeof(IThresholdSwitch), typeof(ThresholdSwitchSetting), PortFilter.Output),
 
                 // ISliderControl

@@ -53,5 +53,17 @@ namespace BetterLogicOverlay.LogicSettingDisplay
                     return string.Empty;
             }
         }
+
+        public class RadiationSensor : ThresholdSwitchSetting
+        {
+            // Format is implemented incorrectly and ignores the bool units switch.
+            protected override string GetValue() => thresholdSwitch.Threshold.ToString();
+            protected override string GetUnits() => " r";
+        }
+
+        public class HEPSensor : ThresholdSwitchSetting
+        {
+            protected override string GetUnits() => " rb";
+        }
     }
 }
