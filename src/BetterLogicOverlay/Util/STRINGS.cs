@@ -11,6 +11,15 @@ namespace BetterLogicOverlay
         {
             public static LocString thousand = "k";
         }
+
+        public class UNITS
+        {
+            public static LocString CRITTER = "c";
+            public static LocString EGG = "e";
+
+            public static LocString RAD = "r";
+            public static LocString RADBOLT = "rb";
+        }
     }
 
     public class ABBREVIATIONS : AFieldlessStrings<ABBREVIATIONS>

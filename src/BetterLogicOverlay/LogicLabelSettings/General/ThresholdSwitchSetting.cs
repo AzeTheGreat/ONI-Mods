@@ -44,11 +44,11 @@ namespace BetterLogicOverlay.LogicSettingDisplay
             protected override string GetUnits()
             {
                 if (logicCritterCountSensor.countCritters && logicCritterCountSensor.countEggs)
-                    return " c/e";
+                    return " " + MYSTRINGS.UNITS.CRITTER + "/" + MYSTRINGS.UNITS.EGG;
                 else if (logicCritterCountSensor.countCritters)
-                    return " c";
+                    return " " + MYSTRINGS.UNITS.CRITTER;
                 else if (logicCritterCountSensor.countEggs)
-                    return " e";
+                    return " " + MYSTRINGS.UNITS.EGG;
                 else
                     return string.Empty;
             }
@@ -58,12 +58,12 @@ namespace BetterLogicOverlay.LogicSettingDisplay
         {
             // Format is implemented incorrectly and ignores the bool units switch.
             protected override string GetValue() => thresholdSwitch.Threshold.ToString();
-            protected override string GetUnits() => " r";
+            protected override string GetUnits() => " " + MYSTRINGS.UNITS.RAD;
         }
 
         public class HEPSensor : ThresholdSwitchSetting
         {
-            protected override string GetUnits() => " rb";
+            protected override string GetUnits() => " " + MYSTRINGS.UNITS.RADBOLT;
         }
     }
 }

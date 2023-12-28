@@ -552,6 +552,22 @@ msgctxt "BetterLogicOverlay.MYSTRINGS.UNITMODIFIERS.thousand"
 msgid "k"
 msgstr ""
 
+msgctxt "BetterLogicOverlay.MYSTRINGS.UNITS.CRITTER"
+msgid "c"
+msgstr ""
+
+msgctxt "BetterLogicOverlay.MYSTRINGS.UNITS.EGG"
+msgid "e"
+msgstr ""
+
+msgctxt "BetterLogicOverlay.MYSTRINGS.UNITS.RAD"
+msgid "r"
+msgstr ""
+
+msgctxt "BetterLogicOverlay.MYSTRINGS.UNITS.RADBOLT"
+msgid "rb"
+msgstr ""
+
 msgctxt "BetterLogicOverlay.OPTIONS.DISPLAYLOGICSETTINGS.NAME"
 msgid "Display Logic Settings"
 msgstr ""
