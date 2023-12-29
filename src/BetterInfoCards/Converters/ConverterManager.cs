@@ -43,8 +43,27 @@ namespace BetterInfoCards
             AddConverter<(byte idx, int count)>(
                 germs,
                 data => {
+                    try {
                     PrimaryElement element = ((GameObject)data).GetComponent<PrimaryElement>();
                     return (element.DiseaseIdx, element.DiseaseCount);
+                    }
+                    catch (NullReferenceException)
+                    {
+                        Debug.Log("Issue encountered in germs converter (getValue)");
+                        Debug.Log("Data: " + data);
+                        Debug.Log("GameObject: " + ((GameObject)data) + "; " + ((GameObject)data)?.name);
+
+                        var element = ((GameObject)data)?.GetComponent<PrimaryElement>();
+                        Debug.Log("Element: " + element);
+
+                        Debug.Log("Idx: " + element?.DiseaseIdx + "; Count: " + element?.DiseaseCount);
+
+                        Debug.LogError("Hi, you've hit an edge case crash in Better Info Cards.\n" +
+                            "PLEASE upload the full player.log to the below issue so I can pin it down.\n" +
+                            "https://github.com/AzeTheGreat/ONI-Mods/issues/33\n" +
+                            "--------------------------------------------------");
+                        throw;
+                    }
                 },
                 // Impossible for multiple storages to overlap, so no need to worry about that part of the germ text since it will never be overwritten
                 (original, pairs) => {
