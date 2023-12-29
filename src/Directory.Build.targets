@@ -72,8 +72,18 @@
       Parallel="true"/>
   </Target>
 
+  <!--Clear the install folder while preserving current configs.-->
+  <Target Name="ClearInstallFolder" AfterTargets="ILRepack" Condition="'$(ShouldDistribute)' != 'false'">
+    <ItemGroup>
+      <FilesToDelete Include="$(InstallFolder)\**\*.*" Exclude="$(InstallFolder)\config.json"/>
+      <DirsToDelete Include="$([System.IO.Directory]::GetDirectories('$(InstallFolder)', '*', System.IO.SearchOption.AllDirectories))" />
+    </ItemGroup>
+    <Delete Files="@(FilesToDelete)" />
+    <RemoveDir Directories="@(DirsToDelete)" />
+  </Target>
+  
   <!--Copy the mod to the install folder.-->
-  <Target Name="CopyArtifactsToInstallFolder" AfterTargets="ILRepack" Condition=" '$(ShouldDistribute)' != 'false' ">
+  <Target Name="CopyArtifactsToInstallFolder" AfterTargets="ClearInstallFolder" Condition=" '$(ShouldDistribute)' != 'false' ">
     <ItemGroup>
       <AnimFiles Include="$(ProjectDir)\anim\**\*.*" />
       <WorldGenFiles Include="$(ProjectDir)\worldgen\**\*.*" />
