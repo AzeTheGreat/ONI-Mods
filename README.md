@@ -36,5 +36,8 @@ These mods are all very simple mods that I made for requests that I don't person
 |[No Meteors](https://steamcommunity.com/sharedfiles/filedetails/?id=1962090267)|Stops the game from spawning meteors.|
 |[No Notification Sounds](https://steamcommunity.com/sharedfiles/filedetails/?id=1882035088)|Removes sounds from notifications for those who just hate noise.|
 
-## [Contribute to Translations](Translations/TRANSLATING.md)
-## [Compile the Solution](src/README.md)
+## Contributing
+- [Compile the Solution](src/README.md)
+- [Contribute to Translations](Translations/TRANSLATING.md)
+- [Send a donation](https://ko-fi.com/aze_tg)
+  - Likes, favorites, awards, and comments on [Steam](https://steamcommunity.com/profiles/76561198044590606/myworkshopfiles/?appid=457140) are also appreciated.
