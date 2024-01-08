@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using System;
 using UnityEngine;
 
 namespace DefaultBuildingSettings
@@ -10,13 +11,15 @@ namespace DefaultBuildingSettings
         {
             static void Postfix(TreeFilterable __instance)
             {
-                // TreeFilterableSideScreen.IsValidForTarget manually blacklists FlatTagFilterables
-                // Without this, rocket oxidizer tanks get set to sweep only despite not having the UI
-                // Must use reflection since FlatTagFilterable doesn't exist in vanilla currently
-                if (Options.Opts.SweepOnly && __instance.GetComponent(nameof(FlatTagFilterable)) == null && __instance.storage.allowSettingOnlyFetchMarkedItems)
+                if (Options.Opts.SweepOnly && __instance.storage.allowSettingOnlyFetchMarkedItems && IsValidForTarget(null, __instance.gameObject))
                     __instance.storage.SetOnlyFetchMarkedItems(true);
                     
             }
+
+            // Some items are special cased so that their side screen does not allow setting OnlyFetch.
+            [HarmonyReversePatch][HarmonyPatch(typeof(TreeFilterableSideScreen), nameof(TreeFilterableSideScreen.IsValidForTarget))]
+            public static bool IsValidForTarget(TreeFilterableSideScreen _, GameObject target) => 
+                throw new NotImplementedException($"Failed to reverse patch {nameof(IsValidForTarget)}.");
         }
 
         internal static bool SetReservoirValues(GameObject go)
