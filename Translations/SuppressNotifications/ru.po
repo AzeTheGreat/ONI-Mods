@@ -1,7 +1,16 @@
 msgid ""
 msgstr ""
-"Application: Oxygen Not Included"
-"POT Version: 2.0"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #. SuppressNotifications.MYSTRINGS.BUILDINGS.DAMAGE_BAR
 msgctxt "SuppressNotifications.MYSTRINGS.BUILDINGS.DAMAGE_BAR"
@@ -11,12 +20,12 @@ msgstr "Полоса повреждений"
 #. SuppressNotifications.MYSTRINGS.CLEARBUTTON.NAME
 msgctxt "SuppressNotifications.MYSTRINGS.CLEARBUTTON.NAME"
 msgid "Clear Suppressed"
-msgstr "Очистить подавление"
+msgstr "Показать уведомления"
 
 #. SuppressNotifications.MYSTRINGS.CLEARBUTTON.TOOLTIP
 msgctxt "SuppressNotifications.MYSTRINGS.CLEARBUTTON.TOOLTIP"
 msgid "<style=\"KKeyword\">Stop suppressing</style> the following items."
-msgstr "<style=\"KKeyword\">Остановить подавление</style> следующих предметов."
+msgstr "<style=\"KKeyword\">Показать уведомления</style> следующих объектов."
 
 #. SuppressNotifications.MYSTRINGS.NOTIFICATION_LABEL
 msgctxt "SuppressNotifications.MYSTRINGS.NOTIFICATION_LABEL"
@@ -26,15 +35,14 @@ msgstr "<b>Уведомления:</b>"
 #. SuppressNotifications.MYSTRINGS.STATUS_LABEL
 msgctxt "SuppressNotifications.MYSTRINGS.STATUS_LABEL"
 msgid "<b>Status Items:</b>"
-msgstr "<b>Статус предметов:</b>"
+msgstr "<b>Статус объектов:</b>"
 
 #. SuppressNotifications.MYSTRINGS.SUPPRESSBUTTON.NAME
 msgctxt "SuppressNotifications.MYSTRINGS.SUPPRESSBUTTON.NAME"
 msgid "Suppress Current"
-msgstr "Подавить текущее"
+msgstr "Скрыть уведомления"
 
 #. SuppressNotifications.MYSTRINGS.SUPPRESSBUTTON.TOOLTIP
 msgctxt "SuppressNotifications.MYSTRINGS.SUPPRESSBUTTON.TOOLTIP"
 msgid "<style=\"KKeyword\">Suppress</style> the following items."
-msgstr "<style=\"KKeyword\">Подавить</style> следующие предметы."
-
+msgstr "<style=\"KKeyword\">Скрыть</style> следующие уведомления."
