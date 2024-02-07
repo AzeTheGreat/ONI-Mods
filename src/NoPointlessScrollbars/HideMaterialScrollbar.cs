@@ -7,7 +7,7 @@ using UnityEngine;
 namespace NoPointlessScrollbars
 {
     [HarmonyPatch(typeof(MaterialSelector), nameof(MaterialSelector.UpdateScrollBar))]
-    static class MaterialSelector_Patch
+    static class HideMaterialScrollbar
     {
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> codes)
         {
@@ -18,7 +18,7 @@ namespace NoPointlessScrollbars
                 i => new[]
                 {
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    CodeInstruction.Call(typeof(MaterialSelector_Patch), nameof(Splice)),
+                    CodeInstruction.Call(typeof(HideMaterialScrollbar), nameof(Splice)),
                     i
                 });
         }
