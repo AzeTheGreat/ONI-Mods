@@ -1,34 +1,28 @@
 ﻿using AzeLib.Extensions;
 using HarmonyLib;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Reflection.Emit;
 using UnityEngine;
 
 namespace NoPointlessScrollbars
 {
-    [HarmonyPatch(typeof(MaterialSelector), "UpdateScrollBar")]
+    [HarmonyPatch(typeof(MaterialSelector), nameof(MaterialSelector.UpdateScrollBar))]
     static class MaterialSelector_Patch
     {
-        private static bool shouldShow;
-
-        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> codes)
         {
             var setActiveMethod = AccessTools.Method(typeof(GameObject), nameof(GameObject.SetActive));
 
-            foreach (var i in instructions)
-            {
-                if (i.Is(OpCodes.Callvirt, setActiveMethod))
-                    yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(MaterialSelector_Patch), nameof(MaterialSelector_Patch.Patch)));
-                yield return i;
-            }
+            return codes.Manipulator(
+                i => i.Calls(setActiveMethod),
+                i => new[]
+                {
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    CodeInstruction.Call(typeof(MaterialSelector_Patch), nameof(Splice)),
+                    i
+                });
         }
 
-        static void Postfix(MaterialSelector __instance)
-        {
-            __instance.ScrollRect.vertical = shouldShow;
-        }
-
-        private static bool Patch(bool show) => shouldShow = show;
+        private static bool Splice(bool show, MaterialSelector instance) => instance.ScrollRect.vertical = show;
     }
 }
