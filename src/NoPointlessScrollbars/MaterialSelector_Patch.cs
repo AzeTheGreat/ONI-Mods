@@ -26,7 +26,7 @@ namespace NoPointlessScrollbars
 
         static void Postfix(MaterialSelector __instance)
         {
-            __instance.ScrollRect.horizontal = shouldShow;
+            __instance.ScrollRect.vertical = shouldShow;
         }
 
         private static bool Patch(bool show) => shouldShow = show;
