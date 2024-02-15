@@ -5,16 +5,17 @@ namespace BetterDeselect
 {
     // If the active tool is changed, it normally closes the category panel.
     // This prevents the category panel from being closed if the build menu is set to close after the selected object.
-    [HarmonyPatch(typeof(PlanScreen), "OnActiveToolChanged")]
-    class PreventCloseCatPanel_Patch
+    [HarmonyPatch(typeof(PlanScreen), nameof(PlanScreen.OnActiveToolChanged))]
+    class PreventCloseCategoryPanel
     {
-        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> codes)
         {
-            return instructions.MethodReplacer(AccessTools.Method(typeof(PlanScreen), "CloseCategoryPanel"), 
-                AccessTools.Method(typeof(PreventCloseCatPanel_Patch), nameof(PreventCloseCatPanel_Patch.CloseCategoryPanelWrapper)));
+            return codes.MethodReplacer(
+                AccessTools.Method(typeof(PlanScreen), nameof(PlanScreen.CloseCategoryPanel)),
+                AccessTools.Method(typeof(PreventCloseCategoryPanel), nameof(Splice)));
         }
 
-        private static void CloseCategoryPanelWrapper(PlanScreen instance, bool playSound)
+        private static void Splice(PlanScreen instance, bool playSound)
         {
             if (Options.Opts.BuildMenu <= Options.Opts.SelectedObj)
                 instance.CloseCategoryPanel(playSound);
@@ -24,15 +25,16 @@ namespace BetterDeselect
     // When the current tool is deselected, it normally closes the overlay screen.
     // This prevents the overlay screen from being closed if the overlay screen is set to close after the selected object.
     [HarmonyPatch(typeof(InterfaceTool), nameof(InterfaceTool.DeactivateTool))]
-    public class DeselectOverlay_Patch
+    public class PreventCloseOverlay
     {
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            return instructions.MethodReplacer(AccessTools.Method(typeof(OverlayScreen), nameof(OverlayScreen.ToggleOverlay)), 
-                AccessTools.Method(typeof(DeselectOverlay_Patch), nameof(DeselectOverlay_Patch.ToggleOverlayWrapper)));
+            return instructions.MethodReplacer(
+                AccessTools.Method(typeof(OverlayScreen), nameof(OverlayScreen.ToggleOverlay)),
+                AccessTools.Method(typeof(PreventCloseOverlay), nameof(Splice)));
         }
 
-        private static void ToggleOverlayWrapper(OverlayScreen instance, HashedString newMode, bool allowSound)
+        private static void Splice(OverlayScreen instance, HashedString newMode, bool allowSound)
         {
             if (Options.Opts.Overlay <= Options.Opts.SelectedObj)
                 instance.ToggleOverlay(newMode, allowSound);
