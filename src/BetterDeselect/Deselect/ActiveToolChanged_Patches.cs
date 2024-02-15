@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 namespace BetterDeselect
 {
+    // If the active tool is changed, it normally closes the category panel.
+    // This prevents the category panel from being closed if the build menu is set to close after the selected object.
     [HarmonyPatch(typeof(PlanScreen), "OnActiveToolChanged")]
     class PreventCloseCatPanel_Patch
     {
@@ -14,11 +16,13 @@ namespace BetterDeselect
 
         private static void CloseCategoryPanelWrapper(PlanScreen instance, bool playSound)
         {
-            if (Options.Opts.BuildMenu == Options.ClickNum.One)
+            if (Options.Opts.BuildMenu <= Options.Opts.SelectedObj)
                 instance.CloseCategoryPanel(playSound);
         }
     }
 
+    // When the current tool is deselected, it normally closes the overlay screen.
+    // This prevents the overlay screen from being closed if the overlay screen is set to close after the selected object.
     [HarmonyPatch(typeof(InterfaceTool), nameof(InterfaceTool.DeactivateTool))]
     public class DeselectOverlay_Patch
     {
@@ -30,7 +34,7 @@ namespace BetterDeselect
 
         private static void ToggleOverlayWrapper(OverlayScreen instance, HashedString newMode, bool allowSound)
         {
-            if(Options.Opts.Overlay == Options.ClickNum.One)
+            if (Options.Opts.Overlay <= Options.Opts.SelectedObj)
                 instance.ToggleOverlay(newMode, allowSound);
         }
     }
