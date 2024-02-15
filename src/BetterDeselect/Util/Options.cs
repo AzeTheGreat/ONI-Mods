@@ -1,5 +1,7 @@
 ﻿using AzeLib;
 using PeterHan.PLib.Options;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BetterDeselect
 {
@@ -25,11 +27,18 @@ namespace BetterDeselect
 
         protected override bool ValidateSettings()
         {
-            if (!(Overlay == ClickNum.Three && BuildMenu == ClickNum.Three))
-                return true;
-
-            Overlay = BuildMenu = ClickNum.Two;
-            return false;
+            var settings = new List<ClickNum>() { SelectedObj, Overlay, BuildMenu };
+            
+            var shift = settings.Min();
+            if(shift > 0)
+            {
+                SelectedObj -= shift;
+                Overlay -= shift;
+                BuildMenu -= shift;
+                return false;
+            }
+            
+            return true;
         }
 
         public Options()
