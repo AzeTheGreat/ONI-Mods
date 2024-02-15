@@ -8,11 +8,12 @@ namespace BetterDeselect
     {
         static bool Prefix(PlanScreen __instance, KButtonEvent e, KIconToggleMenu.ToggleInfo ___activeCategoryInfo)
         {
+            bool isSelectedItem = SelectTool.Instance.selected != null;
             bool isActiveMenu = ___activeCategoryInfo != null;
             bool isActiveOverlay = OverlayScreen.Instance.GetMode() != OverlayModes.None.ID;
 
-            // The first click, when something is selected, doesn't get processed here.
-            // It goes through ToolMenu and gets processed by PlanScreen.OnActiveToolChanged.
+            if (isSelectedItem)
+                return false;
 
             // If both are active, check if they're supposed to be closed on the second click, and close.
             if (isActiveMenu && isActiveOverlay && TryConsumeRightClick())
