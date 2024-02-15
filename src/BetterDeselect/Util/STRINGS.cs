@@ -9,6 +9,11 @@ namespace BetterDeselect
             public static LocString TOOLTIP = "What order to deslect items. The Cursor is deslected on First.";
         }
 
+        public class SELECTEDOBJ : ClickOpt
+        {
+            public static LocString NAME = "Deselect Object";
+        }
+
         public class OVERLAY : ClickOpt
         {
             public static LocString NAME = "Deselect Overlay";
