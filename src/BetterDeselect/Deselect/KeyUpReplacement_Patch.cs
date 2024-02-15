@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
-using PeterHan.PLib.Options;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BetterDeselect
 {
@@ -8,33 +9,34 @@ namespace BetterDeselect
     {
         static bool Prefix(PlanScreen __instance, KButtonEvent e, KIconToggleMenu.ToggleInfo ___activeCategoryInfo)
         {
-            bool isSelectedItem = SelectTool.Instance.selected != null;
-            bool isActiveMenu = ___activeCategoryInfo != null;
-            bool isActiveOverlay = OverlayScreen.Instance.GetMode() != OverlayModes.None.ID;
-
-            if (isSelectedItem)
-                return false;
-
-            // If both are active, check if they're supposed to be closed on the second click, and close.
-            if (isActiveMenu && isActiveOverlay && TryConsumeRightClick())
+            var activeUIs = new List<(Options.ClickNum clickNum, bool isActive, System.Action close)>()
             {
-                if (Options.Opts.BuildMenu == Options.ClickNum.Two)
-                    CloseMenu();
-                if (Options.Opts.Overlay == Options.ClickNum.Two)
-                    CloseOverlay();
+                (Options.Opts.SelectedObj,
+                SelectTool.Instance.selected != null,
+                CloseSelectedObjMenu),
+
+                (Options.Opts.BuildMenu,
+                ___activeCategoryInfo != null,
+                CloseMenu),
+
+                (Options.Opts.Overlay,
+                OverlayScreen.Instance.GetMode() != OverlayModes.None.ID,
+                CloseOverlay)
             }
-            // If either the menu or overlay is active, close it.
-            else if ((isActiveMenu ^ isActiveOverlay) && TryConsumeRightClick())
+            .Where(x => x.isActive);
+
+            if (activeUIs.Any() && TryConsumeRightClick())
             {
-                if (isActiveMenu)
-                    CloseMenu();
-                if (isActiveOverlay)
-                    CloseOverlay();
+                var lowestClickNum = activeUIs.Min(pair => pair.clickNum);
+                var uisToClose = activeUIs.Where(pair => pair.clickNum == lowestClickNum);
+                foreach (var ui in uisToClose)
+                    ui.close();
             }
 
             return false;
 
             bool TryConsumeRightClick() => PlayerController.Instance.ConsumeIfNotDragging(e, Action.MouseRight);
+            void CloseSelectedObjMenu() => SelectTool.Instance.Select(null);
             void CloseMenu() => __instance.OnClickCategory(___activeCategoryInfo);
             void CloseOverlay() => OverlayScreen.Instance.ToggleOverlay(OverlayModes.None.ID, true);
         }

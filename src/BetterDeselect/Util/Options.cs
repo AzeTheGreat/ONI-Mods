@@ -5,6 +5,7 @@ namespace BetterDeselect
 {
     public class Options : BaseOptions<Options>
     {
+        [Option] public ClickNum SelectedObj { get; set; }
         [Option] public ClickNum Overlay { get; set; }
         [Option] public ClickNum BuildMenu { get; set; }
         [Option] public ReselectMode Reselect { get; set; }
@@ -33,6 +34,7 @@ namespace BetterDeselect
 
         public Options()
         {
+            SelectedObj = ClickNum.One;
             Overlay = ClickNum.Two;
             BuildMenu = ClickNum.Two;
             Reselect = ReselectMode.Hold;
