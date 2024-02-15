@@ -5,7 +5,7 @@ using System.Linq;
 namespace BetterDeselect
 {
     [HarmonyPatch(typeof(PlanScreen), nameof(PlanScreen.OnKeyUp))]
-    class KeyUpReplacement_Patch
+    class SetCloseOrder
     {
         static bool Prefix(PlanScreen __instance, KButtonEvent e, KIconToggleMenu.ToggleInfo ___activeCategoryInfo)
         {
