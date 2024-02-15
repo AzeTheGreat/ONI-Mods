@@ -4,15 +4,27 @@ msgstr ""
 "POT Version: 2.0"
 
 msgctxt "BetterDeselect.OPTIONS.BUILDMENU.NAME"
-msgid "Deselect Build Menu"
+msgid "Build Menu"
 msgstr ""
 
-msgctxt "BetterDeselect.OPTIONS.ClickOpt.TOOLTIP"
-msgid "What order to deslect items. The Cursor is deslected on First."
+msgctxt "BetterDeselect.OPTIONS.BUILDMENU.TOOLTIP"
+msgid "When to close the open <style=\"KKeyword\">build menu</style>.\nUI is closed in order from 1 to 3.  Objects that share the same number will be closed at the same time."
+msgstr ""
+
+msgctxt "BetterDeselect.OPTIONS.ClickOpt.BASETOOLTIP"
+msgid "\nUI is closed in order from 1 to 3.  Objects that share the same number will be closed at the same time."
+msgstr ""
+
+msgctxt "BetterDeselect.OPTIONS.ClickOpt.CATEGORY"
+msgid "Deselection Order"
 msgstr ""
 
 msgctxt "BetterDeselect.OPTIONS.OVERLAY.NAME"
-msgid "Deselect Overlay"
+msgid "Overlay"
+msgstr ""
+
+msgctxt "BetterDeselect.OPTIONS.OVERLAY.TOOLTIP"
+msgid "When to clear the current <style=\"KKeyword\">overlay</style>.\nUI is closed in order from 1 to 3.  Objects that share the same number will be closed at the same time."
 msgstr ""
 
 msgctxt "BetterDeselect.OPTIONS.RESELECT.NAME"
@@ -20,6 +32,14 @@ msgid "Selection Mode"
 msgstr ""
 
 msgctxt "BetterDeselect.OPTIONS.RESELECT.TOOLTIP"
-msgid "When reselecting a held tool, or opening a category, choose what to do with the selected tool."
+msgid "Choose what to do with the currently selected tool when reselecting a held tool or opening a category."
+msgstr ""
+
+msgctxt "BetterDeselect.OPTIONS.SELECTEDOBJ.NAME"
+msgid "Selected Object"
+msgstr ""
+
+msgctxt "BetterDeselect.OPTIONS.SELECTEDOBJ.TOOLTIP"
+msgid "When to deselect the current <style=\"KKeyword\">object</style>.\nUI is closed in order from 1 to 3.  Objects that share the same number will be closed at the same time."
 msgstr ""
 

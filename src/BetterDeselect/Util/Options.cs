@@ -12,15 +12,15 @@ namespace BetterDeselect
 
         public enum ClickNum
         {
-            [Option("First")] One,
-            [Option("Second")] Two,
-            [Option("Third")] Three
+            [Option("1")] One,
+            [Option("2")] Two,
+            [Option("3")] Three
         }
 
         public enum ReselectMode
         {
-            [Option("Hold Selected", "Continue holding the same tool.")] Hold,
-            [Option("Deselect Selected", "Deselect the tool. Closest to vanilla behavior.")] Close
+            [Option("Hold", "Keep the current tool selected.")] Hold,
+            [Option("Clear", "Deselect the current tool. Closest to vanilla behavior.")] Close
         }
 
         protected override bool ValidateSettings()
