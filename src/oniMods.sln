@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29728.190
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FixedCameraPan", "FixedCameraPan\FixedCameraPan.csproj", "{36E144B6-3558-4213-82BD-70B2A57DA895}"
 EndProject
@@ -51,8 +51,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanHUD", "CleanHUD\CleanHUD.csproj", "{B020E733-68EB-4A85-BF19-09F2DEB3BB77}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClarifiedMaxDecor", "ClarifiedMaxDecor\ClarifiedMaxDecor.csproj", "{1099F06F-268C-458B-88C6-950E101E1AAC}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoStutter", "NoStutter\NoStutter.csproj", "{A6AE6BED-C4AC-428B-B804-749E691CEA2B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoMeteors", "NoMeteors\NoMeteors.csproj", "{3BB9F39A-1041-4AED-B22B-5BF865622479}"
 EndProject
@@ -142,10 +140,6 @@ Global
 		{1099F06F-268C-458B-88C6-950E101E1AAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1099F06F-268C-458B-88C6-950E101E1AAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1099F06F-268C-458B-88C6-950E101E1AAC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A6AE6BED-C4AC-428B-B804-749E691CEA2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A6AE6BED-C4AC-428B-B804-749E691CEA2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A6AE6BED-C4AC-428B-B804-749E691CEA2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A6AE6BED-C4AC-428B-B804-749E691CEA2B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3BB9F39A-1041-4AED-B22B-5BF865622479}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3BB9F39A-1041-4AED-B22B-5BF865622479}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BB9F39A-1041-4AED-B22B-5BF865622479}.Release|Any CPU.ActiveCfg = Release|Any CPU

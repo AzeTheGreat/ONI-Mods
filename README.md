@@ -21,7 +21,6 @@ If you can't download through the Steam Workshop, zipped releases are available 
 |[Endless Science](https://steamcommunity.com/sharedfiles/filedetails/?id=1964613307)|Allows dupes to train science even after research is complete.|
 |[No Pointless Scrollbars](https://steamcommunity.com/sharedfiles/filedetails/?id=1959130035)|Removes scrollbars from plan screen windows that don't need them.|
 |[No Research Alerts](https://steamcommunity.com/sharedfiles/filedetails/?id=1872885565)|Prevents notification icons from showing newly unlocked buildings.|
-|[No Stutter](https://steamcommunity.com/sharedfiles/filedetails/?id=2334665698)|Fixes the cause of the worst form of stutter in game.|
 |[Rebalanced Tiles](https://steamcommunity.com/sharedfiles/filedetails/?id=1906094571)|Tweaks and adds new features to tiles to encourage variety, and allow full configuration.|
 |[Sufficient Oxygen Generation](https://steamcommunity.com/sharedfiles/filedetails/?id=1887869179)|Allows the oxygen generation warning to be configured to be less sensitive.|
 |[Suppress Notifications](https://steamcommunity.com/sharedfiles/filedetails/?id=1832319118)|Suppresses notifications and status items from individual buildings/critters/crops.|
@@ -35,6 +34,11 @@ These mods are all very simple mods that I made for requests that I don't person
 |[Drink Tea Not Coffee](https://steamcommunity.com/sharedfiles/filedetails/?id=1969458444)|A silly mod that changes references to espresso to tea.|
 |[No Meteors](https://steamcommunity.com/sharedfiles/filedetails/?id=1962090267)|Stops the game from spawning meteors.|
 |[No Notification Sounds](https://steamcommunity.com/sharedfiles/filedetails/?id=1882035088)|Removes sounds from notifications for those who just hate noise.|
+
+## Deprecated Mods
+|**Name**|**Description**|
+|---|---|
+|[No Stutter](https://steamcommunity.com/sharedfiles/filedetails/?id=2334665698)|Fixed the cause of the worst form of stutter in game.|
 
 ## Contributing
 - [Compile the Solution](src)
