@@ -8,7 +8,6 @@ If you can't download through the Steam Workshop, zipped releases are available 
 
 |**Name**|**Description**|
 |---|---|
-|[Adjustable Camera Speed](https://steamcommunity.com/sharedfiles/filedetails/?id=1845747605)|Allows camera pan speed to be configured.|
 |[Better Deselect](https://steamcommunity.com/sharedfiles/filedetails/?id=1870696175)|Requires separate clicks to: deselect the cursor item, close the building menu, and close the overlay.|
 |[Better Info Cards](https://steamcommunity.com/sharedfiles/filedetails/?id=1960947963)|Overhauls info cards to be more powerful and user friendly.|
 |[Better Automation Overlay](https://steamcommunity.com/sharedfiles/filedetails/?id=1878896484)|Improves the automation overlay.|
@@ -38,6 +37,7 @@ These mods are all very simple mods that I made for requests that I don't person
 ## Deprecated Mods
 |**Name**|**Description**|
 |---|---|
+|[Adjustable Camera Speed](https://steamcommunity.com/sharedfiles/filedetails/?id=1845747605)|Allowed camera pan speed to be configured.|
 |[No Stutter](https://steamcommunity.com/sharedfiles/filedetails/?id=2334665698)|Fixed the cause of the worst form of stutter in game.|
 
 ## Contributing

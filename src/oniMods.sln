@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FixedCameraPan", "FixedCameraPan\FixedCameraPan.csproj", "{36E144B6-3558-4213-82BD-70B2A57DA895}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuppressNotifications", "SuppressNotifications\SuppressNotifications.csproj", "{FBD4BFC8-DAC6-495A-A616-90E921919458}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetterDeselect", "BetterDeselect\BetterDeselect.csproj", "{CDF0B160-A394-46E0-A49E-DE2F9CF9898C}"
@@ -60,10 +58,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{36E144B6-3558-4213-82BD-70B2A57DA895}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{36E144B6-3558-4213-82BD-70B2A57DA895}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{36E144B6-3558-4213-82BD-70B2A57DA895}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{36E144B6-3558-4213-82BD-70B2A57DA895}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FBD4BFC8-DAC6-495A-A616-90E921919458}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FBD4BFC8-DAC6-495A-A616-90E921919458}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBD4BFC8-DAC6-495A-A616-90E921919458}.Release|Any CPU.ActiveCfg = Release|Any CPU
