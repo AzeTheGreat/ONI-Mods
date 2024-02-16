@@ -9,25 +9,24 @@ namespace BetterDeselect
         public class ClickOpt
         {
             public static LocString CATEGORY = "Deselection Order";
-            public static LocString BASETOOLTIP = Environment.NewLine + "UI is closed in order from 1 to 3.  Objects that share the same number will be closed at the same time.";
         }
 
         public class SELECTEDOBJ : ClickOpt
         {
             public static LocString NAME = "Selected Object";
-            public static LocString TOOLTIP = $"When to deselect the current {UI.FormatAsKeyWord("object")}.{BASETOOLTIP}";
+            public static LocString TOOLTIP = $"When to deselect the current {UI.FormatAsKeyWord("object")}";
         }
 
         public class OVERLAY : ClickOpt
         {
             public static LocString NAME = "Overlay";
-            public static LocString TOOLTIP = $"When to clear the current {UI.FormatAsKeyWord("overlay")}.{BASETOOLTIP}";
+            public static LocString TOOLTIP = $"When to clear the current {UI.FormatAsKeyWord("overlay")}";
         }
 
         public class BUILDMENU : ClickOpt
         {
             public static LocString NAME = "Build Menu";
-            public static LocString TOOLTIP = $"When to close the open {UI.FormatAsKeyWord("build menu")}.{BASETOOLTIP}";
+            public static LocString TOOLTIP = $"When to close the open {UI.FormatAsKeyWord("build menu")}";
         }
 
         public class RESELECT
@@ -48,23 +47,25 @@ namespace BetterDeselect
             public static LocString TOOLTIP = "Deselect the current tool. Closest to vanilla behavior.";
         }
 
-        // The tooltips have to be empty strings instead of ommitted so they don't show as missing keys in the UI.
-        public class ONE
+        public class DeselectOrder
+        {
+            public static LocString TOOLTIP = "UI is closed in order from 1 to 3." + Environment.NewLine + 
+                "Objects that share the same number will be closed at the same time.";
+        }
+
+        public class ONE : DeselectOrder
         {
             public static LocString NAME = "1";
-            public static LocString TOOLTIP = string.Empty;
         }
 
-        public class TWO
+        public class TWO : DeselectOrder
         {
             public static LocString NAME = "2";
-            public static LocString TOOLTIP = string.Empty;
         }
 
-        public class THREE
+        public class THREE : DeselectOrder
         {
             public static LocString NAME = "3";
-            public static LocString TOOLTIP = string.Empty;
         }
     }
 }

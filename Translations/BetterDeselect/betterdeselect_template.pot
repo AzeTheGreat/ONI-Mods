@@ -8,11 +8,7 @@ msgid "Build Menu"
 msgstr ""
 
 msgctxt "BetterDeselect.OPTIONS.BUILDMENU.TOOLTIP"
-msgid "When to close the open <style=\"KKeyword\">build menu</style>.\nUI is closed in order from 1 to 3.  Objects that share the same number will be closed at the same time."
-msgstr ""
-
-msgctxt "BetterDeselect.OPTIONS.ClickOpt.BASETOOLTIP"
-msgid "\nUI is closed in order from 1 to 3.  Objects that share the same number will be closed at the same time."
+msgid "When to close the open <style=\"KKeyword\">build menu</style>"
 msgstr ""
 
 msgctxt "BetterDeselect.OPTIONS.ClickOpt.CATEGORY"
@@ -27,6 +23,10 @@ msgctxt "BetterDeselect.OPTIONS.CLOSE.TOOLTIP"
 msgid "Deselect the current tool. Closest to vanilla behavior."
 msgstr ""
 
+msgctxt "BetterDeselect.OPTIONS.DeselectOrder.TOOLTIP"
+msgid "UI is closed in order from 1 to 3.\nObjects that share the same number will be closed at the same time."
+msgstr ""
+
 msgctxt "BetterDeselect.OPTIONS.HOLD.NAME"
 msgid "Hold"
 msgstr ""
@@ -39,16 +39,12 @@ msgctxt "BetterDeselect.OPTIONS.ONE.NAME"
 msgid "1"
 msgstr ""
 
-msgctxt "BetterDeselect.OPTIONS.ONE.TOOLTIP"
-msgid "-"
-msgstr ""
-
 msgctxt "BetterDeselect.OPTIONS.OVERLAY.NAME"
 msgid "Overlay"
 msgstr ""
 
 msgctxt "BetterDeselect.OPTIONS.OVERLAY.TOOLTIP"
-msgid "When to clear the current <style=\"KKeyword\">overlay</style>.\nUI is closed in order from 1 to 3.  Objects that share the same number will be closed at the same time."
+msgid "When to clear the current <style=\"KKeyword\">overlay</style>"
 msgstr ""
 
 msgctxt "BetterDeselect.OPTIONS.RESELECT.NAME"
@@ -64,22 +60,14 @@ msgid "Selected Object"
 msgstr ""
 
 msgctxt "BetterDeselect.OPTIONS.SELECTEDOBJ.TOOLTIP"
-msgid "When to deselect the current <style=\"KKeyword\">object</style>.\nUI is closed in order from 1 to 3.  Objects that share the same number will be closed at the same time."
+msgid "When to deselect the current <style=\"KKeyword\">object</style>"
 msgstr ""
 
 msgctxt "BetterDeselect.OPTIONS.THREE.NAME"
 msgid "3"
 msgstr ""
 
-msgctxt "BetterDeselect.OPTIONS.THREE.TOOLTIP"
-msgid "-"
-msgstr ""
-
 msgctxt "BetterDeselect.OPTIONS.TWO.NAME"
 msgid "2"
-msgstr ""
-
-msgctxt "BetterDeselect.OPTIONS.TWO.TOOLTIP"
-msgid "-"
 msgstr ""
 
