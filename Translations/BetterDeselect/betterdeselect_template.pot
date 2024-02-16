@@ -19,6 +19,30 @@ msgctxt "BetterDeselect.OPTIONS.ClickOpt.CATEGORY"
 msgid "Deselection Order"
 msgstr ""
 
+msgctxt "BetterDeselect.OPTIONS.CLOSE.NAME"
+msgid "Clear"
+msgstr ""
+
+msgctxt "BetterDeselect.OPTIONS.CLOSE.TOOLTIP"
+msgid "Deselect the current tool. Closest to vanilla behavior."
+msgstr ""
+
+msgctxt "BetterDeselect.OPTIONS.HOLD.NAME"
+msgid "Hold"
+msgstr ""
+
+msgctxt "BetterDeselect.OPTIONS.HOLD.TOOLTIP"
+msgid "Keep the current tool selected."
+msgstr ""
+
+msgctxt "BetterDeselect.OPTIONS.ONE.NAME"
+msgid "1"
+msgstr ""
+
+msgctxt "BetterDeselect.OPTIONS.ONE.TOOLTIP"
+msgid "-"
+msgstr ""
+
 msgctxt "BetterDeselect.OPTIONS.OVERLAY.NAME"
 msgid "Overlay"
 msgstr ""
@@ -41,5 +65,21 @@ msgstr ""
 
 msgctxt "BetterDeselect.OPTIONS.SELECTEDOBJ.TOOLTIP"
 msgid "When to deselect the current <style=\"KKeyword\">object</style>.\nUI is closed in order from 1 to 3.  Objects that share the same number will be closed at the same time."
+msgstr ""
+
+msgctxt "BetterDeselect.OPTIONS.THREE.NAME"
+msgid "3"
+msgstr ""
+
+msgctxt "BetterDeselect.OPTIONS.THREE.TOOLTIP"
+msgid "-"
+msgstr ""
+
+msgctxt "BetterDeselect.OPTIONS.TWO.NAME"
+msgid "2"
+msgstr ""
+
+msgctxt "BetterDeselect.OPTIONS.TWO.TOOLTIP"
+msgid "-"
 msgstr ""
 

@@ -35,5 +35,36 @@ namespace BetterDeselect
             public static LocString NAME = "Selection Mode";
             public static LocString TOOLTIP = "Choose what to do with the currently selected tool when reselecting a held tool or opening a category.";
         }
+
+        public class HOLD
+        {
+            public static LocString NAME = "Hold";
+            public static LocString TOOLTIP = "Keep the current tool selected.";
+        }
+
+        public class CLOSE
+        {
+            public static LocString NAME = "Clear";
+            public static LocString TOOLTIP = "Deselect the current tool. Closest to vanilla behavior.";
+        }
+
+        // The tooltips have to be empty strings instead of ommitted so they don't show as missing keys in the UI.
+        public class ONE
+        {
+            public static LocString NAME = "1";
+            public static LocString TOOLTIP = string.Empty;
+        }
+
+        public class TWO
+        {
+            public static LocString NAME = "2";
+            public static LocString TOOLTIP = string.Empty;
+        }
+
+        public class THREE
+        {
+            public static LocString NAME = "3";
+            public static LocString TOOLTIP = string.Empty;
+        }
     }
 }
