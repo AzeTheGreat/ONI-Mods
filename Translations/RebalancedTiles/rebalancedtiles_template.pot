@@ -1,0 +1,101 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included"
+"POT Version: 2.0"
+
+msgctxt "RebalancedTiles.OPTIONS.COMBUSTTEMP.NAME"
+msgid "Combustion Temperatuure"
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.COMBUSTTEMP.TOOLTIP"
+msgid "Set the combustion temperature."
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.DECOR.NAME"
+msgid "Decor"
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.DECOR.TOOLTIP"
+msgid "Set the decor value."
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.DECORRADIUS.NAME"
+msgid "Decor Radius"
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.DECORRADIUS.TOOLTIP"
+msgid "Set the decor radius."
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.DIAMONDLIGHTABSORPTIONFACTOR.NAME"
+msgid "Diamond Light Absorption"
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.DIAMONDLIGHTABSORPTIONFACTOR.TOOLTIP"
+msgid "Set the light absorption when made with Diamond."
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.GLASSLIGHTABSORPTIONFACTOR.NAME"
+msgid "Glass Light Absorption"
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.GLASSLIGHTABSORPTIONFACTOR.TOOLTIP"
+msgid "Set the light absorption when made with Glass."
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.ISCOMBUSTIBLE.NAME"
+msgid "Is Combustible"
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.ISCOMBUSTIBLE.TOOLTIP"
+msgid "When true, will take damage over a certain temperature."
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.ISNOTWALL.NAME"
+msgid "Prevent Wall Decor"
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.ISNOTWALL.TOOLTIP"
+msgid "When true, carpet tiles used as walls do not provide decor."
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.ISTWEAKED.NAME"
+msgid "Apply Tweaks"
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.ISTWEAKED.TOOLTIP"
+msgid "When true, apply the below tweaks to this tile."
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.LIGHTABSORPTIONFACTOR.NAME"
+msgid "Light Absorption"
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.LIGHTABSORPTIONFACTOR.TOOLTIP"
+msgid "Set the light absorption."
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.MOVEMENTSPEED.NAME"
+msgid "Move Speed Multiplier"
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.MOVEMENTSPEED.TOOLTIP"
+msgid "Set the move speed multiplier."
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.REEDFIBERCOUNT.NAME"
+msgid "Reed Fiber Required"
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.REEDFIBERCOUNT.TOOLTIP"
+msgid "Set the number of Reed Fiber required to build."
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.STRENGTHMULTIPLIER.NAME"
+msgid "Strength Multiplier"
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.STRENGTHMULTIPLIER.TOOLTIP"
+msgid "Set the strength multiplier"
+msgstr ""
+

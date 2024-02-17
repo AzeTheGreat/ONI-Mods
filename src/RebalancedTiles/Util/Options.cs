@@ -1,152 +1,60 @@
 ﻿using AzeLib;
 using Newtonsoft.Json;
 using PeterHan.PLib.Options;
-using TUNING;
 
 namespace RebalancedTiles
 {
     [JsonObject(MemberSerialization.OptIn)]
     [RestartRequired]
-    public partial class Options : BaseOptions<Options>
+    public class Options : BaseOptions<Options>
     {
+        [Option("STRINGS.BUILDINGS.PREFABS.TILE.NAME", null, "STRINGS.BUILDINGS.PREFABS.TILE.NAME")]
+        public GenericOptions Tile { get; set; } = new();
+        [Option("STRINGS.BUILDINGS.PREFABS.BUNKERTILE.NAME", null, "STRINGS.BUILDINGS.PREFABS.BUNKERTILE.NAME")]
+        public GenericOptions BunkerTile { get; set; } = new();
+        [Option("STRINGS.BUILDINGS.PREFABS.CARPETTILE.NAME", null, "STRINGS.BUILDINGS.PREFABS.CARPETTILE.NAME")]
+        public CarpetTileOptions CarpetTile { get; set; } = new();
+        [Option("STRINGS.BUILDINGS.PREFABS.GLASSTILE.NAME", null, "STRINGS.BUILDINGS.PREFABS.GLASSTILE.NAME")]
+        public GlassTileOptions GlassTile { get; set; } = new();
+        [Option("STRINGS.BUILDINGS.PREFABS.METALTILE.NAME", null, "STRINGS.BUILDINGS.PREFABS.METALTILE.NAME")]
+        public GenericOptions MetalTile { get; set; } = new();
+        [Option("STRINGS.BUILDINGS.PREFABS.MESHTILE.NAME", null, "STRINGS.BUILDINGS.PREFABS.MESHTILE.NAME")]
+        public PermeableTileOptions MeshTile { get; set; } = new();
+        [Option("STRINGS.BUILDINGS.PREFABS.GASPERMEABLEMEMBRANE.NAME", null, "STRINGS.BUILDINGS.PREFABS.GASPERMEABLEMEMBRANE.NAME")]
+        public PermeableTileOptions GasPermeableMembrane { get; set; } = new();
+
+        public bool DoMeshedTilesReduceSunlight => MeshTile.LightAbsorptionFactor > 0f || GasPermeableMembrane.LightAbsorptionFactor > 0f;
+
+        [JsonObject(MemberSerialization.OptOut)]
         public class GenericOptions
         {
-            [JsonProperty]
-            public bool IsTweaked { get; set; }
-            [JsonProperty]
-            public int Decor { get; set; }
-            [JsonProperty]
-            public int DecorRadius { get; set; }
-            [JsonProperty]
-            public float MovementSpeed { get; set; }
-            [JsonProperty]
-            public float StrengthMultiplier { get; set; }
+            [Option] public bool IsTweaked { get; set; }
+            [Option] public int Decor { get; set; }
+            [Option] public int DecorRadius { get; set; }
+            [Option] public int StrengthMultiplier { get; set; }
+            [Option] public int MovementSpeed { get; set; }
         }
 
-        public partial class CarpetTileOptions
+        [JsonObject(MemberSerialization.OptOut)]
+        public class CarpetTileOptions : GenericOptions
         {
-            [JsonProperty]
-            public bool IsNotWall { get; set; }
-            [JsonProperty]
-            public bool IsCombustible { get; set; }
-            [JsonProperty]
-            public float CombustTemp { get; set; }
-            [JsonProperty]
-            public int ReedFiberCount { get; set; }
-        }
-        [Option("Carpet: Not a Wall", "When true, modifies the carpet's decor distribution so that it only works as a floor.")]
-        public bool _IsCarpetNotWall { get { return CarpetTile.IsNotWall; } set { CarpetTile.IsNotWall = value; } }
-        [Option("Carpet: Combusts", "When true, carpet tiles will burn into normal tiles at high temperatures.")]
-        public bool _IsCarpetCombustible { get { return CarpetTile.IsCombustible; } set { CarpetTile.IsCombustible = value; } }
-
-        public partial class MeshTileOptions
-        {
-            [JsonProperty]
-            public float LightAbsorptionFactor { get; set; }
+            [Option] public bool IsCombustible { get; set; }
+            [Option] public float CombustTemp { get; set; }
+            [Option] public int ReedFiberCount { get; set; }
+            [Option] public bool IsNotWall { get; set; }
         }
 
-        public partial class GasPermeableMembraneOptions
+        [JsonObject(MemberSerialization.OptOut)]
+        public class PermeableTileOptions : GenericOptions
         {
-            [JsonProperty]
-            public float LightAbsorptionFactor { get; set; }
+            [Option] public float LightAbsorptionFactor { get; set; }
         }
 
-        public partial class GlassTileOptions
+        [JsonObject(MemberSerialization.OptOut)]
+        public class GlassTileOptions : GenericOptions
         {
-            [JsonProperty]
-            public float GlassLightAbsorptionFactor;
-            [JsonProperty]
-            public float DiamondLightAbsorptionFactor;
-        }
-
-        [Option("Meshed Tiles: Reduce Sunlight", "When true, sunlight's strength will be reduced when moving through airflow and mesh tiles.")]
-        [JsonProperty]
-        public bool DoMeshedTilesReduceSunlight { get; set; }
-
-        public Options()
-        {
-            Tile = new TileOptions
-            {
-                IsTweaked = true,
-                Decor = BUILDINGS.DECOR.BONUS.TIER0.amount,
-                DecorRadius = BUILDINGS.DECOR.BONUS.TIER0.radius,
-                MovementSpeed = DUPLICANTSTATS.MOVEMENT.BONUS_2,
-                StrengthMultiplier = 1.5f
-            };
-            BunkerTile = new BunkerTileOptions
-            {
-                IsTweaked = true,
-                Decor = BUILDINGS.DECOR.PENALTY.TIER0.amount,
-                DecorRadius = BUILDINGS.DECOR.PENALTY.TIER0.radius,
-                MovementSpeed = DUPLICANTSTATS.MOVEMENT.NEUTRAL,
-                StrengthMultiplier = 10f
-            };
-            CarpetTile = new CarpetTileOptions
-            {
-                IsTweaked = true,
-                Decor = BUILDINGS.DECOR.BONUS.TIER2.amount,
-                DecorRadius = BUILDINGS.DECOR.BONUS.TIER2.radius,
-                MovementSpeed = DUPLICANTSTATS.MOVEMENT.PENALTY_1,
-                StrengthMultiplier = 1f,
-                IsNotWall = true,
-                IsCombustible = true,
-                CombustTemp = BUILDINGS.OVERHEAT_TEMPERATURES.LOW_2,
-                ReedFiberCount = 1
-            };
-            GasPermeableMembrane = new GasPermeableMembraneOptions
-            {
-                IsTweaked = true,
-                Decor = BUILDINGS.DECOR.PENALTY.TIER0.amount,
-                DecorRadius = BUILDINGS.DECOR.PENALTY.TIER0.radius,
-                MovementSpeed = DUPLICANTSTATS.MOVEMENT.NEUTRAL,
-                StrengthMultiplier = 1f,
-                LightAbsorptionFactor = 0.25f
-            };
-            GlassTile = new GlassTileOptions
-            {
-                IsTweaked = true,
-                Decor = BUILDINGS.DECOR.BONUS.TIER0.amount,
-                DecorRadius = BUILDINGS.DECOR.BONUS.TIER0.radius,
-                MovementSpeed = DUPLICANTSTATS.MOVEMENT.PENALTY_2,
-                StrengthMultiplier = 0.5f,
-                GlassLightAbsorptionFactor = 0.1f,
-                DiamondLightAbsorptionFactor = 0.1f
-            };
-            InsulationTile = new InsulationTileOptions
-            {
-                IsTweaked = true,
-                Decor = BUILDINGS.DECOR.PENALTY.TIER0.amount,
-                DecorRadius = BUILDINGS.DECOR.PENALTY.TIER0.radius,
-                MovementSpeed = DUPLICANTSTATS.MOVEMENT.NEUTRAL,
-                StrengthMultiplier = 3f
-            };
-            MetalTile = new MetalTileOptions
-            {
-                IsTweaked = true,
-                Decor = BUILDINGS.DECOR.BONUS.TIER0.amount,
-                DecorRadius = BUILDINGS.DECOR.BONUS.TIER0.radius,
-                MovementSpeed = DUPLICANTSTATS.MOVEMENT.BONUS_3,
-                StrengthMultiplier = 1f
-            };
-            MeshTile = new MeshTileOptions
-            {
-                IsTweaked = true,
-                Decor = BUILDINGS.DECOR.PENALTY.TIER0.amount,
-                DecorRadius = BUILDINGS.DECOR.PENALTY.TIER0.radius,
-                MovementSpeed = DUPLICANTSTATS.MOVEMENT.NEUTRAL,
-                StrengthMultiplier = 1f,
-                LightAbsorptionFactor = 0.25f
-            };
-            PlasticTile = new PlasticTileOptions
-            {
-                IsTweaked = true,
-                Decor = BUILDINGS.DECOR.BONUS.TIER0.amount,
-                DecorRadius = BUILDINGS.DECOR.BONUS.TIER0.radius,
-                MovementSpeed = DUPLICANTSTATS.MOVEMENT.BONUS_3,
-                StrengthMultiplier = 1.5f
-            };
-
-            DoMeshedTilesReduceSunlight = true;
+            [Option] public float DiamondLightAbsorptionFactor { get; set; }
+            [Option] public float GlassLightAbsorptionFactor { get; set; }
         }
     }
 }
