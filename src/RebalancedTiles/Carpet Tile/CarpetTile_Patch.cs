@@ -6,25 +6,26 @@ namespace RebalancedTiles
     [HarmonyPatch(typeof(CarpetTileConfig), nameof(CarpetTileConfig.CreateBuildingDef))]
     public class CarpetTile_Patch
     {
-        static bool Prepare() => Options.Opts.CarpetTile.IsTweaked;
+        static bool Prepare() => Options.Opts.CarpetTile.CombustTemp != null || Options.Opts.CarpetTile.CombustTemp != null;
 
         static void Postfix(BuildingDef __result)
         {
             // Overheatable won't work on tiles without setting .UseStructureTemperature to true (iffy), but does display in the UI
-            if (Options.Opts.CarpetTile.IsCombustible)
+            if (Options.Opts.CarpetTile.CombustTemp is float temp)
             {
                 __result.Overheatable = true;
-                __result.OverheatTemperature = Options.Opts.CarpetTile.CombustTemp;
+                __result.OverheatTemperature = temp;
             }
 
-            __result.Mass[1] = Options.Opts.CarpetTile.ReedFiberCount;
+            if(Options.Opts.CarpetTile.ReedFiberCount is int reeds)
+                __result.Mass[1] = reeds;
         }
     }
 
     [HarmonyPatch(typeof(CarpetTileConfig), nameof(CarpetTileConfig.DoPostConfigureComplete))]
     public class CarpetTileCombust
     {
-        static bool Prepare() => Options.Opts.CarpetTile.IsTweaked && Options.Opts.CarpetTile.IsCombustible;
+        static bool Prepare() => Options.Opts.CarpetTile.CombustTemp != null;
 
         static void Postfix(GameObject go)
         {
@@ -32,17 +33,17 @@ namespace RebalancedTiles
         }
     }
 
-    [HarmonyPatch(typeof(OccupyArea), nameof(OccupyArea.GetExtents), typeof(Orientation))]
+    [HarmonyPatch(typeof(OccupyArea), nameof(OccupyArea.GetExtents), [])]
     public class Test
     {
-        static bool Prepare() => Options.Opts.CarpetTile.IsTweaked && Options.Opts.CarpetTile.IsNotWall;
+        static bool Prepare() => Options.Opts.CarpetTile.IsNotWall;
 
         static void Postfix(OccupyArea __instance, ref Extents __result)
         {
             // Hacky manipulation to get the splat to be the right size/shape...
             if (__instance.name == "CarpetTileComplete")
             {
-                int radius = Options.Opts.CarpetTile.DecorRadius;
+                int radius = Options.Opts.CarpetTile.DecorRadius ?? (int)__instance.gameObject.GetComponent<DecorProvider>().baseRadius;
 
                 if (Grid.IsSolidCell(Grid.CellAbove(Grid.PosToCell(__instance.gameObject))))
                 {

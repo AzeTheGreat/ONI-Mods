@@ -1,0 +1,89 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included"
+"POT Version: 2.0"
+
+msgctxt "RebalancedTiles.OPTIONS.BASETT.IIFBLANK"
+msgid "If blank, the game's default will be used."
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.COMBUSTTEMP.NAME"
+msgid "Combustion Temperature"
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.COMBUSTTEMP.TOOLTIP"
+msgid "Set the combustion temperature (K).  If blank, this will not combust."
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.DECOR.NAME"
+msgid "Decor"
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.DECOR.TOOLTIP"
+msgid "Set the decor value.  If blank, the game's default will be used."
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.DECORRADIUS.NAME"
+msgid "Decor Radius"
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.DECORRADIUS.TOOLTIP"
+msgid "Set the decor radius (tiles).  If blank, the game's default will be used."
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.DIAMONDLIGHTABSORPTIONFACTOR.NAME"
+msgid "Diamond Light Absorption"
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.DIAMONDLIGHTABSORPTIONFACTOR.TOOLTIP"
+msgid "Set the light absorption (%) when made with Diamond.    If blank, the game's default will be used."
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.GLASSLIGHTABSORPTIONFACTOR.NAME"
+msgid "Glass Light Absorption"
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.GLASSLIGHTABSORPTIONFACTOR.TOOLTIP"
+msgid "Set the light absorption (%) when made with Glass.    If blank, the game's default will be used."
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.ISNOTWALL.NAME"
+msgid "Only Top Decorative"
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.ISNOTWALL.TOOLTIP"
+msgid "When true, only the top of carpet tiles will provide decor - none will be emitted below or to the sides."
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.LIGHTABSORPTIONFACTOR.NAME"
+msgid "Light Absorption"
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.LIGHTABSORPTIONFACTOR.TOOLTIP"
+msgid "Set the light absorption (%).    If blank, no light will be absorbed."
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.MOVEMENTSPEED.NAME"
+msgid "Move Speed Multiplier"
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.MOVEMENTSPEED.TOOLTIP"
+msgid "Set the move speed multiplier.  If blank, the game's default will be used."
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.REEDFIBERCOUNT.NAME"
+msgid "Reed Fiber Required"
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.REEDFIBERCOUNT.TOOLTIP"
+msgid "Set the number of Reed Fiber required to build.    If blank, the game's default will be used."
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.STRENGTHMULTIPLIER.NAME"
+msgid "Strength Multiplier"
+msgstr ""
+
+msgctxt "RebalancedTiles.OPTIONS.STRENGTHMULTIPLIER.TOOLTIP"
+msgid "Set the strength multiplier  If blank, the game's default will be used."
+msgstr ""
+

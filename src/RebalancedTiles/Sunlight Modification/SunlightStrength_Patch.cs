@@ -1,5 +1,8 @@
-﻿using HarmonyLib;
+﻿using AzeLib.Extensions;
+using HarmonyLib;
 using System;
+using System.Collections.Generic;
+using System.Reflection.Emit;
 
 namespace RebalancedTiles.Mesh_Airflow_Tiles
 {
@@ -8,15 +11,18 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
     {
         static bool Prepare() => Options.Opts.DoMeshedTilesReduceSunlight;
 
-        static unsafe bool Prefix(int i, ref int __result)
+        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> codes)
         {
-            int adjustedExposure = Math.Max(0, Grid.exposedToSunlight[i] - SunlightModifierGrid.sunlightModifiers[i]);
-            int sunlight = (int)(adjustedExposure / 255f * Game.Instance.currentSunlightIntensity);
-
-            int light = Grid.LightCount[i];
-
-            __result = sunlight + light;
-            return false;
+            return codes.Manipulator(
+                i => i.OpCodeIs(OpCodes.Conv_R4),
+                i => [
+                    i,
+                    new CodeInstruction(OpCodes.Ldarg_1),
+                    CodeInstruction.Call(typeof(SunlightStrength_Patch), nameof(Splice))
+                ]);
         }
+
+        // Reference the custom sunlightModifiers grid to adjust the exposedToSunlight local var, which will modify the final light intensity.
+        private static float Splice(float exposedToSunlight, int i) => Math.Max(0, exposedToSunlight - SunlightModifierGrid.sunlightModifiers[i]);
     }
 }
