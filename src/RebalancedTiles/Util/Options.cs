@@ -4,6 +4,7 @@ using PeterHan.PLib.Options;
 
 namespace RebalancedTiles
 {
+    [ModInfo(null, null, true)]
     [RestartRequired]
     public class Options : BaseOptions<Options>
     {
