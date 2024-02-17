@@ -44,11 +44,11 @@ msgid "Set the light absorption when made with Glass."
 msgstr ""
 
 msgctxt "RebalancedTiles.OPTIONS.ISNOTWALL.NAME"
-msgid "Prevent Wall Decor"
+msgid "Only Top Decorative"
 msgstr ""
 
 msgctxt "RebalancedTiles.OPTIONS.ISNOTWALL.TOOLTIP"
-msgid "When true, carpet tiles used as walls do not provide decor."
+msgid "When true, only the top of carpet tiles will provide decor - none will be emitted below or to the sides."
 msgstr ""
 
 msgctxt "RebalancedTiles.OPTIONS.LIGHTABSORPTIONFACTOR.NAME"

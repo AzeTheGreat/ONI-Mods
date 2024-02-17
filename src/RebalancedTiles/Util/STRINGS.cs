@@ -42,8 +42,8 @@ namespace RebalancedTiles
 
         public class ISNOTWALL
         {
-            public static LocString NAME = "Prevent Wall Decor";
-            public static LocString TOOLTIP = "When true, carpet tiles used as walls do not provide decor.";
+            public static LocString NAME = "Only Top Decorative";
+            public static LocString TOOLTIP = "When true, only the top of carpet tiles will provide decor - none will be emitted below or to the sides.";
         }
 
         public class DIAMONDLIGHTABSORPTIONFACTOR
