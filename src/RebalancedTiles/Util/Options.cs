@@ -4,7 +4,6 @@ using PeterHan.PLib.Options;
 
 namespace RebalancedTiles
 {
-    [JsonObject(MemberSerialization.OptIn)]
     [RestartRequired]
     public class Options : BaseOptions<Options>
     {
