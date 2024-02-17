@@ -27,7 +27,7 @@ namespace RebalancedTiles
             public bool IsTemp(Instance smi)
             {
                 float temp = Grid.Temperature[Grid.PosToCell(smi)];
-                if (temp > 300)
+                if (temp > smi.gameObject.GetComponent<Overheatable>().OverheatTemperature)
                     return true;
                 else
                     return false;
