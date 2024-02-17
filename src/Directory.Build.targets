@@ -73,7 +73,7 @@
   </Target>
 
   <!--Clear the install folder while preserving current configs.-->
-  <Target Name="ClearInstallFolder" AfterTargets="ILRepack" Condition="'$(ShouldDistribute)' != 'false'">
+  <Target Name="ClearInstallFolder" AfterTargets="ILRepack" Condition="'$(ShouldDistribute)' != 'false' And Exists($(InstallFolder))">
     <ItemGroup>
       <FilesToDelete Include="$(InstallFolder)\**\*.*" Exclude="$(InstallFolder)\config.json"/>
       <DirsToDelete Include="$([System.IO.Directory]::GetDirectories('$(InstallFolder)', '*', System.IO.SearchOption.AllDirectories))" />
