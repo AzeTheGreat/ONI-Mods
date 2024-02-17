@@ -64,31 +64,31 @@ namespace RebalancedTiles
         [JsonObject(MemberSerialization.OptOut)]
         public class GenericOptions
         {
-            [Option] public int? Decor { get; set; }
-            [Option] public int? DecorRadius { get; set; }
-            [Option] public float? StrengthMultiplier { get; set; }
-            [Option] public float? MovementSpeed { get; set; }
+            [Option][Limit(-500, 500)] public int? Decor { get; set; }
+            [Option][Limit(0, 20)] public int? DecorRadius { get; set; }
+            [Option][Limit(0f, 20f)] public float? StrengthMultiplier { get; set; }
+            [Option][Limit(0f, 20f)] public float? MovementSpeed { get; set; }
         }
 
         [JsonObject(MemberSerialization.OptOut)]
         public class CarpetTileOptions : GenericOptions
         {
-            [Option] public float? CombustTemp { get; set; }
-            [Option] public int? ReedFiberCount { get; set; }
+            [Option][Limit(0f, 1000f)] public float? CombustTemp { get; set; }
+            [Option][Limit(0, 10)] public int? ReedFiberCount { get; set; }
             [Option] public bool IsNotWall { get; set; }
         }
 
         [JsonObject(MemberSerialization.OptOut)]
         public class PermeableTileOptions : GenericOptions
         {
-            [Option] public float? LightAbsorptionFactor { get; set; }
+            [Option][Limit(0f, 1f)] public float? LightAbsorptionFactor { get; set; }
         }
 
         [JsonObject(MemberSerialization.OptOut)]
         public class GlassTileOptions : GenericOptions
         {
-            [Option] public float? DiamondLightAbsorptionFactor { get; set; }
-            [Option] public float? GlassLightAbsorptionFactor { get; set; }
+            [Option][Limit(0f, 1f)] public float? DiamondLightAbsorptionFactor { get; set; }
+            [Option][Limit(0f, 1f)] public float? GlassLightAbsorptionFactor { get; set; }
         }
     }
 }
