@@ -33,7 +33,7 @@ namespace RebalancedTiles
         }
     }
 
-    [HarmonyPatch(typeof(OccupyArea), nameof(OccupyArea.GetExtents), typeof(Orientation))]
+    [HarmonyPatch(typeof(OccupyArea), nameof(OccupyArea.GetExtents), [])]
     public class Test
     {
         static bool Prepare() => Options.Opts.CarpetTile.IsNotWall;
