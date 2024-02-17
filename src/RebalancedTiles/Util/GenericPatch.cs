@@ -19,10 +19,10 @@ namespace RebalancedTiles
         public static void ConfigureBuildingTemplate(GameObject go, Options.GenericOptions options)
         {
             SimCellOccupier simCellOccupier = go.GetComponent<SimCellOccupier>();
-            if(options.MovementSpeed is int speed)
+            if(options.MovementSpeed is float speed)
                 simCellOccupier.movementSpeedMultiplier = speed;
-            if(options.StrengthMultiplier is int strength)
-            simCellOccupier.strengthMultiplier = strength;
+            if(options.StrengthMultiplier is float strength)
+                simCellOccupier.strengthMultiplier = strength;
         }
     }
 }

@@ -35,8 +35,8 @@ namespace RebalancedTiles
         {
             [Option] public int? Decor { get; set; }
             [Option] public int? DecorRadius { get; set; }
-            [Option] public int? StrengthMultiplier { get; set; }
-            [Option] public int? MovementSpeed { get; set; }
+            [Option] public float? StrengthMultiplier { get; set; }
+            [Option] public float? MovementSpeed { get; set; }
         }
 
         [JsonObject(MemberSerialization.OptOut)]
