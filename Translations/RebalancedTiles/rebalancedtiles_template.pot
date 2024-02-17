@@ -8,7 +8,7 @@ msgid "Combustion Temperatuure"
 msgstr ""
 
 msgctxt "RebalancedTiles.OPTIONS.COMBUSTTEMP.TOOLTIP"
-msgid "Set the combustion temperature."
+msgid "Set the combustion temperature.  If blank, this will not combust."
 msgstr ""
 
 msgctxt "RebalancedTiles.OPTIONS.DECOR.NAME"
@@ -43,28 +43,12 @@ msgctxt "RebalancedTiles.OPTIONS.GLASSLIGHTABSORPTIONFACTOR.TOOLTIP"
 msgid "Set the light absorption when made with Glass."
 msgstr ""
 
-msgctxt "RebalancedTiles.OPTIONS.ISCOMBUSTIBLE.NAME"
-msgid "Is Combustible"
-msgstr ""
-
-msgctxt "RebalancedTiles.OPTIONS.ISCOMBUSTIBLE.TOOLTIP"
-msgid "When true, will take damage over a certain temperature."
-msgstr ""
-
 msgctxt "RebalancedTiles.OPTIONS.ISNOTWALL.NAME"
 msgid "Prevent Wall Decor"
 msgstr ""
 
 msgctxt "RebalancedTiles.OPTIONS.ISNOTWALL.TOOLTIP"
 msgid "When true, carpet tiles used as walls do not provide decor."
-msgstr ""
-
-msgctxt "RebalancedTiles.OPTIONS.ISTWEAKED.NAME"
-msgid "Apply Tweaks"
-msgstr ""
-
-msgctxt "RebalancedTiles.OPTIONS.ISTWEAKED.TOOLTIP"
-msgid "When true, apply the below tweaks to this tile."
 msgstr ""
 
 msgctxt "RebalancedTiles.OPTIONS.LIGHTABSORPTIONFACTOR.NAME"

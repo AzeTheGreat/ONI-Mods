@@ -4,17 +4,25 @@ namespace RebalancedTiles
 {
     public static class GenericPatch
     {
+        public static bool ShouldPatchCreateBuildingDef(Options.GenericOptions options) => options.Decor != null || options.DecorRadius != null;
+
         public static void CreateBuildingDef(BuildingDef __result, Options.GenericOptions options)
         {
-            __result.BaseDecor = options.Decor;
-            __result.BaseDecorRadius = options.DecorRadius;
+            if(options.Decor is int decor)
+                __result.BaseDecor = decor;
+            if(options.DecorRadius is int radius)
+                __result.BaseDecorRadius = radius;
         }
+
+        public static bool ShouldPatchConfigureBuildingTemplate(Options.GenericOptions options) => options.MovementSpeed != null || options.StrengthMultiplier != null;
 
         public static void ConfigureBuildingTemplate(GameObject go, Options.GenericOptions options)
         {
             SimCellOccupier simCellOccupier = go.GetComponent<SimCellOccupier>();
-            simCellOccupier.movementSpeedMultiplier = options.MovementSpeed;
-            simCellOccupier.strengthMultiplier = options.StrengthMultiplier;
+            if(options.MovementSpeed is int speed)
+                simCellOccupier.movementSpeedMultiplier = speed;
+            if(options.StrengthMultiplier is int strength)
+            simCellOccupier.strengthMultiplier = strength;
         }
     }
 }

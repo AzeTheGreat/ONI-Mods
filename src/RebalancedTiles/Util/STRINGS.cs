@@ -4,12 +4,6 @@ namespace RebalancedTiles
 {
     public class OPTIONS : AStrings<OPTIONS>
     {
-        public class ISTWEAKED
-        {
-            public static LocString NAME = "Apply Tweaks";
-            public static LocString TOOLTIP = "When true, apply the below tweaks to this tile.";
-        }
-
         public class DECOR
         {
             public static LocString NAME = "Decor";
@@ -34,16 +28,10 @@ namespace RebalancedTiles
             public static LocString TOOLTIP = "Set the move speed multiplier.";
         }
 
-        public class ISCOMBUSTIBLE
-        {
-            public static LocString NAME = "Is Combustible";
-            public static LocString TOOLTIP = "When true, will take damage over a certain temperature.";
-        }
-
         public class COMBUSTTEMP
         {
             public static LocString NAME = "Combustion Temperatuure";
-            public static LocString TOOLTIP = "Set the combustion temperature.";
+            public static LocString TOOLTIP = "Set the combustion temperature.  If blank, this will not combust.";
         }
 
         public class REEDFIBERCOUNT
