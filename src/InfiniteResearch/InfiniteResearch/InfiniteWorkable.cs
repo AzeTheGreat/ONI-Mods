@@ -30,15 +30,15 @@ namespace InfiniteResearch
             switch (chore.target.gameObject.name)
             {
                 case "ResearchCenterComplete":
-                    return (Options.Opts.ResearchCenterMin, Options.Opts.ResearchCenterMax);
+                    return (Options.Opts.ResearchCenter.Min, Options.Opts.ResearchCenter.Max);
                 case "AdvancedResearchCenterComplete":
-                    return (Options.Opts.AdvancedResearchCenterMin, Options.Opts.AdvancedResearchCenterMax);
+                    return (Options.Opts.AdvancedResearchCenter.Min, Options.Opts.AdvancedResearchCenter.Max);
                 case "TelescopeComplete":
-                    return (Options.Opts.TelescopeMin, Options.Opts.TelescopeMax);
+                    return (Options.Opts.Telescope.Min, Options.Opts.Telescope.Max);
                 case "CosmicResearchCenterComplete":
-                    return (Options.Opts.CosmicResearchCenterMin, Options.Opts.CosmicResearchCenterMax);
+                    return (Options.Opts.CosmicResearchCenter.Min, Options.Opts.CosmicResearchCenter.Max);
                 case "DLC1CosmicResearchCenterComplete":
-                    return (Options.Opts.CosmicResearchCenterMin, Options.Opts.CosmicResearchCenterMax);
+                    return (Options.Opts.CosmicResearchCenter.Min, Options.Opts.CosmicResearchCenter.Max);
                 default:
                     return (0, 0);
             }
@@ -102,15 +102,15 @@ namespace InfiniteResearch
                 switch (go.name)
                 {
                     case "ResearchCenterComplete":
-                        return Options.Opts.ResearchCenterExpRate;
+                        return Options.Opts.ResearchCenter.ExpRate;
                     case "AdvancedResearchCenterComplete":
-                        return Options.Opts.AdvancedResearchCenterExpRate;
+                        return Options.Opts.AdvancedResearchCenter.ExpRate;
                     case "TelescopeComplete":
-                        return Options.Opts.TelescopeExpRate;
+                        return Options.Opts.Telescope.ExpRate;
                     case "CosmicResearchCenterComplete":
-                        return Options.Opts.CosmicResearchCenterExpRate;
+                        return Options.Opts.CosmicResearchCenter.ExpRate;
                     case "DLC1CosmicResearchCenterComplete":
-                        return Options.Opts.CosmicResearchCenterExpRate;
+                        return Options.Opts.CosmicResearchCenter.ExpRate;
                     default:
                         return TUNING.SKILLS.ALL_DAY_EXPERIENCE;
                 }
