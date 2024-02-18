@@ -3,7 +3,6 @@ using Klei.AI;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using UnityEngine;
 
 namespace InfiniteResearch
 {
@@ -15,26 +14,20 @@ namespace InfiniteResearch
         {
             var learnLevel = chore.driver.GetComponent<AttributeLevels>().GetAttributeLevel("Learning").GetLevel();
             var attributeRange = GetAttributeRange(chore);
-            return learnLevel >= attributeRange.Item1 && learnLevel <= attributeRange.Item2;
+            return learnLevel >= attributeRange.min && learnLevel <= attributeRange.max;
         }
 
         private static bool ShouldChoreBeWorked(Chore.Precondition.Context context)
         {
             var learnLevel = context.consumerState.gameObject.GetComponent<AttributeLevels>().GetAttributeLevel("Learning").GetLevel();
             var attributeRange = GetAttributeRange(context.chore);
-            return learnLevel >= attributeRange.Item1 && learnLevel <= attributeRange.Item2;
+            return learnLevel >= attributeRange.min && learnLevel <= attributeRange.max;
         }
 
-        private static (int, int) GetAttributeRange(Chore chore)
+        private static (int min, int max) GetAttributeRange(Chore chore)
         {
-            return chore.target.gameObject.name switch
-            {
-                "ResearchCenterComplete" => (Options.Opts.ResearchCenter.Min, Options.Opts.ResearchCenter.Max),
-                "AdvancedResearchCenterComplete" => (Options.Opts.AdvancedResearchCenter.Min, Options.Opts.AdvancedResearchCenter.Max),
-                "TelescopeComplete" => (Options.Opts.Telescope.Min, Options.Opts.Telescope.Max),
-                "CosmicResearchCenterComplete" or "DLC1CosmicResearchCenterComplete" => (Options.Opts.CosmicResearchCenter.Min, Options.Opts.CosmicResearchCenter.Max),
-                _ => (0, 0),
-            };
+            var tuning = Options.Opts.GetIRTuningForGO(chore.target.gameObject);
+            return (tuning.Min, tuning.Max);
         }
 
         protected static void ModifyChore(Workable instance, Chore chore, Func<Workable, bool> isEndlessWorking)
@@ -87,19 +80,7 @@ namespace InfiniteResearch
                     }
                 };
 
-                __instance.attributeExperienceMultiplier = GetMultiplier(__instance.gameObject);
-            }
-
-            private static float GetMultiplier(GameObject go)
-            {
-                return go.name switch
-                {
-                    "ResearchCenterComplete" => Options.Opts.ResearchCenter.ExpRate,
-                    "AdvancedResearchCenterComplete" => Options.Opts.AdvancedResearchCenter.ExpRate,
-                    "TelescopeComplete" => Options.Opts.Telescope.ExpRate,
-                    "CosmicResearchCenterComplete" or "DLC1CosmicResearchCenterComplete" => Options.Opts.CosmicResearchCenter.ExpRate,
-                    _ => TUNING.SKILLS.ALL_DAY_EXPERIENCE,
-                };
+                __instance.attributeExperienceMultiplier = Options.Opts.GetIRTuningForGO(__instance.gameObject).ExpRate;
             }
         }
     }

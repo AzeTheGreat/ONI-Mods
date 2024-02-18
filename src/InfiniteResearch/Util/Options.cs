@@ -1,5 +1,6 @@
 ﻿using AzeLib;
 using PeterHan.PLib.Options;
+using UnityEngine;
 
 namespace InfiniteResearch
 {
@@ -32,6 +33,18 @@ namespace InfiniteResearch
             Min = 8,
             Max = 13
         };
+
+        public IRTuning GetIRTuningForGO(GameObject go)
+        {
+            return go.name switch
+            {
+                ResearchCenterConfig.ID + "Complete" => ResearchCenter,
+                AdvancedResearchCenterConfig.ID + "Complete" => AdvancedResearchCenter,
+                TelescopeConfig.ID + "Complete" => Telescope,
+                CosmicResearchCenterConfig.ID + "Complete" or DLC1CosmicResearchCenterConfig.ID + "Complete" => CosmicResearchCenter,
+                _ => new(),
+            };
+        }
 
         public class IRTuning
         {
