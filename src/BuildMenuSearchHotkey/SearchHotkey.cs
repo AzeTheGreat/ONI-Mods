@@ -1,6 +1,7 @@
 ﻿using AzeLib.Attributes;
 using HarmonyLib;
 using PeterHan.PLib.Actions;
+using System.Linq;
 
 namespace BuildMenuSearchHotkey
 {
@@ -20,12 +21,19 @@ namespace BuildMenuSearchHotkey
         class ListenForAction
         {
             static void Postfix(KButtonEvent e)
-            {
-                if (PlanScreen.Instance.activeCategoryInfo == null)
-                    return;
-
+            {    
                 if (e.TryConsume(action))
+                {
+                    if (PlanScreen.Instance.activeCategoryInfo == null)
+                    {
+                        if (Options.Opts.HotkeyWorksWhenBuildMenuClosed)
+                            PlanScreen.Instance.OpenCategoryPanel(PlanScreen.Instance.toggleEntries.First().toggleInfo);
+                        else
+                            return;
+                    }
+
                     BuildingGroupScreen.Instance.inputField.Select();
+                }
             }
         }
     }
