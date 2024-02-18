@@ -37,6 +37,8 @@ namespace InfiniteResearch
                     return (Options.Opts.TelescopeMin, Options.Opts.TelescopeMax);
                 case "CosmicResearchCenterComplete":
                     return (Options.Opts.CosmicResearchCenterMin, Options.Opts.CosmicResearchCenterMax);
+                case "DLC1CosmicResearchCenterComplete":
+                    return (Options.Opts.CosmicResearchCenterMin, Options.Opts.CosmicResearchCenterMax);
                 default:
                     return (0, 0);
             }
@@ -106,6 +108,8 @@ namespace InfiniteResearch
                     case "TelescopeComplete":
                         return Options.Opts.TelescopeExpRate;
                     case "CosmicResearchCenterComplete":
+                        return Options.Opts.CosmicResearchCenterExpRate;
+                    case "DLC1CosmicResearchCenterComplete":
                         return Options.Opts.CosmicResearchCenterExpRate;
                     default:
                         return TUNING.SKILLS.ALL_DAY_EXPERIENCE;

@@ -20,6 +20,7 @@ namespace InfiniteResearch
             yield return AccessTools.Method(typeof(ResearchCenterConfig), nameof(ResearchCenterConfig.ConfigureBuildingTemplate));
             yield return AccessTools.Method(typeof(AdvancedResearchCenterConfig), nameof(AdvancedResearchCenterConfig.ConfigureBuildingTemplate));
             yield return AccessTools.Method(typeof(CosmicResearchCenterConfig), nameof(CosmicResearchCenterConfig.ConfigureBuildingTemplate));
+            yield return AccessTools.Method(typeof(DLC1CosmicResearchCenterConfig), nameof(DLC1CosmicResearchCenterConfig.ConfigureBuildingTemplate));
         }
 
         static void Postfix(GameObject go) => go.AddComponent<InfiniteResearchCenterButton>();
