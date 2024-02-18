@@ -15,3 +15,11 @@ msgctxt "BuildMenuSearchHotkey.OPTIONS.HOTKEYWORKSWHENBUILDMENUCLOSED.TOOLTIP"
 msgid "When true, pressing the Build Menu Search hotkey will open the first available category and then select search."
 msgstr ""
 
+msgctxt "BuildMenuSearchHotkey.OPTIONS.POINTTOKEYBINDMENULABEL.NAME"
+msgid "<i>Configure binding in Controls > Mods.</i>"
+msgstr ""
+
+msgctxt "BuildMenuSearchHotkey.OPTIONS.POINTTOKEYBINDMENULABEL.TOOLTIP"
+msgid "Default binding is Ctrl + E."
+msgstr ""
+
