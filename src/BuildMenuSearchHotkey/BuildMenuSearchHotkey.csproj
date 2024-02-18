@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyTitle>BuildMenuSearchHotkey</AssemblyTitle>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Title>Build Menu Search Hotkey</Title>
+    <Description>Set a hotkey to quickly search the build menu.</Description>
+  </PropertyGroup>
+</Project>
