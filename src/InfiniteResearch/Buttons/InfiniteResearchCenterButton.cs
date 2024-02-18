@@ -1,7 +1,4 @@
 ﻿using HarmonyLib;
-using System.Collections.Generic;
-using System.Reflection;
-using UnityEngine;
 
 namespace InfiniteResearch
 {
@@ -12,17 +9,9 @@ namespace InfiniteResearch
         protected override void UpdateState() => researchCenter.UpdateWorkingState(null);
     }
 
-    [HarmonyPatch]
+    [HarmonyPatch(typeof(ResearchCenter), nameof(ResearchCenter.OnPrefabInit))]
     class ResearchCenterConfig_Patch
     {
-        static IEnumerable<MethodBase> TargetMethods()
-        {
-            yield return AccessTools.Method(typeof(ResearchCenterConfig), nameof(ResearchCenterConfig.ConfigureBuildingTemplate));
-            yield return AccessTools.Method(typeof(AdvancedResearchCenterConfig), nameof(AdvancedResearchCenterConfig.ConfigureBuildingTemplate));
-            yield return AccessTools.Method(typeof(CosmicResearchCenterConfig), nameof(CosmicResearchCenterConfig.ConfigureBuildingTemplate));
-            yield return AccessTools.Method(typeof(DLC1CosmicResearchCenterConfig), nameof(DLC1CosmicResearchCenterConfig.ConfigureBuildingTemplate));
-        }
-
-        static void Postfix(GameObject go) => go.AddComponent<InfiniteResearchCenterButton>();
+        static void Postfix(ResearchCenter __instance) => __instance.gameObject.AddComponent<InfiniteResearchCenterButton>();
     }
 }

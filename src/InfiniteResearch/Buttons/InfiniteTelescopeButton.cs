@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using UnityEngine;
 
 namespace InfiniteResearch
 {
@@ -10,6 +9,6 @@ namespace InfiniteResearch
         protected override void UpdateState() => telescope.UpdateWorkingState(null);
     }
 
-    [HarmonyPatch(typeof(TelescopeConfig), nameof(TelescopeConfig.ConfigureBuildingTemplate))]
-    class TelescopeConfig_Patch { static void Postfix(GameObject go) => go.AddComponent<InfiniteTelescopeButton>(); }
+    [HarmonyPatch(typeof(Telescope), nameof(Telescope.OnPrefabInit))]
+    class TelescopeConfig_Patch { static void Postfix(Telescope __instance) => __instance.gameObject.AddComponent<InfiniteTelescopeButton>(); }
 }
