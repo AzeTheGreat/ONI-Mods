@@ -10,14 +10,14 @@ namespace InfiniteResearch
         public IRTuning ResearchCenter { get; set; } = new()
         {
             Min = 0,
-            Max = 1
+            Max = 6
         };
 
         [Option("STRINGS.BUILDINGS.PREFABS.ADVANCEDRESEARCHCENTER.NAME", null, "STRINGS.BUILDINGS.PREFABS.ADVANCEDRESEARCHCENTER.NAME")]
         public IRTuning AdvancedResearchCenter { get; set; } = new()
         {
-            Min = 2,
-            Max = 7
+            Min = 7,
+            Max = 13
         };
 
         [Option("STRINGS.BUILDINGS.PREFABS.COSMICRESEARCHCENTER.NAME", null, "STRINGS.BUILDINGS.PREFABS.COSMICRESEARCHCENTER.NAME")]
@@ -27,20 +27,12 @@ namespace InfiniteResearch
             Max = 19
         };
 
-        [Option("STRINGS.BUILDINGS.PREFABS.TELESCOPE.NAME", null, "STRINGS.BUILDINGS.PREFABS.TELESCOPE.NAME")]
-        public IRTuning Telescope { get; set; } = new()
-        {
-            Min = 8,
-            Max = 13
-        };
-
         public IRTuning GetIRTuningForGO(GameObject go)
         {
             return go.name switch
             {
                 ResearchCenterConfig.ID + "Complete" => ResearchCenter,
                 AdvancedResearchCenterConfig.ID + "Complete" => AdvancedResearchCenter,
-                TelescopeConfig.ID + "Complete" => Telescope,
                 CosmicResearchCenterConfig.ID + "Complete" or DLC1CosmicResearchCenterConfig.ID + "Complete" => CosmicResearchCenter,
                 _ => new(),
             };

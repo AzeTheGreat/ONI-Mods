@@ -1,8 +1,6 @@
 ﻿using HarmonyLib;
 using Klei.AI;
 using System;
-using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 
 namespace InfiniteResearch
@@ -57,15 +55,9 @@ namespace InfiniteResearch
                 kSelectable.ToggleStatusItem(requiresAttributeRange, false);
         }
 
-        [HarmonyPatch]
+        [HarmonyPatch(typeof(ResearchCenter), nameof(ResearchCenter.OnSpawn))]
         private static class AddStatusItem
         {
-            static IEnumerable<MethodBase> TargetMethods()
-            {
-                yield return AccessTools.Method(typeof(Telescope), "OnSpawn");
-                yield return AccessTools.Method(typeof(ResearchCenter), "OnSpawn");
-            }
-
             static void Postfix(Workable __instance)
             {
                 requiresAttributeRange = new StatusItem("RequiresAttributeRange", "INFINITERESEARCH.MYSTRINGS.BUILDING", "", StatusItem.IconType.Info, NotificationType.Neutral, false, OverlayModes.None.ID)
