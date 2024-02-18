@@ -1,8 +1,6 @@
 ﻿using HarmonyLib;
 using Klei.AI;
 using System;
-using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 
 namespace InfiniteResearch
@@ -11,35 +9,20 @@ namespace InfiniteResearch
     {
         private static StatusItem requiresAttributeRange;
 
-        private static bool ShouldChoreBeWorked(Chore chore)
+        private static bool ShouldChoreBeWorked(Chore chore) => IsDupeInRightAttributeRange(chore.driver.gameObject, chore);
+        private static bool ShouldChoreBeWorked(Chore.Precondition.Context context) => IsDupeInRightAttributeRange(context.consumerState.gameObject, context.chore);
+
+        private static bool IsDupeInRightAttributeRange(GameObject go, Chore chore)
         {
-            var learnLevel = chore.driver.GetComponent<AttributeLevels>().GetAttributeLevel("Learning").GetLevel();
+            var learnLevel = go.GetComponent<AttributeLevels>().GetAttributeLevel("Learning").GetLevel();
             var attributeRange = GetAttributeRange(chore);
-            return learnLevel >= attributeRange.Item1 && learnLevel <= attributeRange.Item2;
+            return learnLevel >= attributeRange.min && learnLevel <= attributeRange.max;
         }
 
-        private static bool ShouldChoreBeWorked(Chore.Precondition.Context context)
+        private static (int min, int max) GetAttributeRange(Chore chore)
         {
-            var learnLevel = context.consumerState.gameObject.GetComponent<AttributeLevels>().GetAttributeLevel("Learning").GetLevel();
-            var attributeRange = GetAttributeRange(context.chore);
-            return learnLevel >= attributeRange.Item1 && learnLevel <= attributeRange.Item2;
-        }
-
-        private static (int, int) GetAttributeRange(Chore chore)
-        {
-            switch (chore.target.gameObject.name)
-            {
-                case "ResearchCenterComplete":
-                    return (Options.Opts.ResearchCenterMin, Options.Opts.ResearchCenterMax);
-                case "AdvancedResearchCenterComplete":
-                    return (Options.Opts.AdvancedResearchCenterMin, Options.Opts.AdvancedResearchCenterMax);
-                case "TelescopeComplete":
-                    return (Options.Opts.TelescopeMin, Options.Opts.TelescopeMax);
-                case "CosmicResearchCenterComplete":
-                    return (Options.Opts.CosmicResearchCenterMin, Options.Opts.CosmicResearchCenterMax);
-                default:
-                    return (0, 0);
-            }
+            var tuning = Options.Opts.GetIRTuningForGO(chore.target.gameObject);
+            return (tuning.Min, tuning.Max);
         }
 
         protected static void ModifyChore(Workable instance, Chore chore, Func<Workable, bool> isEndlessWorking)
@@ -48,7 +31,7 @@ namespace InfiniteResearch
             {
                 id = "RequireAttributeRange",
                 fn = delegate (ref Chore.Precondition.Context context, object data) { return !isEndlessWorking(instance) || ShouldChoreBeWorked(context); },
-                description = DUPLICANTS.CHORES.PRECONDITIONS.REQUIRES_ATTRIBUTE_RANGE.DESCRIPTION
+                description = MYSTRINGS.DUPLICANTS.CHORES.PRECONDITIONS.REQUIRES_ATTRIBUTE_RANGE.DESCRIPTION
             };
             chore.AddPrecondition(precondition, null);
         }
@@ -72,18 +55,12 @@ namespace InfiniteResearch
                 kSelectable.ToggleStatusItem(requiresAttributeRange, false);
         }
 
-        [HarmonyPatch]
+        [HarmonyPatch(typeof(ResearchCenter), nameof(ResearchCenter.OnSpawn))]
         private static class AddStatusItem
         {
-            static IEnumerable<MethodBase> TargetMethods()
-            {
-                yield return AccessTools.Method(typeof(Telescope), "OnSpawn");
-                yield return AccessTools.Method(typeof(ResearchCenter), "OnSpawn");
-            }
-
             static void Postfix(Workable __instance)
             {
-                requiresAttributeRange = new StatusItem("RequiresAttributeRange", "BUILDING", "", StatusItem.IconType.Info, NotificationType.Neutral, false, OverlayModes.None.ID)
+                requiresAttributeRange = new StatusItem("RequiresAttributeRange", "INFINITERESEARCH.MYSTRINGS.BUILDING", "", StatusItem.IconType.Info, NotificationType.Neutral, false, OverlayModes.None.ID)
                 {
                     resolveStringCallback = (string str, object obj) =>
                     {
@@ -92,24 +69,7 @@ namespace InfiniteResearch
                     }
                 };
 
-                __instance.attributeExperienceMultiplier = GetMultiplier(__instance.gameObject);
-            }
-
-            private static float GetMultiplier(GameObject go)
-            {
-                switch (go.name)
-                {
-                    case "ResearchCenterComplete":
-                        return Options.Opts.ResearchCenterExpRate;
-                    case "AdvancedResearchCenterComplete":
-                        return Options.Opts.AdvancedResearchCenterExpRate;
-                    case "TelescopeComplete":
-                        return Options.Opts.TelescopeExpRate;
-                    case "CosmicResearchCenterComplete":
-                        return Options.Opts.CosmicResearchCenterExpRate;
-                    default:
-                        return TUNING.SKILLS.ALL_DAY_EXPERIENCE;
-                }
+                __instance.attributeExperienceMultiplier = Options.Opts.GetIRTuningForGO(__instance.gameObject).ExpRate;
             }
         }
     }

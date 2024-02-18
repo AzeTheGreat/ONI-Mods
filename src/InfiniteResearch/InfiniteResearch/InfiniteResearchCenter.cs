@@ -51,8 +51,8 @@ namespace InfiniteResearch
         {
             static void Postfix(StatusItem ___Researching)
             {
-                ___Researching.resolveStringCallback = (string str, object data) => getString(str, data, DUPLICANTS.STATUSITEMS.LEARNING.NAME);
-                ___Researching.resolveTooltipCallback = (string str, object data) => getString(str, data, DUPLICANTS.STATUSITEMS.LEARNING.TOOLTIP);
+                ___Researching.resolveStringCallback = (string str, object data) => getString(str, data, MYSTRINGS.DUPLICANTS.STATUSITEMS.LEARNING.NAME);
+                ___Researching.resolveTooltipCallback = (string str, object data) => getString(str, data, MYSTRINGS.DUPLICANTS.STATUSITEMS.LEARNING.TOOLTIP);
 
                 string getString(string str, object data, string nameOrTooltip)
                 {

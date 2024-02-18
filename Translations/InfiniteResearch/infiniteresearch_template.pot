@@ -1,0 +1,65 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included"
+"POT Version: 2.0"
+
+msgctxt "InfiniteResearch.MYSTRINGS.BUILDING.STATUSITEMS.REQUIRESATTRIBUTERANGE.NAME"
+msgid "Attribute-Required Operation"
+msgstr ""
+
+msgctxt "InfiniteResearch.MYSTRINGS.BUILDING.STATUSITEMS.REQUIRESATTRIBUTERANGE.TOOLTIP"
+msgid "Only duplicants with a base Science Attribute from {Attributes} can learn from this building."
+msgstr ""
+
+msgctxt "InfiniteResearch.MYSTRINGS.BUTTONS.DISABLELEARN.NAME"
+msgid "Disable Learning"
+msgstr ""
+
+msgctxt "InfiniteResearch.MYSTRINGS.BUTTONS.DISABLELEARN.TOOLTIP"
+msgid "Stop dupes from training their Science Attribute here."
+msgstr ""
+
+msgctxt "InfiniteResearch.MYSTRINGS.BUTTONS.ENABLELEARN.NAME"
+msgid "Enable Learning"
+msgstr ""
+
+msgctxt "InfiniteResearch.MYSTRINGS.BUTTONS.ENABLELEARN.TOOLTIP"
+msgid "Allow dupes to train their Science Attribute here."
+msgstr ""
+
+msgctxt "InfiniteResearch.MYSTRINGS.DUPLICANTS.CHORES.PRECONDITIONS.REQUIRES_ATTRIBUTE_RANGE.DESCRIPTION"
+msgid "Science outside range"
+msgstr ""
+
+msgctxt "InfiniteResearch.MYSTRINGS.DUPLICANTS.STATUSITEMS.LEARNING.NAME"
+msgid "Learning"
+msgstr ""
+
+msgctxt "InfiniteResearch.MYSTRINGS.DUPLICANTS.STATUSITEMS.LEARNING.TOOLTIP"
+msgid "This Duplicant is intently studying to improve their Science Attribute."
+msgstr ""
+
+msgctxt "InfiniteResearch.OPTIONS.EXPRATE.NAME"
+msgid "Experience Rate"
+msgstr ""
+
+msgctxt "InfiniteResearch.OPTIONS.EXPRATE.TOOLTIP"
+msgid "How quickly duplicants gain experience while working at this station.  Vanilla defaults to 1.11."
+msgstr ""
+
+msgctxt "InfiniteResearch.OPTIONS.MAX.NAME"
+msgid "Maximum"
+msgstr ""
+
+msgctxt "InfiniteResearch.OPTIONS.MAX.TOOLTIP"
+msgid "The highest level at which a dupe can operate this station."
+msgstr ""
+
+msgctxt "InfiniteResearch.OPTIONS.MIN.NAME"
+msgid "Minimum"
+msgstr ""
+
+msgctxt "InfiniteResearch.OPTIONS.MIN.TOOLTIP"
+msgid "The lowest level at which a dupe can operate this station."
+msgstr ""
+
