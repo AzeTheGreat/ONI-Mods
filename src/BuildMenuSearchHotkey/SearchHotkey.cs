@@ -13,7 +13,7 @@ namespace BuildMenuSearchHotkey
         public static void InitAction()
         {
             var manager = new PActionManager();
-            var pAction = manager.CreateAction("AzeTestBuildSearchHotkey", "Build Search Hotkey", new(KKeyCode.E, Modifier.Ctrl));
+            var pAction = manager.CreateAction(typeof(SearchHotkey).FullName, "Build Search Hotkey", new(KKeyCode.E, Modifier.Ctrl));
             action = pAction.GetKAction();
         }
 
