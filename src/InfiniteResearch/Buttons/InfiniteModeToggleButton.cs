@@ -19,13 +19,13 @@ namespace InfiniteResearch
             if (isInfiniteMode)
             {
                 string iconName = "action_building_disabled";
-                string text = BUTTONS.DISABLELEARN.NAME;
+                string text = MYSTRINGS.BUTTONS.DISABLELEARN.NAME;
                 void on_click()
                 {
                     isInfiniteMode = false;
                     UpdateState();
                 }
-                string tooltipText = BUTTONS.DISABLELEARN.TOOLTIP;
+                string tooltipText = MYSTRINGS.BUTTONS.DISABLELEARN.TOOLTIP;
 
                 Game.Instance.userMenu.AddButton(gameObject, new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText));
                 return;
@@ -33,13 +33,13 @@ namespace InfiniteResearch
             else
             {
                 string iconName = "action_building_disabled";
-                string text = BUTTONS.ENABLELEARN.NAME;
+                string text = MYSTRINGS.BUTTONS.ENABLELEARN.NAME;
                 void on_click()
                 {
                     isInfiniteMode = true;
                     UpdateState();
                 }
-                string tooltipText = BUTTONS.ENABLELEARN.TOOLTIP;
+                string tooltipText = MYSTRINGS.BUTTONS.ENABLELEARN.TOOLTIP;
 
                 Game.Instance.userMenu.AddButton(gameObject, new KIconButtonMenu.ButtonInfo(iconName, text, on_click, tooltipText: tooltipText));
                 return;

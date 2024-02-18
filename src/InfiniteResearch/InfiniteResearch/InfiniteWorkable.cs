@@ -50,7 +50,7 @@ namespace InfiniteResearch
             {
                 id = "RequireAttributeRange",
                 fn = delegate (ref Chore.Precondition.Context context, object data) { return !isEndlessWorking(instance) || ShouldChoreBeWorked(context); },
-                description = DUPLICANTS.CHORES.PRECONDITIONS.REQUIRES_ATTRIBUTE_RANGE.DESCRIPTION
+                description = MYSTRINGS.DUPLICANTS.CHORES.PRECONDITIONS.REQUIRES_ATTRIBUTE_RANGE.DESCRIPTION
             };
             chore.AddPrecondition(precondition, null);
         }
@@ -85,7 +85,7 @@ namespace InfiniteResearch
 
             static void Postfix(Workable __instance)
             {
-                requiresAttributeRange = new StatusItem("RequiresAttributeRange", "BUILDING", "", StatusItem.IconType.Info, NotificationType.Neutral, false, OverlayModes.None.ID)
+                requiresAttributeRange = new StatusItem("RequiresAttributeRange", "INFINITERESEARCH.MYSTRINGS.BUILDING", "", StatusItem.IconType.Info, NotificationType.Neutral, false, OverlayModes.None.ID)
                 {
                     resolveStringCallback = (string str, object obj) =>
                     {
