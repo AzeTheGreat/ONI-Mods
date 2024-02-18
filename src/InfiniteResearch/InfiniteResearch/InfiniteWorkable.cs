@@ -27,21 +27,14 @@ namespace InfiniteResearch
 
         private static (int, int) GetAttributeRange(Chore chore)
         {
-            switch (chore.target.gameObject.name)
+            return chore.target.gameObject.name switch
             {
-                case "ResearchCenterComplete":
-                    return (Options.Opts.ResearchCenter.Min, Options.Opts.ResearchCenter.Max);
-                case "AdvancedResearchCenterComplete":
-                    return (Options.Opts.AdvancedResearchCenter.Min, Options.Opts.AdvancedResearchCenter.Max);
-                case "TelescopeComplete":
-                    return (Options.Opts.Telescope.Min, Options.Opts.Telescope.Max);
-                case "CosmicResearchCenterComplete":
-                    return (Options.Opts.CosmicResearchCenter.Min, Options.Opts.CosmicResearchCenter.Max);
-                case "DLC1CosmicResearchCenterComplete":
-                    return (Options.Opts.CosmicResearchCenter.Min, Options.Opts.CosmicResearchCenter.Max);
-                default:
-                    return (0, 0);
-            }
+                "ResearchCenterComplete" => (Options.Opts.ResearchCenter.Min, Options.Opts.ResearchCenter.Max),
+                "AdvancedResearchCenterComplete" => (Options.Opts.AdvancedResearchCenter.Min, Options.Opts.AdvancedResearchCenter.Max),
+                "TelescopeComplete" => (Options.Opts.Telescope.Min, Options.Opts.Telescope.Max),
+                "CosmicResearchCenterComplete" or "DLC1CosmicResearchCenterComplete" => (Options.Opts.CosmicResearchCenter.Min, Options.Opts.CosmicResearchCenter.Max),
+                _ => (0, 0),
+            };
         }
 
         protected static void ModifyChore(Workable instance, Chore chore, Func<Workable, bool> isEndlessWorking)
@@ -99,21 +92,14 @@ namespace InfiniteResearch
 
             private static float GetMultiplier(GameObject go)
             {
-                switch (go.name)
+                return go.name switch
                 {
-                    case "ResearchCenterComplete":
-                        return Options.Opts.ResearchCenter.ExpRate;
-                    case "AdvancedResearchCenterComplete":
-                        return Options.Opts.AdvancedResearchCenter.ExpRate;
-                    case "TelescopeComplete":
-                        return Options.Opts.Telescope.ExpRate;
-                    case "CosmicResearchCenterComplete":
-                        return Options.Opts.CosmicResearchCenter.ExpRate;
-                    case "DLC1CosmicResearchCenterComplete":
-                        return Options.Opts.CosmicResearchCenter.ExpRate;
-                    default:
-                        return TUNING.SKILLS.ALL_DAY_EXPERIENCE;
-                }
+                    "ResearchCenterComplete" => Options.Opts.ResearchCenter.ExpRate,
+                    "AdvancedResearchCenterComplete" => Options.Opts.AdvancedResearchCenter.ExpRate,
+                    "TelescopeComplete" => Options.Opts.Telescope.ExpRate,
+                    "CosmicResearchCenterComplete" or "DLC1CosmicResearchCenterComplete" => Options.Opts.CosmicResearchCenter.ExpRate,
+                    _ => TUNING.SKILLS.ALL_DAY_EXPERIENCE,
+                };
             }
         }
     }
