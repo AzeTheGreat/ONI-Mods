@@ -11,6 +11,7 @@ If you can't download through the Steam Workshop, zipped releases are available 
 |[Better Deselect](https://steamcommunity.com/sharedfiles/filedetails/?id=1870696175)|Requires separate clicks to: deselect the cursor item, close the building menu, and close the overlay.|
 |[Better Info Cards](https://steamcommunity.com/sharedfiles/filedetails/?id=1960947963)|Overhauls info cards to be more powerful and user friendly.|
 |[Better Automation Overlay](https://steamcommunity.com/sharedfiles/filedetails/?id=1878896484)|Improves the automation overlay.|
+|[Build Menu Search Hotkey](https://steamcommunity.com/sharedfiles/filedetails/?id=3164212090)|Define a keybind to immediately open the build menu search.|
 |[Clarified Max Decor](https://steamcommunity.com/sharedfiles/filedetails/?id=2169776807)|Makes UI tweaks so that tooltips more accurately represent max decor.|
 |[Clean Floors](https://steamcommunity.com/sharedfiles/filedetails/?id=1937854017)|Removes the largest decor pieces from tiles to give a smoother look.|
 |[Clean HUD](https://steamcommunity.com/sharedfiles/filedetails/?id=1909037839)|Provides multiple options to simplify the main HUD.|
