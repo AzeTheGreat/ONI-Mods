@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyTitle>DeleteFullWord</AssemblyTitle>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Title>Delete Full Word</Title>
+    <Description>Adds support for ctrl + backspace to text input fields.</Description>
+  </PropertyGroup>
+</Project>

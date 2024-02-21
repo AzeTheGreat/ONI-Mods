@@ -26,9 +26,11 @@
   <ItemGroup>
     <PubliciseInputAssemblies Include="
 					$(GameFolder)/Assembly-CSharp.dll;
-					$(GameFolder)/Assembly-CSharp-firstpass.dll"/>
+					$(GameFolder)/Assembly-CSharp-firstpass.dll;
+                    $(GameFolder)/Unity.TextMeshPro.dll"/>
     <Reference Include="Assembly-CSharp_public" HintPath="../lib/Assembly-CSharp_public.dll"  />
     <Reference Include="Assembly-CSharp-firstpass_public" HintPath="../lib/Assembly-CSharp-firstpass_public.dll" />
+    <Reference Include="Unity.TextMeshPro_public" HintPath="../lib/Unity.TextMeshPro_public.dll" />
 
     <!--Meta References-->
     <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="*" />
@@ -47,8 +49,8 @@
     <Reference Include="UnityEngine" HintPath="$(GameFolder)/UnityEngine.dll" />
     <Reference Include="UnityEngine.CoreModule" HintPath="$(GameFolder)/UnityEngine.CoreModule.dll" />
     <Reference Include="UnityEngine.ImageConversionModule" HintPath="$(GameFolder)/UnityEngine.ImageConversionModule.dll" />
+    <Reference Include="UnityEngine.ImageConversionModule" HintPath="$(GameFolder)/UnityEngine.IMGUIModule.dll" />
     <Reference Include="UnityEngine.InputLegacyModule" HintPath="$(GameFolder)/UnityEngine.InputLegacyModule.dll" />
-    <Reference Include="Unity.TextMeshPro" HintPath="$(GameFolder)/Unity.TextMeshPro.dll" />
     <Reference Include="UnityEngine.TextRenderingModule" HintPath="$(GameFolder)/UnityEngine.TextRenderingModule.dll" />
     <Reference Include="UnityEngine.UI" HintPath="$(GameFolder)/UnityEngine.UI.dll" />
     <Reference Include="UnityEngine.UIModule" HintPath="$(GameFolder)/UnityEngine.UIModule.dll" />
