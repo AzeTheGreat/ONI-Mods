@@ -24,6 +24,7 @@ If you can't download through the Steam Workshop, zipped releases are available 
 |[Rebalanced Tiles](https://steamcommunity.com/sharedfiles/filedetails/?id=1906094571)|Tweaks and adds new features to tiles to encourage variety, and allow full configuration.|
 |[Sufficient Oxygen Generation](https://steamcommunity.com/sharedfiles/filedetails/?id=1887869179)|Allows the oxygen generation warning to be configured to be less sensitive.|
 |[Suppress Notifications](https://steamcommunity.com/sharedfiles/filedetails/?id=1832319118)|Suppresses notifications and status items from individual buildings/critters/crops.|
+|[Text Input Hotkeys](https://steamcommunity.com/sharedfiles/filedetails/?id=3165114076)|Enable standard hotkeys in input fields: ctrl + backspace (delete word) and ctrl + shift + backspace (delete all).|
 
 ## Request Mods
 
