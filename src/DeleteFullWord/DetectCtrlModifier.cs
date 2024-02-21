@@ -25,13 +25,8 @@ public class DetectCtrlModifier
     {
         var isControlPressed = (evt.modifiers & EventModifiers.Control) > EventModifiers.None;
         if (isControlPressed)
-            CtrlBackspace();
+            ModifiedBackspace.CtrlBackspace(instance, 2);
         else
             instance.Backspace();
-    }
-
-    private static void CtrlBackspace()
-    {
-
     }
 }
