@@ -13,7 +13,7 @@ public class ModifiedBackspace
 {
     [HarmonyReversePatch]
     [HarmonyPatch(typeof(TMP_InputField), nameof(TMP_InputField.Backspace))]
-    public static void CtrlBackspace(TMP_InputField instance, int charsToRemove)
+    public static void MultiBackspace(TMP_InputField instance, int charsToRemove)
     {
         // The Backspace method removes 1 char from the string.
         // This modifies it to remove the number of chars passed as a parameter.
