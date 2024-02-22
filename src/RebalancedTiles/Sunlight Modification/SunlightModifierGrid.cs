@@ -32,9 +32,11 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
 
         private static byte GetSunModForGO(GameObject go)
         {
-            if (go?.name == "MeshTileComplete")
+            if (go == null)
+                return 0;
+            else if (go.name == "MeshTileComplete")
                 return meshSunlightReduction;
-            if (go?.name == "GasPermeableMembraneComplete")
+            else if (go.name == "GasPermeableMembraneComplete")
                 return airflowSunlightReduction;
             return 0;
         }
@@ -73,14 +75,22 @@ namespace RebalancedTiles.Mesh_Airflow_Tiles
         private class SpawnTracker_Patch
         {
             static bool Prepare() => Options.Opts.DoMeshedTilesReduceSunlight;
-            static void Postfix(BuildingComplete __instance) => Update(__instance.gameObject);
+            static void Postfix(BuildingComplete __instance)
+            {
+                if(__instance != null)
+                    Update(__instance.gameObject);
+            }
         }
 
         [HarmonyPatch(typeof(Deconstructable), "OnCompleteWork")]
         private class RemovalTracker_Patch
         {
             static bool Prepare() => Options.Opts.DoMeshedTilesReduceSunlight;
-            static void Postfix(Deconstructable __instance) => Update(__instance.gameObject);
+            static void Postfix(Deconstructable __instance)
+            {
+                if(__instance != null)
+                    Update(__instance.gameObject);
+            }
         }
     }
 }
