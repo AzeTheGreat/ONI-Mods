@@ -5,8 +5,10 @@ using System.Linq;
 
 namespace AzeLib
 {
-    /// <summary>Inherit from this class to mark all <see langword="public static"/> <see cref="LocString"/> fields for registration.</summary>
-    /// <remarks>Supports nested classes.</remarks>
+    /// <summary>Inherit from this class to mark all <see langword="static"/> <see cref="LocString"/> fields for registration.</summary>
+    /// <remarks>Supports nested classes.<br/>
+    /// <see langword="static"/> members will be registered, but not included in the POT.<br/>
+    /// <see langword="public static"/> members will be registered and included in the POT.</remarks>
     /// <typeparam name="T"><inheritdoc cref="SingletonBase{T}"/></typeparam>
     public abstract class AStrings<T> : AStringsBase<T> where T : AStrings<T> { }
 
