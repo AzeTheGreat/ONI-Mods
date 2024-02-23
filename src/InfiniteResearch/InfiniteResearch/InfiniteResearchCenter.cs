@@ -37,9 +37,10 @@ namespace InfiniteResearch
         {
             static bool Prefix(ResearchCenter __instance, ref float __result)
             {
-                if (IsEndlessWorking(__instance))
+                var worker = __instance.worker;
+                if (worker != null && IsEndlessWorking(__instance))
                 {
-                    __result = __instance.worker.GetComponent<AttributeLevels>().GetPercentComplete("Learning");
+                    __result = worker.GetComponent<AttributeLevels>().GetPercentComplete("Learning");
                     return false;
                 }
                 return true;
