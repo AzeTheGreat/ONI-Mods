@@ -12,27 +12,26 @@ namespace DefaultSaveSettings
         [Option] public bool EnableAutoDisinfect { get; set; }
         [Option] [Limit(0, 1000000)] public int DisinfectMinGermCount { get; set; }
 
-        // TODO: Correct to be string keys once they properly work in PLib.
         public enum SaveIntervals
         {
-            [Option("Never")] Never,
-            [Option("50 Cycles")] Fifty,
-            [Option("20 Cycles")] Twenty,
-            [Option("10 Cycles")] Ten,
-            [Option("5 Cycles")] Five,
-            [Option("2 Cycles")] Two,
-            [Option("Every Cycle")] Every
+            [Option("STRINGS.UI.FRONTEND.COLONY_SAVE_OPTIONS_SCREEN.AUTOSAVE_NEVER")] Never,
+            [Option("STRINGS.DEFAULTSAVESETTINGS.OPTIONS.AUTOSAVEFREQ.FIFTY")] Fifty,
+            [Option("STRINGS.DEFAULTSAVESETTINGS.OPTIONS.AUTOSAVEFREQ.TWENTY")] Twenty,
+            [Option("STRINGS.DEFAULTSAVESETTINGS.OPTIONS.AUTOSAVEFREQ.TEN")] Ten,
+            [Option("STRINGS.DEFAULTSAVESETTINGS.OPTIONS.AUTOSAVEFREQ.FIVE")] Five,
+            [Option("STRINGS.DEFAULTSAVESETTINGS.OPTIONS.AUTOSAVEFREQ.TWO")] Two,
+            [Option("STRINGS.DEFAULTSAVESETTINGS.OPTIONS.AUTOSAVEFREQ.EVERY")] Every
         }
 
         public enum Resolutions
         {
-            [Option("Disabled")] Disabled,
-            [Option("256 x 358")] R256,
-            [Option("512 x 768")] R512,
-            [Option("1024 x 1536")] R1024,
-            [Option("2048 x 3072")] R2048,
-            [Option("4096 x 6144")] R4096,
-            [Option("8192 x 12288")] R8192
+            [Option("STRINGS.UI.FRONTEND.COLONY_SAVE_OPTIONS_SCREEN.TIMELAPSE_DISABLED_DESCRIPTION")] Disabled,
+            [Option("STRINGS.DEFAULTSAVESETTINGS.OPTIONS.RESOLUTION.R256")] R256,
+            [Option("STRINGS.DEFAULTSAVESETTINGS.OPTIONS.RESOLUTION.R512")] R512,
+            [Option("STRINGS.DEFAULTSAVESETTINGS.OPTIONS.RESOLUTION.R1024")] R1024,
+            [Option("STRINGS.DEFAULTSAVESETTINGS.OPTIONS.RESOLUTION.R2048")] R2048,
+            [Option("STRINGS.DEFAULTSAVESETTINGS.OPTIONS.RESOLUTION.R4096")] R4096,
+            [Option("STRINGS.DEFAULTSAVESETTINGS.OPTIONS.RESOLUTION.R8192")] R8192
         }
 
         public Options()
