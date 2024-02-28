@@ -22,6 +22,13 @@ namespace BetterInfoCards
             return this;
         }
 
+        public void LogCard()
+        {
+            Debug.Log("Info Card: " + GetTitleKey() + "; " + selectable);
+            foreach (var kvp in textInfos)
+                Debug.Log("     " + kvp.Key + "; " + kvp.Value.ID + ", " + kvp.Value.Text);
+        }
+
         public string GetTitleKey() => titleDrawer.ti?.Text.RemoveCountSuffix() ?? string.Empty;
 
         public void Draw(List<InfoCard> cards, int visCardIndex)

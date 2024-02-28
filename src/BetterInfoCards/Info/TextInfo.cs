@@ -59,7 +59,25 @@ namespace BetterInfoCards
         public override List<List<InfoCard>> SplitByTIDefs(List<InfoCard> cards)
         {
             if (splitListDefs is not null)
+            {
+                try
+                {
+                    if (Logging.IsGroupBad(cards))
+                    {
+                        Debug.Log("---------------------------------------------");
+                        Debug.Log("SplitByTIDefs cards have inconsistent TIs:");
+                        Logging.LogICGroup(cards);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("---------------------------------------------");
+                    Debug.Log("CAUGHT ERROR IN LOGGING");
+                    Debug.Log(e);
+                }
+
                 return cards.SplitBySplitters(splitListDefs, (g, def) => GetSplitByRange(g, def));
+            }
             else
                 return new() { cards };
         }
@@ -120,8 +138,23 @@ namespace BetterInfoCards
             }
 
             // Round the value to simplify the calculations since negligible differences are common.
-            float GetTIValue(InfoCard ic) => Mathf.Round(def.Item1(((TextInfo<T>)ic.textInfos[ID]).Result));
-            
+            float GetTIValue(InfoCard ic)
+            {
+                try
+                {
+                    if (!ic.textInfos.ContainsKey(ID))
+                        Debug.Log($"Info Card {ic.selectable} does not contain key {ID}");
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("---------------------------------------------");
+                    Debug.Log("CAUGHT ERROR IN LOGGING");
+                    Debug.Log(e);
+                }
+
+                return Mathf.Round(def.Item1(((TextInfo<T>)ic.textInfos[ID]).Result));
+            }
+
             // Instead of .FindIndex, doing this prevents an inner closure, saving in allocations.
             int GetBreakIndex(float f, List<float> breakPoints)
             {
