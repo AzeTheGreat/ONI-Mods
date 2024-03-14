@@ -97,11 +97,12 @@ namespace BetterInfoCards
                     if (!textInfos.Any())
                         return new() { cards };
 
-                    history.AddRange(textInfos);
+                    var newHistory = new List<string> (history);
+                    newHistory.AddRange(textInfos);
 
                     return GetTextKeySplits(
                         cards.SplitBySplitters(textInfos.ToList(), (group, ti) => group.SplitByKey(card => card.textInfos.ContainsKey(ti))),
-                        new (history));
+                        newHistory);
                 });
             }
         }
