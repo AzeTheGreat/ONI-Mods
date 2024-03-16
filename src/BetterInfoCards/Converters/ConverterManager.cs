@@ -13,8 +13,8 @@ namespace BetterInfoCards
         public const string germs = "Germs";
         public const string temp = "Temp";
 
-        public const string sumSuffix = " (Σ)";
-        public const string avgSuffix = " (μ)";
+        public const string sumSuffix = " <color=#ababab>(Σ)</color>";
+        public const string avgSuffix = " <color=#ababab>(μ)</color>";
 
         private static readonly Dictionary<string, Func<string, string, object, TextInfo>> converters = new();
 
