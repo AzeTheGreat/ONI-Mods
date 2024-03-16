@@ -7,9 +7,9 @@ namespace BetterInfoCards
     {
         public bool isSelected;
         public KSelectable selectable;
-        public Dictionary<string, TextInfo> textInfos = new();
-        
-        private List<DrawActions> drawActions = new();
+        public Dictionary<string, TextInfo> textInfos = [];
+
+        private List<DrawActions> drawActions = [];
         private (int drawIndex, TextInfo ti) titleDrawer;
 
         public InfoCard Set(bool isSelected)
@@ -20,6 +20,13 @@ namespace BetterInfoCards
             drawActions.Clear();
             titleDrawer = (default, null);
             return this;
+        }
+
+        public void LogCard()
+        {
+            Debug.Log("  " + GetTitleKey() + "; " + selectable);
+            foreach (var kvp in textInfos)
+                Debug.Log("     " + kvp.Key + "; " + kvp.Value.ID + ", " + kvp.Value.Text);
         }
 
         public string GetTitleKey() => titleDrawer.ti?.Text.RemoveCountSuffix() ?? string.Empty;
