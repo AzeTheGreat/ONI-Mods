@@ -59,32 +59,13 @@ namespace BetterInfoCards
         public override List<List<InfoCard>> SplitByTIDefs(List<InfoCard> cards)
         {
             if (splitListDefs is not null)
-            {
-                try
-                {
-                    if (Logging.IsGroupBad(cards))
-                    {
-                        Debug.Log("---------------------------------------------");
-                        Debug.Log("SplitByTIDefs cards have inconsistent TIs:");
-                        Logging.LogICGroup(cards);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debug.Log("---------------------------------------------");
-                    Debug.Log("CAUGHT ERROR IN LOGGING");
-                    Debug.Log(e);
-                }
-
                 return cards.SplitBySplitters(splitListDefs, (g, def) => GetSplitByRange(g, def));
-            }
             else
                 return new() { cards };
         }
 
         private List<List<InfoCard>> GetSplitByRange(List<InfoCard> cards, (Func<T, float>, float) def)
         {
-            try {
             var values = new SortedSet<float>(cards.Select(x => GetTIValue(x)));
             var bandRange = def.Item2;
 
@@ -115,45 +96,9 @@ namespace BetterInfoCards
             // Split the cards according to the breakpoints.
             return cards.SplitByKeyToDict(x => GetBreakIndex(GetTIValue(x), breakPoints))
                 .OrderBy(x => x.Key).Select(x=> x.Value).ToList();
-            }
-            catch (KeyNotFoundException)
-            {
-                Debug.Log("Issue encountered in TextInfo: " + Text);
-                Debug.Log("Problem ID: " + ID);
-                Debug.Log("--------------------------------------------------");
-
-                foreach (var card in cards)
-                {
-                    Debug.Log("Info Card: " + card.GetTitleKey() + "; " + card.selectable);
-                    Debug.Log("Text Infos:");
-                    foreach (var kvp in card.textInfos)
-                        Debug.Log("     " + kvp.Key + "; " + kvp.Value.ID + ", " + kvp.Value.Text);
-                }
-
-                Debug.LogError("Hi, you've hit an edge case crash in Better Info Cards.\n" +
-                    "PLEASE upload the full player.log to the below issue so I can pin it down.\n" +
-                    "https://github.com/AzeTheGreat/ONI-Mods/issues/34\n" +
-                    "--------------------------------------------------");
-                throw;
-            }
 
             // Round the value to simplify the calculations since negligible differences are common.
-            float GetTIValue(InfoCard ic)
-            {
-                try
-                {
-                    if (!ic.textInfos.ContainsKey(ID))
-                        Debug.Log($"Info Card {ic.selectable} does not contain key {ID}");
-                }
-                catch (Exception e)
-                {
-                    Debug.Log("---------------------------------------------");
-                    Debug.Log("CAUGHT ERROR IN LOGGING");
-                    Debug.Log(e);
-                }
-
-                return Mathf.Round(def.Item1(((TextInfo<T>)ic.textInfos[ID]).Result));
-            }
+            float GetTIValue(InfoCard ic) => Mathf.Round(def.Item1(((TextInfo<T>)ic.textInfos[ID]).Result));
 
             // Instead of .FindIndex, doing this prevents an inner closure, saving in allocations.
             int GetBreakIndex(float f, List<float> breakPoints)

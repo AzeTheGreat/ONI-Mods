@@ -1,5 +1,5 @@
-﻿using BetterInfoCards;
-using BetterInfoCards.Util;
+﻿using BetterInfoCards.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -15,65 +15,36 @@ namespace BetterInfoCards
             if (infoCards == null || infoCards.Count <= 0)
                 return displayCards;
 
-            var dSplit = infoCards.SplitByKey(card => card.GetTitleKey());
-            var dSplit2 = dSplit.SplitMany(cards => cards.SplitByKey(card => card.textInfos.Count));
-            var dSplit3 = GetTextKeySplits(dSplit2);
-
+            List<List<InfoCard>> dSplit1 = [], dSplit2 = [], dSplit3 = [], dSplit4 = [];
             try
             {
-                var badGroups = dSplit3.Where(Logging.IsGroupBad);
-                if (badGroups.Any())
-                {
-                    Debug.Log("---------------------------------------------");
-                    Debug.Log("BAD GROUPS FOUND in dSplit3");
+                dSplit1 = infoCards.SplitByKey(card => card.GetTitleKey());
+                dSplit2 = dSplit1.SplitMany(cards => cards.SplitByKey(card => card.textInfos.Count));
+                dSplit3 = GetTextKeySplits(dSplit2);
 
-                    if (badGroups.FirstOrDefault()?.FirstOrDefault()?.selectable is KSelectable sel)
-                        if (sel?.gameObject is GameObject go)
-                            if (go?.transform?.position is Vector3 pos)
-                                Debug.Log($"Issue in cell: {(global::Grid.PosToCell(pos))} (raw pos: {pos}).");
-                            else
-                                Debug.Log($"Failed to get position from GO {go}");
-                        else
-                            Debug.Log($"Failed to get GO from selectable {sel}");
-                    else
-                        Debug.Log("Failed to get valid selectable.");
-
-                    Debug.Log("---------------------------------------------");
-                    Debug.Log("Bad Groups Dump:");
-                    foreach (var bg in badGroups)
-                        Logging.LogICGroup(bg);
-
-                    Debug.Log("---------------------------------------------");
-                    Debug.Log("Full IC Dump (dSplit3):");
-                    foreach (var g in dSplit3)
-                        Logging.LogICGroup(g);
-
-                    Debug.Log("---------------------------------------------");
-                    Debug.Log("dSplit2:");
-                    foreach (var g in dSplit2)
-                        Logging.LogICGroup(g);
-
-                    Debug.Log("---------------------------------------------");
-                    Debug.Log("dSplit:");
-                    foreach (var g in dSplit)
-                        Logging.LogICGroup(g);
-
-                    Debug.Log("---------------------------------------------");
-                    Debug.Log("Info Cards:");
-                    Logging.LogICGroup(infoCards);
-                }
+                // Assumes each IC in the group has the same TIs (order doesn't matter).
+                dSplit4 = dSplit3.SplitMany(cards => cards.SplitBySplitters(
+                    cards.First().textInfos.ToList(),
+                    (group, ti) => ti.Value.SplitByTIDefs(group)));
             }
-            catch (System.Exception e)
+            catch (Exception)
             {
                 Debug.Log("---------------------------------------------");
-                Debug.Log("CAUGHT ERROR IN LOGGING");
-                Debug.Log(e);
-            }
+                Debug.Log("Better Info Cards CRASH - Grouping Info Cards");
+                LogCell();
+                Debug.Log("---------------------------------------------");
 
-            // Assumes each IC in the group has the same TIs (order doesn't matter).
-            var dSplit4 = dSplit3.SplitMany(cards => cards.SplitBySplitters(
-                cards.First().textInfos.ToList(),
-                (group, ti) => ti.Value.SplitByTIDefs(group)));
+                Debug.Log($"Info Cards");
+                Debug.Log("----------------------------------------");
+                LogICGroup(infoCards);
+
+                LogDSplit(dSplit1, "1");
+                LogDSplit(dSplit2, "2");
+                LogDSplit(dSplit3, "3");
+                LogDSplit(dSplit4, "4");
+
+                throw;
+            }
 
             foreach (var cards in dSplit4)
                 displayCards.Add(new DisplayCard(cards));
@@ -105,22 +76,35 @@ namespace BetterInfoCards
                         newHistory);
                 });
             }
+
+            void LogDSplit(List<List<InfoCard>> groups, string name)
+            {
+                Debug.Log($"D Split - {name}");
+                Debug.Log("----------------------------------------");
+                foreach (var group in groups)
+                    LogICGroup(group);
+            }
+
+            void LogICGroup(List<InfoCard> group)
+            {
+                foreach (var ic in group)
+                    ic.LogCard();
+                Debug.Log("---------------");
+            }
+
+            void LogCell()
+            {
+                try
+                {
+                    var problemCell = infoCards.First(card => card.selectable?.gameObject != null).selectable.gameObject.transform?.position ?? Vector3.negativeInfinity;
+                    Debug.Log($"Issue in cell: {(global::Grid.PosToCell(problemCell))} (raw pos: {problemCell}).");
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Failed to identify problem cell:");
+                    Debug.Log(e);
+                }
+            }
         }
-    }
-}
-
-public class Logging
-{
-    public static void LogICGroup(List<InfoCard> group)
-    {
-        Debug.Log("---------------");
-        foreach (var ic in group)
-            ic.LogCard();
-    }
-
-    public static bool IsGroupBad(List<InfoCard> group)
-    {
-        var tiKeys = group.FirstOrDefault().textInfos.Keys;
-        return group.Any(ic => ic.textInfos.Keys.Except(tiKeys).Any() || tiKeys.Except(ic.textInfos.Keys).Any());
     }
 }

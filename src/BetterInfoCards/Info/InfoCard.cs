@@ -24,7 +24,7 @@ namespace BetterInfoCards
 
         public void LogCard()
         {
-            Debug.Log("Info Card: " + GetTitleKey() + "; " + selectable);
+            Debug.Log("  " + GetTitleKey() + "; " + selectable);
             foreach (var kvp in textInfos)
                 Debug.Log("     " + kvp.Key + "; " + kvp.Value.ID + ", " + kvp.Value.Text);
         }
