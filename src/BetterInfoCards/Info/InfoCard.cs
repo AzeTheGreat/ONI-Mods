@@ -7,9 +7,9 @@ namespace BetterInfoCards
     {
         public bool isSelected;
         public KSelectable selectable;
-        public Dictionary<string, TextInfo> textInfos = new();
-        
-        private List<DrawActions> drawActions = new();
+        public Dictionary<string, TextInfo> textInfos = [];
+
+        private List<DrawActions> drawActions = [];
         private (int drawIndex, TextInfo ti) titleDrawer;
 
         public InfoCard Set(bool isSelected)

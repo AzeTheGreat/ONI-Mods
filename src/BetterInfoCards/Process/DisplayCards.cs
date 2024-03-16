@@ -57,8 +57,7 @@ namespace BetterInfoCards
             {
                 // History is usually pretty short, so List is faster here than HashSet
                 // (threshold around 5 items: https://stackoverflow.com/questions/150750/hashset-vs-list-performance/)
-                if (history is null)
-                    history = new();
+                history ??= [];
 
                 return groups.SplitMany(cards =>
                 {
@@ -66,9 +65,9 @@ namespace BetterInfoCards
                     // If it lazy evaluates, then when the TIs are added to history, they prevent anything from actually being split.
                     var textInfos = cards.First().textInfos.Keys.Except(history).ToList();
                     if (!textInfos.Any())
-                        return new() { cards };
+                        return [cards];
 
-                    var newHistory = new List<string> (history);
+                    var newHistory = new List<string>(history);
                     newHistory.AddRange(textInfos);
 
                     return GetTextKeySplits(
