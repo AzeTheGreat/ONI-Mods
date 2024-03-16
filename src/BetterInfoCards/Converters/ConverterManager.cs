@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Entry = HoverTextDrawer.Pool<UnityEngine.MonoBehaviour>.Entry;
 
 namespace BetterInfoCards
 {
@@ -16,7 +15,7 @@ namespace BetterInfoCards
         public const string sumSuffix = " <color=#ababab>(Σ)</color>";
         public const string avgSuffix = " <color=#ababab>(μ)</color>";
 
-        private static readonly Dictionary<string, Func<string, string, object, TextInfo>> converters = new();
+        private static readonly Dictionary<string, Func<string, string, object, TextInfo>> converters = [];
 
         static ConverterManager()
         {
@@ -72,14 +71,14 @@ namespace BetterInfoCards
                         text = GameUtil.GetFormattedDisease(pairs[0].idx, pairs.Sum(x => x.count), true) + sumSuffix;
                     return text;
                 },
-                new() { ( ((byte idx, int count) dP) => dP.idx, 1f) });
+                [(((byte idx, int count) dP) => dP.idx, 1f)]);
 
             // TEMP
             AddConverter(
                 temp,
                 data => ((GameObject)data).GetComponent<PrimaryElement>().Temperature,
                 (original, temps) => GameUtil.GetFormattedTemperature(temps.Average()) + avgSuffix,
-                new() { (x => x, Options.Opts.TemperatureBandWidth) });
+                [(x => x, Options.Opts.TemperatureBandWidth)]);
         }
 
         public static void AddConverter<T>(string name, Func<object, T> getValue, Func<string, List<T>, string> getTextOverride = null, List<(Func<T, float>, float)> splitListDefs = null) where T : new()
@@ -95,8 +94,8 @@ namespace BetterInfoCards
         private static void AddConverterReflect(string name, object getValue, object getTextOverride, object splitListDefs)
         {
             var type = getValue.GetType().GetGenericArguments()[1];
-            var method = typeof(ConverterManager).GetMethod(nameof(ConverterManager.AddConverter)).MakeGenericMethod(type);
-            method.Invoke(null, new object[] { name, getValue, getTextOverride, splitListDefs });
+            var method = typeof(ConverterManager).GetMethod(nameof(AddConverter)).MakeGenericMethod(type);
+            method.Invoke(null, [name, getValue, getTextOverride, splitListDefs]);
         }
 
         public static bool TryGetConverter(string id, out Func<string, string, object, TextInfo> converter)
