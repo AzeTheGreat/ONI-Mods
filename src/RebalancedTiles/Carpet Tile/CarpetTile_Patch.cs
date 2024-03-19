@@ -29,7 +29,7 @@ namespace RebalancedTiles
 
         static void Postfix(GameObject go)
         {
-            go.GetComponent<KPrefabID>().prefabInitFn += gameObject => new Combustible.Instance(gameObject.GetComponent<KPrefabID>()).StartSM();
+            go.GetComponent<KPrefabID>().prefabSpawnFn += gameObject => new Combustible.Instance(gameObject.GetComponent<KPrefabID>()).StartSM();
         }
     }
 
