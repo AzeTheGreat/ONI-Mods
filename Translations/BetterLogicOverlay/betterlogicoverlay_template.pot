@@ -483,7 +483,7 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.SuperCoolant"
 msgid "S-Cool"
 msgstr ""
 
-#. Insulation
+#. Insulite
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.SuperInsulator"
 msgid "-"
 msgstr ""

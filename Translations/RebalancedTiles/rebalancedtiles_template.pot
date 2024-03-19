@@ -72,11 +72,11 @@ msgid "Set the move speed multiplier.  If blank, the game's default will be used
 msgstr ""
 
 msgctxt "RebalancedTiles.OPTIONS.REEDFIBERCOUNT.NAME"
-msgid "Reed Fiber Required"
+msgid "<link=\"BASICFABRIC\">Reed Fiber</link> Required"
 msgstr ""
 
 msgctxt "RebalancedTiles.OPTIONS.REEDFIBERCOUNT.TOOLTIP"
-msgid "Set the number of Reed Fiber required to build.    If blank, the game's default will be used."
+msgid "Set the number of <link=\"BASICFABRIC\">Reed Fiber</link> required to build.    If blank, the game's default will be used."
 msgstr ""
 
 msgctxt "RebalancedTiles.OPTIONS.STRENGTHMULTIPLIER.NAME"
