@@ -3,6 +3,10 @@
     public static class Extensions
     {
         public static NotificationsSuppressedComp GetSuppressedComp(this Notification notification)
-            => notification?.Notifier?.gameObject.GetComponent<NotificationsSuppressedComp>();
+        {
+            if(notification == null || notification.Notifier == null)
+                return null;
+            return notification.Notifier.gameObject.GetComponent<NotificationsSuppressedComp>();
+        }
     }
 }
