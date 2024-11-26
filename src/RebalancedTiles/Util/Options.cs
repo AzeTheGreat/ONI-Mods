@@ -21,14 +21,14 @@ namespace RebalancedTiles
             IsNotWall = true,
             CombustTemp = BUILDINGS.OVERHEAT_TEMPERATURES.LOW_2,
             Decor = BUILDINGS.DECOR.BONUS.TIER2.amount,
-            MovementSpeed = DUPLICANTSTATS.MOVEMENT.PENALTY_1,
+            MovementSpeed = DUPLICANTSTATS.MOVEMENT_MODIFIERS.PENALTY_1,
         };
 
         [Option("STRINGS.BUILDINGS.PREFABS.GLASSTILE.NAME", null, "STRINGS.BUILDINGS.PREFABS.GLASSTILE.NAME")]
         public GlassTileOptions GlassTile { get; set; } = new()
         {
             StrengthMultiplier = 0.5f,
-            MovementSpeed = DUPLICANTSTATS.MOVEMENT.PENALTY_2,
+            MovementSpeed = DUPLICANTSTATS.MOVEMENT_MODIFIERS.PENALTY_2,
         };
 
         [Option("STRINGS.BUILDINGS.PREFABS.METALTILE.NAME", null, "STRINGS.BUILDINGS.PREFABS.METALTILE.NAME")]
