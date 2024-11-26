@@ -1,0 +1,48 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.5\n"
+
+#. SuppressNotifications.MYSTRINGS.BUILDINGS.DAMAGE_BAR
+msgctxt "SuppressNotifications.MYSTRINGS.BUILDINGS.DAMAGE_BAR"
+msgid "Damage Bar"
+msgstr "伤害条"
+
+#. SuppressNotifications.MYSTRINGS.CLEARBUTTON.NAME
+msgctxt "SuppressNotifications.MYSTRINGS.CLEARBUTTON.NAME"
+msgid "Clear Suppressed"
+msgstr "显示图标"
+
+#. SuppressNotifications.MYSTRINGS.CLEARBUTTON.TOOLTIP
+msgctxt "SuppressNotifications.MYSTRINGS.CLEARBUTTON.TOOLTIP"
+msgid "<style=\"KKeyword\">Stop suppressing</style> the following items."
+msgstr "<style=\"KKeyword\">显示</style> 以下图标。"
+
+#. SuppressNotifications.MYSTRINGS.NOTIFICATION_LABEL
+msgctxt "SuppressNotifications.MYSTRINGS.NOTIFICATION_LABEL"
+msgid "<b>Notifications:</b>"
+msgstr "<b>通知：</b>"
+
+#. SuppressNotifications.MYSTRINGS.STATUS_LABEL
+msgctxt "SuppressNotifications.MYSTRINGS.STATUS_LABEL"
+msgid "<b>Status Items:</b>"
+msgstr "状态图标"
+
+#. SuppressNotifications.MYSTRINGS.SUPPRESSBUTTON.NAME
+msgctxt "SuppressNotifications.MYSTRINGS.SUPPRESSBUTTON.NAME"
+msgid "Suppress Current"
+msgstr "隐藏图标"
+
+#. SuppressNotifications.MYSTRINGS.SUPPRESSBUTTON.TOOLTIP
+msgctxt "SuppressNotifications.MYSTRINGS.SUPPRESSBUTTON.TOOLTIP"
+msgid "<style=\"KKeyword\">Suppress</style> the following items."
+msgstr "<style=\"KKeyword\">隐藏</style> 以下图标。"
