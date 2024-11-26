@@ -83,6 +83,11 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.Chlorine"
 msgid "Cl"
 msgstr ""
 
+#. Cinnabar Ore
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.Cinnabar"
+msgid "-"
+msgstr ""
+
 #. Clay
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Clay"
 msgid "-"
@@ -203,6 +208,11 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.Fossil"
 msgid "-"
 msgstr ""
 
+#. Frozen Phyto Oil
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.FrozenPhytoOil"
+msgid "-"
+msgstr ""
+
 #. Fullerene
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Fullerene"
 msgid "-"
@@ -230,6 +240,11 @@ msgstr ""
 
 #. Graphite
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Graphite"
+msgid "-"
+msgstr ""
+
+#. Gunk
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.Gunk"
 msgid "-"
 msgstr ""
 
@@ -378,6 +393,11 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.Phosphorus"
 msgid "P"
 msgstr ""
 
+#. Phyto Oil
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.PhytoOil"
+msgid "-"
+msgstr ""
+
 #. Plastic
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Polypropylene"
 msgid "-"
@@ -458,6 +478,11 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.Snow"
 msgid "-"
 msgstr ""
 
+#. Packed Snow
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.StableSnow"
+msgid "-"
+msgstr ""
+
 #. Steam
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Steam"
 msgid "H<sub>2</sub>O"
@@ -470,6 +495,11 @@ msgstr ""
 
 #. Sucrose
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Sucrose"
+msgid "-"
+msgstr ""
+
+#. Nectar
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.SugarWater"
 msgid "-"
 msgstr ""
 
@@ -490,6 +520,11 @@ msgstr ""
 
 #. Synthesis Gas
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Syngas"
+msgid "-"
+msgstr ""
+
+#. Tallow
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.Tallow"
 msgid "-"
 msgstr ""
 
@@ -540,6 +575,11 @@ msgstr ""
 
 #. Wolframite
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Wolframite"
+msgid "-"
+msgstr ""
+
+#. Wood
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.WoodLog"
 msgid "-"
 msgstr ""
 
