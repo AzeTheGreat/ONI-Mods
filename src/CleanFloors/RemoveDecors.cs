@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace CleanFloors;
 
@@ -23,9 +24,29 @@ public class RemoveDecors
                 if (decorsToRemove.Contains(decor.name))
                     decor.probabilityCutoff = float.MaxValue;
 
+                FixInsideBLCornerSort(ref decor);
+
                 return decor;
             })
             .ToArray();
+        }
+
+        // The base game places the Inside BL decor on the top right corner of a tile.  This causes inconsistent sorting between it and the Tops decor.
+        // Moving the Inside BL decor to the top left corner (and thus to the same tile with the Tops decor), fixes this.
+        void FixInsideBLCornerSort(ref BlockTileDecorInfo.Decor decor)
+        {
+            if (decor.name == "inside_bl_corner")
+            {
+                decor.requiredConnections = Rendering.BlockTileRenderer.Bits.Left | Rendering.BlockTileRenderer.Bits.UpLeft;
+                decor.forbiddenConnections = Rendering.BlockTileRenderer.Bits.Up;
+
+                decor.variants = decor.variants.Select(variant =>
+                {
+                    variant.offset += new Vector3(-1, 0);
+                    return variant;
+                })
+                .ToArray();
+            }
         }
     }
 }
