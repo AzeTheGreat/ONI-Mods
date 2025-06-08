@@ -9,13 +9,16 @@ namespace CleanFloors
     {
         private static readonly List<string> decorsToRemove = new List<string> { "tops" };
 
-        static void Postfix(ref BlockTileDecorInfo __instance)
+        static void Postfix(BlockTileDecorInfo __instance)
         {
-            for (int i = 0; i < __instance.decor.Count(); i++)
-            {
-                if (decorsToRemove.Contains(__instance.decor[i].name))
-                    __instance.decor[i].probabilityCutoff = float.MaxValue;
-            }
+            __instance.decor = __instance.decor.Select(decor =>
+                {
+                    if (decorsToRemove.Contains(decor.name))
+                        decor.probabilityCutoff = float.MaxValue;
+
+                    return decor;
+                })
+                .ToArray();
         }
     }
 }
