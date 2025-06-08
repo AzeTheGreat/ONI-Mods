@@ -3,30 +3,29 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CleanFloors
+namespace CleanFloors;
+
+[HarmonyPatch(typeof(Assets), nameof(Assets.OnPrefabInit))]
+public class RemoveDecors
 {
-    [HarmonyPatch(typeof(Assets), nameof(Assets.OnPrefabInit))]
-    public class RemoveDecors
+    static void Postfix()
     {
-        static void Postfix()
+        List<string> decorsToRemove = [
+            "tops",
+            ..(Options.Opts.RemoveOutsideCorners ? [ "outside_bl_corner", "outside_br_corner", "outside_tl_corner", "outside_tr_corner" ] : Array.Empty<string>()),
+            ..(Options.Opts.RemoveInsideCorners ? [ "inside_bl_corner", "inside_br_corner", "inside_tl_corner", "inside_tr_corner" ] : Array.Empty<string>())
+        ];
+
+        foreach (var decorInfo in Assets.BlockTileDecorInfos)
         {
-            List<string> decorsToRemove = [
-                "tops",
-                ..(Options.Opts.RemoveOutsideCorners ? [ "outside_bl_corner", "outside_br_corner", "outside_tl_corner", "outside_tr_corner" ] : Array.Empty<string>()),
-                ..(Options.Opts.RemoveInsideCorners ? [ "inside_bl_corner", "inside_br_corner", "inside_tl_corner", "inside_tr_corner" ] : Array.Empty<string>())
-            ];
-
-            foreach (var decorInfo in Assets.BlockTileDecorInfos)
+            decorInfo.decor = decorInfo.decor.Select(decor =>
             {
-                decorInfo.decor = decorInfo.decor.Select(decor =>
-                {
-                    if (decorsToRemove.Contains(decor.name))
-                        decor.probabilityCutoff = float.MaxValue;
+                if (decorsToRemove.Contains(decor.name))
+                    decor.probabilityCutoff = float.MaxValue;
 
-                    return decor;
-                })
-                .ToArray();
-            }
+                return decor;
+            })
+            .ToArray();
         }
     }
 }
