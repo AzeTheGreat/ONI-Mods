@@ -11,24 +11,27 @@ public class RemoveDecors
 {
     static void Postfix()
     {
-        List<string> decorsToRemove = [
-            "tops",
-            ..(Options.Opts.RemoveOutsideCorners ? [ "outside_bl_corner", "outside_br_corner", "outside_tl_corner", "outside_tr_corner" ] : Array.Empty<string>()),
-            ..(Options.Opts.RemoveInsideCorners ? [ "inside_bl_corner", "inside_br_corner", "inside_tl_corner", "inside_tr_corner" ] : Array.Empty<string>())
-        ];
-
         foreach (var decorInfo in Assets.BlockTileDecorInfos)
         {
             decorInfo.decor = decorInfo.decor.Select(decor =>
             {
-                if (decorsToRemove.Contains(decor.name))
-                    decor.probabilityCutoff = float.MaxValue;
-
+                RemoveDecorIfHidden(ref decor);
                 FixInsideBLCornerSort(ref decor);
-
                 return decor;
             })
             .ToArray();
+        }
+
+        void RemoveDecorIfHidden(ref BlockTileDecorInfo.Decor decor)
+        {
+            List<string> decorsToRemove = [
+                "tops",
+                ..(Options.Opts.RemoveOutsideCorners ? [ "outside_bl_corner", "outside_br_corner", "outside_tl_corner", "outside_tr_corner" ] : Array.Empty<string>()),
+                ..(Options.Opts.RemoveInsideCorners ? [ "inside_bl_corner", "inside_br_corner", "inside_tl_corner", "inside_tr_corner" ] : Array.Empty<string>())
+            ];
+
+            if (decorsToRemove.Contains(decor.name))
+                decor.probabilityCutoff = float.MaxValue;
         }
 
         // The base game places the Inside BL decor on the top right corner of a tile.  This causes inconsistent sorting between it and the Tops decor.
