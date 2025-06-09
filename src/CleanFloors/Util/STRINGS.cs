@@ -18,4 +18,13 @@ public class OPTIONS : AStrings<OPTIONS>
             Note: these bits hide small anomalies between connected tiles.
             """;
     }
+
+    public class CORNERSBELOWTOPS
+    {
+        public static LocString NAME = "Inside Corners Under Tops";
+        public static LocString TOOLTIP = """
+            When true, decor bits on the inside corners of tiles will be drawn underneath the top decor bit.
+            This reduces their visual impact while still covering anomalies.  It does not look as good as it sounds.
+            """;
+    }
 }

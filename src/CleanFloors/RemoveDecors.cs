@@ -17,6 +17,7 @@ public class RemoveDecors
             {
                 RemoveDecorIfHidden(ref decor);
                 FixInsideBLCornerSort(ref decor);
+                SortCornersBelowTops(ref decor);
                 return decor;
             })
             .ToArray();
@@ -50,6 +51,16 @@ public class RemoveDecors
                 })
                 .ToArray();
             }
+        }
+
+        void SortCornersBelowTops(ref BlockTileDecorInfo.Decor decor)
+        {
+            if (!Options.Opts.CornersBelowTops)
+                return;
+
+            List<string> decorsToSort = ["inside_bl_corner", "inside_br_corner"];
+            if (decorsToSort.Contains(decor.name))
+                decor.sortOrder = -2;
         }
     }
 }
