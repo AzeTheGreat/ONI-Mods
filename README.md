@@ -13,7 +13,7 @@ If you can't download through the Steam Workshop, zipped releases are available 
 |[Better Automation Overlay](https://steamcommunity.com/sharedfiles/filedetails/?id=1878896484)|Improves the automation overlay.|
 |[Build Menu Search Hotkey](https://steamcommunity.com/sharedfiles/filedetails/?id=3164212090)|Define a keybind to immediately open the build menu search.|
 |[Clarified Max Decor](https://steamcommunity.com/sharedfiles/filedetails/?id=2169776807)|Makes UI tweaks so that tooltips more accurately represent max decor.|
-|[Clean Floors](https://steamcommunity.com/sharedfiles/filedetails/?id=1937854017)|Removes the largest decor pieces from tiles to give a smoother look.|
+|[Clean Floors](https://steamcommunity.com/sharedfiles/filedetails/?id=1937854017)|Modify decor bits on tiles to create a smoother look.|
 |[Clean HUD](https://steamcommunity.com/sharedfiles/filedetails/?id=1909037839)|Provides multiple options to simplify the main HUD.|
 |[Default Building Settings](https://steamcommunity.com/sharedfiles/filedetails/?id=1989737447)|Provides config options to change the default settings many buildings spawn with.|
 |[Default Save Settings](https://steamcommunity.com/sharedfiles/filedetails/?id=2033314981)|Provides config options to change the default settings new saves start with.|
