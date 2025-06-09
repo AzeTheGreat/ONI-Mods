@@ -1,0 +1,29 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included"
+"POT Version: 2.0"
+
+msgctxt "CleanFloors.OPTIONS.CORNERSBELOWTOPS.NAME"
+msgid "Inside Corners Under Tops"
+msgstr ""
+
+msgctxt "CleanFloors.OPTIONS.CORNERSBELOWTOPS.TOOLTIP"
+msgid "When true, decor bits on the inside corners of tiles will be drawn underneath the top decor bit.\nThis reduces their visual impact while still covering anomalies.  It does not look as good as it sounds."
+msgstr ""
+
+msgctxt "CleanFloors.OPTIONS.REMOVEINSIDECORNERS.NAME"
+msgid "Hide Inside Corners"
+msgstr ""
+
+msgctxt "CleanFloors.OPTIONS.REMOVEINSIDECORNERS.TOOLTIP"
+msgid "When true, decor bits on the inside corners of tiles will be hidden.\nNote: these bits hide small anomalies between connected tiles."
+msgstr ""
+
+msgctxt "CleanFloors.OPTIONS.REMOVEOUTSIDECORNERS.NAME"
+msgid "Hide Outside Corners"
+msgstr ""
+
+msgctxt "CleanFloors.OPTIONS.REMOVEOUTSIDECORNERS.TOOLTIP"
+msgid "When true, decor bits on the outside corners of tiles will be hidden."
+msgstr ""
+
