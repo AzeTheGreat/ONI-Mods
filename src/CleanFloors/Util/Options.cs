@@ -3,6 +3,7 @@ using PeterHan.PLib.Options;
 
 namespace CleanFloors;
 
+[RestartRequired]
 public class Options : BaseOptions<Options>
 {
     [Option] public bool RemoveOutsideCorners { get; set; } = true;
