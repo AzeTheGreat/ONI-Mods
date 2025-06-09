@@ -8,15 +8,12 @@ namespace CleanFloors
     [HarmonyPatch(typeof(Assets), nameof(Assets.OnPrefabInit))]
     public class RemoveDecors
     {
-        static bool removeOutsideCorners = true;
-        static bool removeInsideCorners = true;
-
         static void Postfix()
         {
             List<string> decorsToRemove = [
                 "tops",
-                ..(removeOutsideCorners ? [ "outside_bl_corner", "outside_br_corner", "outside_tl_corner", "outside_tr_corner" ] : Array.Empty<string>()),
-                ..(removeInsideCorners ? [ "inside_bl_corner", "inside_br_corner", "inside_tl_corner", "inside_tr_corner" ] : Array.Empty<string>())
+                ..(Options.Opts.RemoveOutsideCorners ? [ "outside_bl_corner", "outside_br_corner", "outside_tl_corner", "outside_tr_corner" ] : Array.Empty<string>()),
+                ..(Options.Opts.RemoveInsideCorners ? [ "inside_bl_corner", "inside_br_corner", "inside_tl_corner", "inside_tr_corner" ] : Array.Empty<string>())
             ];
 
             foreach (var decorInfo in Assets.BlockTileDecorInfos)

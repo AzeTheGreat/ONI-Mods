@@ -1,0 +1,10 @@
+﻿using AzeLib;
+using PeterHan.PLib.Options;
+
+namespace CleanFloors;
+
+public class Options : BaseOptions<Options>
+{
+    [Option] public bool RemoveOutsideCorners { get; set; } = true;
+    [Option] public bool RemoveInsideCorners { get; set; } = false;
+}
