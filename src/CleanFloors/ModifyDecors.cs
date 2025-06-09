@@ -7,7 +7,7 @@ using UnityEngine;
 namespace CleanFloors;
 
 [HarmonyPatch(typeof(Assets), nameof(Assets.OnPrefabInit))]
-public class RemoveDecors
+public class ModifyDecors
 {
     static void Postfix()
     {
