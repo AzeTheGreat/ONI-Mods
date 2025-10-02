@@ -16,6 +16,7 @@ namespace BetterInfoCards
         public const string avgSuffix = " <color=#ababab>(μ)</color>";
 
         private static readonly Dictionary<string, Func<string, string, object, TextInfo>> converters = [];
+        private static bool hasLoggedInvalidDiseaseIndex;
 
         static ConverterManager()
         {
@@ -67,8 +68,19 @@ namespace BetterInfoCards
                 // Impossible for multiple storages to overlap, so no need to worry about that part of the germ text since it will never be overwritten
                 (original, pairs) => {
                     string text = UI.OVERLAYS.DISEASE.NO_DISEASE;
-                    if (pairs[0].idx != 255)
-                        text = GameUtil.GetFormattedDisease(pairs[0].idx, pairs.Sum(x => x.count), true) + sumSuffix;
+                    var diseaseIdx = pairs[0].idx;
+                    if (diseaseIdx == byte.MaxValue || diseaseIdx >= Db.Get().Diseases.Count)
+                    {
+                        if (!hasLoggedInvalidDiseaseIndex)
+                        {
+                            hasLoggedInvalidDiseaseIndex = true;
+                            Debug.LogWarning("[BetterInfoCards] Ignoring invalid disease index in germs converter.");
+                        }
+                    }
+                    else
+                    {
+                        text = GameUtil.GetFormattedDisease(diseaseIdx, pairs.Sum(x => x.count), true) + sumSuffix;
+                    }
                     return text;
                 },
                 [(((byte idx, int count) dP) => dP.idx, 1f)]);
