@@ -31,5 +31,16 @@ namespace BetterInfoCards.Tests
             Assert.True(ConverterManager.TryGetConverter(ConverterManager.germs, out var converter));
             Assert.NotNull(converter);
         }
+
+        [Theory]
+        [InlineData(null, null)]
+        [InlineData("", "")]
+        [InlineData("Info x 3", "Info")]
+        public void RemoveCountSuffixHandlesEdgeCases(string input, string expected)
+        {
+            var result = Extensions.RemoveCountSuffix(input);
+
+            Assert.Equal(expected, result);
+        }
     }
 }

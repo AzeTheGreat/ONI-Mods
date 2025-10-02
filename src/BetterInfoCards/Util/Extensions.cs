@@ -4,6 +4,9 @@
     {
         public static string RemoveCountSuffix(this string s)
         {
+            if (string.IsNullOrEmpty(s))
+                return s;
+
             if (!char.IsDigit(s[s.Length - 1]))
                 return s;
 
