@@ -62,6 +62,8 @@ if (instruction.OpCodeIs(OpCodes.Call) && instruction.operand is MethodInfo targ
 
 Produces the matching load instruction for a local store opcode, preserving the operand.
 
+- Automatically supports every `stloc*` variant (numbered, short form, and address forms) by deriving the corresponding load opcode from IL metadata.
+- Throws an `InvalidOperationException` when invoked with an opcode that does not represent a supported local store.
 - **Returns:** A new `CodeInstruction` that loads the same local variable just stored.
 
 **Example – Re-read a cached local immediately after writing it:**
