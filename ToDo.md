@@ -13,8 +13,8 @@ This document inventories the current in-code `TODO` comments across the reposit
 | [x] | AzeLib - Extensions | `src/AzeLib/Extensions/CodeInstructionExt.cs` | Refactor `GetLoadFromStore` into a cleaner, fully general solution for deriving load instructions from stores. |
 | [x] | AzeLib - Attributes | `src/AzeLib/Attributes/AMonoBehaviour.cs` | Confirmed cached attribute-driven field wiring matches the base game's optimized approach. |
 | [x] | AzeLib - Core | `src/AzeLib/AzeMod.cs` | Benchmark the `OnLoad` hook to ensure the reflection-based initialization does not unduly impact load times. |
-| [ ] | Build Tooling | `src/AutoIncrement.targets` | Diagnose intermittent `RoslynCodeTaskFactory` reference resolution failures and modernize the task implementation with newer C# features. |
+| [x] | Build Tooling | `src/AutoIncrement.targets` | Modernized the AutoIncrement inline task to resolve `RoslynCodeTaskFactory` via `$(MSBuildToolsPath)` and hardened the JSON parser/serializer across runtimes. |
 | [x] | BetterInfoCards - Util | `src/BetterInfoCards/Util/ResetPool.cs` | Consider adding logic to shrink the reset pool when demand drops. |
 | [x] | BetterInfoCards - Converters | `src/BetterInfoCards/Converters/ConverterManager.cs` | Decide whether the default and title converters should live outside the shared converter dictionary for clarity or reuse. |
 
-*Last updated: 2025-10-02 07:57 UTC*
+*Last updated: 2025-10-02 07:59 UTC*
