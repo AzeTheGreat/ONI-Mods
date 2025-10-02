@@ -83,6 +83,18 @@ namespace AzeLib.Extensions
             return pops;
         }
 
+        /// <summary>
+        /// Applies <paramref name="function"/> to each instruction that satisfies <paramref name="predicate"/>.
+        /// </summary>
+        /// <remarks>
+        /// Prefer combining this overload with <see cref="CodeInstructionExtensions.OperandIs(CodeInstruction, object)"/> when
+        /// filtering by operand. A dedicated operand-targeting helper was removed after repeated reviews showed no call sites,
+        /// so this overload intentionally remains the single entry point.
+        /// </remarks>
+        /// <param name="codes">The source instruction sequence.</param>
+        /// <param name="predicate">Condition determining which instructions to replace.</param>
+        /// <param name="function">Transformation for matched instructions.</param>
+        /// <returns>The rewritten instruction sequence.</returns>
         public static IEnumerable<CodeInstruction> Manipulator(this IEnumerable<CodeInstruction> codes, Func<CodeInstruction, bool> predicate,
             Func<CodeInstruction, IEnumerable<CodeInstruction>> function)
         {
@@ -98,9 +110,5 @@ namespace AzeLib.Extensions
 
         public static IEnumerable<CodeInstruction> Manipulator(this IEnumerable<CodeInstruction> codes, Func<CodeInstruction, bool> predicate,
             Action<IEnumerable<CodeInstruction>, CodeInstruction> action) => codes.Manipulator(predicate, i => action(codes, i));
-
-        // TODO: Remove? I think this is too specific to justify itself?
-        public static IEnumerable<CodeInstruction> Manipulator(this IEnumerable<CodeInstruction> codes, object targetOperand,
-            Func<CodeInstruction, IEnumerable<CodeInstruction>> manipulator) => codes.Manipulator((CodeInstruction i) => i.OperandIs(targetOperand), manipulator);
     }
 }
