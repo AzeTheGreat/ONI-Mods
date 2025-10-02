@@ -9,26 +9,78 @@ namespace AzeLib.Extensions
 {
     public static class TranspilerExt
     {
-        // TODO: Optimize this so it only pops if it needs to preserve a label?  Maybe even do label fixup?  Idk.
-        // Pop off the parameters that would be consumed by the method and don't call the method.
+        /// <summary>
+        /// Removes calls to <paramref name="toRemove"/> and cleans the evaluation stack while preserving control flow labels.
+        /// </summary>
+        /// <remarks>
+        /// Any pending labels from removed calls with no replacement instructions are deferred to the next emitted instruction.
+        /// </remarks>
+        /// <param name="instructions">The original IL instructions.</param>
+        /// <param name="toRemove">The method whose calls should be removed.</param>
+        /// <returns>The modified instruction stream with balanced stack semantics.</returns>
         public static IEnumerable<CodeInstruction> MethodRemover(this IEnumerable<CodeInstruction> instructions, MethodInfo toRemove)
         {
-            foreach (var i in instructions)
+            var pendingLabels = new List<Label>();
+
+            foreach (var instruction in instructions)
             {
-                if (i.OperandIs(toRemove))
+                if (pendingLabels.Count > 0)
                 {
-                    // If is an instance method, pop the instance.
-                    if(!toRemove.IsStatic)
-                        yield return new CodeInstruction(OpCodes.Pop);
-                    // Pop the parameters off the stack.
-                    for (int p = 0; p < toRemove.GetParameters().Count(); p++)
-                    {
-                        yield return new CodeInstruction(OpCodes.Pop);
-                    }
+                    instruction.labels.InsertRange(0, pendingLabels);
+                    pendingLabels.Clear();
                 }
-                else
-                    yield return i;
+
+                if (!CallsTargetMethod(instruction, toRemove))
+                {
+                    yield return instruction;
+                    continue;
+                }
+
+                var pops = BuildCleanupInstructions(toRemove);
+
+                if (pops.Count > 0)
+                {
+                    instruction.MoveLabelsTo(pops[0]);
+                    foreach (var pop in pops)
+                        yield return pop;
+                }
+                else if (instruction.labels.Count > 0)
+                {
+                    pendingLabels.AddRange(instruction.labels);
+                    instruction.labels.Clear();
+                }
             }
+
+            if (pendingLabels.Count > 0)
+            {
+                var nop = new CodeInstruction(OpCodes.Nop);
+                nop.labels.AddRange(pendingLabels);
+                pendingLabels.Clear();
+                yield return nop;
+            }
+        }
+
+        private static bool CallsTargetMethod(CodeInstruction instruction, MethodInfo toRemove)
+        {
+            if (!instruction.OperandIs(toRemove))
+                return false;
+
+            var opcode = instruction.opcode;
+            return opcode == OpCodes.Call || opcode == OpCodes.Callvirt || opcode == OpCodes.Calli;
+        }
+
+        private static List<CodeInstruction> BuildCleanupInstructions(MethodInfo removedMethod)
+        {
+            var pops = new List<CodeInstruction>();
+
+            if (!removedMethod.IsStatic)
+                pops.Add(new CodeInstruction(OpCodes.Pop));
+
+            var parameterCount = removedMethod.GetParameters().Length;
+            for (var index = 0; index < parameterCount; index++)
+                pops.Add(new CodeInstruction(OpCodes.Pop));
+
+            return pops;
         }
 
         public static IEnumerable<CodeInstruction> Manipulator(this IEnumerable<CodeInstruction> codes, Func<CodeInstruction, bool> predicate,
