@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 
 namespace DefaultBuildingSettings
 {
@@ -11,7 +11,8 @@ namespace DefaultBuildingSettings
             {
                 var go = def.BuildingComplete;
 
-                Generators.SetGeneratorValues(go);           
+                BuildingPrefabDefaults.Apply(go);
+                Generators.SetGeneratorValues(go);
             }
         }
     }

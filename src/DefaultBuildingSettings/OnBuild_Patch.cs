@@ -1,71 +1,89 @@
-﻿using HarmonyLib;
-using System.Linq;
-using System.Reflection;
+using Klei;
+using Klei.AI;
+using KSerialization;
 using UnityEngine;
 
 namespace DefaultBuildingSettings
 {
-    // Not an ideal approach, but the best that can be done given the game's current structure
-    // TODO: Check periodically and see if the configs can just be edited as normal.
-
-    // Prefer patching in roughly this order:
-    //  Config - For single changes, requires that data be copied between GOs.
-    //  OnPrefabInit - Set fields, can work on non [SerializeField]s.
-    //  InitializeStates - Set default state.
-    //  LoadGeneratedBuildings - Preferred if it allows mutliple to be handled, requires that data be copied between GOs.
-    //  Build - Last resort.
-
-    [HarmonyPatch]
-    internal class OnBuild_Patch
+    /// <summary>
+    /// Applies the mod's default settings directly to building prefabs so that newly constructed
+    /// instances inherit those values without requiring a Harmony hook on <see cref="BuildingDef.Build"/>.
+    /// Doors still need a small helper component so their state machine opens after spawn, but the
+    /// remainder of the data can be stamped onto the prefab up-front.
+    /// </summary>
+    internal static class BuildingPrefabDefaults
     {
-        // Patch the "base" BuildingDef.Build overload.
-        // TODO: If needed again, break this behavior out into an attribute.
-        static MethodInfo TargetMethod() => typeof(BuildingDef).GetMethods()
-            .Where(x => x.Name == nameof(BuildingDef.Build))
-            .OrderBy(x => x.GetParameters().Count()).FirstOrDefault();
-
-        static void Postfix(GameObject __result)
+        internal static void Apply(GameObject prefab)
         {
-            // Early outs to reduce unnecessary testing.  If it's a door it can't be a reservoir.
-            if (SetVacancyOnly(__result))
+            if (prefab == null)
                 return;
-            if(OpenDoors(__result))
+
+            if (SetVacancyOnly(prefab))
                 return;
-            Storages.SetReservoirValues(__result);
+
+            if (ConfigureDoor(prefab))
+                return;
+
+            Storages.SetReservoirValues(prefab);
         }
 
         private static bool SetVacancyOnly(GameObject go)
         {
-            if (!Options.Opts.VacancyOnly || go.GetComponent<SuitMarker>() is not SuitMarker suitMarker)
+            if (!Options.Opts.VacancyOnly)
+                return false;
+
+            if (!go.TryGetComponent(out SuitMarker suitMarker))
                 return false;
 
             suitMarker.onlyTraverseIfUnequipAvailable = true;
             return true;
         }
 
-        private static bool OpenDoors(GameObject go)
+        private static bool ConfigureDoor(GameObject go)
         {
-            // Can technically fail to open if a save/load occurs after .Build is called, before the Door.isSpawned.
-            if (!Options.Opts.OpenDoors || go.GetComponent<Door>() is not Door door || Door.DisplacesGas(door.doorType))
+            if (!Options.Opts.OpenDoors)
                 return false;
 
-            Schedule();
+            if (!go.TryGetComponent(out Door door) || Door.DisplacesGas(door.doorType))
+                return false;
+
+            go.AddOrGet<DoorSpawnOpener>();
             return true;
+        }
 
-            void Schedule() => GameScheduler.Instance.Schedule("OpenDoorAfterOnSpawn", 0f, OpenDoor, door);
+        [SerializationConfig(MemberSerialization.OptIn)]
+        private sealed class DoorSpawnOpener : KMonoBehaviour
+        {
+            [MyCmpReq] private Door door;
 
-            void OpenDoor(object comp)
+            protected override void OnSpawn()
             {
-                var d = comp as Door;
+                base.OnSpawn();
 
-                // Can't pattern match due to unity equality nonsense.
-                if (d == null)
+                if (!Options.Opts.OpenDoors || Door.DisplacesGas(door.doorType))
                     return;
 
-                if (d.isSpawned)
-                    d.QueueStateChange(Door.ControlState.Opened);
+                Schedule();
+            }
+
+            private void Schedule() => GameScheduler.Instance.Schedule("OpenDoorAfterOnSpawn", 0f, OpenDoor, door);
+
+            private static void OpenDoor(object comp)
+            {
+                if (comp is not Door door)
+                    return;
+
+                if (!Options.Opts.OpenDoors || Door.DisplacesGas(door.doorType))
+                    return;
+
+                if (door.isSpawned)
+                {
+                    door.QueueStateChange(Door.ControlState.Opened);
+                }
                 else
-                    Schedule();
+                {
+                    GameScheduler.Instance.Schedule("OpenDoorAfterOnSpawn", 0f, OpenDoor, door);
+                }
             }
         }
     }
