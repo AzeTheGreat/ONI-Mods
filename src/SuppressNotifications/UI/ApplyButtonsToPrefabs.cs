@@ -2,7 +2,7 @@
 using HarmonyLib;
 using SuppressNotifications;
 
-namespace BetterLogicOverlay.LogicSettingDisplay
+namespace SuppressNotifications.UI
 {
     [HarmonyPatch(typeof(Assets), nameof(Assets.CreatePrefabs))]
     class ApplySettingsToDefs
