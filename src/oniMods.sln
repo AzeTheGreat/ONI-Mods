@@ -58,6 +58,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeleteFullWord", "DeleteFul
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzeLib.Tests", "..\tests\AzeLib.Tests\AzeLib.Tests.csproj", "{64E6EF7D-830C-4786-9297-9DD04F122099}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterInfoCards.Tests", "..\tests\BetterInfoCards.Tests\BetterInfoCards.Tests.csproj", "{E0CE553E-E5BD-4D08-8E07-D91F4A760BAC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -157,6 +159,10 @@ Global
                 {64E6EF7D-830C-4786-9297-9DD04F122099}.Debug|Any CPU.Build.0 = Debug|Any CPU
                 {64E6EF7D-830C-4786-9297-9DD04F122099}.Release|Any CPU.ActiveCfg = Release|Any CPU
                 {64E6EF7D-830C-4786-9297-9DD04F122099}.Release|Any CPU.Build.0 = Release|Any CPU
+                {E0CE553E-E5BD-4D08-8E07-D91F4A760BAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+                {E0CE553E-E5BD-4D08-8E07-D91F4A760BAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+                {E0CE553E-E5BD-4D08-8E07-D91F4A760BAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+                {E0CE553E-E5BD-4D08-8E07-D91F4A760BAC}.Release|Any CPU.Build.0 = Release|Any CPU
         EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
