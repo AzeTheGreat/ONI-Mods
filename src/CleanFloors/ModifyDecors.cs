@@ -11,6 +11,35 @@ public class ModifyDecors
 {
     static void Postfix()
     {
+        var decorsToRemove = new HashSet<string>(StringComparer.Ordinal)
+        {
+            "tops"
+        };
+
+        if (Options.Opts.RemoveOutsideCorners)
+        {
+            decorsToRemove.Add("outside_bl_corner");
+            decorsToRemove.Add("outside_br_corner");
+            decorsToRemove.Add("outside_tl_corner");
+            decorsToRemove.Add("outside_tr_corner");
+        }
+
+        if (Options.Opts.RemoveInsideCorners)
+        {
+            decorsToRemove.Add("inside_bl_corner");
+            decorsToRemove.Add("inside_br_corner");
+            decorsToRemove.Add("inside_tl_corner");
+            decorsToRemove.Add("inside_tr_corner");
+        }
+
+        var cornersToSort = Options.Opts.CornersBelowTops
+            ? new HashSet<string>(StringComparer.Ordinal)
+            {
+                "inside_bl_corner",
+                "inside_br_corner"
+            }
+            : null;
+
         foreach (var decorInfo in Assets.BlockTileDecorInfos)
         {
             decorInfo.decor = decorInfo.decor.Select(decor =>
@@ -25,12 +54,6 @@ public class ModifyDecors
 
         void RemoveDecorIfHidden(ref BlockTileDecorInfo.Decor decor)
         {
-            List<string> decorsToRemove = [
-                "tops",
-                ..(Options.Opts.RemoveOutsideCorners ? [ "outside_bl_corner", "outside_br_corner", "outside_tl_corner", "outside_tr_corner" ] : Array.Empty<string>()),
-                ..(Options.Opts.RemoveInsideCorners ? [ "inside_bl_corner", "inside_br_corner", "inside_tl_corner", "inside_tr_corner" ] : Array.Empty<string>())
-            ];
-
             if (decorsToRemove.Contains(decor.name))
                 decor.probabilityCutoff = float.MaxValue;
         }
@@ -55,11 +78,10 @@ public class ModifyDecors
 
         void SortCornersBelowTops(ref BlockTileDecorInfo.Decor decor)
         {
-            if (!Options.Opts.CornersBelowTops)
+            if (cornersToSort is null)
                 return;
 
-            List<string> decorsToSort = ["inside_bl_corner", "inside_br_corner"];
-            if (decorsToSort.Contains(decor.name))
+            if (cornersToSort.Contains(decor.name))
                 decor.sortOrder = -2;
         }
     }
