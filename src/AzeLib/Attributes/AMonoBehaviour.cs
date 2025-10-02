@@ -1,24 +1,50 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Linq;
+using System.Reflection;
 
 namespace AzeLib.Attributes
 {
     public class AMonoBehaviour : KMonoBehaviour
     {
-        //TODO: Optimize this similarily to the base game
+        private static readonly ConcurrentDictionary<Type, FieldInfo[]> MyIntGetFieldCache = new();
+
+        internal static class DebugHooks
+        {
+            internal static Action<Type, int>? CachePrimed;
+            internal static Action<AMonoBehaviour, FieldInfo, object?>? ComponentResolved;
+        }
+
+        /// <summary>
+        /// Resolves a component instance for the provided type.  Overridable to allow
+        /// deterministic substitution in tests while defaulting to the base game lookup.
+        /// </summary>
+        /// <param name="componentType">The component type required by a decorated field.</param>
+        /// <returns>The component instance that should be assigned to the field.</returns>
+        protected virtual object? ResolveComponent(Type componentType) => GetComponent(componentType);
+
         public override void OnSpawn()
         {
             base.OnSpawn();
 
-            foreach (var fieldInfo in GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+            var thisType = GetType();
+            var cachedFields = MyIntGetFieldCache.GetOrAdd(thisType, BuildMyIntGetFieldCache);
+            DebugHooks.CachePrimed?.Invoke(thisType, cachedFields.Length);
+
+            foreach (var fieldInfo in cachedFields)
             {
-                foreach (var obj in fieldInfo.GetCustomAttributes(false))
-                {
-                    if(obj.GetType() == typeof(MyIntGetAttribute))
-                    {
-                        fieldInfo.SetValue(this, GetComponent(fieldInfo.FieldType));
-                    }
-                }
+                var component = ResolveComponent(fieldInfo.FieldType);
+                fieldInfo.SetValue(this, component);
+                DebugHooks.ComponentResolved?.Invoke(this, fieldInfo, component);
             }
+        }
+
+        private static FieldInfo[] BuildMyIntGetFieldCache(Type type)
+        {
+            return type
+                .GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+                .Where(field => field.IsDefined(typeof(MyIntGetAttribute), inherit: false))
+                .ToArray();
         }
     }
 }
