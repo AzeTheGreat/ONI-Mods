@@ -15,6 +15,6 @@ This document inventories the current in-code `TODO` comments across the reposit
 | [x] | AzeLib - Core | `src/AzeLib/AzeMod.cs` | Benchmark the `OnLoad` hook to ensure the reflection-based initialization does not unduly impact load times. |
 | [ ] | Build Tooling | `src/AutoIncrement.targets` | Diagnose intermittent `RoslynCodeTaskFactory` reference resolution failures and modernize the task implementation with newer C# features. |
 | [x] | BetterInfoCards - Util | `src/BetterInfoCards/Util/ResetPool.cs` | Consider adding logic to shrink the reset pool when demand drops. |
-| [ ] | BetterInfoCards - Converters | `src/BetterInfoCards/Converters/ConverterManager.cs` | Decide whether the default and title converters should live outside the shared converter dictionary for clarity or reuse. |
+| [x] | BetterInfoCards - Converters | `src/BetterInfoCards/Converters/ConverterManager.cs` | Decide whether the default and title converters should live outside the shared converter dictionary for clarity or reuse. |
 
-*Last updated: 2025-10-02 07:48 UTC*
+*Last updated: 2025-10-02 07:49 UTC*
