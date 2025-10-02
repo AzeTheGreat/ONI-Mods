@@ -5,7 +5,10 @@ using System.Reflection.Emit;
 
 namespace AzeLib.Extensions
 {
-    // TODO: Document extensions?
+    /// <summary>
+    /// Helper extensions for working with Harmony <see cref="CodeInstruction"/> sequences.
+    /// See <c>Extensions/README.md</c> for usage guidance and examples.
+    /// </summary>
     public static class CodeInstructionExt
     {
         public static bool IsLocalOfType(this CodeInstruction i, Type type)
@@ -17,7 +20,6 @@ namespace AzeLib.Extensions
 
         public static bool OpCodeIs(this CodeInstruction i, OpCode opCode) => i.opcode == opCode;
 
-        // TODO: This is ugly, make better.  Also expand it to work with everything.
         public static CodeInstruction GetLoadFromStore(this CodeInstruction i)
         {
             var opCode = OpCodes.Ldloc;

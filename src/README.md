@@ -25,3 +25,7 @@ Depending on the build configuration, the mods will be handled differently.
 - Release:
   - Exported to the Release folder
   - Zipped and placed in the [Distribute](https://github.com/AzeTheGreat/ONI-Mods/tree/master/Distribute) folder
+
+## Library Documentation
+
+- [AzeLib Harmony extension helpers](AzeLib/Extensions/README.md)
