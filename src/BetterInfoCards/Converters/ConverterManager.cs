@@ -16,6 +16,8 @@ namespace BetterInfoCards
         public const string avgSuffix = " <color=#ababab>(μ)</color>";
 
         private static readonly Dictionary<string, Func<string, string, object, TextInfo>> converters = [];
+        private static Func<string, string, object, TextInfo> defaultConverter;
+        private static Func<string, string, object, TextInfo> titleConverter;
         private static bool hasLoggedInvalidDiseaseIndex;
 
         static ConverterManager()
@@ -95,11 +97,32 @@ namespace BetterInfoCards
 
         public static void AddConverter<T>(string name, Func<object, T> getValue, Func<string, List<T>, string> getTextOverride = null, List<(Func<T, float>, float)> splitListDefs = null) where T : new()
         {
+            var pool = new ResetPool<TextInfo<T>>(ref InterceptHoverDrawer.BeginDrawing.onBeginDrawing);
+            Func<string, string, object, TextInfo> factory = (string k, string n, object d) =>
+                pool.Get().Set(k, n, d, getValue, getTextOverride, splitListDefs);
+
+            if (name == string.Empty)
+            {
+                if (defaultConverter is not null)
+                    throw new Exception("Attempted to add default converter, but one is already registered.");
+
+                defaultConverter = factory;
+                return;
+            }
+
+            if (name == title)
+            {
+                if (titleConverter is not null)
+                    throw new Exception("Attempted to add title converter, but one is already registered.");
+
+                titleConverter = factory;
+                return;
+            }
+
             if (converters.ContainsKey(name))
                 throw new Exception("Attempted to add converter with name: " + name + ", but converter with name is already present.");
 
-            var pool = new ResetPool<TextInfo<T>>(ref InterceptHoverDrawer.BeginDrawing.onBeginDrawing);
-            converters.Add(name, (string k, string n, object d) => pool.Get().Set(k, n, d, getValue, getTextOverride, splitListDefs));
+            converters.Add(name, factory);
         }
 
         // This is not to be used internally - for reflection from external mods only.
@@ -112,11 +135,22 @@ namespace BetterInfoCards
 
         public static bool TryGetConverter(string id, out Func<string, string, object, TextInfo> converter)
         {
-            // TODO: Pull default converter out of dict?  Maybe Title as well?
-            if (id != string.Empty && converters.TryGetValue(id, out converter))
+            if (id == string.Empty)
+            {
+                converter = defaultConverter;
+                return false;
+            }
+
+            if (id == title)
+            {
+                converter = titleConverter ?? defaultConverter;
+                return titleConverter is not null;
+            }
+
+            if (converters.TryGetValue(id, out converter))
                 return true;
 
-            converter = converters[string.Empty];
+            converter = defaultConverter;
             return false;
         }
     }

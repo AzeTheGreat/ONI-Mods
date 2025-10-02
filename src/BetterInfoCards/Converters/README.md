@@ -74,5 +74,9 @@ if (AccessTools.Method("ConverterManager:AddConverterReflect") is MethodInfo add
 		new Func<object, float>((data) => ((GameObject)data).GetComponent<PrimaryElement>().Mass),
 		new Func<string, List<float>, string>((original, masses) => oreMass.Replace("{Mass}", GameUtil.GetFormattedMass(masses.Sum())) + ConverterManager.sumSuffix),
 		null });
-	}
-```			
+}
+```
+
+### Built-in converters
+
+Better Info Cards registers dedicated converters for the default (raw text) and title entries.  These converters are stored outside the public dictionary so that fallback lookups always resolve to the default handler and the title converter cannot be shadowed accidentally.  Use `ConverterManager.TryGetConverter` to access them instead of assuming they exist in the general map.

@@ -21,3 +21,7 @@
 - Updated `src/AutoIncrement.targets` to load `RoslynCodeTaskFactory` from `$(MSBuildToolsPath)` with explicit `UsingTask` metadata so the factory resolves consistently across runtimes.
 - Refactored the embedded task to use structured helpers, regex-based JSON parsing, and culture-invariant formatting while preserving the existing `version.json` contract.
 - Validated the task in isolation via `dotnet msbuild src/AzeLib/AzeLib.csproj /t:AutoIncrement /p:Configuration=Debug`, confirming the revision value increments and the new serializer output remains stable.
+
+## 2025-10-05 - BetterInfoCards converter registry
+- Split the default (raw text) and title converters out of the general registry to keep fallback lookups deterministic and prevent accidental overrides.
+- Updated documentation and unit tests to reflect the dedicated storage and ensure `TryGetConverter` continues to resolve default, title, and named entries as expected.
