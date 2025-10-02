@@ -11,10 +11,10 @@ This document inventories the current in-code `TODO` comments across the reposit
 | [x] | AzeLib - Extensions | `src/AzeLib/Extensions/TranspilerExt.cs` | Evaluate whether the operand-targeted `Manipulator` overload is sufficiently general to keep or should be removed. |
 | [x] | AzeLib - Extensions | `src/AzeLib/Extensions/CodeInstructionExt.cs` | Provide documentation describing the available IL `CodeInstruction` extension methods. |
 | [x] | AzeLib - Extensions | `src/AzeLib/Extensions/CodeInstructionExt.cs` | Refactor `GetLoadFromStore` into a cleaner, fully general solution for deriving load instructions from stores. |
-| [ ] | AzeLib - Attributes | `src/AzeLib/Attributes/AMonoBehaviour.cs` | Improve the attribute-driven field wiring to match the base game's optimized approach. |
+| [x] | AzeLib - Attributes | `src/AzeLib/Attributes/AMonoBehaviour.cs` | Confirmed cached attribute-driven field wiring matches the base game's optimized approach. |
 | [x] | AzeLib - Core | `src/AzeLib/AzeMod.cs` | Benchmark the `OnLoad` hook to ensure the reflection-based initialization does not unduly impact load times. |
 | [ ] | Build Tooling | `src/AutoIncrement.targets` | Diagnose intermittent `RoslynCodeTaskFactory` reference resolution failures and modernize the task implementation with newer C# features. |
 | [x] | BetterInfoCards - Util | `src/BetterInfoCards/Util/ResetPool.cs` | Consider adding logic to shrink the reset pool when demand drops. |
 | [x] | BetterInfoCards - Converters | `src/BetterInfoCards/Converters/ConverterManager.cs` | Decide whether the default and title converters should live outside the shared converter dictionary for clarity or reuse. |
 
-*Last updated: 2025-10-02 07:55 UTC*
+*Last updated: 2025-10-02 07:57 UTC*
