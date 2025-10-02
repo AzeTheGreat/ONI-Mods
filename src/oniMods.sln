@@ -56,6 +56,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildMenuSearchHotkey", "Bu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeleteFullWord", "DeleteFullWord\DeleteFullWord.csproj", "{4257AB13-3886-49BA-B1DA-FDEBA0904CB8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzeLib.Tests", "..\tests\AzeLib.Tests\AzeLib.Tests.csproj", "{64E6EF7D-830C-4786-9297-9DD04F122099}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -150,7 +152,12 @@ Global
 		{4257AB13-3886-49BA-B1DA-FDEBA0904CB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4257AB13-3886-49BA-B1DA-FDEBA0904CB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4257AB13-3886-49BA-B1DA-FDEBA0904CB8}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
+	
+                {64E6EF7D-830C-4786-9297-9DD04F122099}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+                {64E6EF7D-830C-4786-9297-9DD04F122099}.Debug|Any CPU.Build.0 = Debug|Any CPU
+                {64E6EF7D-830C-4786-9297-9DD04F122099}.Release|Any CPU.ActiveCfg = Release|Any CPU
+                {64E6EF7D-830C-4786-9297-9DD04F122099}.Release|Any CPU.Build.0 = Release|Any CPU
+        EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
