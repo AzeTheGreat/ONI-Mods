@@ -130,7 +130,16 @@ namespace BetterInfoCards
             private static void ExportSelectableFromList(List<KSelectable> selectables) => ExportSelectable(selectables.LastOrDefault());
             private static void ExportSelectable(KSelectable selectable) => curSelectable = selectable;
             private static void Export(string name, object data) => curTextInfo = (name, data);
-            private static void ExportGO(string name) => Export(name, curSelectable.gameObject);
+            private static void ExportGO(string name)
+            {
+                if (curSelectable == null)
+                {
+                    Debug.LogWarning($"[BetterInfoCards] Skipping export for '{name}' because there is no active selectable.");
+                    return;
+                }
+
+                Export(name, curSelectable.gameObject);
+            }
             private static void ExportStatus(StatusItemGroup.Entry entry) => Export(entry.item.Id, entry.data);
         }
     }
