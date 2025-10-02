@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<AssemblyTitle>AzeLib</AssemblyTitle>
-		<UsesAzeLib>false</UsesAzeLib>
-		<ShouldDistribute>false</ShouldDistribute>
-	</PropertyGroup>
+  <PropertyGroup>
+    <AssemblyTitle>AzeLib</AssemblyTitle>
+    <UsesAzeLib>false</UsesAzeLib>
+    <ShouldDistribute>false</ShouldDistribute>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<Reference Update="../lib/PLib.dll">
-			<Private>true</Private>
-		</Reference>
-	</ItemGroup>
+  <ItemGroup>
+    <Reference Update="../lib/PLib.dll">
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>AzeLib.Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
 
 </Project>
