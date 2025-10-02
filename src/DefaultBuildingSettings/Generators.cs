@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+using AzeLib.Attributes;
+using HarmonyLib;
 using UnityEngine;
 
 namespace DefaultBuildingSettings
@@ -14,13 +15,13 @@ namespace DefaultBuildingSettings
             }
         }
 
-        internal static bool SetGeneratorValues(GameObject go)
+        [ApplyToBuildingPrefabs]
+        internal static void SetGeneratorValues(GameObject go)
         {
             if (!(go.GetComponent<EnergyGenerator>() is EnergyGenerator generator) || !go.GetComponent<ManualDeliveryKG>())
-                return false;
+                return;
 
             generator.SetSliderValue(Options.Opts.DeliverGenValue, 0);
-            return true;
         }
     }
 }

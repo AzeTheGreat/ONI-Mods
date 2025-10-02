@@ -1,3 +1,4 @@
+using AzeLib.Attributes;
 using Klei;
 using Klei.AI;
 using KSerialization;
@@ -10,9 +11,16 @@ namespace DefaultBuildingSettings
     /// instances inherit those values without requiring a Harmony hook on <see cref="BuildingDef.Build"/>.
     /// Doors still need a small helper component so their state machine opens after spawn, but the
     /// remainder of the data can be stamped onto the prefab up-front.
+    ///
+    /// <para>
+    /// The <see cref="ApplyToBuildingPrefabsAttribute"/> marker ensures this logic runs immediately after
+    /// <see cref="global::GeneratedBuildings.LoadGeneratedBuildings"/>, centralizing the wiring in
+    /// <c>AzeLib</c> so other mods can share the same integration point.
+    /// </para>
     /// </summary>
     internal static class BuildingPrefabDefaults
     {
+        [ApplyToBuildingPrefabs]
         internal static void Apply(GameObject prefab)
         {
             if (prefab == null)

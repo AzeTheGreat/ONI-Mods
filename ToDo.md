@@ -7,7 +7,6 @@ This document inventories the current in-code `TODO` comments across the reposit
 | Status | Mod/Area | File | Summary |
 | --- | --- | --- | --- |
 | [ ] | DefaultBuildingSettings | `src/DefaultBuildingSettings/OnBuild_Patch.cs` | Revisit whether building configs can now be edited directly instead of relying on the current Harmony patch approach. |
-| [ ] | DefaultBuildingSettings | `src/DefaultBuildingSettings/OnBuild_Patch.cs` | If this patch logic becomes broadly useful again, consider extracting it into a reusable attribute-based helper. |
 | [ ] | AzeLib - Extensions | `src/AzeLib/Extensions/TranspilerExt.cs` | Optimize `MethodRemover` so it only emits stack pops when required and handles label preservation or fix-ups cleanly. |
 | [ ] | AzeLib - Extensions | `src/AzeLib/Extensions/TranspilerExt.cs` | Evaluate whether the operand-targeted `Manipulator` overload is sufficiently general to keep or should be removed. |
 | [ ] | AzeLib - Extensions | `src/AzeLib/Extensions/CodeInstructionExt.cs` | Provide documentation describing the available IL `CodeInstruction` extension methods. |
@@ -18,4 +17,4 @@ This document inventories the current in-code `TODO` comments across the reposit
 | [ ] | BetterInfoCards - Util | `src/BetterInfoCards/Util/ResetPool.cs` | Consider adding logic to shrink the reset pool when demand drops. |
 | [ ] | BetterInfoCards - Converters | `src/BetterInfoCards/Converters/ConverterManager.cs` | Decide whether the default and title converters should live outside the shared converter dictionary for clarity or reuse. |
 
-*Last updated: 2025-10-02 03:57 UTC*
+*Last updated: 2025-10-02 04:14 UTC*
