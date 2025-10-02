@@ -5,6 +5,14 @@
   <Import Project="Directory.Build.props.default" />
   <Import Condition=" Exists('Directory.Build.props.user') " Project="Directory.Build.props.user" />
 
+  <!--Allow environment or MSBuild overrides for non-standard installs.-->
+  <PropertyGroup Condition="'$(ONI_GAME_MANAGED)' != '' and Exists('$(ONI_GAME_MANAGED)')">
+    <GameFolder>$(ONI_GAME_MANAGED)</GameFolder>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(ONIGameManaged)' != '' and Exists('$(ONIGameManaged)')">
+    <GameFolder>$(ONIGameManaged)</GameFolder>
+  </PropertyGroup>
+
   <!--Base Settings-->
   <PropertyGroup>
     <TargetFramework>net471</TargetFramework>

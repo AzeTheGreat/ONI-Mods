@@ -9,6 +9,19 @@ Compiling this solution is fairly simple.  If you run into issues, feel free to 
   - In the `Solution Items` folder, add a new `.xml` file named `Directory.Build.props.user`.
   - Copy the contents of `.default` to `.user`.
   - Edit any properties specific to your environment in `.user`.
+- You can also override the managed game folder without creating a `.user` file by setting one of the built-in overrides:
+  - Set the `ONI_GAME_MANAGED` environment variable to the full path of `OxygenNotIncluded_Data\Managed`.
+  - Or provide the same path via the `ONIGameManaged` MSBuild property.
+  - Both overrides only apply when the supplied directory exists, otherwise the default Steam path is used.
+
+Example (Windows, alternate drive):
+
+```cmd
+set ONI_GAME_MANAGED=D:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed
+msbuild /p:ONIGameManaged="%ONI_GAME_MANAGED%" oniMods.sln
+```
+
+Set the variable before starting Visual Studio or your terminal build to ensure the custom location is respected.
 - Rebuild the solution.
   - Automatically pulls in required packages through nuget.
   - Creates publicized assemblies.
