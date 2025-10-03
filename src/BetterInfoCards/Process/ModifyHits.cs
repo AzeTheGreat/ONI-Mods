@@ -19,8 +19,14 @@ namespace BetterInfoCards.Process
             static MethodBase TargetMethod()
             {
                 const string methodName = "GetObjectUnderCursor";
-                var getObjectMethod = AccessTools.GetDeclaredMethods(typeof(InterfaceTool))
-                    .FirstOrDefault(method => method.Name == methodName && MatchesGetObjectUnderCursorSignature(method));
+                var declaredMethods = AccessTools.GetDeclaredMethods(typeof(InterfaceTool))
+                    .Where(method => method.Name == methodName)
+                    .ToList();
+
+                var getObjectMethod = declaredMethods
+                    .FirstOrDefault(MatchesGetObjectUnderCursorSignature)
+                    ?? declaredMethods.FirstOrDefault(method =>
+                        method.GetParameters().FirstOrDefault()?.ParameterType == typeof(bool));
 
                 if (getObjectMethod == null)
                 {
@@ -74,7 +80,7 @@ namespace BetterInfoCards.Process
             {
                 var parameters = method.GetParameters();
 
-                if (parameters.Length < 1 || parameters.Length > 3)
+                if (parameters.Length < 1)
                     return false;
 
                 if (parameters[0].ParameterType != typeof(bool))
@@ -98,12 +104,32 @@ namespace BetterInfoCards.Process
                 if (optionalParameters.Length == 1)
                     return true;
 
-                return optionalParameters.Any(parameter =>
-                    parameter != componentParameter
-                    && parameter.Name != null
+                if (optionalParameters.Any(parameter =>
+                        parameter != componentParameter
+                        && LooksLikePredicateParameter(parameter)))
+                    return true;
+
+                return optionalParameters.All(parameter =>
+                    parameter == componentParameter
+                    || parameter.ParameterType == typeof(bool)
+                    || parameter.ParameterType == typeof(int)
+                    || parameter.ParameterType.IsEnum);
+            }
+
+            private static bool LooksLikePredicateParameter(ParameterInfo parameter)
+            {
+                if (parameter.ParameterType == typeof(Predicate<KSelectable>)
+                    || parameter.ParameterType == typeof(Func<KSelectable, bool>))
+                    return true;
+
+                if (typeof(Delegate).IsAssignableFrom(parameter.ParameterType)
+                    && parameter.ParameterType.Name.IndexOf("predicate", StringComparison.OrdinalIgnoreCase) >= 0)
+                    return true;
+
+                return parameter.Name != null
                     && (parameter.Name.IndexOf("predicate", StringComparison.OrdinalIgnoreCase) >= 0
                         || parameter.Name.IndexOf("filter", StringComparison.OrdinalIgnoreCase) >= 0
-                        || parameter.Name.IndexOf("test", StringComparison.OrdinalIgnoreCase) >= 0));
+                        || parameter.Name.IndexOf("test", StringComparison.OrdinalIgnoreCase) >= 0);
             }
 
             static void Postfix(bool cycleSelection, ref KSelectable __result, List<InterfaceTool.Intersection> ___intersections)

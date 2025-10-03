@@ -41,3 +41,7 @@
 - Replaced the `AccessTools.AllMethods` lookup with `AccessTools.GetDeclaredMethods` so Harmony 2.3 continues to locate `InterfaceTool.GetObjectUnderCursor` without relying on removed APIs.
 - Attempted to rebuild via `dotnet build src/oniMods.sln`, but the container image still lacks a .NET runtime, so compilation could not be performed here.
 - Maintainers should rebuild on a workstation with the ONI-managed assemblies to validate Harmony loads cleanly in-game.
+
+## 2025-10-10 - BetterInfoCards cursor signature update
+- Relaxed the `ModifyHits` signature guard and added a bool-first fallback so Harmony locates the updated `InterfaceTool.GetObjectUnderCursor` overload even when U56 adds extra optional parameters.
+- Static inspection only; rebuilding still requires the ONI assemblies and a local .NET runtime, both unavailable in this container.
