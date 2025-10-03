@@ -22,7 +22,7 @@ namespace BetterInfoCards.Process
                 var parameterTypes = new[] { typeof(bool), typeof(Func<,>), typeof(Component) };
 
                 var getObjectMethod = AccessTools.DeclaredMethod(typeof(InterfaceTool), methodName, parameterTypes)
-                    ?? AccessTools.Method(typeof(InterfaceTool), methodName, null, parameterTypes);
+                    ?? AccessTools.Method(typeof(InterfaceTool), methodName, parameterTypes);
 
                 if (getObjectMethod == null)
                 {
