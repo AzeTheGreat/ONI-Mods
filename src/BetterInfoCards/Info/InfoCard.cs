@@ -38,8 +38,12 @@ namespace BetterInfoCards
                 // Getting the style like this is not ideal since it could potentially be different from the title's.
                 // It does not appear to be an issue under current game conditions though.
                 var ti = TextInfo.Create(string.Empty, " #" + (++visCardIndex), null);
-                var drawCount = new DrawActions.Text().Set(ti, SelectTool.Instance.hoverTextConfiguration.Styles_Title.Standard, Color.white, false);
-                drawActions.Insert(++titleDrawer.drawIndex, drawCount);
+                var skin = InterceptHoverDrawer.drawerInstance?.skin ?? HoverTextScreen.Instance?.drawer?.skin;
+                if (skin != null)
+                {
+                    var drawCount = new DrawActions.Text().Set(ti, skin.Styles_Title.Standard, Color.white, false);
+                    drawActions.Insert(++titleDrawer.drawIndex, drawCount);
+                }
             }
 
             InterceptHoverDrawer.drawerInstance.BeginShadowBar(isSelected);
