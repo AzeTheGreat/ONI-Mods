@@ -18,15 +18,13 @@ namespace BetterInfoCards
         {
             // It is unclear where this magic number "+2" came from.
             private static readonly Vector2 border = new(Options.Opts.InfoCardSize.YPadding + 2, Options.Opts.InfoCardSize.YPadding);
-            private static readonly float opacity = Options.Opts.InfoCardOpacity / 100f;
 
             static void Prefix(ref HoverTextDrawer.Skin skin)
             {
                 if (ShouldTweak)
                     skin.shadowBarBorder = border;
 
-                var c = skin.shadowBarWidget.color;
-                skin.shadowBarWidget.color = new Color(c.r, c.g, c.b, opacity);
+                skin.shadowBarWidget.color = GetShadowBarColor();
             }
         }
 
@@ -93,6 +91,15 @@ namespace BetterInfoCards
             static bool Prepare() => ShouldTweak;
 
             static void Prefix(ref int image_size) => image_size += iconSizeChange;
+        }
+
+        internal static Color GetShadowBarColor()
+        {
+            return new Color(
+                Options.Opts.InfoCardBackgroundRed / 255f,
+                Options.Opts.InfoCardBackgroundGreen / 255f,
+                Options.Opts.InfoCardBackgroundBlue / 255f,
+                Options.Opts.InfoCardOpacity / 100f);
         }
 
         private static class DrawPositionAccessor
