@@ -24,7 +24,7 @@ namespace BetterInfoCards
         private long lastResetTimestamp;
 
         public ResetPool(
-            ref Action resetOn,
+            ref System.Action resetOn,
             int lowUsageCyclesBeforeTrim = 3,
             double lowUsageRatio = 0.5,
             double trimSlack = 0.25,
@@ -42,8 +42,8 @@ namespace BetterInfoCards
             this.trimSlack = trimSlack;
             idleTrimThreshold = ToStopwatchTicks(idleTrimAge ?? TimeSpan.FromSeconds(30));
 
-            Action resetHandler = Reset;
-            resetOn = (Action)Delegate.Combine(resetOn, resetHandler);
+            System.Action resetHandler = Reset;
+            resetOn = (System.Action)Delegate.Combine(resetOn, resetHandler);
         }
 
         public ResetPool(ref System.Action onBeginDrawing)
