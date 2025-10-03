@@ -16,12 +16,34 @@ namespace BetterInfoCards
         {
             private static KSelectable priorSelected;
 
-            static MethodBase TargetMethod() => AccessTools.Method(
-                typeof(InterfaceTool),
-                "GetObjectUnderCursor",
-                null,
-                new[] { typeof(bool), typeof(Func<,>), typeof(Component) })
-                .MakeGenericMethod(typeof(KSelectable));
+            static MethodBase TargetMethod()
+            {
+                const string methodName = "GetObjectUnderCursor";
+                var parameterTypes = new[] { typeof(bool), typeof(Func<,>), typeof(Component) };
+
+                var getObjectMethod = AccessTools.DeclaredMethod(typeof(InterfaceTool), methodName, parameterTypes)
+                    ?? AccessTools.Method(typeof(InterfaceTool), methodName, null, parameterTypes);
+
+                if (getObjectMethod == null)
+                {
+                    Debug.LogWarning($"[BetterInfoCards] Failed to locate {nameof(InterfaceTool)}.{methodName}; skipping patch.");
+                    return null;
+                }
+
+                if (!getObjectMethod.IsGenericMethodDefinition)
+                    return getObjectMethod;
+
+                var genericArguments = getObjectMethod.GetGenericArguments();
+
+                if (genericArguments.Length == 1)
+                    return getObjectMethod.MakeGenericMethod(typeof(KSelectable));
+
+                if (genericArguments.Length == 2)
+                    return getObjectMethod.MakeGenericMethod(typeof(KSelectable), typeof(InterfaceTool.Intersection));
+
+                Debug.LogWarning($"[BetterInfoCards] Unexpected generic arity ({genericArguments.Length}) for {nameof(InterfaceTool)}.{methodName}; skipping patch.");
+                return null;
+            }
 
             static void Postfix(bool cycleSelection, ref KSelectable __result, List<InterfaceTool.Intersection> ___intersections)
             {
