@@ -97,9 +97,9 @@ namespace BetterInfoCards
 
         private static class DrawPositionAccessor
         {
-            private static readonly FieldInfo? currentPosField = AccessTools.Field(typeof(HoverTextDrawer), "currentPos");
-            private static readonly FieldInfo? drawStateField = AccessTools.Field(typeof(HoverTextDrawer), "drawState");
-            private static readonly FieldInfo? drawStateCurrentPositionField = drawStateField != null
+            private static readonly FieldInfo currentPosField = AccessTools.Field(typeof(HoverTextDrawer), "currentPos");
+            private static readonly FieldInfo drawStateField = AccessTools.Field(typeof(HoverTextDrawer), "drawState");
+            private static readonly FieldInfo drawStateCurrentPositionField = drawStateField != null
                 ? AccessTools.Field(drawStateField.FieldType, "currentPosition")
                 : null;
 
