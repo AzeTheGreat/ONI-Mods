@@ -19,10 +19,8 @@ namespace BetterInfoCards.Process
             static MethodBase TargetMethod()
             {
                 const string methodName = "GetObjectUnderCursor";
-                var parameterTypes = new[] { typeof(bool), typeof(Func<,>), typeof(Component) };
-
-                var getObjectMethod = AccessTools.DeclaredMethod(typeof(InterfaceTool), methodName, parameterTypes)
-                    ?? AccessTools.Method(typeof(InterfaceTool), methodName, parameterTypes);
+                var getObjectMethod = AccessTools.AllMethods(typeof(InterfaceTool))
+                    .FirstOrDefault(method => method.Name == methodName && MatchesGetObjectUnderCursorSignature(method));
 
                 if (getObjectMethod == null)
                 {
@@ -70,6 +68,42 @@ namespace BetterInfoCards.Process
 
                 Debug.LogWarning($"[BetterInfoCards] Unexpected generic arity ({genericArguments.Length}) for {nameof(InterfaceTool)}.{methodName}; skipping patch.");
                 return null;
+            }
+
+            private static bool MatchesGetObjectUnderCursorSignature(MethodInfo method)
+            {
+                var parameters = method.GetParameters();
+
+                if (parameters.Length < 1 || parameters.Length > 3)
+                    return false;
+
+                if (parameters[0].ParameterType != typeof(bool))
+                    return false;
+
+                if (parameters.Length == 1)
+                    return true;
+
+                var optionalParameters = parameters.Skip(1).ToArray();
+
+                if (optionalParameters.Any(parameter => !parameter.IsOptional))
+                    return false;
+
+                var componentParameter = optionalParameters.FirstOrDefault(parameter =>
+                    typeof(Component).IsAssignableFrom(parameter.ParameterType)
+                    || parameter.Name != null && parameter.Name.IndexOf("component", StringComparison.OrdinalIgnoreCase) >= 0);
+
+                if (componentParameter == null)
+                    return false;
+
+                if (optionalParameters.Length == 1)
+                    return true;
+
+                return optionalParameters.Any(parameter =>
+                    parameter != componentParameter
+                    && parameter.Name != null
+                    && (parameter.Name.IndexOf("predicate", StringComparison.OrdinalIgnoreCase) >= 0
+                        || parameter.Name.IndexOf("filter", StringComparison.OrdinalIgnoreCase) >= 0
+                        || parameter.Name.IndexOf("test", StringComparison.OrdinalIgnoreCase) >= 0));
             }
 
             static void Postfix(bool cycleSelection, ref KSelectable __result, List<InterfaceTool.Intersection> ___intersections)
