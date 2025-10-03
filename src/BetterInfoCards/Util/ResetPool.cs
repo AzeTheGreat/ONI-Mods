@@ -42,7 +42,7 @@ namespace BetterInfoCards
             this.trimSlack = trimSlack;
             idleTrimThreshold = ToStopwatchTicks(idleTrimAge ?? TimeSpan.FromSeconds(30));
 
-            resetOn += Reset;
+            resetOn = (Action)Delegate.Combine(resetOn, Reset);
         }
 
         public ResetPool(ref System.Action onBeginDrawing)
