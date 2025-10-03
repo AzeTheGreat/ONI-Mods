@@ -68,8 +68,7 @@ namespace BetterInfoCards.Export
                 var entryType = __result.GetType();
                 if (entryType.Name == "Entry")
                 {
-                    // Try to cast __result to the expected type using dynamic
-                    curICWidgets.AddWidget((dynamic)__result, prefab);
+                    curICWidgets.AddWidget(__result, prefab);
                 }
             }
         }
