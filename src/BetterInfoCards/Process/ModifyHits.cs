@@ -36,18 +36,34 @@ namespace BetterInfoCards
                 var genericArguments = getObjectMethod.GetGenericArguments();
 
                 // U56 introduces a third generic argument: InterfaceTool.IntersectionCandidate (ordered after Intersection).
-                Type[] genericTypes = genericArguments.Length switch
+                Type[] genericTypes = null;
+
+                switch (genericArguments.Length)
                 {
-                    1 => new[] { typeof(KSelectable) },
-                    2 => new[] { typeof(KSelectable), typeof(InterfaceTool.Intersection) },
-                    3 => new[]
-                    {
-                        typeof(KSelectable),
-                        typeof(InterfaceTool.Intersection),
-                        typeof(InterfaceTool.IntersectionCandidate)
-                    },
-                    _ => null
-                };
+                    case 1:
+                        genericTypes = new[] { typeof(KSelectable) };
+                        break;
+                    case 2:
+                        genericTypes = new[] { typeof(KSelectable), typeof(InterfaceTool.Intersection) };
+                        break;
+                    case 3:
+                        var intersectionCandidateType = typeof(InterfaceTool)
+                            .GetNestedType("IntersectionCandidate", BindingFlags.Public | BindingFlags.NonPublic);
+
+                        if (intersectionCandidateType == null)
+                        {
+                            Debug.LogWarning("[BetterInfoCards] Failed to locate InterfaceTool.IntersectionCandidate; skipping patch.");
+                            return null;
+                        }
+
+                        genericTypes = new[]
+                        {
+                            typeof(KSelectable),
+                            typeof(InterfaceTool.Intersection),
+                            intersectionCandidateType
+                        };
+                        break;
+                }
 
                 if (genericTypes != null)
                     return getObjectMethod.MakeGenericMethod(genericTypes);
