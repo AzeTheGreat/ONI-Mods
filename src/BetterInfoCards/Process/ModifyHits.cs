@@ -19,7 +19,7 @@ namespace BetterInfoCards.Process
             static MethodBase TargetMethod()
             {
                 const string methodName = "GetObjectUnderCursor";
-                var getObjectMethod = AccessTools.AllMethods(typeof(InterfaceTool))
+                var getObjectMethod = AccessTools.GetDeclaredMethods(typeof(InterfaceTool))
                     .FirstOrDefault(method => method.Name == methodName && MatchesGetObjectUnderCursorSignature(method));
 
                 if (getObjectMethod == null)

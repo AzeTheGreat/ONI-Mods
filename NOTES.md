@@ -38,5 +38,6 @@
 
 ## 2025-10-09 - BetterInfoCards cursor hit patch compatibility
 - Updated the reflection used by `ModifyHits` to tolerate the additional generic argument introduced in U56 so the mod no longer throws `Incorrect length` at load.
+- Replaced the `AccessTools.AllMethods` lookup with `AccessTools.GetDeclaredMethods` so Harmony 2.3 continues to locate `InterfaceTool.GetObjectUnderCursor` without relying on removed APIs.
 - Attempted to rebuild via `dotnet build src/oniMods.sln`, but the container image still lacks a .NET runtime, so compilation could not be performed here.
 - Maintainers should rebuild on a workstation with the ONI-managed assemblies to validate Harmony loads cleanly in-game.
