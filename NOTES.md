@@ -49,3 +49,7 @@
 ## 2025-10-11 - BetterInfoCards shadow bar tint option
 - Added configurable RGB sliders for the info card shadow bar and ensured stretched bars reuse the selected tint.
 - Unable to rebuild `BetterInfoCards` here because the container still lacks the ONI-managed assemblies and `dotnet`; maintainers should run `dotnet build src/oniMods.sln` locally after syncing the new option values.
+
+## 2025-10-12 - BetterInfoCards shadow bar tint persistence
+- Ensured the prefab shadow bar and dynamically spawned extensions copy the configured tint to their `ColorStyleSetting` values so refreshes preserve the selected RGB.
+- Build and in-game validation remain blocked in this container due to missing ONI assemblies and the `dotnet` host; maintainers should rebuild via `dotnet build src/oniMods.sln` and confirm the slider-controlled tint persists in-game.

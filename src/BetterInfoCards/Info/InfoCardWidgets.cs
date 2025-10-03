@@ -98,9 +98,9 @@ namespace BetterInfoCards
             if (newShadowBar != null)
             {
                 newShadowBar.sizeDelta = new Vector2(width - shadowBar.sizeDelta.x, shadowBar.sizeDelta.y);
-                var image = newShadowBar.GetComponent<Image>();
-                if (image != null)
-                    image.color = CardTweaker.GetShadowBarColor();
+                var graphic = newShadowBar.GetComponent<Graphic>();
+                if (graphic != null)
+                    CardTweaker.ApplyShadowBarColor(graphic);
             }
 
             if (selectBorder != null)

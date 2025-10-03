@@ -2,6 +2,7 @@
 using System;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace BetterInfoCards
 {
@@ -24,7 +25,7 @@ namespace BetterInfoCards
                 if (ShouldTweak)
                     skin.shadowBarBorder = border;
 
-                skin.shadowBarWidget.color = GetShadowBarColor();
+                ApplyShadowBarColor(skin.shadowBarWidget);
             }
         }
 
@@ -100,6 +101,50 @@ namespace BetterInfoCards
                 Options.Opts.InfoCardBackgroundGreen / 255f,
                 Options.Opts.InfoCardBackgroundBlue / 255f,
                 Options.Opts.InfoCardOpacity / 100f);
+        }
+
+        internal static void ApplyShadowBarColor(Graphic graphic)
+        {
+            if (graphic == null)
+                return;
+
+            var tint = GetShadowBarColor();
+            graphic.color = tint;
+
+            var colorStyleField = AccessTools.Field(graphic.GetType(), "colorStyleSetting");
+            var colorStyleProperty = colorStyleField == null
+                ? AccessTools.Property(graphic.GetType(), "colorStyleSetting")
+                : null;
+
+            object style = colorStyleField != null
+                ? colorStyleField.GetValue(graphic)
+                : colorStyleProperty?.CanRead == true
+                    ? colorStyleProperty.GetValue(graphic)
+                    : null;
+
+            if (style == null)
+                return;
+
+            var styleType = style.GetType();
+            var inactiveField = AccessTools.Field(styleType, "inactiveColor");
+            var activeField = AccessTools.Field(styleType, "activeColor");
+            var inactiveProperty = inactiveField == null ? AccessTools.Property(styleType, "inactiveColor") : null;
+            var activeProperty = activeField == null ? AccessTools.Property(styleType, "activeColor") : null;
+
+            if (inactiveField != null)
+                inactiveField.SetValue(style, tint);
+            else if (inactiveProperty?.CanWrite == true)
+                inactiveProperty.SetValue(style, tint, null);
+
+            if (activeField != null)
+                activeField.SetValue(style, tint);
+            else if (activeProperty?.CanWrite == true)
+                activeProperty.SetValue(style, tint, null);
+
+            if (colorStyleField != null)
+                colorStyleField.SetValue(graphic, style);
+            else if (colorStyleProperty?.CanWrite == true)
+                colorStyleProperty.SetValue(graphic, style, null);
         }
 
         private static class DrawPositionAccessor
