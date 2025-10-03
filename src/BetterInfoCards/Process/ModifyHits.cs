@@ -9,7 +9,7 @@ namespace BetterInfoCards.Process
 {
     public static class ModifyHits
     {
-        private static List<DisplayCard> displayCards = new();
+        private static List<DisplayCard> displayCards = new List<DisplayCard>();
 
         [HarmonyPatch]
         private static class ChangeHits_Patch
