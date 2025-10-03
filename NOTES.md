@@ -35,3 +35,8 @@
 ## 2025-10-08 - ResetPool delegate wiring
 - Confirmed the delegate wiring change builds under the ONI toolchain in principle, but the container image still lacks a .NET runtime (`dotnet` is unavailable), so a full `oniMods.sln` rebuild could not be executed here.
 - Maintainers should rerun `dotnet build src/oniMods.sln` on a workstation with the ONI assemblies installed to verify end-to-end.
+
+## 2025-10-09 - BetterInfoCards cursor hit patch compatibility
+- Updated the reflection used by `ModifyHits` to tolerate the additional generic argument introduced in U56 so the mod no longer throws `Incorrect length` at load.
+- Attempted to rebuild via `dotnet build src/oniMods.sln`, but the container image still lacks a .NET runtime, so compilation could not be performed here.
+- Maintainers should rebuild on a workstation with the ONI-managed assemblies to validate Harmony loads cleanly in-game.
