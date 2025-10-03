@@ -1,4 +1,5 @@
-﻿using BetterInfoCards.Export;
+using BetterInfoCards.Export;
+using BetterInfoCards.Process;
 using HarmonyLib;
 
 namespace BetterInfoCards

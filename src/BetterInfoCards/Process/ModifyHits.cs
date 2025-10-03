@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-namespace BetterInfoCards
+namespace BetterInfoCards.Process
 {
     public static class ModifyHits
     {
