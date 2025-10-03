@@ -11,10 +11,12 @@ namespace BetterInfoCards
 
         public class Text : DrawActions
         {
-            TextInfo ti; 
+            TextInfo ti;
             TextStyleSetting style;
             Color color;
             bool overrideColor;
+
+            public TextStyleSetting Style => style;
 
             public Text Set(TextInfo ti, TextStyleSetting style, Color color, bool overrideColor)
             {

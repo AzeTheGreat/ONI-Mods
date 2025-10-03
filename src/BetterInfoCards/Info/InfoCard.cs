@@ -10,7 +10,7 @@ namespace BetterInfoCards
         public Dictionary<string, TextInfo> textInfos = [];
 
         private List<DrawActions> drawActions = [];
-        private (int drawIndex, TextInfo ti) titleDrawer;
+        private (int drawIndex, TextInfo ti, TextStyleSetting style) titleDrawer;
 
         public InfoCard Set(bool isSelected)
         {
@@ -18,7 +18,7 @@ namespace BetterInfoCards
             selectable = null;
             textInfos.Clear();
             drawActions.Clear();
-            titleDrawer = (default, null);
+            titleDrawer = (default, null, null);
             return this;
         }
 
@@ -33,17 +33,11 @@ namespace BetterInfoCards
 
         public void Draw(List<InfoCard> cards, int visCardIndex)
         {
-            if (visCardIndex > 0)
+            if (visCardIndex > 0 && titleDrawer.style != null)
             {
-                // Getting the style like this is not ideal since it could potentially be different from the title's.
-                // It does not appear to be an issue under current game conditions though.
                 var ti = TextInfo.Create(string.Empty, " #" + (++visCardIndex), null);
-                var skin = InterceptHoverDrawer.drawerInstance?.skin ?? HoverTextScreen.Instance?.drawer?.skin;
-                if (skin != null)
-                {
-                    var drawCount = new DrawActions.Text().Set(ti, skin.Styles_Title.Standard, Color.white, false);
-                    drawActions.Insert(++titleDrawer.drawIndex, drawCount);
-                }
+                var drawCount = new DrawActions.Text().Set(ti, titleDrawer.style, Color.white, false);
+                drawActions.Insert(++titleDrawer.drawIndex, drawCount);
             }
 
             InterceptHoverDrawer.drawerInstance.BeginShadowBar(isSelected);
@@ -59,7 +53,11 @@ namespace BetterInfoCards
         public void AddDraw(DrawActions drawAction, TextInfo ti)
         {
             if (titleDrawer.ti == null)
-                titleDrawer = (drawActions.Count, ti);
+            {
+                var textDraw = drawAction as DrawActions.Text;
+                var style = textDraw?.Style;
+                titleDrawer = (drawActions.Count, ti, style);
+            }
 
             // This can allow multiple draw actions to exist for the same text info.
             // Because Klei cannot be trusted to prevent duplcate lines on info cards, this is necessary.
