@@ -26,3 +26,8 @@
 ## 2025-10-05 - BetterInfoCards converter registry
 - Split the default (raw text) and title converters out of the general registry to keep fallback lookups deterministic and prevent accidental overrides.
 - Updated documentation and unit tests to reflect the dedicated storage and ensure `TryGetConverter` continues to resolve default, title, and named entries as expected.
+
+## 2025-10-06 - BetterInfoCards unreachable hover card update
+- Adjusted the unreachable card injection to pull hover targets through reflection so both legacy `overlayValidHoverObjects` and the new `hoverObjects` member are supported.
+- Unable to compile `BetterInfoCards` inside this container because the ONI managed assemblies (e.g., `Assembly-CSharp.dll`) are not present; rebuild requires a local install following `src/README.md`.
+- Smoke-test pending: verify in-game that selecting an unreachable item still draws the custom card once the mod is rebuilt with the refreshed dependencies.
