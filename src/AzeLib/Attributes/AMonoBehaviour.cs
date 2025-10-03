@@ -2,10 +2,11 @@
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Reflection;
+using UnityEngine;
 
 namespace AzeLib.Attributes
 {
-    public class AMonoBehaviour : KMonoBehaviour
+    public class AMonoBehaviour : MonoBehaviour
     {
         private static readonly ConcurrentDictionary<Type, FieldInfo[]> MyIntGetFieldCache = new();
 
@@ -23,10 +24,8 @@ namespace AzeLib.Attributes
         /// <returns>The component instance that should be assigned to the field.</returns>
         protected virtual object? ResolveComponent(Type componentType) => GetComponent(componentType);
 
-        public override void OnSpawn()
+        public void OnSpawn()
         {
-            base.OnSpawn();
-
             var thisType = GetType();
             var cachedFields = MyIntGetFieldCache.GetOrAdd(thisType, BuildMyIntGetFieldCache);
             DebugHooks.CachePrimed?.Invoke(thisType, cachedFields.Length);

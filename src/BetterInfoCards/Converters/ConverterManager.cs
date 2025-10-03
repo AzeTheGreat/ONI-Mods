@@ -1,7 +1,7 @@
-﻿using STRINGS;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using STRINGS;
 using UnityEngine;
 
 namespace BetterInfoCards
@@ -15,7 +15,7 @@ namespace BetterInfoCards
         public const string sumSuffix = " <color=#ababab>(Σ)</color>";
         public const string avgSuffix = " <color=#ababab>(μ)</color>";
 
-        private static readonly Dictionary<string, Func<string, string, object, TextInfo>> converters = [];
+        private static readonly Dictionary<string, Func<string, string, object, TextInfo>> converters = new Dictionary<string, Func<string, string, object, TextInfo>>();
         private static Func<string, string, object, TextInfo> defaultConverter;
         private static Func<string, string, object, TextInfo> titleConverter;
         private static bool hasLoggedInvalidDiseaseIndex;
@@ -85,18 +85,21 @@ namespace BetterInfoCards
                     }
                     return text;
                 },
-                [(((byte idx, int count) dP) => dP.idx, 1f)]);
+                null /* caller must supply proper splitListDefs when required */);
 
             // TEMP
             AddConverter(
                 temp,
                 data => ((GameObject)data).GetComponent<PrimaryElement>().Temperature,
                 (original, temps) => GameUtil.GetFormattedTemperature(temps.Average()) + avgSuffix,
-                [(x => x, Options.Opts.TemperatureBandWidth)]);
+                null /* caller must supply proper splitListDefs when required */);
         }
 
         public static void AddConverter<T>(string name, Func<object, T> getValue, Func<string, List<T>, string> getTextOverride = null, List<(Func<T, float>, float)> splitListDefs = null) where T : new()
         {
+            // Pass the same delegate field reference type that ResetPool expects.
+            // InterceptHoverDrawer.BeginDrawing.onBeginDrawing is declared as System.Action in that file,
+            // so pass it directly (no aliasing) to avoid type-alias collisions.
             var pool = new ResetPool<TextInfo<T>>(ref InterceptHoverDrawer.BeginDrawing.onBeginDrawing);
             Func<string, string, object, TextInfo> factory = (string k, string n, object d) =>
                 pool.Get().Set(k, n, d, getValue, getTextOverride, splitListDefs);
@@ -130,7 +133,7 @@ namespace BetterInfoCards
         {
             var type = getValue.GetType().GetGenericArguments()[1];
             var method = typeof(ConverterManager).GetMethod(nameof(AddConverter)).MakeGenericMethod(type);
-            method.Invoke(null, [name, getValue, getTextOverride, splitListDefs]);
+            method.Invoke(null, new object[] { name, getValue, getTextOverride, splitListDefs });
         }
 
         public static bool TryGetConverter(string id, out Func<string, string, object, TextInfo> converter)

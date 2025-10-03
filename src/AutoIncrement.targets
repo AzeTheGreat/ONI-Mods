@@ -1,179 +1,72 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
-  <UsingTask
-    TaskName="AutoIncrement"
-    TaskFactory="RoslynCodeTaskFactory"
-    AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
-    <ParameterGroup>
-      <Path ParameterType="System.String" Required="true" />
-      <Revision ParameterType="System.UInt16" Output="true" />
-    </ParameterGroup>
-    <Task>
-      <Code Type="Class" Language="cs"><![CDATA[
-using System;
-using System.Globalization;
-using System.IO;
-using System.Text.RegularExpressions;
-using Microsoft.Build.Framework;
+
+	<!--TODO: Figure out why "RoslynCodeTaskFactory" can't find the reference (sometimes)...and then use new c# features to make this cleaner.-->
+	<UsingTask
+	  TaskName="AutoIncrement"
+	  TaskFactory="CodeTaskFactory"
+	  AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll" >
+
+		<ParameterGroup>
+			<Path ParameterType="System.String" Required="true" />
+			<Revision ParameterType="System.UInt16" Output="true" />
+		</ParameterGroup>
+
+		<Task>
+			<Reference Include="$(GameFolder)/Newtonsoft.Json.dll" />
+			<Code Type="Class" Language="cs">
+				<![CDATA[
 using Microsoft.Build.Utilities;
+using Newtonsoft.Json;
+using System.IO;
 
-public sealed class AutoIncrement : Task
+public class AutoIncrement : Task
 {
-    private static readonly Regex VersionTokenPattern = new("\"(?<key>major|minor|build|revision)\"\\s*:\\s*(?<value>\\d+)", RegexOptions.Compiled | RegexOptions.CultureInvariant);
-
-    [Required]
-    public string Path { get; set; } = string.Empty;
-
-    [Output]
+    public string Path { get; set; }
     public ushort Revision { get; set; }
 
     public override bool Execute()
     {
-        try
-        {
-            var today = DateTime.UtcNow.Date;
-            var versionFile = ResolveVersionFile(Path);
-            var nextVersion = GetNextVersion(versionFile, today);
-            WriteVersion(versionFile, nextVersion);
-            Revision = nextVersion.Revision;
-            Log.LogMessage(MessageImportance.Low, "AutoIncrement updated revision to {0} for {1:yyyy.MM.dd}", Revision, today);
-            return true;
-        }
-        catch (Exception ex)
-        {
-            Log.LogErrorFromException(ex, showStackTrace: true);
-            return false;
-        }
+        var version = LoadVersion();
+
+        if (version.IsCurrentDate())
+            version.revision += 1;
+        else
+            version = new Version();
+
+        WriteVersion(version);
+        Revision = version.revision;
+        return true;
     }
 
-    private static string ResolveVersionFile(string basePath)
+    private Version LoadVersion()
     {
-        if (string.IsNullOrWhiteSpace(basePath))
-        {
-            throw new ArgumentException("The Path parameter must be provided.", nameof(basePath));
-        }
-
-        var fullPath = System.IO.Path.GetFullPath(basePath);
-        Directory.CreateDirectory(fullPath);
-        return System.IO.Path.Combine(fullPath, "version.json");
+        if (!File.Exists(Path + "version.json"))
+            return new Version() { major = 0 };
+        using (StreamReader sr = new StreamReader(Path + "version.json")) { return JsonConvert.DeserializeObject<Version>(sr.ReadToEnd()); }
     }
 
-    private static VersionPayload GetNextVersion(string versionFile, DateTime today)
+    private void WriteVersion(Version version)
     {
-        var current = LoadVersion(versionFile, today);
-        return current.Next(today);
+        using (StreamWriter sw = new StreamWriter(Path + "version.json")) { sw.Write(JsonConvert.SerializeObject(version)); }
     }
 
-    private static VersionPayload LoadVersion(string versionFile, DateTime today)
+    private class Version
     {
-        if (!File.Exists(versionFile))
+        public int major = System.DateTime.Now.Year;
+        public int minor = System.DateTime.Now.Month;
+        public int build = System.DateTime.Now.Day;
+        public ushort revision;
+
+        public bool IsCurrentDate()
         {
-            return VersionPayload.For(today);
+            return major == System.DateTime.Now.Year && minor == System.DateTime.Now.Month && build == System.DateTime.Now.Day;
         }
-
-        try
-        {
-            var contents = File.ReadAllText(versionFile);
-            if (string.IsNullOrWhiteSpace(contents))
-            {
-                return VersionPayload.For(today);
-            }
-
-            return ParseVersion(contents, today);
-        }
-        catch (IOException ex)
-        {
-            throw new InvalidOperationException($"Unable to read version information from '{versionFile}'.", ex);
-        }
-    }
-
-    private static void WriteVersion(string versionFile, VersionPayload version)
-    {
-        var directory = System.IO.Path.GetDirectoryName(versionFile);
-        if (!string.IsNullOrEmpty(directory))
-        {
-            Directory.CreateDirectory(directory);
-        }
-
-        var json = string.Format(CultureInfo.InvariantCulture,
-            "{{\n  \"major\": {0},\n  \"minor\": {1},\n  \"build\": {2},\n  \"revision\": {3}\n}}",
-            version.Major,
-            version.Minor,
-            version.Build,
-            version.Revision);
-        File.WriteAllText(versionFile, json);
-    }
-
-    private static VersionPayload ParseVersion(string contents, DateTime today)
-    {
-        var payload = VersionPayload.For(today);
-
-        foreach (Match match in VersionTokenPattern.Matches(contents))
-        {
-            if (!match.Success)
-            {
-                continue;
-            }
-
-            var valueSpan = match.Groups["value"].Value;
-            if (!int.TryParse(valueSpan, NumberStyles.Integer, CultureInfo.InvariantCulture, out var number))
-            {
-                continue;
-            }
-
-            switch (match.Groups["key"].Value)
-            {
-                case "major":
-                    payload.Major = number;
-                    break;
-                case "minor":
-                    payload.Minor = number;
-                    break;
-                case "build":
-                    payload.Build = number;
-                    break;
-                case "revision":
-                    payload.Revision = number < ushort.MinValue
-                        ? (ushort)0
-                        : number > ushort.MaxValue
-                            ? ushort.MaxValue
-                            : (ushort)number;
-                    break;
-            }
-        }
-
-        return payload;
-    }
-
-    private sealed class VersionPayload
-    {
-        public int Major { get; set; }
-        public int Minor { get; set; }
-        public int Build { get; set; }
-        public ushort Revision { get; set; }
-
-        public static VersionPayload For(DateTime date) => new VersionPayload
-        {
-            Major = date.Year,
-            Minor = date.Month,
-            Build = date.Day,
-            Revision = 0
-        };
-
-        public bool IsCurrent(DateTime date) => Major == date.Year && Minor == date.Month && Build == date.Day;
-
-        public VersionPayload Next(DateTime date) => IsCurrent(date)
-            ? new VersionPayload
-            {
-                Major = Major,
-                Minor = Minor,
-                Build = Build,
-                Revision = Revision < ushort.MaxValue ? (ushort)(Revision + 1) : ushort.MaxValue
-            }
-            : For(date);
     }
 }
-]]></Code>
-    </Task>
-  </UsingTask>
+]]>
+			</Code>
+		</Task>
+	</UsingTask>
+
 </Project>

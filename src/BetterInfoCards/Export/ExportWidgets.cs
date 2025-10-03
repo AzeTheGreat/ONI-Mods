@@ -1,5 +1,7 @@
 ﻿using HarmonyLib;
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 namespace BetterInfoCards.Export
@@ -8,6 +10,25 @@ namespace BetterInfoCards.Export
     {
         private static InfoCardWidgets curICWidgets;
         private static List<InfoCardWidgets> icWidgets = new();
+
+        static ExportWidgets()
+        {
+            // Dynamically patch all Draw methods on all generic Pool<T> types
+            var hoverTextDrawerType = typeof(HoverTextDrawer);
+            foreach (var nestedType in hoverTextDrawerType.GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Public))
+            {
+                if (nestedType.IsGenericTypeDefinition && nestedType.Name.StartsWith("Pool"))
+                {
+                    var drawMethod = AccessTools.Method(nestedType, "Draw");
+                    if (drawMethod != null)
+                    {
+                        var harmony = new Harmony("BetterInfoCards.Export.ExportWidgets");
+                        var postfix = typeof(ExportWidgets).GetMethod(nameof(GetWidget_Postfix), BindingFlags.NonPublic | BindingFlags.Static);
+                        harmony.Patch(drawMethod, postfix: new HarmonyMethod(postfix));
+                    }
+                }
+            }
+        }
 
         public static List<InfoCardWidgets> ConsumeWidgets()
         {
@@ -38,12 +59,18 @@ namespace BetterInfoCards.Export
             }
         }
 
-        [HarmonyPatch(typeof(HoverTextDrawer.Pool<MonoBehaviour>), nameof(HoverTextDrawer.Pool<MonoBehaviour>.Draw))]
-        class GetWidget_Patch
+        // This method will be used as a postfix for the Draw method via reflection.
+        private static void GetWidget_Postfix(object __result, object ___prefab)
         {
-            static void Postfix(HoverTextDrawer.Pool<MonoBehaviour>.Entry __result, GameObject ___prefab)
+            // Use reflection to access the Entry struct and its fields, since Pool<T> is private
+            if (__result != null && ___prefab is GameObject prefab)
             {
-                curICWidgets.AddWidget(__result, ___prefab);
+                var entryType = __result.GetType();
+                if (entryType.Name == "Entry")
+                {
+                    // Try to cast __result to the expected type using dynamic
+                    curICWidgets.AddWidget((dynamic)__result, prefab);
+                }
             }
         }
     }

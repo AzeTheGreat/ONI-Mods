@@ -1,17 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  
-  <PropertyGroup>
-    <AssemblyTitle>BetterInfoCards</AssemblyTitle>
-  </PropertyGroup>
 
-  <PropertyGroup>
-    <Title>Better Info Cards</Title>
-    <Description>Overhauls info cards to be more powerful and user friendly.</Description>
-  </PropertyGroup>
-  
-  <ItemGroup>
-    <None Remove="Export\README.md" />
-  </ItemGroup>
-  
+	<PropertyGroup>
+		<AssemblyTitle>BetterInfoCards</AssemblyTitle>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Title>Better Info Cards</Title>
+		<Description>Overhauls info cards to be more powerful and user friendly.</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="Export\README.md" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="Assembly-CSharp">
+	    <HintPath>F:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\Assembly-CSharp.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Assembly-CSharp-firstpass">
+	    <HintPath>F:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.TextMeshPro">
+	    <HintPath>F:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
 </Project>

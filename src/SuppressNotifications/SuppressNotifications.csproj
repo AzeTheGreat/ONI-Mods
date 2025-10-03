@@ -7,4 +7,9 @@
     <Title>Suppress Notifications</Title>
     <Description>Suppresses notifications and status items from individual buildings/critters/plants.</Description>
   </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>F:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

@@ -2,6 +2,8 @@ using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using Klei;
 
 namespace AzeLib
 {
@@ -67,7 +69,7 @@ namespace AzeLib
             if (rootType != null)
             {
                 // Manually add the assembly, instead of calling Localization.RegisterForTranslation, to avoid the pointless CreateLocStringKeys call.
-                Localization.AddAssembly(rootType.Namespace, rootType.Assembly);
+                Localization.AddAssembly(rootType.Assembly);
 
                 if (translationsLoaded)
                     SetLocStringFields(translations);

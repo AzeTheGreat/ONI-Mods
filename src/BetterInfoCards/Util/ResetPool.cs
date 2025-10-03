@@ -45,6 +45,11 @@ namespace BetterInfoCards
             resetOn += Reset;
         }
 
+        public ResetPool(ref System.Action onBeginDrawing)
+        {
+            OnBeginDrawing = onBeginDrawing;
+        }
+
         public int Count
         {
             get
@@ -61,6 +66,8 @@ namespace BetterInfoCards
         public int HighWatermark => Volatile.Read(ref highWatermark);
 
         public int LastCycleUsage => Volatile.Read(ref lastCycleUsage);
+
+        public System.Action OnBeginDrawing { get; }
 
         public TimeSpan GetIdleTimeFor(int index)
         {
