@@ -8,6 +8,9 @@ namespace BetterInfoCards
     public class Options : BaseOptions<Options>
     {
         [Option] [Limit(0, 100)] public int InfoCardOpacity { get; set; }
+        [Option] [Limit(0, 255)] public byte InfoCardBackgroundRed { get; set; }
+        [Option] [Limit(0, 255)] public byte InfoCardBackgroundGreen { get; set; }
+        [Option] [Limit(0, 255)] public byte InfoCardBackgroundBlue { get; set; }
         [Option] public bool HideElementCategories { get; set; }
         [Option] public bool UseBaseSelection { get; set; }
         [Option] public bool ForceFirstSelectionToHover { get; set; }
@@ -17,6 +20,9 @@ namespace BetterInfoCards
         public Options()
         {
             InfoCardOpacity = 80;
+            InfoCardBackgroundRed = 73;
+            InfoCardBackgroundGreen = 79;
+            InfoCardBackgroundBlue = 96;
             HideElementCategories = false;
             UseBaseSelection = false;
             ForceFirstSelectionToHover = true;

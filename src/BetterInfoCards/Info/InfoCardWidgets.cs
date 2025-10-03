@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace BetterInfoCards
 {
@@ -95,7 +96,12 @@ namespace BetterInfoCards
 
             var newShadowBar = ExtractRect(shadowBarsDrawMethod.Invoke(shadowBars, new object[] { newShadowBarPosition }));
             if (newShadowBar != null)
+            {
                 newShadowBar.sizeDelta = new Vector2(width - shadowBar.sizeDelta.x, shadowBar.sizeDelta.y);
+                var image = newShadowBar.GetComponent<Image>();
+                if (image != null)
+                    image.color = CardTweaker.GetShadowBarColor();
+            }
 
             if (selectBorder != null)
                 selectBorder.sizeDelta = new Vector2(width + 2f, selectBorder.sizeDelta.y);

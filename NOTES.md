@@ -45,3 +45,7 @@
 ## 2025-10-10 - BetterInfoCards cursor signature update
 - Relaxed the `ModifyHits` signature guard and added a bool-first fallback so Harmony locates the updated `InterfaceTool.GetObjectUnderCursor` overload even when U56 adds extra optional parameters.
 - Static inspection only; rebuilding still requires the ONI assemblies and a local .NET runtime, both unavailable in this container.
+
+## 2025-10-11 - BetterInfoCards shadow bar tint option
+- Added configurable RGB sliders for the info card shadow bar and ensured stretched bars reuse the selected tint.
+- Unable to rebuild `BetterInfoCards` here because the container still lacks the ONI-managed assemblies and `dotnet`; maintainers should run `dotnet build src/oniMods.sln` locally after syncing the new option values.
