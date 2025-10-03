@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -15,7 +16,12 @@ namespace BetterInfoCards
         {
             private static KSelectable priorSelected;
 
-            static MethodBase TargetMethod() => AccessTools.Method(typeof(InterfaceTool), nameof(InterfaceTool.GetObjectUnderCursor)).MakeGenericMethod(typeof(KSelectable));
+            static MethodBase TargetMethod() => AccessTools.Method(
+                typeof(InterfaceTool),
+                "GetObjectUnderCursor",
+                null,
+                new[] { typeof(bool), typeof(Func<,>), typeof(Component) })
+                .MakeGenericMethod(typeof(KSelectable));
 
             static void Postfix(bool cycleSelection, ref KSelectable __result, List<InterfaceTool.Intersection> ___intersections)
             {
