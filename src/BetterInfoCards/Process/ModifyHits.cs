@@ -35,11 +35,22 @@ namespace BetterInfoCards
 
                 var genericArguments = getObjectMethod.GetGenericArguments();
 
-                if (genericArguments.Length == 1)
-                    return getObjectMethod.MakeGenericMethod(typeof(KSelectable));
+                // U56 introduces a third generic argument: InterfaceTool.IntersectionCandidate (ordered after Intersection).
+                Type[] genericTypes = genericArguments.Length switch
+                {
+                    1 => new[] { typeof(KSelectable) },
+                    2 => new[] { typeof(KSelectable), typeof(InterfaceTool.Intersection) },
+                    3 => new[]
+                    {
+                        typeof(KSelectable),
+                        typeof(InterfaceTool.Intersection),
+                        typeof(InterfaceTool.IntersectionCandidate)
+                    },
+                    _ => null
+                };
 
-                if (genericArguments.Length == 2)
-                    return getObjectMethod.MakeGenericMethod(typeof(KSelectable), typeof(InterfaceTool.Intersection));
+                if (genericTypes != null)
+                    return getObjectMethod.MakeGenericMethod(genericTypes);
 
                 Debug.LogWarning($"[BetterInfoCards] Unexpected generic arity ({genericArguments.Length}) for {nameof(InterfaceTool)}.{methodName}; skipping patch.");
                 return null;
