@@ -9,6 +9,14 @@ namespace BetterInfoCards
     {
         private static readonly Dictionary<Type, Func<object, RectTransform>> rectAccessors = new();
         private static readonly object rectAccessorLock = new();
+        private const BindingFlags memberBindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+        private static readonly FieldInfo shadowBarsField = typeof(HoverTextDrawer).GetField("shadowBars", memberBindingFlags);
+        private static readonly MethodInfo shadowBarsDrawMethod = shadowBarsField?.FieldType.GetMethod(
+            "Draw",
+            memberBindingFlags,
+            binder: null,
+            types: new[] { typeof(Vector2) },
+            modifiers: null);
 
         public List<RectTransform> widgets = new();
         public RectTransform shadowBar;
@@ -62,8 +70,30 @@ namespace BetterInfoCards
             // Modifying existing SBs triggers rebuilds somewhere and has a major impact on performance.
             // Genius idea from Peter to just add new ones to fill the gap.
             Vector2 newShadowBarPosition = shadowBar.anchoredPosition + new Vector2(shadowBar.sizeDelta.x, 0f);
-            dynamic drawer = InterceptHoverDrawer.drawerInstance;
-            var newShadowBar = ExtractRect(drawer.shadowBars.Draw(newShadowBarPosition));
+            var drawer = InterceptHoverDrawer.drawerInstance;
+            if (drawer == null)
+                return;
+
+            if (shadowBarsField == null)
+            {
+                Debug.LogWarning("[BetterInfoCards] Unable to locate HoverTextDrawer.shadowBars field.");
+                return;
+            }
+
+            if (shadowBarsDrawMethod == null)
+            {
+                Debug.LogWarning("[BetterInfoCards] Unable to locate Draw(Vector2) on HoverTextDrawer.shadowBars.");
+                return;
+            }
+
+            var shadowBars = shadowBarsField.GetValue(drawer);
+            if (shadowBars == null)
+            {
+                Debug.LogWarning("[BetterInfoCards] HoverTextDrawer.shadowBars instance is null.");
+                return;
+            }
+
+            var newShadowBar = ExtractRect(shadowBarsDrawMethod.Invoke(shadowBars, new object[] { newShadowBarPosition }));
             if (newShadowBar != null)
                 newShadowBar.sizeDelta = new Vector2(width - shadowBar.sizeDelta.x, shadowBar.sizeDelta.y);
 
@@ -92,13 +122,11 @@ namespace BetterInfoCards
 
         private static Func<object, RectTransform> CreateAccessor(Type type)
         {
-            const BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-
-            var rectField = type.GetField("rect", flags);
+            var rectField = type.GetField("rect", memberBindingFlags);
             if (rectField != null && typeof(RectTransform).IsAssignableFrom(rectField.FieldType))
                 return entry => (RectTransform)rectField.GetValue(entry);
 
-            var rectProperty = type.GetProperty("rect", flags);
+            var rectProperty = type.GetProperty("rect", memberBindingFlags);
             if (rectProperty != null && typeof(RectTransform).IsAssignableFrom(rectProperty.PropertyType))
                 return entry => (RectTransform)rectProperty.GetValue(entry);
 
