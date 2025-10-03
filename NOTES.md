@@ -31,3 +31,7 @@
 - Adjusted the unreachable card injection to pull hover targets through reflection so both legacy `overlayValidHoverObjects` and the new `hoverObjects` member are supported.
 - Unable to compile `BetterInfoCards` inside this container because the ONI managed assemblies (e.g., `Assembly-CSharp.dll`) are not present; rebuild requires a local install following `src/README.md`.
 - Smoke-test pending: verify in-game that selecting an unreachable item still draws the custom card once the mod is rebuilt with the refreshed dependencies.
+
+## 2025-10-08 - ResetPool delegate wiring
+- Confirmed the delegate wiring change builds under the ONI toolchain in principle, but the container image still lacks a .NET runtime (`dotnet` is unavailable), so a full `oniMods.sln` rebuild could not be executed here.
+- Maintainers should rerun `dotnet build src/oniMods.sln` on a workstation with the ONI assemblies installed to verify end-to-end.
