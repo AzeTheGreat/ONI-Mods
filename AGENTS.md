@@ -5,6 +5,7 @@
 - Detailed instructions for compiling and packaging the solution live in `src/README.md`. Treat that document as the canonical guide when preparing builds.
 
 ## Tooling & Build Workflow
+> **Hosted Environment Notice:** The automated workspace for this repository does *not* include the ONI/.NET toolchain. Builds cannot be executed here, so rely on static inspection—manual code review, string/introspection checks, and similar non-runtime validation. Whenever tooling gaps prevent a build or test run, explicitly note the skipped steps (and rationale) in `NOTES.md` and your PR description so follow-up maintainers understand the outstanding work.
 > "Clone the repo and install ONI." (`src/README.md`)
 >
 > "If ONI is not installed in the default Steam location (or your environment differs from the default): In the `Solution Items` folder, add a new `.xml` file named `Directory.Build.props.user`. Copy the contents of `.default` to `.user`. Edit any properties specific to your environment in `.user`." (`src/README.md`)
