@@ -40,12 +40,68 @@ namespace BetterInfoCards
 
             var skin = HoverTextScreen.Instance.drawer.skin;
 
-            if (prefab == skin.shadowBarWidget.gameObject)
+            if (MatchesWidgetPrefab(prefab, skin.shadowBarWidget?.gameObject))
                 shadowBar = rect;
-            else if (prefab == skin.selectBorderWidget.gameObject)
+            else if (MatchesWidgetPrefab(prefab, skin.selectBorderWidget?.gameObject))
                 selectBorder = rect;
             else
                 widgets.Add(rect);
+        }
+
+        private static bool MatchesWidgetPrefab(GameObject candidate, GameObject reference)
+        {
+            if (candidate == null || reference == null)
+                return false;
+
+            if (candidate == reference)
+                return true;
+
+            if (string.Equals(StripCloneSuffix(candidate.name), StripCloneSuffix(reference.name), StringComparison.Ordinal))
+                return true;
+
+            if (!HasMatchingComponents(candidate, reference))
+                return false;
+
+            var candidateRect = candidate.GetComponent<RectTransform>();
+            var referenceRect = reference.GetComponent<RectTransform>();
+
+            if (candidateRect == null || referenceRect == null)
+                return false;
+
+            return candidateRect.rect.size == referenceRect.rect.size;
+        }
+
+        private static string StripCloneSuffix(string name)
+        {
+            const string cloneSuffix = "(Clone)";
+
+            if (string.IsNullOrEmpty(name) || !name.EndsWith(cloneSuffix, StringComparison.Ordinal))
+                return name;
+
+            return name[..^cloneSuffix.Length];
+        }
+
+        private static bool HasMatchingComponents(GameObject candidate, GameObject reference)
+        {
+            var candidateComponents = candidate.GetComponents<Component>();
+            var referenceComponents = reference.GetComponents<Component>();
+
+            if (candidateComponents.Length != referenceComponents.Length)
+                return false;
+
+            for (int i = 0; i < candidateComponents.Length; i++)
+            {
+                var candidateComponent = candidateComponents[i];
+                var referenceComponent = referenceComponents[i];
+
+                if (candidateComponent == null || referenceComponent == null)
+                    return false;
+
+                if (candidateComponent.GetType() != referenceComponent.GetType())
+                    return false;
+            }
+
+            return true;
         }
 
         public void Translate(float x)
