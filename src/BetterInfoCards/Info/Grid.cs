@@ -18,7 +18,7 @@ namespace BetterInfoCards
                 if (_minY == float.MaxValue)
                 {
                     var canvas = HoverTextScreen.Instance.gameObject.GetComponentInParent<Canvas>();
-                    _minY = -canvas.pixelRect.height / canvas.scaleFactor;
+                    _minY = -canvas.pixelRect.height / (2f * canvas.scaleFactor);
                 }
 
                 return _minY;

@@ -61,3 +61,7 @@
 ## 2025-10-14 - BetterInfoCards .NET 4.7 compatibility cleanup
 - Replaced the C# 8 range expression in `StripCloneSuffix` with an explicit `Substring` call so the project compiles under the original .NET 4.7 target.
 - Attempted to rebuild via `dotnet build src/BetterInfoCards/BetterInfoCards.csproj`, but the container still lacks the .NET host (`dotnet` command is unavailable), so compilation must be verified on a workstation with the ONI assemblies and toolchain installed.
+
+## 2025-10-15 - BetterInfoCards hover grid bounds adjustment
+- Updated the hover card grid to read the actual bottom edge of the hover text canvas so column wrapping matches the viewport height instead of the scaled pixel height.
+- Manual in-game verification of the wrapping behavior is blocked in this container because the ONI runtime and managed assemblies are unavailable; recompile the mod locally and confirm cards wrap into the second column at the correct threshold.
