@@ -1,7 +1,10 @@
 using AzeLib;
 using Newtonsoft.Json;
 using PeterHan.PLib.Options;
+using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace BetterInfoCards
 {
@@ -9,7 +12,7 @@ namespace BetterInfoCards
     public class Options : BaseOptions<Options>
     {
         [Option] [Limit(0, 100)] public int InfoCardOpacity { get; set; }
-        [Option] public Color32 InfoCardBackgroundColor { get; set; }
+        public Color32 InfoCardBackgroundColor { get; set; }
 
         [JsonProperty("InfoCardBackgroundRed", NullValueHandling = NullValueHandling.Ignore)]
         public int? LegacyInfoCardBackgroundRed { get; set; }
@@ -52,6 +55,51 @@ namespace BetterInfoCards
             [Option] [Limit(0, 20)] public int LineSpacing { get; set; }
             [Option] [Limit(-10, 10)] public int IconSizeChange { get; set; }
             [Option] [Limit(1, 20)] public int YPadding { get; set; }
+        }
+
+        protected override IEnumerable<IOptionsEntry> CreateOptions()
+        {
+            var entries = new List<IOptionsEntry>();
+
+            var colorEntry = CreateInfoCardColorEntry();
+
+            if (colorEntry != null)
+                entries.Add(colorEntry);
+
+            return entries;
+        }
+
+        private IOptionsEntry CreateInfoCardColorEntry()
+        {
+            const BindingFlags flags = BindingFlags.Instance | BindingFlags.Public;
+            var property = typeof(Options).GetProperty(nameof(InfoCardBackgroundColor), flags);
+
+            if (property == null)
+                return null;
+
+            var optionSpec = new OptionAttribute(
+                "STRINGS.BETTERINFOCARDS.OPTIONS.INFOCARDBACKGROUNDCOLOR.NAME",
+                "STRINGS.BETTERINFOCARDS.OPTIONS.INFOCARDBACKGROUNDCOLOR.TOOLTIP");
+
+            var entry = OptionsHandlers.FindOptionClass(optionSpec, property);
+
+            if (entry is OptionsEntry optionsEntry)
+                optionsEntry.OnRealize += OnInfoCardColorRealized;
+
+            return entry;
+        }
+
+        private static void OnInfoCardColorRealized(GameObject realized)
+        {
+            if (realized == null)
+                return;
+
+            if (!realized.TryGetComponent(out LayoutElement layout))
+                layout = realized.AddComponent<LayoutElement>();
+
+            var preferred = Mathf.Min(Screen.width * 0.4f, 360f);
+            layout.preferredWidth = preferred;
+            layout.flexibleWidth = preferred;
         }
 
         protected override bool ValidateSettings()

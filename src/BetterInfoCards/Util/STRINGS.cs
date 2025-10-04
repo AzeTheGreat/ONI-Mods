@@ -10,6 +10,12 @@ namespace BetterInfoCards
             public static LocString TOOLTIP = "Opactiy of info card backgrounds.  (Base game = 90%)";
         }
 
+        public class INFOCARDBACKGROUNDCOLOR
+        {
+            public static LocString NAME = "Background Tint";
+            public static LocString TOOLTIP = "Select the color used for info card backgrounds.";
+        }
+
         public class INFOCARDBACKGROUNDRED
         {
             public static LocString NAME = "Background Tint - Red";
