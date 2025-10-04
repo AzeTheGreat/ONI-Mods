@@ -78,7 +78,7 @@ namespace BetterInfoCards
             if (string.IsNullOrEmpty(name) || !name.EndsWith(cloneSuffix, StringComparison.Ordinal))
                 return name;
 
-            return name[..^cloneSuffix.Length];
+            return name.Substring(0, name.Length - cloneSuffix.Length);
         }
 
         private static bool HasMatchingComponents(GameObject candidate, GameObject reference)
