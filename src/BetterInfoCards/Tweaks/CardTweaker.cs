@@ -96,10 +96,12 @@ namespace BetterInfoCards
 
         internal static Color GetShadowBarColor()
         {
+            var background = Options.Opts.InfoCardBackgroundColor;
+
             return new Color(
-                Options.Opts.InfoCardBackgroundRed / 255f,
-                Options.Opts.InfoCardBackgroundGreen / 255f,
-                Options.Opts.InfoCardBackgroundBlue / 255f,
+                background.r / 255f,
+                background.g / 255f,
+                background.b / 255f,
                 Options.Opts.InfoCardOpacity / 100f);
         }
 
