@@ -53,3 +53,7 @@
 ## 2025-10-12 - BetterInfoCards shadow bar tint persistence
 - Ensured the prefab shadow bar and dynamically spawned extensions copy the configured tint to their `ColorStyleSetting` values so refreshes preserve the selected RGB.
 - Build and in-game validation remain blocked in this container due to missing ONI assemblies and the `dotnet` host; maintainers should rebuild via `dotnet build src/oniMods.sln` and confirm the slider-controlled tint persists in-game.
+
+## 2025-10-13 - BetterInfoCards widget clone matching
+- Relaxed the widget matching so `InfoCardWidgets` recognises hover drawer clones by comparing prefab names (sans `"(Clone)"`) and verifying the component layout/rect dimensions.
+- Unable to rebuild or verify the mod in-game here because the container lacks the ONI managed assemblies and a .NET runtime; maintainers should rebuild via `dotnet build src/oniMods.sln` and confirm stacked hover cards wrap correctly.
