@@ -19,7 +19,7 @@ namespace BetterDeselect
     }
 
     [HarmonyPatch(typeof(ToolMenu), nameof(ToolMenu.OnKeyUp))]
-    class SetCloseOrder
+    class DeselectOverrides
     {
         static void Prefix(KButtonEvent e)
         {
