@@ -47,7 +47,13 @@ namespace BetterDeselect
         [
             (Options.Opts.SelectedObj,
             () => !PlayerController.Instance.IsUsingDefaultTool(),
-            () => PlayerController.Instance.ToolDeactivated(PlayerController.Instance.ActiveTool)),
+            () => {
+                PlayerController.Instance.ToolDeactivated(PlayerController.Instance.ActiveTool);
+
+                string sound = GlobalAssets.GetSound(PlayerController.Instance.ActiveTool.GetDeactivateSound(), false);
+                if (sound != null)
+                    KMonoBehaviour.PlaySound(sound);
+            }),
 
             (Options.Opts.BuildMenu,
             () => PlanScreen.Instance.ActiveCategoryToggleInfo != null,
