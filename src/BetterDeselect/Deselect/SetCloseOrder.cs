@@ -4,19 +4,19 @@ using System.Linq;
 
 namespace BetterDeselect
 {
-    [HarmonyPatch(typeof(PlanScreen), nameof(PlanScreen.OnKeyUp))]
+    [HarmonyPatch(typeof(ToolMenu), nameof(ToolMenu.OnKeyUp))]
     class SetCloseOrder
     {
-        static bool Prefix(PlanScreen __instance, KButtonEvent e, KIconToggleMenu.ToggleInfo ___activeCategoryInfo)
+        static void Prefix(KButtonEvent e)
         {
             var activeUIs = new List<(Options.ClickNum clickNum, bool isActive, System.Action close)>()
             {
                 (Options.Opts.SelectedObj,
-                SelectTool.Instance.selected != null,
+                !PlayerController.Instance.IsUsingDefaultTool(),
                 CloseSelectedObjMenu),
 
                 (Options.Opts.BuildMenu,
-                ___activeCategoryInfo != null,
+                PlanScreen.Instance.ActiveCategoryToggleInfo != null,
                 CloseMenu),
 
                 (Options.Opts.Overlay,
@@ -33,11 +33,11 @@ namespace BetterDeselect
                     ui.close();
             }
 
-            return false;
+            return;
 
             bool TryConsumeRightClick() => PlayerController.Instance.ConsumeIfNotDragging(e, Action.MouseRight);
-            void CloseSelectedObjMenu() => SelectTool.Instance.Select(null);
-            void CloseMenu() => __instance.OnClickCategory(___activeCategoryInfo);
+            void CloseSelectedObjMenu() => PlayerController.Instance.ToolDeactivated(PlayerController.Instance.ActiveTool);
+            void CloseMenu() => PlanScreen.Instance.CloseCategoryPanel();
             void CloseOverlay() => OverlayScreen.Instance.ToggleOverlay(OverlayModes.None.ID, true);
         }
     }
