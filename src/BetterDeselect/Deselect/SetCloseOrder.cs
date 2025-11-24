@@ -9,6 +9,9 @@ namespace BetterDeselect
     {
         static void Prefix(KButtonEvent e)
         {
+            if (e.Consumed)
+                return;
+
             var activeUIs = new List<(Options.ClickNum clickNum, bool isActive, System.Action close)>()
             {
                 (Options.Opts.SelectedObj,
