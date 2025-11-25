@@ -48,7 +48,8 @@ namespace BetterDeselect
             (Options.Opts.SelectedObj,
             () => !PlayerController.Instance.IsUsingDefaultTool(),
             () => {
-                PlayerController.Instance.ToolDeactivated(PlayerController.Instance.ActiveTool);
+                PlayerController.Instance.ActivateTool(SelectTool.Instance);
+                ToolMenu.Instance.ClearSelection();
 
                 string sound = GlobalAssets.GetSound(PlayerController.Instance.ActiveTool.GetDeactivateSound(), false);
                 if (sound != null)
