@@ -28,13 +28,14 @@ namespace BetterDeselect
         protected override bool ValidateSettings()
         {
             var settings = new List<ClickNum>() { SelectedObj, Overlay, BuildMenu };
-            
-            var shift = settings.Min();
-            if(shift > 0)
+            var map = settings.Distinct().OrderBy(x => x).ToList();
+            var newSettings = settings.Select(x => map.IndexOf(x)).Cast<ClickNum>();
+
+            if (!newSettings.SequenceEqual(settings))
             {
-                SelectedObj -= shift;
-                Overlay -= shift;
-                BuildMenu -= shift;
+                SelectedObj = newSettings.ElementAt(0);
+                Overlay = newSettings.ElementAt(1); 
+                BuildMenu = newSettings.ElementAt(2);
                 return false;
             }
             
