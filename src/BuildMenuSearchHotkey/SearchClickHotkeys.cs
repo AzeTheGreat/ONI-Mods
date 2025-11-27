@@ -38,8 +38,12 @@ namespace BuildMenuSearchHotkey
 
             static void SelectToggle(int toggleIndex, Action<PlanBuildingToggle> selectAction)
             {
-                var toggles = PlanScreen.Instance.activeCategoryBuildingToggles.Values.Where(x => x.IsActive());
-                if (toggles.ElementAtOrDefault(toggleIndex) is PlanBuildingToggle toggle)
+                // The displayed order of buttons is set by changing the sibling index.
+                // Thus, these must be accessed through the transform to get the correct order.
+                var parent = PlanScreen.Instance.allBuildingToggles.Values.FirstOrDefault()?.transform.parent;
+                var children = parent.Cast<Transform>().Where(x => x.gameObject.activeSelf);
+                var toggle = children.ElementAtOrDefault(toggleIndex)?.GetComponent<PlanBuildingToggle>();
+                if (toggle != null)
                 {
                     // Klei's input system exists simultaneously with Unity's.
                     // When typing in TMP, Klei's events are still created, but there aren't any child components to fall through to.
