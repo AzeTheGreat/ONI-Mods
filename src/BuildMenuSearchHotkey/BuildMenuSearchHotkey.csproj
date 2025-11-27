@@ -4,7 +4,7 @@
     <AssemblyTitle>BuildMenuSearchHotkey</AssemblyTitle>
   </PropertyGroup>
   <PropertyGroup>
-    <Title>Build Menu Search Hotkey</Title>
-    <Description>Set a hotkey to quickly search the build menu.</Description>
+    <Title>Build Menu Search Quick Select Hotkeys</Title>
+    <Description>Use Enter or 1-9 to quick select while searching the build menu.</Description>
   </PropertyGroup>
 </Project>
