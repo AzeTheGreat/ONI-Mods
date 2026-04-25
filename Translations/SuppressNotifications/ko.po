@@ -1,0 +1,48 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Nubula\n"
+"Language-Team: \n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. SuppressNotifications.MYSTRINGS.BUILDINGS.DAMAGE_BAR
+msgctxt "SuppressNotifications.MYSTRINGS.BUILDINGS.DAMAGE_BAR"
+msgid "Damage Bar"
+msgstr "피해 상태"
+
+#. SuppressNotifications.MYSTRINGS.CLEARBUTTON.NAME
+msgctxt "SuppressNotifications.MYSTRINGS.CLEARBUTTON.NAME"
+msgid "Clear Suppressed"
+msgstr "상태 표시 복구"
+
+#. SuppressNotifications.MYSTRINGS.CLEARBUTTON.TOOLTIP
+msgctxt "SuppressNotifications.MYSTRINGS.CLEARBUTTON.TOOLTIP"
+msgid "<style=\"KKeyword\">Stop suppressing</style> the following items."
+msgstr "<style=\"KKeyword\">다음</style> 상태 표시를 복구합니다."
+
+#. SuppressNotifications.MYSTRINGS.NOTIFICATION_LABEL
+msgctxt "SuppressNotifications.MYSTRINGS.NOTIFICATION_LABEL"
+msgid "<b>Notifications:</b>"
+msgstr "<b>알림:</b>"
+
+#. SuppressNotifications.MYSTRINGS.STATUS_LABEL
+msgctxt "SuppressNotifications.MYSTRINGS.STATUS_LABEL"
+msgid "<b>Status Items:</b>"
+msgstr "<b>해당되는 상태:</b>"
+
+#. SuppressNotifications.MYSTRINGS.SUPPRESSBUTTON.NAME
+msgctxt "SuppressNotifications.MYSTRINGS.SUPPRESSBUTTON.NAME"
+msgid "Suppress Current"
+msgstr "상태 표시 제거"
+
+#. SuppressNotifications.MYSTRINGS.SUPPRESSBUTTON.TOOLTIP
+msgctxt "SuppressNotifications.MYSTRINGS.SUPPRESSBUTTON.TOOLTIP"
+msgid "<style=\"KKeyword\">Suppress</style> the following items."
+msgstr "<style=\"KKeyword\">다음</style> 상태 표시를 제거합니다."

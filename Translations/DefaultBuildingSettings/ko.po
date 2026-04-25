@@ -1,0 +1,126 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Nubula\n"
+"Language-Team: \n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.4.2\n"
+
+msgctxt "DefaultBuildingSettings.OPTIONS.ActivateValues.NAME"
+msgid "Activate Value"
+msgstr "활성화 임계값"
+
+msgctxt "DefaultBuildingSettings.OPTIONS.ActivateValues.TOOLTIP"
+msgid ""
+"The value at which the signal will turn green.  The left/lower value in the "
+"UI."
+msgstr "신호가 녹색으로 변경되는 임계값입니다."
+
+msgctxt "DefaultBuildingSettings.OPTIONS.AUTOREPAIROFF.NAME"
+msgid "Auto Repair Off"
+msgstr "자동 수리 비활성화"
+
+msgctxt "DefaultBuildingSettings.OPTIONS.AUTOREPAIROFF.TOOLTIP"
+msgid "If checked, buildings will not allow repairs by default."
+msgstr "선택 시 시설물의 자동 수리 설정이 기본적으로 비활성화됩니다."
+
+msgctxt "DefaultBuildingSettings.OPTIONS.Batteries.CATEGORY"
+msgid "Smart Batteries"
+msgstr "스마트 배터리"
+
+msgctxt "DefaultBuildingSettings.OPTIONS.DeactivateValues.NAME"
+msgid "Deactivate Value"
+msgstr "비활성화 임계값"
+
+msgctxt "DefaultBuildingSettings.OPTIONS.DeactivateValues.TOOLTIP"
+msgid ""
+"The value at which the signal will turn red.  The right/upper value in the "
+"UI."
+msgstr "신호가 적색으로 변경되는 임계값입니다."
+
+msgctxt "DefaultBuildingSettings.OPTIONS.DELIVERGENVALUE.NAME"
+msgid "Delivery Generator Threshold"
+msgstr "발전기 연료 요청 임계값"
+
+msgctxt "DefaultBuildingSettings.OPTIONS.DELIVERGENVALUE.TOOLTIP"
+msgid ""
+"The threshold at which the generators that require manual delivery will "
+"request more fuel."
+msgstr "수동으로 물품을 공급해야 하는 발전기의 연료가 보충될 시점의 임계값입니다."
+
+msgctxt "DefaultBuildingSettings.OPTIONS.Generators.CATEGORY"
+msgid "Generators"
+msgstr "발전기"
+
+msgctxt "DefaultBuildingSettings.OPTIONS.MANUALGENVALUE.NAME"
+msgid "Manual Generator Threshold"
+msgstr "수동 발전기 배터리 재충전 임계값"
+
+msgctxt "DefaultBuildingSettings.OPTIONS.MANUALGENVALUE.TOOLTIP"
+msgid ""
+"The threshold at which a duplicant will be requested to run on the manual "
+"generator."
+msgstr "수동 발전기가 복제체에게 작업을 지시하는 임계값입니다."
+
+msgctxt "DefaultBuildingSettings.OPTIONS.OPENDOORS.NAME"
+msgid "Open Doors"
+msgstr "그물 문 자동으로 열기"
+
+msgctxt "DefaultBuildingSettings.OPTIONS.OPENDOORS.TOOLTIP"
+msgid ""
+"If checked, Doors that allow airflow will immediately be opened after being "
+"built."
+msgstr "선택 시 그물 문을 건설한 후 설정을 열림으로 자동 변경합니다."
+
+msgctxt "DefaultBuildingSettings.OPTIONS.RESERVOIRACTIVATEVALUE.CATEGORY"
+msgid "Reservoirs"
+msgstr "액체/기체 저장소"
+
+msgctxt "DefaultBuildingSettings.OPTIONS.RESERVOIRDEACTIVATEVALUE.CATEGORY"
+msgid "Reservoirs"
+msgstr "액체/기체 저장소"
+
+msgctxt "DefaultBuildingSettings.OPTIONS.Reservoirs.CATEGORY"
+msgid "Reservoirs"
+msgstr "액체/기체 저장소"
+
+msgctxt "DefaultBuildingSettings.OPTIONS.SMARTBATTERYACTIVATEVALUE.CATEGORY"
+msgid "Smart Batteries"
+msgstr "스마트 배터리"
+
+msgctxt "DefaultBuildingSettings.OPTIONS.SMARTBATTERYDEACTIVATEVALUE.CATEGORY"
+msgid "Smart Batteries"
+msgstr "스마트 배터리"
+
+msgctxt "DefaultBuildingSettings.OPTIONS.SWEEPONLY.NAME"
+msgid "Sweep Only"
+msgstr "치우기만"
+
+msgctxt "DefaultBuildingSettings.OPTIONS.SWEEPONLY.TOOLTIP"
+msgid "If checked, storage receptacles are set to sweep only by default."
+msgstr "설정 시 저장소는 기본적으로 치워진 물품만 담길 수 있도록 설정됩니다."
+
+msgctxt "DefaultBuildingSettings.OPTIONS.SWITCHESOFF.NAME"
+msgid "Switches Start Off"
+msgstr "스위치 꺼짐"
+
+msgctxt "DefaultBuildingSettings.OPTIONS.SWITCHESOFF.TOOLTIP"
+msgid ""
+"If checked, automation and power switches will initialize in the inactive "
+"state."
+msgstr "설정 시 자동화 및 전원 스위치가 꺼진 상태로 건설됩니다."
+
+msgctxt "DefaultBuildingSettings.OPTIONS.VACANCYONLY.NAME"
+msgid "Vacancy Only"
+msgstr "거치대 비우기"
+
+msgctxt "DefaultBuildingSettings.OPTIONS.VACANCYONLY.TOOLTIP"
+msgid ""
+"If checked, atmo and jet suit checkpoint are set to Vacancy Only by default."
+msgstr "설정 시 특수복 및 제트복 검문소가 기본적으로 빈 경우에만 설정으로 적용됩니다."
