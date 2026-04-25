@@ -27,7 +27,7 @@ public class DetectCtrlModifier
         if (isControlPressed)
         {
             var isShiftPressed = (evt.modifiers & EventModifiers.Shift) > EventModifiers.None;
-            var charsToRemove = isShiftPressed ? instance.stringPositionInternal : instance.stringPositionInternal - instance.FindtPrevWordBegin();
+            var charsToRemove = isShiftPressed ? instance.stringPositionInternal : instance.stringPositionInternal - instance.FindPrevWordBegin();
 
             if (charsToRemove > 0)
                 ModifiedBackspace.MultiBackspace(instance, charsToRemove);
