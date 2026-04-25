@@ -23,6 +23,11 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.AluminumOre"
 msgid "Al Ore"
 msgstr ""
 
+#. Amber
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.Amber"
+msgid "-"
+msgstr ""
+
 #. Bitumen
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Bitumen"
 msgid "-"
@@ -188,6 +193,11 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.Ethanol"
 msgid "EtOH"
 msgstr ""
 
+#. Plywood
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.FabricatedWood"
+msgid "-"
+msgstr ""
+
 #. Nuclear Fallout
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Fallout"
 msgid "-"
@@ -273,6 +283,11 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.IgneousRock"
 msgid "-"
 msgstr ""
 
+#. Iridium
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.Iridium"
+msgid "-"
+msgstr ""
+
 #. Iron
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Iron"
 msgid "Fe"
@@ -283,7 +298,7 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.IronOre"
 msgid "Fe Ore"
 msgstr ""
 
-#. Isoresin
+#. Isosap
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Isoresin"
 msgid "-"
 msgstr ""
@@ -348,6 +363,21 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.Naphtha"
 msgid "Nap"
 msgstr ""
 
+#. Resin
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.NaturalResin"
+msgid "-"
+msgstr ""
+
+#. Nickel
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.Nickel"
+msgid "-"
+msgstr ""
+
+#. Nickel Ore
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.NickelOre"
+msgid "-"
+msgstr ""
+
 #. Niobium
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Niobium"
 msgid "Nb"
@@ -370,6 +400,11 @@ msgstr ""
 
 #. Oxylite
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.OxyRock"
+msgid "-"
+msgstr ""
+
+#. Peat
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.Peat"
 msgid "-"
 msgstr ""
 
@@ -418,12 +453,17 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.RefinedCarbon"
 msgid "R-C"
 msgstr ""
 
+#. Biodiesel
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.RefinedLipid"
+msgid "-"
+msgstr ""
+
 #. Regolith
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Regolith"
 msgid "-"
 msgstr ""
 
-#. Liquid Resin
+#. Sap
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Resin"
 msgid "-"
 msgstr ""
@@ -460,6 +500,11 @@ msgstr ""
 
 #. Sedimentary Rock
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.SedimentaryRock"
+msgid "-"
+msgstr ""
+
+#. Shale
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.Shale"
 msgid "-"
 msgstr ""
 
