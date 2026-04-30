@@ -14,11 +14,20 @@ class SearchClickHotkeys
     static void Postfix()
     {
         // While typing, press Enter to select the first result.
+        // An exact (case-insensitive) name match wins over the fuzzy-ranked top, so e.g. "Ladder" picks
+        // the building literally named "Ladder" even when the fuzzy score puts something else above it.
         BuildingGroupScreen.Instance.inputField.onEndEdit.AddListener((string str) =>
         {
             // onSubmit handler never triggers, so this needs to be checked manually.
             if (Input.GetKeyDown(KeyCode.Return))
-                SelectToggle(0, (PlanBuildingToggle toggle) => toggle.Click());
+                SelectToggle(toggles =>
+                {
+                    // SearchUtil.Canonicalize strips rich-text (e.g. <link="LADDER">Ladder</link>) and uppercases,
+                    // matching the form the game's own fuzzy search uses — so we compare apples to apples.
+                    var query = SearchUtil.Canonicalize(str.Trim());
+                    return toggles.FirstOrDefault(t => SearchUtil.Canonicalize(t.def.Name) == query)
+                        ?? toggles.FirstOrDefault();
+                }, (PlanBuildingToggle toggle) => toggle.Click());
         });
 
         // While typing, press 1-9 to select the corresponding result.
@@ -26,7 +35,7 @@ class SearchClickHotkeys
         {
             if (int.TryParse(addedChar.ToString(), out var num))
             {
-                SelectToggle(num - 1, (PlanBuildingToggle toggle) =>
+                SelectToggle(toggles => toggles.ElementAtOrDefault(num - 1), (PlanBuildingToggle toggle) =>
                 {
                     BuildingGroupScreen.Instance.inputField.DeactivateInputField();
                     toggle.Click();
@@ -38,9 +47,9 @@ class SearchClickHotkeys
             return addedChar;
         };
 
-        static void SelectToggle(int toggleIndex, Action<PlanBuildingToggle> selectAction)
+        static void SelectToggle(Func<IEnumerable<PlanBuildingToggle>, PlanBuildingToggle> pick, Action<PlanBuildingToggle> selectAction)
         {
-            var toggle = GetVisibleTogglesInDisplayOrder().ElementAtOrDefault(toggleIndex);
+            var toggle = pick(GetVisibleTogglesInDisplayOrder());
             if (toggle != null)
             {
                 // Klei's input system exists simultaneously with Unity's.
