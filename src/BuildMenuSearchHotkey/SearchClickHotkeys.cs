@@ -22,6 +22,9 @@ class SearchClickHotkeys
             if (Input.GetKeyDown(KeyCode.Return))
                 SelectToggle(toggles =>
                 {
+                    if (!Options.Opts.PreferExactNameMatch)
+                        return toggles.FirstOrDefault();
+
                     // SearchUtil.Canonicalize strips rich-text (e.g. <link="LADDER">Ladder</link>) and uppercases,
                     // matching the form the game's own fuzzy search uses — so we compare apples to apples.
                     var query = SearchUtil.Canonicalize(str.Trim());

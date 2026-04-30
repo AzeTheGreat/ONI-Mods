@@ -1,0 +1,13 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included"
+"POT Version: 2.0"
+
+msgctxt "BuildMenuSearchHotkey.OPTIONS.PREFEREXACTNAMEMATCH.NAME"
+msgid "Prefer Exact Name Match"
+msgstr ""
+
+msgctxt "BuildMenuSearchHotkey.OPTIONS.PREFEREXACTNAMEMATCH.TOOLTIP"
+msgid "When pressing Enter, prefer a building whose name exactly matches the search query (case-insensitive) over the fuzzy-ranked top result. Disable to always pick the top fuzzy result."
+msgstr ""
+
