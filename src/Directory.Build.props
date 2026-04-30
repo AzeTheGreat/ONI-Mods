@@ -1,9 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
 
-  <!--User Configuration-->
-  <Import Project="Directory.Build.props.default" />
   <Import Condition=" Exists('Directory.Build.props.user') " Project="Directory.Build.props.user" />
+  <Import Project="Directory.Build.props.default" />
 
   <!--Base Settings-->
   <PropertyGroup>
@@ -60,14 +59,7 @@
   <PropertyGroup>
     <TranslationsFolder>..\..\Translations</TranslationsFolder> <!--This must be changed in AzeLib.AzeLocalization.GeneratePOTemplates as well.-->
   </PropertyGroup>
-  
-  <!--Direct the output locations based on build configuration.-->
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <InstallFolder>..\..\Release\$(MSBuildProjectName)</InstallFolder>
-    <DistributeFolder>..\..\Distribute\</DistributeFolder>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <InstallFolder>$(ModFolder)\DEV_$(MSBuildProjectName)</InstallFolder>
-  </PropertyGroup>
+
+  <!-- InstallFolder/DistributeFolder are now defined in Directory.Build.targets. -->
 
 </Project>

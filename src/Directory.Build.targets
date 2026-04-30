@@ -1,6 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
 
+  <!--Direct the output locations based on build configuration.-->
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <InstallFolder>..\..\Release\$(MSBuildProjectName)</InstallFolder>
+    <DistributeFolder>..\..\Distribute\</DistributeFolder>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <InstallFolder>$(ModFolder)\DEV_$(MSBuildProjectName)</InstallFolder>
+  </PropertyGroup>
+
   <!--Ignore the contents of the Previews folder.-->
   <ItemGroup>
     <Compile Remove="Previews\**" />
@@ -9,15 +18,15 @@
   </ItemGroup>
 
   <!--Publicise the game's assemblies on rebuilds.-->
-  <Target Name="Publicise" AfterTargets="Clean" Condition="'$(MSBuildProjectName)' == 'AzeLib'">
+  <Target Name="Publicise" AfterTargets="Clean" Condition="'$(MSBuildProjectName)' == 'AzeLib' And '$(MSBuildRuntimeType)' != 'Core'">
     <Publicise
       InputAssemblies="@(PubliciseInputAssemblies)"
       OutputPath="../lib/"/>
   </Target>
 
   <!--Increment the version number after each build, resetting each day.-->
-  <Import Project="AutoIncrement.targets" />
-  <Target Name="AutoIncrement" BeforeTargets="PrepareForBuild">
+  <Import Project="AutoIncrement.targets" Condition="'$(MSBuildRuntimeType)' != 'Core'" />
+  <Target Name="AutoIncrement" BeforeTargets="PrepareForBuild" Condition="'$(MSBuildRuntimeType)' != 'Core'">
     <AutoIncrement Path="$(IntermediateOutputPath)">
       <Output
         PropertyName="ProjectRevision"
@@ -62,8 +71,11 @@
         Include ="$(TargetDir)\*.dll"
         Exclude ="$(TargetPath); **/System.*"/>
     </ItemGroup>
+    <PropertyGroup>
+      <ILRepackTargetPlatformVersion Condition=" '$(MSBuildRuntimeType)' != 'Core' ">v4</ILRepackTargetPlatformVersion>
+    </PropertyGroup>
     <ILRepack
-      TargetPlatformVersion="v4"
+      TargetPlatformVersion="$(ILRepackTargetPlatformVersion)"
 			TargetKind="SameAsPrimaryAssembly"
 			OutputFile="$(TargetPath)"
 			InputAssemblies="@(InputAssemblies)"
