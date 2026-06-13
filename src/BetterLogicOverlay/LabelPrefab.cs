@@ -29,11 +29,11 @@ namespace BetterLogicOverlay
             // Adjust text
             prefab.font = Localization.GetFont(Localization.GetDefaultFontName());      // Use default font instead of Graystroke (lower unit readability, degree sign offset text).
             prefab.alignment = TextAlignmentOptions.Bottom;
-            prefab.fontSize += 1f;
+            prefab.fontSize = 14f;
             prefab.characterSpacing = -1f;
-            prefab.lineSpacing = -10f;
-            prefab.enableKerning = true;
-            prefab.enableWordWrapping = true;
+            prefab.lineSpacing = -32f;
+            prefab.fontFeatures.Add(UnityEngine.TextCore.OTL_FeatureTag.kern);
+            prefab.textWrappingMode = TextWrappingModes.Normal;
             prefab.overflowMode = TextOverflowModes.Truncate;
 
             prefab.UpdateMeshPadding();
