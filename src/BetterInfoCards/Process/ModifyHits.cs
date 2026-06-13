@@ -22,12 +22,6 @@ namespace BetterInfoCards
                 if (!cycleSelection || !displayCards.Any())
                     return;
 
-                // Remove semi-duplicate WorldSelectionCollider from end of hits
-                // Must remove the second to last since it is displayed, and thus doesn't get re-added as an undisplayed selectable
-                // Not sure what causes the duplicate, but it seems to only be missing if only an element is selectable
-                if(___intersections.Count >= 2)
-                    ___intersections.RemoveAt(___intersections.Count - 2);
-
                 var selectables = GetPotentialSelectables(Options.Opts.UseBaseSelection, ___intersections);
                 var index = GetIndex(priorSelected, selectables);
                 var newSelected = GetGroupedSel() ?? GetHoverSel() ?? GetCardSel();

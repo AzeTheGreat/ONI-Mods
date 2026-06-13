@@ -42,6 +42,7 @@ namespace BetterInfoCards
                 var targetEndShadowBar = AccessTools.Method(typeof(HoverTextDrawer), "EndShadowBar");
                 var targetElement = AccessTools.Method("HoverTextHelper:MassStringsReadOnly") ??
                     AccessTools.Method("WorldInspector:MassStringsReadOnly");   // Fallback for vanilla assembly
+                var targetBackwallSelObjInstance = AccessTools.PropertyGetter(typeof(BackwallSelectionObject), nameof(BackwallSelectionObject.Instance));
 
                 LocalBuilder titleLocal = null;
                 LocalBuilder germLocal = null;
@@ -108,6 +109,11 @@ namespace BetterInfoCards
                             yield return new CodeInstruction(OpCodes.Ldarg_1);
                             yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.ExportSelectableFromList)));
                         }
+
+                        else if (i.Is(OpCodes.Call, targetBackwallSelObjInstance))
+                        {
+                            yield return CodeInstruction.Call(typeof(GetSelectInfo_Patch), nameof(ExportBackwallSelectable));
+                        }
                     }
 
                     yield return i;
@@ -127,8 +133,10 @@ namespace BetterInfoCards
                 return false;
             }
 
-            private static void ExportSelectableFromList(List<KSelectable> selectables) => ExportSelectable(selectables.LastOrDefault());
+            private static void ExportSelectableFromList(List<KSelectable> selectables) => ExportSelectable(selectables.LastOrDefault(x => x.name == "WorldSelectionCollider"));
             private static void ExportSelectable(KSelectable selectable) => curSelectable = selectable;
+            private static void ExportBackwallSelectable() => ExportSelectable(BackwallSelectionObject.Instance.mSelectable);
+
             private static void Export(string name, object data) => curTextInfo = (name, data);
             private static void ExportGO(string name) => Export(name, curSelectable.gameObject);
             private static void ExportStatus(StatusItemGroup.Entry entry) => Export(entry.item.Id, entry.data);
