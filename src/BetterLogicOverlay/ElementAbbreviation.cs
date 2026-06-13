@@ -10,7 +10,7 @@ namespace BetterLogicOverlay
 
         public static string GetAbbreviation(SimHashes hash) => abbreviations[hash];
 
-        static void Postfix(ElementLoader.ElementEntry entry, Element elem)
+        static void Postfix(ElementData.ElementEntry entry, Element elem)
         {
             var id = StripElementModifiers(entry.elementId);
             ABBREVIATIONS.TryGetString(id, out var result);
