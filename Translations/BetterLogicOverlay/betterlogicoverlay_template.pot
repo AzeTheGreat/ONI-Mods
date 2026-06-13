@@ -28,6 +28,11 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.Amber"
 msgid "-"
 msgstr ""
 
+#. Basalt
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.Basalt"
+msgid "-"
+msgstr ""
+
 #. Bitumen
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Bitumen"
 msgid "-"
@@ -123,6 +128,16 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.Copper"
 msgid "Cu"
 msgstr ""
 
+#. Coquina
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.Coquina"
+msgid "-"
+msgstr ""
+
+#. Corallium
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.Corallium"
+msgid "-"
+msgstr ""
+
 #. Corium
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Corium"
 msgid "-"
@@ -208,6 +223,16 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.Fertilizer"
 msgid "-"
 msgstr ""
 
+#. Ovolene
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.FishMilk"
+msgid "-"
+msgstr ""
+
+#. Frozen Ovolene
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.FishMilkIce"
+msgid "-"
+msgstr ""
+
 #. Pyrite
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.FoolsGold"
 msgid "-"
@@ -218,6 +243,11 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.Fossil"
 msgid "-"
 msgstr ""
 
+#. Frozen Squid Ink
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.FrozenInk"
+msgid "-"
+msgstr ""
+
 #. Frozen Phyto Oil
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.FrozenPhytoOil"
 msgid "-"
@@ -225,6 +255,11 @@ msgstr ""
 
 #. Fullerene
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Fullerene"
+msgid "-"
+msgstr ""
+
+#. Galena
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.Galena"
 msgid "-"
 msgstr ""
 
@@ -283,6 +318,11 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.IgneousRock"
 msgid "-"
 msgstr ""
 
+#. Squid Ink
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.Ink"
+msgid "-"
+msgstr ""
+
 #. Iridium
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Iridium"
 msgid "-"
@@ -305,6 +345,11 @@ msgstr ""
 
 #. Abyssalite
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Katairite"
+msgid "-"
+msgstr ""
+
+#. Latex
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.Latex"
 msgid "-"
 msgstr ""
 
@@ -353,8 +398,23 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.MilkIce"
 msgid "-"
 msgstr ""
 
+#. Mucin
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.Mucus"
+msgid "-"
+msgstr ""
+
 #. Mud
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Mud"
+msgid "-"
+msgstr ""
+
+#. Polluted Brine
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.MurkyBrine"
+msgid "-"
+msgstr ""
+
+#. Polluted Brine Ice
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.MurkyBrineIce"
 msgid "-"
 msgstr ""
 
@@ -400,6 +460,16 @@ msgstr ""
 
 #. Oxylite
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.OxyRock"
+msgid "-"
+msgstr ""
+
+#. Gum Wood
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.PalmWood"
+msgid "-"
+msgstr ""
+
+#. Pearl
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.Pearl"
 msgid "-"
 msgstr ""
 
@@ -468,6 +538,11 @@ msgctxt "BetterLogicOverlay.ABBREVIATIONS.Resin"
 msgid "-"
 msgstr ""
 
+#. Rubber
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.Rubber"
+msgid "-"
+msgstr ""
+
 #. Rust
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Rust"
 msgid "-"
@@ -505,6 +580,11 @@ msgstr ""
 
 #. Shale
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Shale"
+msgid "-"
+msgstr ""
+
+#. Siltstone
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.SiltStone"
 msgid "-"
 msgstr ""
 
@@ -630,6 +710,16 @@ msgstr ""
 
 #. Yellowcake
 msgctxt "BetterLogicOverlay.ABBREVIATIONS.Yellowcake"
+msgid "-"
+msgstr ""
+
+#. Zinc
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.Zinc"
+msgid "-"
+msgstr ""
+
+#. Zinc Ore
+msgctxt "BetterLogicOverlay.ABBREVIATIONS.ZincOre"
 msgid "-"
 msgstr ""
 
