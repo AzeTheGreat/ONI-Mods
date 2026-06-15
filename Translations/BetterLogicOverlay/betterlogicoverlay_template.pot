@@ -743,6 +743,14 @@ msgctxt "BetterLogicOverlay.MYSTRINGS.UNITS.RADBOLT"
 msgid "rb"
 msgstr ""
 
+msgctxt "BetterLogicOverlay.OPTIONS.CHARSPACEDELTA.NAME"
+msgid "Character Spacing Change"
+msgstr ""
+
+msgctxt "BetterLogicOverlay.OPTIONS.CHARSPACEDELTA.TOOLTIP"
+msgid "How much to decrease the spacing between characters."
+msgstr ""
+
 msgctxt "BetterLogicOverlay.OPTIONS.DISPLAYLOGICSETTINGS.NAME"
 msgid "Display Logic Settings"
 msgstr ""
@@ -757,5 +765,49 @@ msgstr ""
 
 msgctxt "BetterLogicOverlay.OPTIONS.FIXWIREOVERWRITE.TOOLTIP"
 msgid "If true, green signals will not make a red output port display as green."
+msgstr ""
+
+msgctxt "BetterLogicOverlay.OPTIONS.FONTDILATION.NAME"
+msgid "Font Weight Change"
+msgstr ""
+
+msgctxt "BetterLogicOverlay.OPTIONS.FONTDILATION.TOOLTIP"
+msgid "How much to increase the weight of the font.  This works by growing outwards from the character edges."
+msgstr ""
+
+msgctxt "BetterLogicOverlay.OPTIONS.FONTOPTSNOTE.NAME"
+msgid "Defaults configured for English."
+msgstr ""
+
+msgctxt "BetterLogicOverlay.OPTIONS.FONTOPTSNOTE.TOOLTIP"
+msgid "Overrides are provided for other languages or personal preference.  \nChanging configuration may lead to labels being illegible or disappearing entirely."
+msgstr ""
+
+msgctxt "BetterLogicOverlay.OPTIONS.FONTOVERRIDE.CATEGORY"
+msgid "Label Font Options"
+msgstr ""
+
+msgctxt "BetterLogicOverlay.OPTIONS.FONTSIZE.NAME"
+msgid "Font Size"
+msgstr ""
+
+msgctxt "BetterLogicOverlay.OPTIONS.FONTSIZE.TOOLTIP"
+msgid "Size of the font."
+msgstr ""
+
+msgctxt "BetterLogicOverlay.OPTIONS.LINESPACEDELTA.NAME"
+msgid "Line Spacing Change"
+msgstr ""
+
+msgctxt "BetterLogicOverlay.OPTIONS.LINESPACEDELTA.TOOLTIP"
+msgid "How much to decrease the spacing between lines."
+msgstr ""
+
+msgctxt "BetterLogicOverlay.OPTIONS.OUTLINEWIDTH.NAME"
+msgid "Outline Width"
+msgstr ""
+
+msgctxt "BetterLogicOverlay.OPTIONS.OUTLINEWIDTH.TOOLTIP"
+msgid "The width of the text outline.  Set to 0 to disable.  This grows inwards from the character edges."
 msgstr ""
 
