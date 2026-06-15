@@ -7,11 +7,11 @@ using System.Reflection;
 
 namespace BetterLogicOverlay
 {
-    [RestartRequired]
     public class Options : BaseOptions<Options>
     {
-        [Option] public bool FixWireOverwrite { get; set; }
-        [Option] public bool DisplayLogicSettings { get; set; }
+        [RestartRequired][Option] public bool FixWireOverwrite { get; set; }
+        [RestartRequired][Option] public bool DisplayLogicSettings { get; set; }
+        [Option] public FontOpts FontOverride { get; set; }
 
         [JsonIgnore] public bool isTranslated = true;
 
@@ -19,6 +19,26 @@ namespace BetterLogicOverlay
         {
             FixWireOverwrite = true;
             DisplayLogicSettings = true;
+
+            FontOverride = new()
+            {
+                FontSize = 14,
+                FontDilation = 0.45f,
+                CharSpaceDelta = -2,
+                LineSpaceDelta = -32,
+                OutlineWidth = 0.3f
+            };
+        }
+
+        [JsonObject(MemberSerialization.OptOut)]
+        public class FontOpts
+        {
+            [Option] public LocText FontOptsNote { get; set; }
+            [Option][Limit(1, 32)] public int FontSize { get; set; }
+            [Option][Limit(0, 1)] public float FontDilation { get; set; }
+            [Option][Limit(-10, 0)] public int CharSpaceDelta { get; set; }
+            [Option][Limit(-50, 0)] public int LineSpaceDelta { get; set; }
+            [Option][Limit(0, 1)] public float OutlineWidth { get; set; }
         }
 
         private bool GetTranslatedStatus()

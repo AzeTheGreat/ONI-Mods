@@ -139,5 +139,46 @@ namespace BetterLogicOverlay
             public static LocString NAME = "Display Logic Settings";
             public static LocString TOOLTIP = "If true, logic gate and sensor settings will be displayed in the automation overlay.";
         }
+
+        public class FONTOVERRIDE
+        {
+            public static LocString CATEGORY = "Label Font Options";
+        }
+
+        public class FONTOPTSNOTE
+        {
+            public static LocString NAME = "Defaults configured for English.";
+            public static LocString TOOLTIP = "Overrides are provided for other languages or personal preference.  \nChanging configuration may lead to labels being illegible or disappearing entirely.";
+        }
+
+        public class FONTSIZE
+        {
+            public static LocString NAME = "Font Size";
+            public static LocString TOOLTIP = "Size of the font.";
+        }
+
+        public class FONTDILATION
+        {
+            public static LocString NAME = "Font Weight Change";
+            public static LocString TOOLTIP = "How much to increase the weight of the font.  This works by growing outwards from the character edges.";
+        }
+
+        public class CHARSPACEDELTA
+        {
+            public static LocString NAME = "Character Spacing Change";
+            public static LocString TOOLTIP = "How much to decrease the spacing between characters.";
+        }
+
+        public class LINESPACEDELTA
+        {
+            public static LocString NAME = "Line Spacing Change";
+            public static LocString TOOLTIP = "How much to decrease the spacing between lines.";
+        }
+
+        public class OUTLINEWIDTH
+        {
+            public static LocString NAME = "Outline Width";
+            public static LocString TOOLTIP = "The width of the text outline.  Set to 0 to disable.  This grows inwards from the character edges.";
+        }
     }
 }
