@@ -2,49 +2,48 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BetterInfoCards.Export
+namespace BetterInfoCards.Export;
+
+public static class ExportWidgets
 {
-    public static class ExportWidgets
+    private static InfoCardWidgets curICWidgets;
+    private static List<InfoCardWidgets> icWidgets = new();
+
+    public static List<InfoCardWidgets> ConsumeWidgets()
     {
-        private static InfoCardWidgets curICWidgets;
-        private static List<InfoCardWidgets> icWidgets = new();
+        var cardWidgets = icWidgets;
+        icWidgets = new();
+        return cardWidgets;
+    }
 
-        public static List<InfoCardWidgets> ConsumeWidgets()
+    [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginDrawing))]
+    class OnBeginDrawing
+    {
+        static void Postfix()
         {
-            var cardWidgets = icWidgets;
-            icWidgets = new();
-            return cardWidgets;
+            icWidgets.Clear();
         }
+    }
 
-        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginDrawing))]
-        class OnBeginDrawing
+    [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginShadowBar))]
+    class OnBeginShadowBar
+    {
+        static void Postfix()
         {
-            static void Postfix()
+            if (!InterceptHoverDrawer.IsInterceptMode)
             {
-                icWidgets.Clear();
+                curICWidgets = new();
+                icWidgets.Add(curICWidgets);
             }
         }
+    }
 
-        [HarmonyPatch(typeof(HoverTextDrawer), nameof(HoverTextDrawer.BeginShadowBar))]
-        class OnBeginShadowBar
+    [HarmonyPatch(typeof(HoverTextDrawer.Pool<MonoBehaviour>), nameof(HoverTextDrawer.Pool<MonoBehaviour>.Draw))]
+    class GetWidget_Patch
+    {
+        static void Postfix(HoverTextDrawer.Pool<MonoBehaviour>.Entry __result, GameObject ___prefab)
         {
-            static void Postfix()
-            {
-                if (!InterceptHoverDrawer.IsInterceptMode)
-                {
-                    curICWidgets = new();
-                    icWidgets.Add(curICWidgets);
-                }
-            }
-        }
-
-        [HarmonyPatch(typeof(HoverTextDrawer.Pool<MonoBehaviour>), nameof(HoverTextDrawer.Pool<MonoBehaviour>.Draw))]
-        class GetWidget_Patch
-        {
-            static void Postfix(HoverTextDrawer.Pool<MonoBehaviour>.Entry __result, GameObject ___prefab)
-            {
-                curICWidgets.AddWidget(__result, ___prefab);
-            }
+            curICWidgets.AddWidget(__result, ___prefab);
         }
     }
 }
