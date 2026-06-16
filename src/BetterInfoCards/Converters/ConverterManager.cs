@@ -76,7 +76,7 @@ public static class ConverterManager
         // TEMP
         AddConverter(
             temp,
-            data => ((GameObject)data).GetComponent<PrimaryElement>().Temperature,
+            data => ((GameObject)data)?.GetComponent<PrimaryElement>()?.Temperature ?? 0,
             (original, temps) => GameUtil.GetFormattedTemperature(temps.Average()) + avgSuffix,
             [(x => x, Options.Opts.TemperatureBandWidth)]);
     }
