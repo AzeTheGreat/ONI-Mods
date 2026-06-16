@@ -49,6 +49,7 @@ namespace BetterInfoCards
 
                 bool isFirst = true;
                 bool afterTarget = false;
+                bool beforeEnd = true;
 
                 foreach (CodeInstruction i in instructions)
                 {
@@ -62,8 +63,11 @@ namespace BetterInfoCards
                         yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.ExportSelectable)));
                     }
 
-                    else if (afterTarget)
+                    else if (afterTarget && beforeEnd)
                     {
+                        if (i.Calls(targetEndShadowBar))
+                            beforeEnd = false;
+
                         if (i.OperandIs(titleTarget))
                             titleLocal = instructions.FindNext(i, x => x.OpCodeIs(OpCodes.Stloc_S)).operand as LocalBuilder;
 
@@ -103,17 +107,17 @@ namespace BetterInfoCards
                                 yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.ExportGO)));
                             }
                         }
+                    }
 
-                        else if (i.Is(OpCodes.Call, targetElement))
-                        {
-                            yield return new CodeInstruction(OpCodes.Ldarg_1);
-                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.ExportSelectableFromList)));
-                        }
+                    else if (afterTarget && i.Is(OpCodes.Call, targetElement))
+                    {
+                        yield return new CodeInstruction(OpCodes.Ldarg_1);
+                        yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GetSelectInfo_Patch), nameof(GetSelectInfo_Patch.ExportSelectableFromList)));
+                    }
 
-                        else if (i.Is(OpCodes.Call, targetBackwallSelObjInstance))
-                        {
-                            yield return CodeInstruction.Call(typeof(GetSelectInfo_Patch), nameof(ExportBackwallSelectable));
-                        }
+                    else if (afterTarget && i.Is(OpCodes.Call, targetBackwallSelObjInstance))
+                    {
+                        yield return CodeInstruction.Call(typeof(GetSelectInfo_Patch), nameof(ExportBackwallSelectable));
                     }
 
                     yield return i;
