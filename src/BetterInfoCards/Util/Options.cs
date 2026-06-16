@@ -2,44 +2,43 @@
 using Newtonsoft.Json;
 using PeterHan.PLib.Options;
 
-namespace BetterInfoCards
+namespace BetterInfoCards;
+
+[RestartRequired]
+public class Options : BaseOptions<Options>
 {
-    [RestartRequired]
-    public class Options : BaseOptions<Options>
+    [Option] [Limit(0, 100)] public int InfoCardOpacity { get; set; }
+    [Option] public bool HideElementCategories { get; set; }
+    [Option] public bool UseBaseSelection { get; set; }
+    [Option] public bool ForceFirstSelectionToHover { get; set; }
+    [Option] public float TemperatureBandWidth { get; set; }
+    [Option] public CardSize InfoCardSize { get; set; }
+
+    public Options()
     {
-        [Option] [Limit(0, 100)] public int InfoCardOpacity { get; set; }
-        [Option] public bool HideElementCategories { get; set; }
-        [Option] public bool UseBaseSelection { get; set; }
-        [Option] public bool ForceFirstSelectionToHover { get; set; }
-        [Option] public float TemperatureBandWidth { get; set; }
-        [Option] public CardSize InfoCardSize { get; set; }
+        InfoCardOpacity = 80;
+        HideElementCategories = false;
+        UseBaseSelection = false;
+        ForceFirstSelectionToHover = true;
+        TemperatureBandWidth = 10f;
 
-        public Options()
+        InfoCardSize = new()
         {
-            InfoCardOpacity = 80;
-            HideElementCategories = false;
-            UseBaseSelection = false;
-            ForceFirstSelectionToHover = true;
-            TemperatureBandWidth = 10f;
+            ShouldOverride = true,
+            FontSizeChange = -2,
+            LineSpacing = 3,
+            IconSizeChange = -3,
+            YPadding = 6
+        };
+    }
 
-            InfoCardSize = new()
-            {
-                ShouldOverride = true,
-                FontSizeChange = -2,
-                LineSpacing = 3,
-                IconSizeChange = -3,
-                YPadding = 6
-            };
-        }
-
-        [JsonObject(MemberSerialization.OptOut)]
-        public class CardSize
-        {
-            [Option] public bool ShouldOverride { get; set; }
-            [Option] [Limit(-5, 5)] public int FontSizeChange { get; set; }
-            [Option] [Limit(0, 20)] public int LineSpacing { get; set; }
-            [Option] [Limit(-10, 10)] public int IconSizeChange { get; set; }
-            [Option] [Limit(1, 20)] public int YPadding { get; set; }
-        }
+    [JsonObject(MemberSerialization.OptOut)]
+    public class CardSize
+    {
+        [Option] public bool ShouldOverride { get; set; }
+        [Option] [Limit(-5, 5)] public int FontSizeChange { get; set; }
+        [Option] [Limit(0, 20)] public int LineSpacing { get; set; }
+        [Option] [Limit(-10, 10)] public int IconSizeChange { get; set; }
+        [Option] [Limit(1, 20)] public int YPadding { get; set; }
     }
 }

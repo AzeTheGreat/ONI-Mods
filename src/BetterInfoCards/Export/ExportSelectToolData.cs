@@ -5,122 +5,121 @@ using System.Reflection;
 using System.Reflection.Emit;
 using UnityEngine;
 
-namespace BetterInfoCards
+namespace BetterInfoCards;
+
+public class ExportSelectToolData
 {
-    public class ExportSelectToolData
+    private static KSelectable curSelectable;
+    private static (string id, object data) curTextInfo = (string.Empty, null);
+
+    public static KSelectable ConsumeSelectable()
     {
-        private static KSelectable curSelectable;
-        private static (string id, object data) curTextInfo = (string.Empty, null);
+        var sel = curSelectable;
+        curSelectable = null;
+        return sel;
+    }
 
-        public static KSelectable ConsumeSelectable()
-        {
-            var sel = curSelectable;
-            curSelectable = null;
-            return sel;
-        }
+    public static (string id, object data) ConsumeTextInfo()
+    {
+        var ti = curTextInfo;
+        curTextInfo = (string.Empty, null);
+        return ti;
+    }
 
-        public static (string id, object data) ConsumeTextInfo()
+    public class GetSelectInfo_Patch
+    {
+        public static IEnumerable<CodeInstruction> ChildTranspiler(IEnumerable<CodeInstruction> instructions)
         {
-            var ti = curTextInfo;
-            curTextInfo = (string.Empty, null);
-            return ti;
-        }
+            var titleTarget = AccessTools.Method(typeof(GameUtil), nameof(GameUtil.GetUnitFormattedName), [typeof(GameObject), typeof(bool)]);
+            var germTarget = AccessTools.Method(typeof(string), nameof(string.Format), [typeof(string), typeof(object), typeof(object)]);
+            var tempTarget = AccessTools.Method(typeof(GameUtil), nameof(GameUtil.GetFormattedTemperature));
+            var statusTarget = AccessTools.Method(typeof(StatusItemGroup.Entry), nameof(StatusItemGroup.Entry.GetName));
 
-        public class GetSelectInfo_Patch
-        {
-            public static IEnumerable<CodeInstruction> ChildTranspiler(IEnumerable<CodeInstruction> instructions)
+            var targetGetCompPrimaryElement = AccessTools.Method(typeof(Component), "GetComponent").MakeGenericMethod(typeof(PrimaryElement));
+            var targetDrawText = AccessTools.Method(typeof(HoverTextDrawer), "DrawText", [typeof(string), typeof(TextStyleSetting)]);
+            var targetEndShadowBar = AccessTools.Method(typeof(HoverTextDrawer), "EndShadowBar");
+
+            LocalBuilder titleLocal = null;
+            LocalBuilder germLocal = null;
+
+            bool afterTarget = false;
+            bool beforeEnd = true;
+
+            foreach (CodeInstruction i in instructions)
             {
-                var titleTarget = AccessTools.Method(typeof(GameUtil), nameof(GameUtil.GetUnitFormattedName), [typeof(GameObject), typeof(bool)]);
-                var germTarget = AccessTools.Method(typeof(string), nameof(string.Format), [typeof(string), typeof(object), typeof(object)]);
-                var tempTarget = AccessTools.Method(typeof(GameUtil), nameof(GameUtil.GetFormattedTemperature));
-                var statusTarget = AccessTools.Method(typeof(StatusItemGroup.Entry), nameof(StatusItemGroup.Entry.GetName));
-
-                var targetGetCompPrimaryElement = AccessTools.Method(typeof(Component), "GetComponent").MakeGenericMethod(typeof(PrimaryElement));
-                var targetDrawText = AccessTools.Method(typeof(HoverTextDrawer), "DrawText", [typeof(string), typeof(TextStyleSetting)]);
-                var targetEndShadowBar = AccessTools.Method(typeof(HoverTextDrawer), "EndShadowBar");
-
-                LocalBuilder titleLocal = null;
-                LocalBuilder germLocal = null;
-
-                bool afterTarget = false;
-                bool beforeEnd = true;
-
-                foreach (CodeInstruction i in instructions)
+                if (!afterTarget && i.Is(OpCodes.Callvirt, targetGetCompPrimaryElement))
                 {
-                    if (!afterTarget && i.Is(OpCodes.Callvirt, targetGetCompPrimaryElement))
+                    afterTarget = true;
+
+                    var lastLocalSelectable = instructions.FindPrior(i, x => x.IsLocalOfType(typeof(KSelectable))).operand;
+                    yield return new CodeInstruction(OpCodes.Ldloc_S, lastLocalSelectable);
+                    yield return CodeInstruction.CallClosure(static (KSelectable selectable) => curSelectable = selectable);
+                }
+
+                else if (afterTarget && beforeEnd)
+                {
+                    if (i.Calls(targetEndShadowBar))
+                        beforeEnd = false;
+
+                    if (i.OperandIs(titleTarget))
+                        titleLocal = instructions.FindNext(i, x => x.OpCodeIs(OpCodes.Stloc_S)).operand as LocalBuilder;
+
+                    else if (i.OperandIs(germTarget))
+                        germLocal = instructions.FindNext(i, x => x.OpCodeIs(OpCodes.Stloc_S)).operand as LocalBuilder;
+
+                    else if (i.Is(OpCodes.Callvirt, targetDrawText))
                     {
-                        afterTarget = true;
+                        var lastStringPush = instructions.FindPrior(i, DoesPushString);
 
-                        var lastLocalSelectable = instructions.FindPrior(i, x => x.IsLocalOfType(typeof(KSelectable))).operand;
-                        yield return new CodeInstruction(OpCodes.Ldloc_S, lastLocalSelectable);
-                        yield return CodeInstruction.CallClosure(static (KSelectable selectable) => curSelectable = selectable);
-                    }
-
-                    else if (afterTarget && beforeEnd)
-                    {
-                        if (i.Calls(targetEndShadowBar))
-                            beforeEnd = false;
-
-                        if (i.OperandIs(titleTarget))
-                            titleLocal = instructions.FindNext(i, x => x.OpCodeIs(OpCodes.Stloc_S)).operand as LocalBuilder;
-
-                        else if (i.OperandIs(germTarget))
-                            germLocal = instructions.FindNext(i, x => x.OpCodeIs(OpCodes.Stloc_S)).operand as LocalBuilder;
-
-                        else if (i.Is(OpCodes.Callvirt, targetDrawText))
+                        // Title
+                        if (lastStringPush.OperandIs(titleLocal))
                         {
-                            var lastStringPush = instructions.FindPrior(i, DoesPushString);
+                            yield return new CodeInstruction(OpCodes.Ldstr, ConverterManager.title);
+                            yield return CodeInstruction.CallClosure(ExportGO);
+                        }
 
-                            // Title
-                            if (lastStringPush.OperandIs(titleLocal))
-                            {
-                                yield return new CodeInstruction(OpCodes.Ldstr, ConverterManager.title);
-                                yield return CodeInstruction.CallClosure(ExportGO);
-                            }
+                        // Germs
+                        else if (lastStringPush.OperandIs(germLocal))
+                        {
+                            yield return new CodeInstruction(OpCodes.Ldstr, ConverterManager.germs);
+                            yield return CodeInstruction.CallClosure(ExportGO);
+                        }
 
-                            // Germs
-                            else if (lastStringPush.OperandIs(germLocal))
-                            {
-                                yield return new CodeInstruction(OpCodes.Ldstr, ConverterManager.germs);
-                                yield return CodeInstruction.CallClosure(ExportGO);
-                            }
+                        // Status items
+                        else if (lastStringPush.OperandIs(statusTarget))
+                        {
+                            var lastLocalEntry = instructions.FindPrior(i, x => x.IsLocalOfType(typeof(StatusItemGroup.Entry))).operand;
+                            yield return new CodeInstruction(OpCodes.Ldloc_S, lastLocalEntry);
+                            yield return CodeInstruction.CallClosure(static (StatusItemGroup.Entry entry) => Export(entry.item.Id, entry.data));
+                        }
 
-                            // Status items
-                            else if (lastStringPush.OperandIs(statusTarget))
-                            {
-                                var lastLocalEntry = instructions.FindPrior(i, x => x.IsLocalOfType(typeof(StatusItemGroup.Entry))).operand;
-                                yield return new CodeInstruction(OpCodes.Ldloc_S, lastLocalEntry);
-                                yield return CodeInstruction.CallClosure(static (StatusItemGroup.Entry entry) => Export(entry.item.Id, entry.data));
-                            }
-
-                            // Temps
-                            else if (lastStringPush.OperandIs(tempTarget))
-                            {
-                                yield return new CodeInstruction(OpCodes.Ldstr, ConverterManager.temp);
-                                yield return CodeInstruction.CallClosure(ExportGO);
-                            }
+                        // Temps
+                        else if (lastStringPush.OperandIs(tempTarget))
+                        {
+                            yield return new CodeInstruction(OpCodes.Ldstr, ConverterManager.temp);
+                            yield return CodeInstruction.CallClosure(ExportGO);
                         }
                     }
-
-                    yield return i;
                 }
-            }
 
-            private static bool DoesPushString(CodeInstruction i)
-            {
-                var push = i.opcode.StackBehaviourPush;
-                var op = i.operand;
-                if ((push == StackBehaviour.Varpush || 
-                    push == StackBehaviour.Push1) 
-                    &&
-                    ((op as MethodInfo)?.ReturnType == typeof(string) || 
-                    (op as LocalBuilder)?.LocalType == typeof(string)))
-                    return true;
-                return false;
+                yield return i;
             }
-
-            private static void Export(string name, object data) => curTextInfo = (name, data);
-            private static void ExportGO(string name) => Export(name, curSelectable.gameObject);
         }
+
+        private static bool DoesPushString(CodeInstruction i)
+        {
+            var push = i.opcode.StackBehaviourPush;
+            var op = i.operand;
+            if ((push == StackBehaviour.Varpush || 
+                push == StackBehaviour.Push1) 
+                &&
+                ((op as MethodInfo)?.ReturnType == typeof(string) || 
+                (op as LocalBuilder)?.LocalType == typeof(string)))
+                return true;
+            return false;
+        }
+
+        private static void Export(string name, object data) => curTextInfo = (name, data);
+        private static void ExportGO(string name) => Export(name, curSelectable.gameObject);
     }
 }

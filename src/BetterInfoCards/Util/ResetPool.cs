@@ -1,33 +1,32 @@
 ﻿using System.Collections.Generic;
 
-namespace BetterInfoCards
+namespace BetterInfoCards;
+
+public class ResetPool<T> where T : new()
 {
-    public class ResetPool<T> where T : new()
+    private List<T> pool = new();
+    private int currentlyUsedIndex;
+
+    public ResetPool(ref System.Action resetOn)
     {
-        private List<T> pool = new();
-        private int currentlyUsedIndex;
+        resetOn += () => Reset();
+    }
 
-        public ResetPool(ref System.Action resetOn)
-        {
-            resetOn += () => Reset();
-        }
+    public T Get()
+    {
+        T obj;
+        if (currentlyUsedIndex < pool.Count)
+            obj = pool[currentlyUsedIndex];
+        else
+            pool.Add(obj = new());
 
-        public T Get()
-        {
-            T obj;
-            if (currentlyUsedIndex < pool.Count)
-                obj = pool[currentlyUsedIndex];
-            else
-                pool.Add(obj = new());
+        currentlyUsedIndex++;
+        return obj;
+    }
 
-            currentlyUsedIndex++;
-            return obj;
-        }
-
-        // TODO: Implement pool downsizing?
-        private void Reset()
-        {
-            currentlyUsedIndex = 0;
-        }
+    // TODO: Implement pool downsizing?
+    private void Reset()
+    {
+        currentlyUsedIndex = 0;
     }
 }
