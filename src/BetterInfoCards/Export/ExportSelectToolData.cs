@@ -1,8 +1,6 @@
-﻿using AzeLib.Extensions;
-using HarmonyLib;
+﻿using HarmonyLib;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
+using System.Linq.Expressions;
 using UnityEngine;
 
 namespace BetterInfoCards;
@@ -28,97 +26,38 @@ public class ExportSelectToolData
 
     public class GetSelectInfo_Patch
     {
-        public static IEnumerable<CodeInstruction> ChildTranspiler(IEnumerable<CodeInstruction> instructions)
+        public static IEnumerable<CodeInstruction> ChildTranspiler(IEnumerable<CodeInstruction> codes)
         {
-            var titleTarget = AccessTools.Method(typeof(GameUtil), nameof(GameUtil.GetUnitFormattedName), [typeof(GameObject), typeof(bool)]);
-            var germTarget = AccessTools.Method(typeof(string), nameof(string.Format), [typeof(string), typeof(object), typeof(object)]);
-            var tempTarget = AccessTools.Method(typeof(GameUtil), nameof(GameUtil.GetFormattedTemperature));
-            var statusTarget = AccessTools.Method(typeof(StatusItemGroup.Entry), nameof(StatusItemGroup.Entry.GetName));
+            // Insert exports for: Selectable, Title, Germs, Status (x2), Temp
+            return new CodeMatcher(codes)
+                .Do(MatchStart).Insert(CodeInstruction.CallClosure(static (KSelectable selectable) => curSelectable = selectable))
+                .Do(MatchStart).Do(cm => FindInsertGOExport(cm, () => GameUtil.GetUnitFormattedName(null, false), ConverterManager.title))
+                .Do(MatchStart).Do(cm => FindInsertGOExport(cm, () => GameUtil.GetFormattedDisease, ConverterManager.germs))
+                .Do(MatchStart).Do(FindInsertStatusExport).Do(FindInsertStatusExport)
+                .Do(MatchStart).Do(cm => FindInsertGOExport(cm, () => GameUtil.GetFormattedTemperature, ConverterManager.temp))
+                .InstructionEnumeration();
 
-            var targetGetCompPrimaryElement = AccessTools.Method(typeof(Component), "GetComponent").MakeGenericMethod(typeof(PrimaryElement));
-            var targetDrawText = AccessTools.Method(typeof(HoverTextDrawer), "DrawText", [typeof(string), typeof(TextStyleSetting)]);
-            var targetEndShadowBar = AccessTools.Method(typeof(HoverTextDrawer), "EndShadowBar");
+            // Match the start of the region this code is interested in.
+            // This is the code that iterates overlayValidHoverObjects.
+            static void MatchStart(CodeMatcher cm) => cm
+                .Start().MatchStartForward(CodeMatch.Calls((Component _) => _.GetComponent<PrimaryElement>));
 
-            LocalBuilder titleLocal = null;
-            LocalBuilder germLocal = null;
+            static void FindInsertGOExport(CodeMatcher cm, LambdaExpression target, string matchID) => cm
+                .MatchStartForward(CodeMatch.Calls(target))
+                .Insert(CodeInstruction.CallClosure(() => ExportGO(matchID)));
 
-            bool afterTarget = false;
-            bool beforeEnd = true;
-
-            foreach (CodeInstruction i in instructions)
-            {
-                if (!afterTarget && i.Is(OpCodes.Callvirt, targetGetCompPrimaryElement))
+            // StatusItemGroup.Entry GetName is a better target, but it loads the entry as an address which is harder to work with.
+            static void FindInsertStatusExport(CodeMatcher cm) => cm
+                .MatchStartForward(CodeMatch.Calls((KSelectable _) => _.GetStatusItemGroup))
+                .MatchStartForward(CodeMatch.Calls((SelectToolHoverTextCard _) => _.IsStatusItemWarning))
+                .InsertAndAdvance(CodeInstruction.CallClosure(static (StatusItemGroup.Entry entry) =>
                 {
-                    afterTarget = true;
-
-                    var lastLocalSelectable = instructions.FindPrior(i, x => x.IsLocalOfType(typeof(KSelectable))).operand;
-                    yield return new CodeInstruction(OpCodes.Ldloc_S, lastLocalSelectable);
-                    yield return CodeInstruction.CallClosure(static (KSelectable selectable) => curSelectable = selectable);
-                }
-
-                else if (afterTarget && beforeEnd)
-                {
-                    if (i.Calls(targetEndShadowBar))
-                        beforeEnd = false;
-
-                    if (i.OperandIs(titleTarget))
-                        titleLocal = instructions.FindNext(i, x => x.OpCodeIs(OpCodes.Stloc_S)).operand as LocalBuilder;
-
-                    else if (i.OperandIs(germTarget))
-                        germLocal = instructions.FindNext(i, x => x.OpCodeIs(OpCodes.Stloc_S)).operand as LocalBuilder;
-
-                    else if (i.Is(OpCodes.Callvirt, targetDrawText))
-                    {
-                        var lastStringPush = instructions.FindPrior(i, DoesPushString);
-
-                        // Title
-                        if (lastStringPush.OperandIs(titleLocal))
-                        {
-                            yield return new CodeInstruction(OpCodes.Ldstr, ConverterManager.title);
-                            yield return CodeInstruction.CallClosure(ExportGO);
-                        }
-
-                        // Germs
-                        else if (lastStringPush.OperandIs(germLocal))
-                        {
-                            yield return new CodeInstruction(OpCodes.Ldstr, ConverterManager.germs);
-                            yield return CodeInstruction.CallClosure(ExportGO);
-                        }
-
-                        // Status items
-                        else if (lastStringPush.OperandIs(statusTarget))
-                        {
-                            var lastLocalEntry = instructions.FindPrior(i, x => x.IsLocalOfType(typeof(StatusItemGroup.Entry))).operand;
-                            yield return new CodeInstruction(OpCodes.Ldloc_S, lastLocalEntry);
-                            yield return CodeInstruction.CallClosure(static (StatusItemGroup.Entry entry) => Export(entry.item.Id, entry.data));
-                        }
-
-                        // Temps
-                        else if (lastStringPush.OperandIs(tempTarget))
-                        {
-                            yield return new CodeInstruction(OpCodes.Ldstr, ConverterManager.temp);
-                            yield return CodeInstruction.CallClosure(ExportGO);
-                        }
-                    }
-                }
-
-                yield return i;
-            }
+                    Export(entry.item.Id, entry.data);
+                    return entry;
+                })).Advance();
         }
 
-        private static bool DoesPushString(CodeInstruction i)
-        {
-            var push = i.opcode.StackBehaviourPush;
-            var op = i.operand;
-            if ((push == StackBehaviour.Varpush || 
-                push == StackBehaviour.Push1) 
-                &&
-                ((op as MethodInfo)?.ReturnType == typeof(string) || 
-                (op as LocalBuilder)?.LocalType == typeof(string)))
-                return true;
-            return false;
-        }
-
+        // These are technically public API... don't touch.
         private static void Export(string name, object data) => curTextInfo = (name, data);
         private static void ExportGO(string name) => Export(name, curSelectable.gameObject);
     }
